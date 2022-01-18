@@ -1,0 +1,92 @@
+## ----------------------------------------
+##  Brewfile
+## ----------------------------------------
+
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+cask_args appdir: "/Applications"
+
+## ========== Common ==========
+brew "fzf"
+brew "gnu-sed"
+brew "jq"
+brew "sl"
+brew "direnv"
+brew "terminal-notifier"
+brew "tree"
+brew "mas"
+brew "watchman"
+brew "wget"
+brew "yq"
+
+## ========== Shell ===========
+brew "fish"
+brew "starship"
+cask "iterm2"
+
+## ========== Fonts ==========
+tap "homebrew/cask-fonts"
+cask "font-fira-code-nerd-font"
+
+## ========= Utility ==========
+cask "1password"
+cask "alfred"
+cask "alt-tab"
+cask "deepl"
+cask "fuwari"
+cask "karabiner-elements"
+cask "keycastr"
+cask "monitorcontrol"
+cask "skitch"
+
+## ========= Browser ==========
+cask "firefox"
+cask "google-chrome"
+
+## ======= Development ========
+cask "android-studio"
+cask "android-sdk"
+cask "android-platform-tools"
+brew "cocoapods"
+brew "docker"
+brew "git"
+brew "gh"
+brew "ghq"
+cask "google-cloud-sdk"
+
+### ---------- Lang -----------
+tap "adoptopenjdk/openjdk"
+brew "anyenv"
+brew "deno"
+brew "openjdk"
+brew "python"
+brew "rustup"
+brew "sbt"
+cask "adoptopenjdk/openjdk/adoptopenjdk15"
+cask "adoptopenjdk/openjdk/adoptopenjdk8"
+
+### ------- IDE/Editor --------
+cask "intellij-idea"
+cask "visual-studio-code"
+
+### ------- Other Apps --------
+cask "postman"
+
+## ======== Quick Look ========
+cask "apparency"
+cask "qlcolorcode"
+cask "qlimagesize"
+cask "qlmarkdown"
+cask "qlstephen"
+cask "qlvideo"
+cask "quicklook-json"
+cask "quicklookase"
+cask "suspicious-package"
+
+# Others
+mas "Magnet", id: 441258766
+mas "RetroClip", id: 1332064978
+mas "Xcode", id: 497799835
+mas "Display Menu", id: 549083868
