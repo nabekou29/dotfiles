@@ -16,3 +16,8 @@ abbr -a ll ls -lhs
 abbr -a la ls -A
 abbr -a rmdsstore find . -name '.DS_Store' -type f -ls -delete
 abbr -a rmmergedbranch "git branch --merged | egrep -v '\*|develop|master' | xargs git branch -d"
+abbr -a g git
+
+if test -e ~/.config/fish/config.local.fish
+    . ~/.config/fish/config.local.fish
+end

@@ -30,10 +30,15 @@ export PATH="/opt/homebrew/bin:$PATH"
 # Shell
 ln -snvf "$(pwd)/shell/.zshrc" "$HOME/.zshrc"
 ln -snvf "$(pwd)/shell/.zprofile" "$HOME/.zprofile"
-mkdir -p "$HOME/.config/" & ln -snvf "$(pwd)/shell/fish" "$HOME/.config/fish"
+mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/config.fish" "$HOME/.config/fish/config.fish"
+mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/completions" "$HOME/.config/fish/completions"
+mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/conf.d" "$HOME/.config/fish/conf.d"
+mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/functions" "$HOME/.config/fish/functions"
+mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/fish_plugins" "$HOME/.config/fish/fish_plugins"
 
 # Configirations
 
+ln -snvf "$(pwd)/config/.gitconfig" "$HOME/.gitconfig"
 mkdir -p "$HOME/.config/" & ln -snvf "$(pwd)/config/starship.toml" "$HOME/.config/starship.toml"
 mkdir -p "$HOME/.config/karabiner" & ln -snvf "$(pwd)/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 mkdir -p "$HOME/.config/karabiner/assets/complex_modifications" & ln -snvf "$(pwd)/config/karabiner/assets/complex_modifications" "$HOME/.config/karabiner/assets/complex_modifications"

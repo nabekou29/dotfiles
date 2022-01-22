@@ -1,0 +1,23 @@
+[user]
+	name = nabekou29
+	email = nabekou0729@gmail.com
+[core]
+	ignorecase = false
+	editor = nano
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	autocrlf = false
+	quotepath = false
+[color]
+	ui = true
+[interactive]
+	diffFilter = diff-so-fancy --patch
+[fetch]
+	prune = true
+[init]
+	defaultBranch = main
+[push]
+	default = current
+[pull]
+	rebase = true
+[rebase]
+	autostash = true
