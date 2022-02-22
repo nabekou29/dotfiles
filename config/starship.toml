@@ -139,6 +139,7 @@ symbol = "🅺 "
 
 [memory_usage]
 # format = "$symbol [${ram}( \\| ${swap})]($style) "
+threshold = 80
 symbol = " "
 disabled = false
 

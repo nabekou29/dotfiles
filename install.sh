@@ -48,4 +48,4 @@ mkdir -p "$HOME/.config/iterm2" & ln -snvf "$(pwd)/config/iterm2/com.googlecode.
 anyenv install pyenv
 anyenv install nodenv
 anyenv install goenv
-exec $SHELL -l
+mkdir -p "$(anyenv root)/plugins" & git clone https://github.com/znz/anyenv-update.git "$(anyenv root)/plugins/anyenv-update"

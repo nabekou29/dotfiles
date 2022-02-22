@@ -7,10 +7,10 @@ export JAVA_HOME=`/usr/libexec/java_home -v "15"`
 export PATH="$JAVA_HOME/bin:$PATH"
 
 # Go
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
 export GOPATH=$HOME/go
 export GO111MODULE=on
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
 
 # Android
 export ANDROID_HOME=$HOME/Library/Android/sdk

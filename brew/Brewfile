@@ -9,6 +9,8 @@ tap "homebrew/core"
 cask_args appdir: "/Applications"
 
 ## ========== Common ==========
+brew "coreutils"
+brew "exa"
 brew "fzf"
 brew "gnu-sed"
 brew "jq"
