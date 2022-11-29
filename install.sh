@@ -30,6 +30,7 @@ export PATH="/opt/homebrew/bin:$PATH"
 # Shell
 ln -snvf "$(pwd)/shell/.zshrc" "$HOME/.zshrc"
 ln -snvf "$(pwd)/shell/.zprofile" "$HOME/.zprofile"
+# TODO: fisher のinstallとかを追加
 mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/config.fish" "$HOME/.config/fish/config.fish"
 mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/completions" "$HOME/.config/fish/completions"
 mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/conf.d" "$HOME/.config/fish/conf.d"
@@ -43,6 +44,7 @@ mkdir -p "$HOME/.config/" & ln -snvf "$(pwd)/config/starship.toml" "$HOME/.confi
 mkdir -p "$HOME/.config/karabiner" & ln -snvf "$(pwd)/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 mkdir -p "$HOME/.config/karabiner/assets/complex_modifications" & ln -snvf "$(pwd)/config/karabiner/assets/complex_modifications" "$HOME/.config/karabiner/assets/complex_modifications"
 mkdir -p "$HOME/.config/iterm2" & ln -snvf "$(pwd)/config/iterm2/com.googlecode.iterm2.plist" "$HOME/.config/iterm2/com.googlecode.iterm2.plist"
+mkdir -p "$HOME/Library/Application Support/lazygit/" & ln -snvf "$(pwd)/config/lazygit.yml" "$HOME/Library/Application Support/lazygit/config.yml"
 
 # Anyenv
 anyenv install pyenv

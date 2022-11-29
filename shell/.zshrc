@@ -22,3 +22,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 # GCloud
 source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+# Deno
+export PATH="/Users/kohei_watanabe/.deno/bin:$PATH"

@@ -9,11 +9,13 @@ tap "homebrew/core"
 cask_args appdir: "/Applications"
 
 ## ========== Common ==========
+brew "bat"
 brew "coreutils"
 brew "exa"
 brew "fzf"
 brew "gnu-sed"
 brew "jq"
+brew "ripgrep"
 brew "sl"
 brew "direnv"
 brew "terminal-notifier"
@@ -35,16 +37,18 @@ cask "font-hackgen"
 cask "font-hackgen-nerd"
 
 ## ========= Utility ==========
+tap "1password/tap"
 cask "1password"
+cask "1password-cli"
 cask "alfred"
 cask "alt-tab"
+cask "cleanshot"
 cask "deepl"
-cask "fuwari"
 cask "kap"
 cask "karabiner-elements"
 cask "keycastr"
 cask "monitorcontrol"
-cask "skitch"
+cask "raycast"
 
 ## ========= Browser ==========
 cask "firefox"
@@ -61,6 +65,7 @@ brew "git"
 brew "gh"
 brew "ghq"
 cask "google-cloud-sdk"
+brew "lazygit"
 
 ### ---------- Lang -----------
 tap "adoptopenjdk/openjdk"
@@ -69,7 +74,8 @@ brew "deno"
 brew "openjdk"
 brew "php"
 brew "python"
-brew "rustup"
+brew "rust"
+brew "rustup-init"
 brew "sbt"
 cask "adoptopenjdk/openjdk/adoptopenjdk15"
 cask "adoptopenjdk/openjdk/adoptopenjdk8"
@@ -93,6 +99,7 @@ cask "quicklookase"
 cask "suspicious-package"
 
 # Others
+mas "Hidden Bar", id: 1452453066
 mas "Magnet", id: 441258766
 mas "RetroClip", id: 1332064978
 mas "Xcode", id: 497799835

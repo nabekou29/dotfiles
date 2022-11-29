@@ -138,7 +138,7 @@ version_format = "v${major}.${minor}"
 symbol = "🅺 "
 
 [memory_usage]
-# format = "$symbol [${ram}( \\| ${swap})]($style) "
+format = "$symbol[${ram}]($style) "
 threshold = 80
 symbol = " "
 disabled = false
@@ -201,7 +201,14 @@ version_format = "v${major}.${minor}"
 symbol = "ﯣ "
 
 [custom.unipos]
-command = """echo "GAE_PROJECT=$GAE_PROJECT, UNIPOS_ENV=$UNIPOS_ENV" """
+command = """echo "PROJECT=$PROJECT" """
 format = "\n[$output]($style) "
+when = """string match '*unipos*' $PWD"""
+style = "#cfcfcf"
+
+
+[custom.weeknumber]
+command = """ echo "[$(date +%Y).$(echo-week-number).x]" """
+format = " [$output]($style) "
 when = """string match '*unipos*' $PWD"""
 style = "#cfcfcf"
