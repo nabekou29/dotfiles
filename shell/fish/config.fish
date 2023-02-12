@@ -15,9 +15,10 @@ set -U FZF_REVERSE_ISEARCH_OPTS "--reverse --height=100%"
 abbr -a ls exa --icons
 abbr -a ll exa -a -l --icons
 abbr -a la exa -a --icons
+abbr -a g git
+abbr -a icat img2sixel
 abbr -a rmdsstore find . -name '.DS_Store' -type f -ls -delete
 abbr -a rmmergedbranch "git branch --merged | egrep -v '\*|develop|master|main' | xargs git branch -d"
-abbr -a g git
 
 abbr -a head ghead
 abbr -a tail gtail

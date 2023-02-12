@@ -26,3 +26,8 @@ export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Deno
 export PATH="/Users/kohei_watanabe/.deno/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/kohei_watanabe/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end

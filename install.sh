@@ -43,8 +43,11 @@ ln -snvf "$(pwd)/config/.gitconfig" "$HOME/.gitconfig"
 mkdir -p "$HOME/.config/" & ln -snvf "$(pwd)/config/starship.toml" "$HOME/.config/starship.toml"
 mkdir -p "$HOME/.config/karabiner" & ln -snvf "$(pwd)/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 mkdir -p "$HOME/.config/karabiner/assets/complex_modifications" & ln -snvf "$(pwd)/config/karabiner/assets/complex_modifications" "$HOME/.config/karabiner/assets/complex_modifications"
+# iterm2 は消すかも。WezTermに移行検討中
 mkdir -p "$HOME/.config/iterm2" & ln -snvf "$(pwd)/config/iterm2/com.googlecode.iterm2.plist" "$HOME/.config/iterm2/com.googlecode.iterm2.plist"
+mkdir -p "$HOME/.config/wezterm" & ln -snvf "$(pwd)/config/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
 mkdir -p "$HOME/Library/Application Support/lazygit/" & ln -snvf "$(pwd)/config/lazygit.yml" "$HOME/Library/Application Support/lazygit/config.yml"
+ln -snvf "$(pwd)/config/.hammerspoon" "$HOME/.hammerspoon"
 
 # Anyenv
 anyenv install pyenv
