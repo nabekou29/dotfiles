@@ -1,37 +1,42 @@
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
 gui:
   showIcons: true
-  language: 'en'
-  timeFormat: '2006-01-02T15:04:05Z07:00' # '02 Jan 06 15:04 MST' # https://pkg.go.dev/time#Time.Format
+  sidePanelWidth: 0.25
+  language: "en"
+  timeFormat: "2006-01-02T15:04:05Z07:00" # '02 Jan 06 15:04 MST' # https://pkg.go.dev/time#Time.Format
 
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Command_Keybindings.md
 customCommands:
-  - key: '<c-r>'
-    command: 'gh repo view -w'
-    context: 'global'
-    loadingText: 'view repo on GitHub'
+  - key: "<c-r>"
+    command: "gh repo view -w"
+    context: "global"
+    loadingText: "view repo on GitHub"
   - key: null
-    command: 'gh pr view {{.SelectedLocalBranch.Name}}'
-    context: 'localBranches'
-    description: 'view pull request'
+    command: "gh pr view {{.SelectedLocalBranch.Name}}"
+    context: "localBranches"
+    description: "view pull request"
     subprocess: true
   - key: null
-    command: 'gh pr merge {{.SelectedLocalBranch.Name}} -d {{index .PromptResponses 0}}'
-    context: 'localBranches'
-    description: 'merge pull request'
+    command: "gh pr merge {{.SelectedLocalBranch.Name}} -d {{index .PromptResponses 0}}"
+    context: "localBranches"
+    description: "merge pull request"
     prompts:
-      - type: 'menu'
-        title: 'Select merge option'
+      - type: "menu"
+        title: "Select merge option"
         options:
-          - value: '--merge'
-            name: 'Create a merge commit'
-            description: 'gh pr merge {{.SelectedLocalBranch.Name}} -d --merge'
-          - value: '--squash'
-            name: 'Squash and merge'
-            description: 'gh pr merge {{.SelectedLocalBranch.Name}} -d --squash'
-          - value: '--rebase'
-            name: 'Rebase and merge'
-            description: 'gh pr merge {{.SelectedLocalBranch.Name}} -d --rebase'
+          - value: "--merge"
+            name: "Create a merge commit"
+            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --merge"
+          - value: "--squash"
+            name: "Squash and merge"
+            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --squash"
+          - value: "--rebase"
+            name: "Rebase and merge"
+            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --rebase"
 keybinding:
   universal:
     openRecentRepos: null # '<c-r>'

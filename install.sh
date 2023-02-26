@@ -47,7 +47,8 @@ mkdir -p "$HOME/.config/karabiner/assets/complex_modifications" & ln -snvf "$(pw
 mkdir -p "$HOME/.config/iterm2" & ln -snvf "$(pwd)/config/iterm2/com.googlecode.iterm2.plist" "$HOME/.config/iterm2/com.googlecode.iterm2.plist"
 mkdir -p "$HOME/.config/wezterm" & ln -snvf "$(pwd)/config/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
 mkdir -p "$HOME/Library/Application Support/lazygit/" & ln -snvf "$(pwd)/config/lazygit.yml" "$HOME/Library/Application Support/lazygit/config.yml"
-ln -snvf "$(pwd)/config/.hammerspoon" "$HOME/.hammerspoon"
+ln -snvf "$(pwd)/config/hammerspoon" "$HOME/.hammerspoon"
+ln -snvf "$(pwd)/config/nvim" "$HOME/nvim"
 
 # Anyenv
 anyenv install pyenv

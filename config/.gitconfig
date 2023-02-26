@@ -3,15 +3,15 @@
 	email = nabekou0729@gmail.com
 [core]
 	ignorecase = false
-	editor = nano
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	editor = nvim
+	pager = delta
 	autocrlf = false
 	quotepath = false
 	excludesfile = ~/.gitignore_global
 [color]
 	ui = true
 [interactive]
-	diffFilter = diff-so-fancy --patch
+	diffFilter = delta --color-only
 [fetch]
 	prune = true
 [init]
@@ -24,3 +24,7 @@
 	autostash = true
 [url "ssh://git@github.com"]
 	insteadOf = https://github.com
+
+[delta]
+	line-numbers = true
+	side-by-side = true

@@ -12,9 +12,14 @@ hs.hotkey.bind({ "ctrl" }, "t", function()
     elseif app:isFrontmost() then
         app:hide()
     else
-        local active_space = spaces.focusedSpace()
-        local alacritty_win = app:focusedWindow()
-        spaces.moveWindowToSpace(alacritty_win, active_space)
+        --local active_space = spaces.focusedSpace()
+        --local alacritty_win = app:focusedWindow()
+        --print(active_space)
+        --print(spaces.spaceDisplay(active_space))
+        --print(alacritty_win:id())
+        --print(spaces.spaceDisplay(active_space))
+        --spaces.moveWindowToSpace(alacritty_win, active_space)
+
         app:setFrontmost()
     end
 end)
