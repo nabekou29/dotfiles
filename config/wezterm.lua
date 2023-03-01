@@ -2,11 +2,10 @@ local wezterm = require 'wezterm';
 local act = wezterm.action
 
 return {
-
     font = wezterm.font("Liga HackGen35Nerd"),
     use_ime = true,
     font_size = 18.0,
-
+    term = 'wezterm',
     -- https://wezfurlong.org/wezterm/colorschemes/index.html
     color_scheme = "Hardcore",
     -- color_scheme = "Hardcore (base16)",
@@ -20,17 +19,16 @@ return {
     window_background_opacity = 0.95,
     hide_tab_bar_if_only_one_tab = true,
     adjust_window_size_when_changing_font_size = false,
-
     --- Key Binding ---
     -- https://wezfurlong.org/wezterm/config/lua/keyassignment/index.html
     disable_default_key_bindings = true,
     -- leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 },
     keys = { -- General
-    {
-        key = 'c',
-        mods = 'CMD',
-        action = act.Copy
-    }, {
+        {
+            key = 'c',
+            mods = 'CMD',
+            action = act.Copy
+        }, {
         key = 'v',
         mods = 'CMD',
         action = act.Paste
@@ -43,14 +41,14 @@ return {
         mods = 'CMD',
         action = wezterm.action.DecreaseFontSize
     }, --- Tab
-    {
-        key = 't',
-        mods = 'CMD',
-        action = act.SpawnTab 'CurrentPaneDomain'
-    }, {
+        {
+            key = 't',
+            mods = 'CMD',
+            action = act.SpawnTab 'CurrentPaneDomain'
+        }, {
         key = '{',
         mods = 'SHIFT|ALT',
-        action = act.MoveTabRelative(-1)
+        action = act.MoveTabRelative( -1)
     }, {
         key = '}',
         mods = 'SHIFT|ALT',
@@ -58,7 +56,7 @@ return {
     }, {
         key = 'LeftArrow',
         mods = 'CMD',
-        action = act.ActivateTabRelative(-1)
+        action = act.ActivateTabRelative( -1)
     }, {
         key = 'RightArrow',
         mods = 'CMD',
@@ -69,26 +67,37 @@ return {
         action = wezterm.action.CloseCurrentPane {
             confirm = true
         }
-    }, --- Pane
-    -- 分割
-    {
-        key = 'd',
-        mods = 'CMD',
-        action = wezterm.action.SplitHorizontal {
-            domain = 'CurrentPaneDomain'
-        }
-    }, {
+    },
+        {
+            key = 'r',
+            mods = 'CMD|SHIFT',
+            action = wezterm.action.ReloadConfiguration,
+        },
+        {
+            key = 'r',
+            mods = 'CMD|ALT',
+            action = wezterm.action.ResetTerminal,
+        },
+        --- Pane
+        -- 分割
+        {
+            key = 'd',
+            mods = 'CMD',
+            action = wezterm.action.SplitHorizontal {
+                domain = 'CurrentPaneDomain'
+            }
+        }, {
         key = 'd',
         mods = 'CMD|SHIFT',
         action = wezterm.action.SplitVertical {
             domain = 'CurrentPaneDomain'
         }
     }, -- 移動
-    {
-        key = 'LeftArrow',
-        mods = 'CMD|ALT',
-        action = act.ActivatePaneDirection 'Left'
-    }, {
+        {
+            key = 'LeftArrow',
+            mods = 'CMD|ALT',
+            action = act.ActivatePaneDirection 'Left'
+        }, {
         key = 'RightArrow',
         mods = 'CMD|ALT',
         action = act.ActivatePaneDirection 'Right'
@@ -105,28 +114,28 @@ return {
         mods = 'CTRL',
         action = act.PaneSelect
     }, -- サイズ調整
-    {
-        key = 'h',
-        mods = 'LEADER',
-        action = act.AdjustPaneSize {'Left', 5}
-    }, {
+        {
+            key = 'h',
+            mods = 'LEADER',
+            action = act.AdjustPaneSize { 'Left', 5 }
+        }, {
         key = 'j',
         mods = 'LEADER',
-        action = act.AdjustPaneSize {'Down', 5}
+        action = act.AdjustPaneSize { 'Down', 5 }
     }, {
         key = 'k',
         mods = 'LEADER',
-        action = act.AdjustPaneSize {'Up', 5}
+        action = act.AdjustPaneSize { 'Up', 5 }
     }, {
         key = 'l',
         mods = 'LEADER',
-        action = act.AdjustPaneSize {'Right', 5}
+        action = act.AdjustPaneSize { 'Right', 5 }
     }, -- 場所替え
-    {
-        key = 'b',
-        mods = 'CTRL',
-        action = act.RotatePanes 'CounterClockwise'
-    }, {
+        {
+            key = 'b',
+            mods = 'CTRL',
+            action = act.RotatePanes 'CounterClockwise'
+        }, {
         key = 'n',
         mods = 'CTRL',
         action = act.RotatePanes 'Clockwise'
@@ -137,14 +146,14 @@ return {
             mode = 'SwapWithActive'
         }
     }, -- 最大化
-    {
-        key = 'Enter',
-        mods = 'CMD|SHIFT',
-        action = wezterm.action.TogglePaneZoomState
-    }},
+        {
+            key = 'Enter',
+            mods = 'CMD|SHIFT',
+            action = wezterm.action.TogglePaneZoomState
+        } },
     --- Mouse Binding ---
     disable_default_mouse_bindings = false,
-    mouse_bindings = {{
+    mouse_bindings = { {
         event = {
             Drag = {
                 streak = 1,
@@ -153,5 +162,5 @@ return {
         },
         mods = 'CMD',
         action = act.DisableDefaultAssignment
-    }}
+    } }
 }

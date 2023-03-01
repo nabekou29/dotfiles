@@ -1,10 +1,14 @@
+-- https://github.com/willelz/nvim-lua-guide-ja/blob/master/README.ja.md
 require "plugins"
+
+vim.o.clipboard = "unnamedplus"
 
 -- vim.api.nvim_set_option('number', true)
 vim.wo.number = true
 vim.o.expandtab = true
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
+vim.o.swapfile = false
 
 vim.o.timeout = true
 vim.o.timeoutlen = 300
@@ -13,6 +17,24 @@ require("which-key").setup({
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
 })
+vim.o.pumblend = 10
+
+vim.o.hidden = true
+
+
+vim.keymap.set('i', '<C-a>', '<C-o>^', {})
+vim.keymap.set({ 'n', 'v' }, '<C-a>', '^', {})
+vim.keymap.set('i', '<C-e>', '<C-o>$', {})
+vim.keymap.set({ 'n', 'v' }, '<C-e>', '$', {})
+-- vim.keymap.set({ 'i', 'n' }, '<ESC>', '<ESC>:w<CR>', {})
+
+require("auto-save").setup {
+    -- your config goes here
+    -- or just leave it empty :)
+    trigger_events = {
+        "InsertLeave" -- "TextChanged"
+    }
+}
 
 -- https://github.com/EdenEast/nightfox.nvim
 -- Default options
@@ -62,38 +84,31 @@ require('nightfox').setup({
 
 vim.cmd("colorscheme nightfox")
 
-require("neo-tree").setup({
-    source_selector = {
-        winbar = true,
-        statusline = true
-    }
-})
+require("neo-tree").setup({ source_selector = { winbar = true, statusline = true } })
 
-require'telescope'.setup {
+require 'telescope'.setup {
     extensions = {
         media_files = {
             -- filetypes whitelist
             -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-            filetypes = {"png", "webp", "jpg", "jpeg", "svg"},
+            filetypes = { "png", "webp", "jpg", "jpeg", "svg" },
             -- find command (defaults to `fd`)
             find_cmd = "rg"
         }
     }
 }
-require"telescope".load_extension("frecency")
+require "telescope".load_extension("frecency")
 require('telescope').load_extension('media_files')
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>FF', function()
-    builtin.find_files({
-        hidden = true
-    })
-end, {})
-vim.keymap.set("n", "<leader>fr", "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>", {
-    noremap = true,
-    silent = true
-})
+vim.keymap.set('n', '<leader>fF',
+    function() builtin.find_files({ hidden = true }) end, {})
+vim.keymap.set('n', '<leader>FF',
+    function() builtin.find_files({ hidden = true }) end, {})
+vim.keymap.set("n", "<leader>fr",
+    "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
+    { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
@@ -135,31 +150,35 @@ local on_attach = function(client, bufnr)
     -- vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
     keymap("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
     keymap("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>")
-
 end
-require('mason-lspconfig').setup_handlers({function(server)
-    local opt = {
-        -- -- Function executed when the LSP server startup
-        -- on_attach = function(client, bufnr)
-        --   local opts = { noremap=true, silent=true }
-        --   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        --   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
-        -- end,
-        capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-        on_attach = on_attach
-    }
+require('mason-lspconfig').setup_handlers({
+    function(server)
+        local opt = {
+            -- -- Function executed when the LSP server startup
+            -- on_attach = function(client, bufnr)
+            --   local opts = { noremap=true, silent=true }
+            --   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+            --   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
+            -- end,
+            capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp
+            .protocol
+            .make_client_capabilities()),
+            on_attach = on_attach
+        }
 
-    if server == 'stylelint_lsp' then
-        require('lspconfig')[server].setup({
-            capabilities = opt.capabilities,
-            on_attach = opt.on_attach,
-            filetypes = {"css", "less", "scss", "sugarss", "vue", "wxss" --  "javascript", "javascriptreact", "typescript","typescriptreact"
-            }
-        })
-        return
+        if server == 'stylelint_lsp' then
+            require('lspconfig')[server].setup({
+                capabilities = opt.capabilities,
+                on_attach = opt.on_attach,
+                filetypes = {
+                    "css", "less", "scss", "sugarss", "vue", "wxss" --  "javascript", "javascriptreact", "typescript","typescriptreact"
+                }
+            })
+            return
+        end
+        require('lspconfig')[server].setup(opt)
     end
-    require('lspconfig')[server].setup(opt)
-end})
+})
 
 -- LSP handlers
 -- Off (ver1)
@@ -172,7 +191,6 @@ end})
 
 -- -- Reference highlight
 -- vim.cmd [[
--- set updatetime=500
 -- highlight LspReferenceText cterm=underline ctermfg=1 ctermbg=8 gui=underline guifg=#A00000 guibg=#104040
 -- highlight LspReferenceRead cterm=underline ctermfg=1 ctermbg=8 gui=underline guifg=#A00000 guibg=#104040
 -- highlight LspReferenceWrite cterm=underline ctermfg=1 ctermbg=8 gui=underline guifg=#A00000 guibg=#104040
@@ -183,41 +201,48 @@ end})
 -- augroup END
 -- ]]
 
+require("trouble").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+}
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+    { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xw",
+    "<cmd>TroubleToggle workspace_diagnostics<cr>",
+    { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
+    { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
+    { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+    { silent = true, noremap = true })
+vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
+    { silent = true, noremap = true })
+
 -- 3. completion (hrsh7th/nvim-cmp)
 local cmp = require("cmp")
 cmp.setup({
     snippet = {
-        expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-        end
+        expand = function(args) require('luasnip').lsp_expand(args.body) end
     },
-    sources = {{
-        name = "nvim_lsp"
-    }, {
-        name = "buffer"
-    }, {
-        name = "path"
-    }, {
+    sources = {
+        { name = "nvim_lsp" }, { name = "buffer" }, { name = "path" }, {
         name = 'spell',
         option = {
             keep_all_entries = false,
-            enable_in_context = function()
-                return true
-            end
+            enable_in_context = function() return true end
         }
-    }},
+    }
+    },
     mapping = cmp.mapping.preset.insert({
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ['<C-l>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm {
-            select = true
-        }
+        ["<CR>"] = cmp.mapping.confirm { select = true }
     }),
-    experimental = {
-        ghost_text = true
-    }
+    experimental = { ghost_text = true }
 })
 
 -- LazyGit 召喚
@@ -235,7 +260,8 @@ local command_resolver = require('null-ls.helpers.command_resolver')
 local async_formatting = function(bufnr)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
 
-    vim.lsp.buf_request(bufnr, "textDocument/formatting", vim.lsp.util.make_formatting_params({}),
+    vim.lsp.buf_request(bufnr, "textDocument/formatting",
+        vim.lsp.util.make_formatting_params({}),
         function(err, res, ctx)
             if err then
                 local err_msg = type(err) == "string" and err or err.message
@@ -245,13 +271,15 @@ local async_formatting = function(bufnr)
             end
 
             -- don't apply results if buffer is unloaded or has been modified
-            if not vim.api.nvim_buf_is_loaded(bufnr) or vim.api.nvim_buf_get_option(bufnr, "modified") then
+            if not vim.api.nvim_buf_is_loaded(bufnr) or
+                vim.api.nvim_buf_get_option(bufnr, "modified") then
                 return
             end
 
             if res then
                 local client = vim.lsp.get_client_by_id(ctx.client_id)
-                vim.lsp.util.apply_text_edits(res, bufnr, client and client.offset_encoding or "utf-16")
+                vim.lsp.util.apply_text_edits(res, bufnr, client and
+                client.offset_encoding or "utf-16")
                 vim.api.nvim_buf_call(bufnr, function()
                     vim.cmd("silent noautocmd update")
                 end)
@@ -263,34 +291,30 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 null_ls.setup({
     sources = { --
-    -- 本当はLintの表示も null_ls でやりたいけど、stylelint がなぜか動かないのでやめる
-    -- diagnostics
-    -- null_ls.builtins.diagnostics.eslint.with({
-    --     diagnostics_format = '[eslint] #{m}\n(#{c})'
-    -- }), --
-    -- null_ls.builtins.diagnostics.stylelint.with({
-    --     diagnostics_format = '[stylelint] #{m}\n(#{c})'
-    -- }), --
-    -- format
-    null_ls.builtins.formatting.eslint.with({}), --
-    null_ls.builtins.formatting.stylelint.with({}), --
-    null_ls.builtins.formatting.prettierd --
-    --
-    --
+        -- 本当はLintの表示も null_ls でやりたいけど、stylelint がなぜか動かないのでやめる
+        -- diagnostics
+        -- null_ls.builtins.diagnostics.eslint.with({
+        --     diagnostics_format = '[eslint] #{m}\n(#{c})'
+        -- }), --
+        -- null_ls.builtins.diagnostics.stylelint.with({
+        --     diagnostics_format = '[stylelint] #{m}\n(#{c})'
+        -- }), --
+        -- format
+        null_ls.builtins.formatting.eslint.with({}), --
+        null_ls.builtins.formatting.stylelint.with({}), --
+        null_ls.builtins.formatting.prettierd.with({}), --
+        null_ls.builtins.formatting.lua_format --
+        --
+        --
     },
     debug = false,
     on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({
-                group = augroup,
-                buffer = bufnr
-            })
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
             vim.api.nvim_create_autocmd("BufWritePost", {
                 group = augroup,
                 buffer = bufnr,
-                callback = function()
-                    async_formatting(bufnr)
-                end
+                callback = function() async_formatting(bufnr) end
             })
         end
     end
@@ -299,24 +323,20 @@ null_ls.setup({
 local ts = require "nvim-treesitter.configs"
 
 ts.setup {
-    highlight = {
-        enable = true,
-        disable = {}
+    highlight = { enable = true, disable = {} },
+    indent = { enable = true, disable = {} },
+    ensure_installed = {
+        "tsx", "toml", "fish", "json", "yaml", "css", "scss", "html", "lua",
+        "svelte", "elm"
     },
-    indent = {
-        enable = true,
-        disable = {}
-    },
-    ensure_installed = {"tsx", "toml", "fish", "json", "yaml", "css", "scss", "html", "lua", "svelte", "elm"},
     auto_install = true,
-    rainbow = {
-        enable = true,
-        extended_mode = true
-    }
+    rainbow = { enable = true, extended_mode = true }
 }
 
-local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
-parser_config.tsx.filetype_to_parsername = {"javascript", "typescript.tsx"}
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+
+require 'colorizer'.setup()
 
 require('gitsigns').setup()
 
@@ -343,9 +363,8 @@ chowcho.setup {
 }
 
 vim.keymap.set('n', '<C-w>w', chowcho.run, {})
-vim.keymap.set('n', '<C-w>q', function()
-    chowcho.run(vim.api.nvim_win_hide)
-end, {})
+vim.keymap.set('n', '<C-w>q', function() chowcho.run(vim.api.nvim_win_hide) end,
+    {})
 
 require("indent_blankline").setup {
     show_end_of_line = true,
@@ -353,8 +372,10 @@ require("indent_blankline").setup {
     show_current_context_start = true,
 
     char = "",
-    char_highlight_list = {"IndentBlanklineIndent1", "IndentBlanklineIndent2"},
-    space_char_highlight_list = {"IndentBlanklineIndent1", "IndentBlanklineIndent2"},
+    char_highlight_list = { "IndentBlanklineIndent1", "IndentBlanklineIndent2" },
+    space_char_highlight_list = {
+        "IndentBlanklineIndent1", "IndentBlanklineIndent2"
+    },
     show_trailing_blankline_indent = false
 }
 
@@ -373,20 +394,22 @@ require("scrollbar").setup()
 require('git').setup()
 
 require("noice").setup({
-  lsp = {
-    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-    override = {
-      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-      ["vim.lsp.util.stylize_markdown"] = true,
-      ["cmp.entry.get_documentation"] = true,
+    lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true
+        }
     },
-  },
-  -- you can enable a preset for easier configuration
-  presets = {
-    bottom_search = true, -- use a classic bottom cmdline for search
-    command_palette = true, -- position the cmdline and popupmenu together
-    long_message_to_split = true, -- long messages will be sent to a split
-    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = false, -- add a border to hover docs and signature help
-  },
+    -- you can enable a preset for easier configuration
+    presets = {
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false -- add a border to hover docs and signature help
+    }
 })
+
+require("notify").setup({ background_colour = "#000000" })
