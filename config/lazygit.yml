@@ -30,13 +30,13 @@ customCommands:
         options:
           - value: "--merge"
             name: "Create a merge commit"
-            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --merge"
+            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --merge -b ''"
           - value: "--squash"
             name: "Squash and merge"
-            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --squash"
+            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --squash -b ''"
           - value: "--rebase"
             name: "Rebase and merge"
-            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --rebase"
+            description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --rebase -b ''"
 keybinding:
   universal:
     openRecentRepos: null # '<c-r>'
