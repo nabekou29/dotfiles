@@ -15,7 +15,7 @@ require'packer'.startup(function()
     use {'mhinz/vim-startify'}
 
     use {'tkmpypy/chowcho.nvim'}
-    use {'s1n7ax/nvim-window-picker', tag = 'v1.*'}
+    -- use {'s1n7ax/nvim-window-picker', tag = 'v1.*'}
     use {"lukas-reineke/indent-blankline.nvim"}
     use {'numToStr/Comment.nvim'}
     use {'kevinhwang91/nvim-hlslens'}
@@ -24,8 +24,7 @@ require'packer'.startup(function()
     use "petertriho/nvim-scrollbar"
     use {
         "folke/noice.nvim",
-        requires = {
-            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+        requires = { -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             "MunifTanjim/nui.nvim", -- OPTIONAL:
             --   `nvim-notify` is only needed, if you want to use the notification view.
             --   If not available, we use `mini` as the fallback
@@ -41,15 +40,66 @@ require'packer'.startup(function()
         'phaazon/hop.nvim',
         branch = 'v2' -- optional but strongly recommended
     }
-    use { 'tyru/open-browser.vim' } 
+    use {'tyru/open-browser.vim'}
     -- ファイラー
+    use {"nvim-lua/plenary.nvim"}
     use {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
         requires = {
-            "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-            "MunifTanjim/nui.nvim"
-        }
+            {
+                "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+                opt = true
+            }, "MunifTanjim/nui.nvim", {
+                -- only needed if you want to use the commands with "_with_window_picker" suffix
+                's1n7ax/nvim-window-picker',
+                tag = "v1.*",
+                opt = true,
+                config = function()
+                    require'window-picker'.setup({
+                        autoselect_one = true,
+                        include_current = false,
+                        filter_rules = {
+                            -- filter using buffer options
+                            bo = {
+                                -- if the file type is one of following, the window will be ignored
+                                filetype = {
+                                    'neo-tree', "neo-tree-popup", "notify"
+                                },
+
+                                -- if the buffer type is one of following, the window will be ignored
+                                buftype = {'terminal', "quickfix"}
+                            }
+                        },
+                        other_win_hl_color = '#e35e4f'
+                    })
+                end
+            }
+        },
+        wants = {"nvim-web-devicons", "window-picker"},
+
+        module = {"neo-tree"},
+        setup = function()
+            local keymap = vim.keymap.set
+            keymap('n', '<leader>e', function()
+                require('neo-tree').focus()
+            end)
+            keymap('n', '<leader><S-e>', function()
+                require("neo-tree").show('buffers', true, true, true)
+            end)
+            keymap('n', '<C-1>', function()
+                require("neo-tree").reveal_current_file("filesystem", false)
+            end)
+            keymap('n', '<C-2>',
+                   function() require('neo-tree').focus("buffers") end)
+            keymap('n', '<C-3>',
+                   function() require('neo-tree').focus('git_status') end)
+        end,
+        config = function()
+            require("neo-tree").setup({
+                source_selector = {winbar = true, statusline = true}
+            })
+        end
     }
     -- ファジーファインダー
     use {
