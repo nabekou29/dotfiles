@@ -72,22 +72,6 @@ require('nightfox').setup({
 
 vim.cmd("colorscheme nightfox")
 
-require'telescope'.setup {}
-require"telescope".load_extension("frecency")
-
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fF',
-               function() builtin.find_files({hidden = true}) end, {})
-vim.keymap.set('n', '<leader>FF',
-               function() builtin.find_files({hidden = true}) end, {})
-vim.keymap.set("n", "<leader>fr",
-               "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>",
-               {noremap = true, silent = true})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
 require('lualine').setup()
 require('modes').setup({
     colors = {
@@ -215,31 +199,6 @@ vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
                {silent = true, noremap = true})
 vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
                {silent = true, noremap = true})
-
--- 3. completion (hrsh7th/nvim-cmp)
-local cmp = require("cmp")
-cmp.setup({
-    snippet = {
-        expand = function(args) require('luasnip').lsp_expand(args.body) end
-    },
-    sources = {
-        {name = "nvim_lsp"}, {name = "buffer"}, {name = "path"}, {
-            name = 'spell',
-            option = {
-                keep_all_entries = false,
-                enable_in_context = function() return true end
-            }
-        }
-    },
-    mapping = cmp.mapping.preset.insert({
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm {select = true}
-    }),
-    experimental = {ghost_text = true}
-})
 
 -- LazyGit 召喚
 vim.keymap.set('n', '<leader>G', '<Cmd>LazyGit<CR>')
