@@ -2,27 +2,27 @@ vim.cmd [[packadd packer.nvim]]
 
 require'packer'.startup(function()
     -- color scheme
-    use "EdenEast/nightfox.nvim"
-    -- use "jacoborus/tender.vim"
-    -- use 'tiagovla/tokyodark.nvim'
-    -- use 'folke/tokyonight.nvim'
+    use {"EdenEast/nightfox.nvim"}
+    -- use {"jacoborus/tender.vim"}
+    -- use {'tiagovla/tokyodark.nvim'}
+    -- use {'folke/tokyonight.nvim'}
     -- use({
     --     'projekt0n/github-nvim-theme',
     --     tag = 'v0.0.7'
     -- })
 
     use {'wbthomason/packer.nvim', opt = true}
-    use 'mhinz/vim-startify'
+    use {'mhinz/vim-startify'}
 
     use {'tkmpypy/chowcho.nvim'}
     use {'s1n7ax/nvim-window-picker', tag = 'v1.*'}
-    use "lukas-reineke/indent-blankline.nvim"
-    use 'numToStr/Comment.nvim'
+    use {"lukas-reineke/indent-blankline.nvim"}
+    use {'numToStr/Comment.nvim'}
     use {'kevinhwang91/nvim-hlslens'}
     use {"folke/which-key.nvim"}
     use {"p00f/nvim-ts-rainbow"}
-    use("petertriho/nvim-scrollbar")
-    use({
+    use "petertriho/nvim-scrollbar"
+    use {
         "folke/noice.nvim",
         requires = {
             -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
@@ -31,17 +31,17 @@ require'packer'.startup(function()
             --   If not available, we use `mini` as the fallback
             "rcarriga/nvim-notify"
         }
-    })
-    use({"Pocco81/auto-save.nvim"})
+    }
+    use {"Pocco81/auto-save.nvim"}
     use {"folke/trouble.nvim", requires = "nvim-tree/nvim-web-devicons"}
-    use 'famiu/bufdelete.nvim'
-    use 'terryma/vim-expand-region'
-    use 'unblevable/quick-scope'
+    use {'famiu/bufdelete.nvim'}
+    use {'terryma/vim-expand-region'}
+    use {'unblevable/quick-scope'}
     use {
         'phaazon/hop.nvim',
         branch = 'v2' -- optional but strongly recommended
     }
-
+    use { 'tyru/open-browser.vim' } 
     -- ファイラー
     use {
         "nvim-neo-tree/neo-tree.nvim",
@@ -61,17 +61,13 @@ require'packer'.startup(function()
         "nvim-telescope/telescope-frecency.nvim",
         requires = {"kkharji/sqlite.lua"}
     }
-    use {
-        "nvim-telescope/telescope-media-files.nvim",
-        requires = {"nvim-lua/popup.nvim"}
-    }
 
     -- ステータスバー
     use {
         'nvim-lualine/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
-    use({'mvllow/modes.nvim', tag = 'v0.2.0'})
+    use {'mvllow/modes.nvim', tag = 'v0.2.0'}
 
     -- バッファーバー
     use {
@@ -85,11 +81,11 @@ require'packer'.startup(function()
         "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim",
         "neovim/nvim-lspconfig"
     }
-    use({
+    use {
         "jose-elias-alvarez/null-ls.nvim",
         requires = {"nvim-lua/plenary.nvim"}
-    })
-    use({
+    }
+    use {
         "glepnir/lspsaga.nvim",
         -- branch = "main",
         commit = "be029ea63f45fb74680158abe994a344481c7d25",
@@ -97,15 +93,15 @@ require'packer'.startup(function()
             {"nvim-tree/nvim-web-devicons"}, -- Please make sure you install markdown and markdown_inline parser
             {"nvim-treesitter/nvim-treesitter"}
         }
-    })
+    }
 
     -- syntax highlight
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     use {"folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim"}
-    use "norcalli/nvim-colorizer.lua"
+    use {"norcalli/nvim-colorizer.lua"}
 
     -- Snippet
-    use 'L3MON4D3/LuaSnip'
+    use {'L3MON4D3/LuaSnip'}
 
     -- 補完
     use {
@@ -120,7 +116,7 @@ require'packer'.startup(function()
     }
 
     -- git
-    use 'kdheepak/lazygit.nvim'
+    use {'kdheepak/lazygit.nvim'}
     use {
         'lewis6991/gitsigns.nvim' -- tag = 'release' -- To use the latest release (do not use this if you run Neovim nightly or dev builds!)
     }

@@ -3,7 +3,6 @@ require "plugins"
 
 vim.o.clipboard = "unnamedplus"
 
--- vim.api.nvim_set_option('number', true)
 vim.wo.number = true
 vim.o.expandtab = true
 vim.o.tabstop = 2
@@ -94,19 +93,8 @@ vim.cmd("colorscheme nightfox")
 
 require("neo-tree").setup({ source_selector = { winbar = true, statusline = true } })
 
-require 'telescope'.setup {
-  extensions = {
-    media_files = {
-      -- filetypes whitelist
-      -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-      filetypes = { "png", "webp", "jpg", "jpeg", "svg" },
-      -- find command (defaults to `fd`)
-      find_cmd = "rg"
-    }
-  }
-}
+require 'telescope'.setup {}
 require "telescope".load_extension("frecency")
-require('telescope').load_extension('media_files')
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
