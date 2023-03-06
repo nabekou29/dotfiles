@@ -1,28 +1,9 @@
 -- https://github.com/willelz/nvim-lua-guide-ja/blob/master/README.ja.md
 local ok, res = pcall(require, 'base')
-if not (ok) then print(res) end
+if not (ok) then
+    print(res)
+end
 require "plugins"
-
-require("which-key").setup({
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-})
-
-vim.keymap.set({'n', 'v'}, '<A-Up>', '<Plug>(expand_region_expand)', {})
-vim.keymap.set({'n', 'v'}, '<A-k>', '<Plug>(expand_region_expand)', {})
-vim.keymap.set({'n', 'v'}, '<A-Down>', '<Plug>(expand_region_shrink)', {})
-vim.keymap.set({'n', 'v'}, '<A-j>', '<Plug>(expand_region_shrink)', {})
-
-vim.keymap.set("n", "<leader>w", "<cmd>Bdelete<CR>", {})
-
-require("auto-save").setup {
-    -- your config goes here
-    -- or just leave it empty :)
-    trigger_events = {
-        "InsertLeave" -- "TextChanged"
-    }
-}
 
 -- https://github.com/EdenEast/nightfox.nvim
 -- Default options
@@ -72,29 +53,6 @@ require('nightfox').setup({
 
 vim.cmd("colorscheme nightfox")
 
-require('lualine').setup()
-require('modes').setup({
-    colors = {
-        copy = "#f5c359",
-        delete = "#c75c6a",
-        insert = "#78ccc5",
-        visual = "#9745be"
-    },
-    -- Set opacity for cursorline and number background
-    line_opacity = 0.35,
-    -- Enable cursor hiighlights
-    set_cursor = true,
-    -- Enable cursorline initially, and disable cursorline for inactive windows
-    -- or ignored filetypes
-    set_cursorline = true,
-    -- Enable line number highlights to match cursorline
-    set_number = true
-})
-
-require("bufferline").setup {}
-vim.keymap.set('n', '<C-h>', '<Cmd>BufferLineCyclePrev<CR>', {})
-vim.keymap.set('n', '<C-l>', '<Cmd>BufferLineCycleNext<CR>', {})
-
 -- https://zenn.dev/botamotch/articles/21073d78bc68bf
 require("mason").setup()
 require("mason-lspconfig").setup()
@@ -131,34 +89,29 @@ local on_attach = function(client, bufnr)
     keymap("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
     keymap("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 end
-require('mason-lspconfig').setup_handlers({
-    function(server)
-        local opt = {
-            -- -- Function executed when the LSP server startup
-            -- on_attach = function(client, bufnr)
-            --   local opts = { noremap=true, silent=true }
-            --   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-            --   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
-            -- end,
-            capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp
-                                                                            .protocol
-                                                                            .make_client_capabilities()),
-            on_attach = on_attach
-        }
+require('mason-lspconfig').setup_handlers({ function(server)
+    local opt = {
+        -- -- Function executed when the LSP server startup
+        -- on_attach = function(client, bufnr)
+        --   local opts = { noremap=true, silent=true }
+        --   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+        --   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
+        -- end,
+        capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        on_attach = on_attach
+    }
 
-        if server == 'stylelint_lsp' then
-            require('lspconfig')[server].setup({
-                capabilities = opt.capabilities,
-                on_attach = opt.on_attach,
-                filetypes = {
-                    "css", "less", "scss", "sugarss", "vue", "wxss" --  "javascript", "javascriptreact", "typescript","typescriptreact"
-                }
-            })
-            return
-        end
-        require('lspconfig')[server].setup(opt)
+    if server == 'stylelint_lsp' then
+        require('lspconfig')[server].setup({
+            capabilities = opt.capabilities,
+            on_attach = opt.on_attach,
+            filetypes = { "css", "less", "scss", "sugarss", "vue", "wxss" --  "javascript", "javascriptreact", "typescript","typescriptreact"
+            }
+        })
+        return
     end
-})
+    require('lspconfig')[server].setup(opt)
+end })
 
 -- LSP handlers
 -- Off (ver1)
@@ -181,137 +134,27 @@ require('mason-lspconfig').setup_handlers({
 -- augroup END
 -- ]]
 
-require("trouble").setup {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-}
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-               {silent = true, noremap = true})
-vim.keymap.set("n", "<leader>xw",
-               "<cmd>TroubleToggle workspace_diagnostics<cr>",
-               {silent = true, noremap = true})
-vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
-               {silent = true, noremap = true})
-vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
-               {silent = true, noremap = true})
-vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
-               {silent = true, noremap = true})
-vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
-               {silent = true, noremap = true})
-
--- LazyGit 召喚
-vim.keymap.set('n', '<leader>G', '<Cmd>LazyGit<CR>')
-
--- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#code-1
-local null_ls = require("null-ls")
-local command_resolver = require('null-ls.helpers.command_resolver')
-local async_formatting = function(bufnr)
-    bufnr = bufnr or vim.api.nvim_get_current_buf()
-
-    vim.lsp.buf_request(bufnr, "textDocument/formatting",
-                        vim.lsp.util.make_formatting_params({}),
-                        function(err, res, ctx)
-        if err then
-            local err_msg = type(err) == "string" and err or err.message
-            -- you can modify the log message / level (or ignore it completely)
-            vim.notify("formatting: " .. err_msg, vim.log.levels.WARN)
-            return
-        end
-
-        -- don't apply results if buffer is unloaded or has been modified
-        if not vim.api.nvim_buf_is_loaded(bufnr) or
-            vim.api.nvim_buf_get_option(bufnr, "modified") then return end
-
-        if res then
-            local client = vim.lsp.get_client_by_id(ctx.client_id)
-            vim.lsp.util.apply_text_edits(res, bufnr, client and
-                                              client.offset_encoding or "utf-16")
-            vim.api.nvim_buf_call(bufnr, function()
-                vim.cmd("silent noautocmd update")
-            end)
-        end
-    end)
-end
-
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-null_ls.setup({
-    sources = { --
-        -- 本当はLintの表示も null_ls でやりたいけど、stylelint がなぜか動かないのでやめる
-        -- diagnostics
-        -- null_ls.builtins.diagnostics.eslint.with({
-        --     diagnostics_format = '[eslint] #{m}\n(#{c})'
-        -- }), --
-        -- null_ls.builtins.diagnostics.stylelint.with({
-        --     diagnostics_format = '[stylelint] #{m}\n(#{c})'
-        -- }), --
-        -- format
-        null_ls.builtins.formatting.eslint.with({}), --
-        null_ls.builtins.formatting.stylelint.with({}), --
-        null_ls.builtins.formatting.prettierd.with({}), --
-        null_ls.builtins.formatting.lua_format --
-        --
-        --
-    },
-    debug = false
-    -- on_attach = function(client, bufnr)
-    --     if client.supports_method("textDocument/formatting") then
-    --         vim.api.nvim_clear_autocmds({group = augroup, buffer = bufnr})
-    --         vim.api.nvim_create_autocmd("BufWritePost", {
-    --             group = augroup,
-    --             buffer = bufnr,
-    --             callback = function() async_formatting(bufnr) end
-    --         })
-    --     end
-    -- end
-})
-
 local ts = require "nvim-treesitter.configs"
 
 ts.setup {
-    highlight = {enable = true, disable = {}},
-    indent = {enable = true, disable = {}},
-    ensure_installed = {
-        "tsx", "toml", "fish", "json", "yaml", "css", "scss", "html", "lua",
-        "svelte", "elm"
+    highlight = {
+        enable = true,
+        disable = {}
     },
+    indent = {
+        enable = true,
+        disable = {}
+    },
+    ensure_installed = { "tsx", "toml", "fish", "json", "yaml", "css", "scss", "html", "lua", "svelte", "elm" },
     auto_install = true,
-    rainbow = {enable = true, extended_mode = true}
+    rainbow = {
+        enable = true,
+        extended_mode = true
+    }
 }
 
-local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
-parser_config.tsx.filetype_to_parsername = {"javascript", "typescript.tsx"}
-
-require'colorizer'.setup()
-
-require('gitsigns').setup()
-
-require('git-conflict').setup()
-
-require("todo-comments").setup()
-
-local chowcho = require('chowcho')
-chowcho.setup {
-    icon_enabled = true, -- required 'nvim-web-devicons' (default: false)
-    text_color = '#FFFFFF',
-    bg_color = '#555555',
-    active_border_color = '#0A8BFF',
-    border_style = 'default', -- 'default', 'rounded',
-    use_exclude_default = false,
-    exclude = function(buf, win)
-        -- Exclude a window from the choice based on its buffer information.
-        -- This option is applied iff `use_exclude_default = false`.
-        -- Note that below is identical to the `use_exclude_default = true`.
-        local fname = vim.fn.expand('#' .. buf .. ':t')
-        return fname == ''
-    end,
-    zindex = 10000 -- sufficiently large value to show on top of the other windows
-}
-
-vim.keymap.set('n', '<C-w>w', chowcho.run, {})
-vim.keymap.set('n', '<C-w>q', function() chowcho.run(vim.api.nvim_win_hide) end,
-               {})
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 
 require("indent_blankline").setup {
     show_end_of_line = true,
@@ -319,10 +162,8 @@ require("indent_blankline").setup {
     show_current_context_start = true,
 
     char = "",
-    char_highlight_list = {"IndentBlanklineIndent1", "IndentBlanklineIndent2"},
-    space_char_highlight_list = {
-        "IndentBlanklineIndent1", "IndentBlanklineIndent2"
-    },
+    char_highlight_list = { "IndentBlanklineIndent1", "IndentBlanklineIndent2" },
+    space_char_highlight_list = { "IndentBlanklineIndent1", "IndentBlanklineIndent2" },
     show_trailing_blankline_indent = false
 }
 
@@ -330,20 +171,13 @@ vim.opt.termguicolors = true
 vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1f1f1f gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a gui=nocombine]]
 
-require('Comment').setup()
-
-require('hlslens').setup()
-require("scrollbar").setup()
-
-require('git').setup()
-
 require("noice").setup({
     lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
         override = {
             ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
             ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = erue
+            ["cmp.entry.get_documentation"] = true
         }
     },
     -- you can enable a preset for easier configuration
@@ -356,43 +190,6 @@ require("noice").setup({
     }
 })
 
-require("notify").setup({background_colour = "#000000"})
-
-local hop = require('hop')
-require'hop'.setup {}
-
-local directions = require('hop.hint').HintDirection
-vim.keymap.set('', 'f', function()
-    hop.hint_char1({
-        direction = directions.AFTER_CURSOR,
-        current_line_only = true
-    })
-end, {remap = true, silent = true})
-vim.keymap.set('', 'F', function()
-    hop.hint_char1({
-        direction = directions.BEFORE_CURSOR,
-        current_line_only = true
-    })
-end, {remap = true, silent = true})
-vim.keymap.set('', 't', function()
-    hop.hint_char1({
-        direction = directions.AFTER_CURSOR,
-        current_line_only = true,
-        hint_offset = -1
-    })
-end, {remap = true, silent = true})
-vim.keymap.set('', 'T', function()
-    hop.hint_char1({
-        direction = directions.BEFORE_CURSOR,
-        current_line_only = true,
-        hint_offset = 1
-    })
-end, {remap = true, silent = true})
-
-local hop_prefix = '<leader><leader>'
-vim.keymap.set('n', hop_prefix .. 'l', hop.hint_lines_skip_whitespace,
-               {desc = '[Hop] Hint lines'})
-vim.keymap.set('n', hop_prefix .. '/', hop.hint_patterns,
-               {desc = '[Hop] Hint patterns', silent = ture})
-vim.keymap.set('n', hop_prefix .. 'f', hop.hint_char2,
-               {desc = '[Hop] Hint char2'})
+require("notify").setup({
+    background_colour = "#000000"
+})
