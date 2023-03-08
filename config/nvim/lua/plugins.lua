@@ -1,10 +1,9 @@
 vim.cmd [[packadd packer.nvim]]
 
-require 'packer'.startup(function()
-
+require'packer'.startup(function()
     local use = use
     -- color scheme
-    use { "EdenEast/nightfox.nvim" }
+    use {"EdenEast/nightfox.nvim"}
     -- use {"jacoborus/tender.vim"}
     -- use {'tiagovla/tokyodark.nvim'}
     -- use {'folke/tokyonight.nvim'}
@@ -13,27 +12,20 @@ require 'packer'.startup(function()
     --     tag = 'v0.0.7'
     -- })
 
-    use {
-        'wbthomason/packer.nvim',
-        opt = true
-    }
-    use { 'mhinz/vim-startify' }
+    use {'wbthomason/packer.nvim', opt = true}
+    use {'mhinz/vim-startify'}
 
-    use { "lukas-reineke/indent-blankline.nvim" }
+    use {"lukas-reineke/indent-blankline.nvim"}
 
     -- コメントアウト
     use {
         'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end
+        config = function() require('Comment').setup() end
     }
     -- 検索時に右に n/N を表示してくれる
     use {
         'kevinhwang91/nvim-hlslens',
-        config = function()
-            require('hlslens').setup()
-        end
+        config = function() require('hlslens').setup() end
     }
 
     -- キーバインドを教えてくれる
@@ -47,15 +39,15 @@ require 'packer'.startup(function()
             })
         end
     }
-    use { "p00f/nvim-ts-rainbow" }
+    use {"p00f/nvim-ts-rainbow"}
     -- スクロールバー表示
     use {
         "petertriho/nvim-scrollbar",
-        event = { "BufWinEnter", "CmdwinLeave", "TabEnter", "TermEnter", "TextChanged", "VimResized", "WinEnter",
-            "WinScrolled" },
-        config = function()
-            require("scrollbar").setup {}
-        end
+        event = {
+            "BufWinEnter", "CmdwinLeave", "TabEnter", "TermEnter",
+            "TextChanged", "VimResized", "WinEnter", "WinScrolled"
+        },
+        config = function() require("scrollbar").setup {} end
     }
 
     -- 通知やコマンドの表示をいい感じに
@@ -65,27 +57,25 @@ require 'packer'.startup(function()
             "MunifTanjim/nui.nvim", -- OPTIONAL:
             --   `nvim-notify` is only needed, if you want to use the notification view.
             --   If not available, we use `mini` as the fallback
-            "rcarriga/nvim-notify" }
+            "rcarriga/nvim-notify"
+        }
     }
     -- 自動保存
     use {
         "Pocco81/auto-save.nvim",
-        event = { 'InsertEnter' },
+        event = {'InsertEnter'},
         config = function()
-            require("auto-save").setup {
-                trigger_events = { "InsertLeave" }
-            }
+            require("auto-save").setup {trigger_events = {"InsertLeave"}}
         end
     }
     -- エラーの一覧を表示したり
     use {
         "folke/trouble.nvim",
-        module = { "trouble" },
-        event = { "FocusLost", "CursorHold" },
+        module = {"trouble"},
+        event = {"FocusLost", "CursorHold"},
         setup = function()
-            vim.keymap.set("n", "<leader>xx", function()
-                require("trouble").toggle()
-            end, {
+            vim.keymap.set("n", "<leader>xx",
+                           function() require("trouble").toggle() end, {
                 silent = true,
                 noremap = true,
                 desc = ':TroubleToggle'
@@ -104,7 +94,8 @@ require 'packer'.startup(function()
                 noremap = true,
                 desc = ':TroubleToggle document_diagnostics'
             })
-            vim.keymap.set("n", "<leader>xl", function()
+            vim.keymap.set("n", "<leader>xl",
+                           function()
                 require("trouble").toggle('loclist')
             end, {
                 silent = true,
@@ -126,19 +117,16 @@ require 'packer'.startup(function()
                 desc = ':TroubleToggle lsp_references'
             })
         end,
-        config = function()
-            require("trouble").setup {}
-        end,
+        config = function() require("trouble").setup {} end,
         requires = "nvim-tree/nvim-web-devicons"
     }
     -- ウィンドウの選択して移動などの任意のコマンドを実行できる
     use {
         'tkmpypy/chowcho.nvim',
-        module = { "chowcho" },
+        module = {"chowcho"},
         setup = function()
-            vim.keymap.set('n', '<C-w>w', function()
-                require('chowcho').run()
-            end, {})
+            vim.keymap.set('n', '<C-w>w',
+                           function() require('chowcho').run() end, {})
             vim.keymap.set('n', '<C-w>q', function()
                 require('chowcho').run(vim.api.nvim_win_hide)
             end, {})
@@ -165,132 +153,117 @@ require 'packer'.startup(function()
     -- バッファを閉じた時にウィンドウを閉じないようにしてくれる
     use {
         'famiu/bufdelete.nvim',
-        module = { 'bufdelete' },
+        module = {'bufdelete'},
         setup = function()
             vim.keymap.set("n", "<leader>w", function()
                 require('bufdelete').bufdelete(0, true)
-            end, {
-                desc = ':Bdelete'
-            })
+            end, {desc = ':Bdelete'})
         end
     }
     -- 範囲選択
     use {
         'terryma/vim-expand-region',
         config = function()
-            vim.keymap.set({ 'n', 'v' }, '<A-Up>', '<Plug>(expand_region_expand)', {})
-            vim.keymap.set({ 'n', 'v' }, '<A-k>', '<Plug>(expand_region_expand)', {})
-            vim.keymap.set({ 'n', 'v' }, '<A-Down>', '<Plug>(expand_region_shrink)', {})
-            vim.keymap.set({ 'n', 'v' }, '<A-j>', '<Plug>(expand_region_shrink)', {})
+            vim.keymap.set({'n', 'v'}, '<A-Up>', '<Plug>(expand_region_expand)',
+                           {})
+            vim.keymap.set({'n', 'v'}, '<A-k>', '<Plug>(expand_region_expand)',
+                           {})
+            vim.keymap.set({'n', 'v'}, '<A-Down>',
+                           '<Plug>(expand_region_shrink)', {})
+            vim.keymap.set({'n', 'v'}, '<A-j>', '<Plug>(expand_region_shrink)',
+                           {})
         end
     }
     -- f/t で移動できる箇所をマークしてくれる
-    use { 'unblevable/quick-scope' }
+    use {'unblevable/quick-scope'}
     -- 移動
     use {
         'phaazon/hop.nvim',
         branch = 'v2', -- optional but strongly recommended
-        module = { 'hop', 'hop.hint' },
+        module = {'hop', 'hop.hint'},
         setup = function()
             vim.keymap.set('', 'f', function()
                 require('hop').hint_char1({
                     direction = require('hop.hint').HintDirection.AFTER_CURSOR,
                     current_line_only = true
                 })
-            end, {
-                remap = true,
-                silent = true
-            })
+            end, {remap = true, silent = true})
             vim.keymap.set('', 'F', function()
                 require('hop').hint_char1({
                     direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
                     current_line_only = true
                 })
-            end, {
-                remap = true,
-                silent = true
-            })
+            end, {remap = true, silent = true})
             vim.keymap.set('', 't', function()
                 require('hop').hint_char1({
                     direction = require('hop.hint').HintDirection.AFTER_CURSOR,
                     current_line_only = true,
                     hint_offset = -1
                 })
-            end, {
-                remap = true,
-                silent = true
-            })
+            end, {remap = true, silent = true})
             vim.keymap.set('', 'T', function()
                 require('hop').hint_char1({
                     direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
                     current_line_only = true,
                     hint_offset = 1
                 })
-            end, {
-                remap = true,
-                silent = true
-            })
+            end, {remap = true, silent = true})
 
             local hop_prefix = '<leader><leader>'
             vim.keymap.set('n', hop_prefix .. 'l', function()
                 require('hop').hint_lines_skip_whitespace()
-            end, {
-                desc = '[Hop] Hint lines'
-            })
-            vim.keymap.set('n', hop_prefix .. '/', function()
-                require('hop').hint_patterns()
-            end, {
-                desc = '[Hop] Hint patterns',
-                silent = true
-            })
-            vim.keymap.set('n', hop_prefix .. 'f', function()
-                require('hop').hint_char2()
-            end, {
-                desc = '[Hop] Hint char2'
-            })
+            end, {desc = '[Hop] Hint lines'})
+            vim.keymap.set('n', hop_prefix .. '/',
+                           function() require('hop').hint_patterns() end,
+                           {desc = '[Hop] Hint patterns', silent = true})
+            vim.keymap.set('n', hop_prefix .. 'f',
+                           function() require('hop').hint_char2() end,
+                           {desc = '[Hop] Hint char2'})
         end,
-        config = function()
-            require('hop').setup {}
-        end
+        config = function() require('hop').setup {} end
     }
     -- リンクを開くやつ
-    use { 'tyru/open-browser.vim' }
+    use {'tyru/open-browser.vim'}
 
     -- neo-tree, telescope あたりで使う
-    use { "nvim-lua/plenary.nvim" }
+    use {"nvim-lua/plenary.nvim"}
 
     -- ファイラー
     use {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
-        requires = { {
-            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-            opt = true
-        }, "MunifTanjim/nui.nvim", {
-            -- only needed if you want to use the commands with "_with_window_picker" suffix
-            's1n7ax/nvim-window-picker',
-            tag = "v1.*",
-            opt = true,
-            config = function()
-                require 'window-picker'.setup({
-                    autoselect_one = true,
-                    include_current = false,
-                    filter_rules = {
-                        -- filter using buffer options
-                        bo = {
-                            -- if the file type is one of following, the window will be ignored
-                            filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+        requires = {
+            {
+                "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+                opt = true
+            }, "MunifTanjim/nui.nvim", {
+                -- only needed if you want to use the commands with "_with_window_picker" suffix
+                's1n7ax/nvim-window-picker',
+                tag = "v1.*",
+                opt = true,
+                config = function()
+                    require'window-picker'.setup({
+                        autoselect_one = true,
+                        include_current = false,
+                        filter_rules = {
+                            -- filter using buffer options
+                            bo = {
+                                -- if the file type is one of following, the window will be ignored
+                                filetype = {
+                                    'neo-tree', "neo-tree-popup", "notify"
+                                },
 
-                            -- if the buffer type is one of following, the window will be ignored
-                            buftype = { 'terminal', "quickfix" }
-                        }
-                    },
-                    other_win_hl_color = '#e35e4f'
-                })
-            end
-        } },
+                                -- if the buffer type is one of following, the window will be ignored
+                                buftype = {'terminal', "quickfix"}
+                            }
+                        },
+                        other_win_hl_color = '#e35e4f'
+                    })
+                end
+            }
+        },
 
-        module = { "neo-tree" },
+        module = {"neo-tree"},
         setup = function()
             local keymap = vim.keymap.set
             keymap('n', '<leader>e', function()
@@ -302,19 +275,14 @@ require 'packer'.startup(function()
             keymap('n', '<C-1>', function()
                 require("neo-tree").reveal_current_file("filesystem", false)
             end)
-            keymap('n', '<C-2>', function()
-                require('neo-tree').focus("buffers")
-            end)
-            keymap('n', '<C-3>', function()
-                require('neo-tree').focus('git_status')
-            end)
+            keymap('n', '<C-2>',
+                   function() require('neo-tree').focus("buffers") end)
+            keymap('n', '<C-3>',
+                   function() require('neo-tree').focus('git_status') end)
         end,
         config = function()
             require("neo-tree").setup({
-                source_selector = {
-                    winbar = true,
-                    statusline = true
-                }
+                source_selector = {winbar = true, statusline = true}
             })
         end
     }
@@ -322,68 +290,51 @@ require 'packer'.startup(function()
     use {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.x',
-        module = { "telescope", "telescope.builtin" },
+        module = {"telescope", "telescope.builtin"},
         setup = function()
             -- 通常の検索
             vim.keymap.set('n', '<leader>ff', function()
                 require('telescope.builtin').find_files()
-            end, {
-                desc = ':Telescope find_files'
-            })
+            end, {desc = ':Telescope find_files'})
             -- 隠しファイル込み
             vim.keymap.set('n', '<leader>fF', function()
-                require('telescope.builtin').find_files({
-                    hidden = true
-                })
+                require('telescope.builtin').find_files({hidden = true})
             end, {
                 desc = ':Telescope find_files find_command=rg,--hidden,--files'
             })
             -- 最近開いたファイル
             vim.keymap.set("n", "<leader>fr", function()
                 require('telescope').extensions.frecency.frecency()
-            end, {
-                noremap = true,
-                silent = true,
-                desc = ':Telescope frecency'
-            })
+            end, {noremap = true, silent = true, desc = ':Telescope frecency'})
             -- 全文検索
             vim.keymap.set('n', '<leader>fg', function()
                 require('telescope.builtin').live_grep()
-            end, {
-                desc = ':Telescope live_grep'
-            })
+            end, {desc = ':Telescope live_grep'})
             -- バッファから検索
             vim.keymap.set('n', '<leader>fb', function()
                 require('telescope.builtin').buffers()
-            end, {
-                desc = ':Telescope buffers'
-            })
+            end, {desc = ':Telescope buffers'})
             vim.keymap.set('n', '<leader>fh', function()
                 require('telescope.builtin').help_tags()
-            end, {
-                desc = ':Telescope help_tags'
-            })
+            end, {desc = ':Telescope help_tags'})
         end,
         config = function()
             require('telescope').setup {}
             require('telescope').load_extension("frecency")
         end,
-        requires = { {
-            "nvim-telescope/telescope-frecency.nvim",
-            requires = { "kkharji/sqlite.lua" }
-        } }
+        requires = {
+            {
+                "nvim-telescope/telescope-frecency.nvim",
+                requires = {"kkharji/sqlite.lua"}
+            }
+        }
     }
 
     -- ステータスバー
     use {
         'nvim-lualine/lualine.nvim',
-        requires = {
-            'kyazdani42/nvim-web-devicons',
-            opt = true
-        },
-        config = function()
-            require('lualine').setup()
-        end
+        requires = {'kyazdani42/nvim-web-devicons', opt = true},
+        config = function() require('lualine').setup() end
     }
     use {
         'mvllow/modes.nvim',
@@ -422,15 +373,19 @@ require 'packer'.startup(function()
     }
 
     -- LSP
-    use { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig" }
+    use {
+        "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim",
+        "neovim/nvim-lspconfig"
+    }
     use {
         "jose-elias-alvarez/null-ls.nvim",
-        -- event = {"BufWinEnter"},
-        keys = { "gf" }, -- フォーマットのショートかっと
-        requires = { "nvim-lua/plenary.nvim" },
+        event = {"InsertLeave"},
+        -- keys = { "gf", "gF" }, -- フォーマットのショートかっと
+        requires = {"nvim-lua/plenary.nvim"},
         config = function()
             -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#code-1
             local null_ls = require("null-ls")
+            vim.lsp.buf.format({timeout_ms = 5000})
 
             -- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
@@ -473,8 +428,10 @@ require 'packer'.startup(function()
                     --     diagnostics_format = '[stylelint] #{m}\n(#{c})'
                     -- }), --
                     -- format
-                    null_ls.builtins.formatting.eslint.with({}), --
+                    -- null_ls.builtins.formatting.eslint.with({}), --
+                    null_ls.builtins.formatting.eslint_d.with({}), --
                     null_ls.builtins.formatting.stylelint.with({}), --
+                    -- null_ls.builtins.formatting.prettier.with({}), --
                     null_ls.builtins.formatting.prettierd.with({}), --
                     null_ls.builtins.formatting.lua_format --
                     --
@@ -498,102 +455,94 @@ require 'packer'.startup(function()
         "glepnir/lspsaga.nvim",
         -- branch = "main",
         commit = "be029ea63f45fb74680158abe994a344481c7d25",
-        requires = { { "nvim-tree/nvim-web-devicons" }, -- Please make sure you install markdown and markdown_inline parser
-            { "nvim-treesitter/nvim-treesitter" } }
+        requires = {
+            {"nvim-tree/nvim-web-devicons"}, -- Please make sure you install markdown and markdown_inline parser
+            {"nvim-treesitter/nvim-treesitter"}
+        }
     }
 
     -- syntax highlight
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate'
-    }
+    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     use {
         "folke/todo-comments.nvim",
-        event = { "FocusLost", "CursorHold" },
+        event = {"FocusLost", "CursorHold"},
         requires = "nvim-lua/plenary.nvim",
-        config = function()
-            require("todo-comments").setup()
-        end
+        config = function() require("todo-comments").setup() end
     }
     use {
         "norcalli/nvim-colorizer.lua",
-        config = function()
-            require 'colorizer'.setup()
-        end
+        config = function() require'colorizer'.setup() end
     }
 
     -- Snippet
-    use { 'L3MON4D3/LuaSnip' }
+    use {'L3MON4D3/LuaSnip', module = {'luasnip'}}
 
     -- 補完
     use {
         "hrsh7th/nvim-cmp",
-        module = { "cmp" },
+        module = {"cmp"},
         -- 何が必要がわかってない（有効にしてないのがいっぱいある）
-        requires = { {
-            'hrsh7th/cmp-buffer',
-            event = { 'InsertEnter' }
-        }, { 'hrsh7th/cmp-nvim-lsp' -- event = {'InsertEnter'}
-        }, {
-            'quangnguyen30192/cmp-nvim-ultisnips',
-            event = { 'InsertEnter' }
-        }, {
-            'hrsh7th/cmp-nvim-lua',
-            event = { 'InsertEnter' }
-        }, {
-            'octaltree/cmp-look',
-            event = { 'InsertEnter' }
-        }, {
-            'hrsh7th/cmp-path',
-            event = { 'InsertEnter' }
-        }, {
-            'hrsh7th/cmp-calc',
-            event = { 'InsertEnter' }
-        }, {
-            'f3fora/cmp-spell',
-            event = { 'InsertEnter' }
-        }, {
-            'hrsh7th/cmp-emoji',
-            event = { 'InsertEnter' }
-        }, {
-            'saadparwaiz1/cmp_luasnip',
-            event = { 'InsertEnter' }
-        } },
+        requires = {
+            {'hrsh7th/cmp-buffer', event = {'InsertEnter'}}, {
+                'hrsh7th/cmp-nvim-lsp' -- event = {'InsertEnter'}
+            }, {'quangnguyen30192/cmp-nvim-ultisnips', event = {'InsertEnter'}},
+            {'hrsh7th/cmp-nvim-lua', event = {'InsertEnter'}},
+            {'octaltree/cmp-look', event = {'InsertEnter'}},
+            {'hrsh7th/cmp-path', event = {'InsertEnter'}},
+            {'hrsh7th/cmp-calc', event = {'InsertEnter'}},
+            {'f3fora/cmp-spell', event = {'InsertEnter'}},
+            {'hrsh7th/cmp-emoji', event = {'InsertEnter'}},
+            {'saadparwaiz1/cmp_luasnip', event = {'InsertEnter'}}, --     {
+            --     'zbirenbaum/copilot-cmp',
+            --     event = { 'InsertEnter' },
+            --     config = function()
+            --         require("copilot_cmp").setup()
+            --     end
+            -- },
+            {'onsails/lspkind.nvim'}
+        },
         config = function()
             local cmp = require("cmp")
+            local lspkind = require('lspkind')
             cmp.setup({
                 snippet = {
                     expand = function(args)
                         require('luasnip').lsp_expand(args.body)
                     end
                 },
-                sources = { {
-                    name = "nvim_lsp"
-                }, {
-                    name = "buffer"
-                }, {
-                    name = "path"
-                }, {
-                    name = 'spell',
-                    option = {
-                        keep_all_entries = false,
-                        enable_in_context = function()
-                            return true
-                        end
-                    }
-                } },
+                sources = {
+                    {name = "nvim_lsp"}, {name = "buffer"}, {name = "path"}, {
+                        name = 'spell',
+                        option = {
+                            keep_all_entries = false,
+                            enable_in_context = function()
+                                return true
+                            end
+                        }
+                    }, {name = 'emoji'}, {name = 'look'}, {name = 'nvim_lua'},
+                    {name = 'luasnip'}, {name = 'ultisnips'}, {name = 'calc'}
+                },
                 mapping = cmp.mapping.preset.insert({
                     ["<C-p>"] = cmp.mapping.select_prev_item(),
                     ["<C-n>"] = cmp.mapping.select_next_item(),
                     ['<C-Space>'] = cmp.mapping.complete(),
                     ['<C-e>'] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping.confirm {
-                        select = true
-                    }
+                    ["<CR>"] = cmp.mapping.confirm {select = true}
                 }),
-                experimental = {
-                    ghost_text = true
-                }
+                formatting = {
+                    format = lspkind.cmp_format({
+                        mode = 'symbol', -- show only symbol annotations
+                        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                        ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+
+                        -- The function below will be called before any actual modifications from lspkind
+                        -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+                        before = function(entry, vim_item)
+                            return vim_item
+                        end
+                    })
+                },
+                experimental = {ghost_text = true}
             })
         end
     }
@@ -608,22 +557,54 @@ require 'packer'.startup(function()
     }
     use {
         'lewis6991/gitsigns.nvim', -- tag = 'release' -- To use the latest release (do not use this if you run Neovim nightly or dev builds!)
-        event = { "FocusLost", "CursorHold" },
-        config = function()
-            require('gitsigns').setup()
-        end
+        event = {"FocusLost", "CursorHold"},
+        config = function() require('gitsigns').setup() end
     }
     use {
         'akinsho/git-conflict.nvim',
         tag = "*",
+        config = function() require('git-conflict').setup() end
+    }
+    use {'dinhhuy258/git.nvim', config = function() require('git').setup() end}
+
+    -- copilot
+    use {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = {"InsertEnter"},
         config = function()
-            require('git-conflict').setup()
+            -- require("copilot").setup({})
+            require("copilot").setup({
+                -- suggestion = { enabled = false },
+                -- panel = { enabled = false },
+            })
         end
     }
+    -- use {
+    --     'github/copilot.vim'
+    -- }
+
+    -- Test
     use {
-        'dinhhuy258/git.nvim',
+        "nvim-neotest/neotest",
+        module = {"neotest"},
         config = function()
-            require('git').setup()
-        end
+            require("neotest").setup({
+                adapters = {
+                    -- require("neotest-python")({
+                    --     dap = { justMyCode = false },
+                    -- }),
+                    require("neotest-vitest"), require("neotest-vim-test")({
+                        -- ignore_file_types = { "python", "vim", "lua" },
+                    })
+                }
+            })
+        end,
+        requires = {
+            {"nvim-lua/plenary.nvim"}, {"nvim-treesitter/nvim-treesitter"},
+            {"antoinemadec/FixCursorHold.nvim"},
+            {"nvim-neotest/neotest-vim-test", requires = {"vim-test/vim-test"}},
+            {"nvim-neotest/neotest-go"}, {"marilari88/neotest-vitest"}
+        }
     }
 end)

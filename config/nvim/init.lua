@@ -1,8 +1,6 @@
 -- https://github.com/willelz/nvim-lua-guide-ja/blob/master/README.ja.md
 local ok, res = pcall(require, 'base')
-if not (ok) then
-    print(res)
-end
+if not (ok) then print(res) end
 require "plugins"
 
 -- https://github.com/EdenEast/nightfox.nvim
@@ -64,7 +62,10 @@ local on_attach = function(client, bufnr)
 
     -- vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
     keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
-    keymap('n', 'gf', '<cmd>lua vim.lsp.buf.format()<CR><cmd>write<CR>')
+    keymap('n', 'gf',
+           '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR><cmd>write<CR>')
+    keymap('n', 'gF',
+           '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR><cmd>write<CR>')
 
     keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 
@@ -89,29 +90,34 @@ local on_attach = function(client, bufnr)
     keymap("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
     keymap("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 end
-require('mason-lspconfig').setup_handlers({ function(server)
-    local opt = {
-        -- -- Function executed when the LSP server startup
-        -- on_attach = function(client, bufnr)
-        --   local opts = { noremap=true, silent=true }
-        --   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        --   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
-        -- end,
-        capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-        on_attach = on_attach
-    }
+require('mason-lspconfig').setup_handlers({
+    function(server)
+        local opt = {
+            -- -- Function executed when the LSP server startup
+            -- on_attach = function(client, bufnr)
+            --   local opts = { noremap=true, silent=true }
+            --   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+            --   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
+            -- end,
+            capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp
+                                                                            .protocol
+                                                                            .make_client_capabilities()),
+            on_attach = on_attach
+        }
 
-    if server == 'stylelint_lsp' then
-        require('lspconfig')[server].setup({
-            capabilities = opt.capabilities,
-            on_attach = opt.on_attach,
-            filetypes = { "css", "less", "scss", "sugarss", "vue", "wxss" --  "javascript", "javascriptreact", "typescript","typescriptreact"
-            }
-        })
-        return
+        if server == 'stylelint_lsp' then
+            require('lspconfig')[server].setup({
+                capabilities = opt.capabilities,
+                on_attach = opt.on_attach,
+                filetypes = {
+                    "css", "less", "scss", "sugarss", "vue", "wxss" --  "javascript", "javascriptreact", "typescript","typescriptreact"
+                }
+            })
+            return
+        end
+        require('lspconfig')[server].setup(opt)
     end
-    require('lspconfig')[server].setup(opt)
-end })
+})
 
 -- LSP handlers
 -- Off (ver1)
@@ -137,24 +143,18 @@ end })
 local ts = require "nvim-treesitter.configs"
 
 ts.setup {
-    highlight = {
-        enable = true,
-        disable = {}
+    highlight = {enable = true, disable = {}},
+    indent = {enable = true, disable = {}},
+    ensure_installed = {
+        "tsx", "toml", "fish", "json", "yaml", "css", "scss", "html", "lua",
+        "svelte", "elm"
     },
-    indent = {
-        enable = true,
-        disable = {}
-    },
-    ensure_installed = { "tsx", "toml", "fish", "json", "yaml", "css", "scss", "html", "lua", "svelte", "elm" },
     auto_install = true,
-    rainbow = {
-        enable = true,
-        extended_mode = true
-    }
+    rainbow = {enable = true, extended_mode = true}
 }
 
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
+parser_config.tsx.filetype_to_parsername = {"javascript", "typescript.tsx"}
 
 require("indent_blankline").setup {
     show_end_of_line = true,
@@ -162,8 +162,10 @@ require("indent_blankline").setup {
     show_current_context_start = true,
 
     char = "",
-    char_highlight_list = { "IndentBlanklineIndent1", "IndentBlanklineIndent2" },
-    space_char_highlight_list = { "IndentBlanklineIndent1", "IndentBlanklineIndent2" },
+    char_highlight_list = {"IndentBlanklineIndent1", "IndentBlanklineIndent2"},
+    space_char_highlight_list = {
+        "IndentBlanklineIndent1", "IndentBlanklineIndent2"
+    },
     show_trailing_blankline_indent = false
 }
 
@@ -190,6 +192,4 @@ require("noice").setup({
     }
 })
 
-require("notify").setup({
-    background_colour = "#000000"
-})
+require("notify").setup({background_colour = "#000000"})
