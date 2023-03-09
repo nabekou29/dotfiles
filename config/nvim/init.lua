@@ -52,7 +52,6 @@ require('nightfox').setup({
 vim.cmd("colorscheme nightfox")
 
 -- https://zenn.dev/botamotch/articles/21073d78bc68bf
-require("mason").setup()
 require("mason-lspconfig").setup()
 require("lspsaga").setup({})
 
@@ -63,9 +62,9 @@ local on_attach = function(client, bufnr)
     -- vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
     keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
     keymap('n', 'gf',
-           '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR><cmd>write<CR>')
+        '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR><cmd>write<CR>')
     keymap('n', 'gF',
-           '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR><cmd>write<CR>')
+        '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR><cmd>write<CR>')
 
     keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 
@@ -100,8 +99,8 @@ require('mason-lspconfig').setup_handlers({
             --   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
             -- end,
             capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp
-                                                                            .protocol
-                                                                            .make_client_capabilities()),
+            .protocol
+            .make_client_capabilities()),
             on_attach = on_attach
         }
 
@@ -143,18 +142,18 @@ require('mason-lspconfig').setup_handlers({
 local ts = require "nvim-treesitter.configs"
 
 ts.setup {
-    highlight = {enable = true, disable = {}},
-    indent = {enable = true, disable = {}},
+    highlight = { enable = true, disable = {} },
+    indent = { enable = true, disable = {} },
     ensure_installed = {
         "tsx", "toml", "fish", "json", "yaml", "css", "scss", "html", "lua",
         "svelte", "elm"
     },
     auto_install = true,
-    rainbow = {enable = true, extended_mode = true}
+    rainbow = { enable = true, extended_mode = true }
 }
 
-local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
-parser_config.tsx.filetype_to_parsername = {"javascript", "typescript.tsx"}
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 
 require("indent_blankline").setup {
     show_end_of_line = true,
@@ -162,7 +161,7 @@ require("indent_blankline").setup {
     show_current_context_start = true,
 
     char = "",
-    char_highlight_list = {"IndentBlanklineIndent1", "IndentBlanklineIndent2"},
+    char_highlight_list = { "IndentBlanklineIndent1", "IndentBlanklineIndent2" },
     space_char_highlight_list = {
         "IndentBlanklineIndent1", "IndentBlanklineIndent2"
     },
@@ -192,4 +191,4 @@ require("noice").setup({
     }
 })
 
-require("notify").setup({background_colour = "#000000"})
+require("notify").setup({ background_colour = "#000000" })
