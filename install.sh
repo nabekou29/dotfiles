@@ -49,6 +49,14 @@ mkdir -p "$HOME/.config/wezterm" & ln -snvf "$(pwd)/config/wezterm.lua" "$HOME/.
 mkdir -p "$HOME/Library/Application Support/lazygit/" & ln -snvf "$(pwd)/config/lazygit.yml" "$HOME/Library/Application Support/lazygit/config.yml"
 ln -snvf "$(pwd)/config/hammerspoon" "$HOME/.hammerspoon"
 ln -snvf "$(pwd)/config/nvim" "$HOME/nvim"
+# yabai, skhd
+mkdir -p "$HOME/.config/yabai" & ln -snvf "$(pwd)/config/yabai/yabairc" "$HOME/.config/yabai/yabairc"
+mkdir -p "$HOME/.config/skhd" & ln -snvf "$(pwd)/config/skhd/skhdrc" "$HOME/.config/skhd/skhdrc"
+# for stackline
+git clone https://github.com/AdamWagner/stackline.git "$(pwd)/config/hammerspoon/stackline"
+DEFAULT_YABAI_PATH=$(echo "/usr/local/bin/yabai" | gsed -E "s/\//\\\\\//g")
+REPLACE_YABAI_PATH="$(which yabai | gsed -E "s/\//\\\\\//g")"
+gsed -i -E "s/${DEFAULT_YABAI_PATH}/${REPLACE_YABAI_PATH}/" "$(pwd)/config/hammerspoon/stackline/conf.lua"
 
 # Anyenv
 anyenv install pyenv
