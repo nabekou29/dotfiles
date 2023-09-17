@@ -7,6 +7,6 @@ if [ -f ~/.zshrc.local ] ; then
 . ~/.zshrc.local
 fi
 
-export TO_FISH_PATH=$PATH
+# export TO_FISH_PATH=$PATH
 
-exec fish
+# exec fish

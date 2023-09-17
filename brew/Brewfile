@@ -11,7 +11,7 @@ cask_args appdir: "/Applications"
 ## ========== Common ==========
 brew "bat"
 brew "coreutils"
-brew "exa"
+brew "eza"
 brew "fzf"
 brew "gnu-sed"
 brew "jq"
@@ -24,6 +24,7 @@ brew "mas"
 brew "watchman"
 brew "wget"
 brew "yq"
+brew "zoxide"
 
 ## ========== Shell ===========
 brew "fish"

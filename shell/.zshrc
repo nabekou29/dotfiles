@@ -1,5 +1,12 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(sheldon source)"
 eval "$(anyenv init -)"
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[ -f ~/.config/fsh/overlay.ini ] && fast-theme -q ~/.config/fsh/overlay.ini
 
 # Java
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
@@ -33,3 +40,27 @@ export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
 export PATH=$PATH:`npm prefix --location=global`/bin
+
+# abbr
+my_abbr() {
+  keyvalue=${@: -1}
+  key="${keyvalue%%=*}"
+  # abbr で定義したものが存在するコマンドであることを認識させるために、alias も設定する
+  alias $key="$key"
+  abbr -f -qq $@
+}
+alias ab="my_abbr"
+ab cd="z"
+ab ls="eza --icons"
+ab ll="eza -a -l --icons"
+ab la="eza -a --icons"
+ab g="git"
+ab lg="lazygit"
+ab pn="pnpm"
+ab icat="chafa"
+ab rmdsstore="find . -name '.DS_Store' -type f -ls -delete"
+ab rmmergedbranch="git branch --merged | egrep -v '\*|develop|master|main' | xargs git branch -d"
+
+ab head='ghead'
+ab tail='gtail'
+ab sed='gsed'
