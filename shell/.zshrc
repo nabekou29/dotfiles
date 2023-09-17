@@ -25,10 +25,11 @@ source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completi
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Deno
-export PATH="/Users/kohei_watanabe/.deno/bin:$PATH"
+export PATH="$HOME/.deno/bin:$PATH"
 
 # pnpm
-export PNPM_HOME="/Users/kohei_watanabe/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
+export PATH=$PATH:`npm prefix --location=global`/bin

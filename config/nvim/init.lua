@@ -1,4 +1,6 @@
 -- https://github.com/willelz/nvim-lua-guide-ja/blob/master/README.ja.md
+-- vim.loader.enable()
+
 local ok, res = pcall(require, 'base')
 if not (ok) then print(res) end
 require "plugins"

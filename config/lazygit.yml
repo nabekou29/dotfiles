@@ -11,11 +11,15 @@ gui:
 
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Command_Keybindings.md
 customCommands:
-  - key: "<c-r>"
+  - key: null
     command: "gh repo view -w"
     context: "global"
     loadingText: "view repo on GitHub"
-  - key: null
+  - key: "O"
+    command: "{{if .SelectedFile }} code {{ .SelectedFile.Name }} {{end}} "
+    context: 'global'
+    description: "open vscode"
+  - key: "<c-r>"
     command: "gh pr view {{.SelectedLocalBranch.Name}}"
     context: "localBranches"
     description: "view pull request"

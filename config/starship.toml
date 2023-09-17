@@ -200,11 +200,11 @@ format = "[$symbol($version)]($style) "
 version_format = "v${major}.${minor}"
 symbol = "ﯣ "
 
-[custom.unipos]
-command = """echo "PROJECT=$PROJECT" """
-format = "\n[$output]($style) "
-when = """string match '*unipos*' $PWD"""
-style = "#cfcfcf"
+# [custom.unipos]
+# command = """echo "PROJECT=$PROJECT" """
+# format = "\n[$output]($style) "
+# when = """string match '*unipos*' $PWD"""
+# style = "#cfcfcf"
 
 
 [custom.weeknumber]

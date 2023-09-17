@@ -28,7 +28,7 @@ brew "yq"
 ## ========== Shell ===========
 brew "fish"
 brew "starship"
-cask "iterm2"
+cask "wezterm"
 
 ## ========== Fonts ==========
 tap "homebrew/cask-fonts"
@@ -44,13 +44,14 @@ cask "alfred"
 cask "alt-tab"
 cask "cleanshot"
 cask "deepl"
-cask "kap"
+cask "hammerspoon"
 cask "karabiner-elements"
 cask "keycastr"
 cask "monitorcontrol"
 cask "raycast"
 
 ## ========= Browser ==========
+cask "arc"
 cask "firefox"
 cask "google-chrome"
 

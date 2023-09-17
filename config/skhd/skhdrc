@@ -151,10 +151,10 @@ alt + shift - k : yabai -m window --focus north || yabai -m display --focus nort
 alt + shift - l : yabai -m window --focus east || yabai -m display --focus east
 
 # move window
-alt + ctrl - h : yabai -m window --warp west || (yabai -m window --display west && yabai -m display --focus west)
-alt + ctrl - j : yabai -m window --warp south || (yabai -m window --display south && yabai -m display --focus south)
-alt + ctrl - k : yabai -m window --warp north || (yabai -m window --display north && yabai -m display --focus north)
-alt + ctrl - l : yabai -m window --warp east || (yabai -m window --display east && yabai -m display --focus east)
+alt + ctrl - h : yabai -m window --wrap west || (yabai -m window --display west && yabai -m display --focus west)
+alt + ctrl - j : yabai -m window --wrap south || (yabai -m window --display south && yabai -m display --focus south)
+alt + ctrl - k : yabai -m window --wrap north || (yabai -m window --display north && yabai -m display --focus north)
+alt + ctrl - l : yabai -m window --wrap east || (yabai -m window --display east && yabai -m display --focus east)
 
 # swap window
 alt + ctrl + shift - h : yabai -m window --swap west || (yabai -m window --display west && yabai -m display --focus west)
@@ -173,7 +173,8 @@ shift + alt - f : yabai -m window --resize right:20:0 || yabai -m window --resiz
 alt + ctrl - s : yabai -m window --stack next
 alt + ctrl + shift - s : yabai -m window --stack prev
 # Unstack window
-alt + ctrl - u : yabai -m window --wrap
+alt + ctrl - u : yabai -m window --wrap west || (yabai -m window --display west && yabai -m display --focus west)
+alt + ctrl + shift - u : yabai -m window --wrap east || (yabai -m window --display east && yabai -m display --focus east)
 # Focus stack
 alt + shift - n : yabai -m window --focus stack.next || yabai -m window --focus stack.first
 alt + shift - p : yabai -m window --focus stack.prev || yabai -m window --focus stack.last

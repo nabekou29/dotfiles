@@ -3,6 +3,7 @@ vim.cmd [[packadd packer.nvim]]
 require'packer'.startup(function()
     local use = use
 
+    -- キャッシュによる高速化。vim.loader.enable が入ったらやめる
     use {'lewis6991/impatient.nvim'}
 
     -- color scheme
@@ -190,7 +191,7 @@ require'packer'.startup(function()
         module = {'hop', 'hop.hint'},
         setup = function()
             vim.keymap.set('', 'f', function()
-                require('hop').hint_char1({
+                require('hop').hint_chr1({
                     direction = require('hop.hint').HintDirection.AFTER_CURSOR,
                     current_line_only = true
                 })
@@ -203,7 +204,7 @@ require'packer'.startup(function()
             end, {remap = true, silent = true})
             vim.keymap.set('', 't', function()
                 require('hop').hint_char1({
-                    direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+                    direction = require('hop.hint').HintDirection.AFTER_CvURSOR,
                     current_line_only = true,
                     hint_offset = -1
                 })

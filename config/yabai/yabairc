@@ -52,6 +52,10 @@ yabai -m config                                 \
 yabai -m rule --add app="^.*Preferences$" manage=off
 yabai -m rule --add app="^.*設定$" manage=off
 yabai -m rule --add app="^AltTab$" manage=off
-yabai -m rule --add app="^Logi Options$" manage=off
+yabai -m rule --add app="^Logi Options+$" manage=off
+yabai -m rule --add app="^DeepL$" manage=off
+yabai -m rule --add app="^WezTerm$" manage=of
+yabai -m rule --add app="^Microsoft Teams$" manage=offf
+yabai -m rule --add app="^krisp$" manage=off
 
 echo "yabai configuration loaded.."
