@@ -14,14 +14,24 @@ shell = "zsh"
 
 [plugins]
 
+[plugins.zsh-defer]
+github = 'romkatv/zsh-defer'
+apply = ['source']
+
+[templates]
+defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks | get: \"post\" | nl }}"
+
 [plugins.zsh-autosuggestions]
-github = "zsh-users/zsh-autosuggestions"
+github = 'zsh-users/zsh-autosuggestions'
+apply = ['defer']
 
 [plugins.fast-syntax-highlighting]
 github = 'zdharma/fast-syntax-highlighting'
+apply = ['defer']
 
 [plugins.zsh-abbr]
 github = 'olets/zsh-abbr'
+apply = ['source']
 
 # For example:
 #

@@ -132,6 +132,6 @@ return {
         event = { Up = { streak = 1, button = 'Left' } },
         mods = 'CMD',
         action = act.OpenLinkAtMouseCursor
-    }
+        }
     }
 }

@@ -8,7 +8,7 @@ echo "start setup..."
 echo "installing Homebrew ..."
 which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(brew shellenv)"
 
 echo "run brew doctor ..."
 which brew >/dev/null 2>&1 && brew doctor

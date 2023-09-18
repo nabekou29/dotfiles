@@ -1,4 +1,4 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(brew shellenv)"
 eval "$(sheldon source)"
 eval "$(anyenv init -)"
 eval "$(starship init zsh)"
@@ -27,8 +27,8 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # GCloud
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Deno
@@ -42,14 +42,16 @@ export PATH="$PNPM_HOME:$PATH"
 export PATH=$PATH:`npm prefix --location=global`/bin
 
 # abbr
-my_abbr() {
-  keyvalue=${@: -1}
-  key="${keyvalue%%=*}"
-  # abbr で定義したものが存在するコマンドであることを認識させるために、alias も設定する
-  alias $key="$key"
-  abbr -f -qq $@
-}
-alias ab="my_abbr"
+for alias in ${(k)aliases}; do unalias $alias; done
+# my_abbr() {
+#   keyvalue=${@: -1}
+#   key="${keyvalue%%=*}"
+#   # abbr で定義したものが存在するコマンドであることを認識させるために、alias も設定する
+#   alias $key="$key"
+#   abbr -f -qq $@
+# }
+# alias ab="my_abbr"
+alias ab="abbr -f -qq"
 ab cd="z"
 ab ls="eza --icons"
 ab ll="eza -a -l --icons"
@@ -64,3 +66,17 @@ ab rmmergedbranch="git branch --merged | egrep -v '\*|develop|master|main' | xar
 ab head='ghead'
 ab tail='gtail'
 ab sed='gsed'
+
+function ghq-fzf() {
+  local selected_dir=$(ghq list | fzf --query="$LBUFFER")
+
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd $(ghq root)/${selected_dir}"
+    zle accept-line
+  fi
+
+  zle reset-prompt
+}
+
+zle -N ghq-fzf
+bindkey "^]" ghq-fzf
