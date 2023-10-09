@@ -31,6 +31,10 @@ apply = ['defer']
 
 [plugins.zsh-abbr]
 github = 'olets/zsh-abbr'
+apply = ['defer']
+
+[plugins.evalcache]
+github = 'mroth/evalcache'
 apply = ['source']
 
 # For example:

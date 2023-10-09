@@ -29,7 +29,9 @@ export PATH="/opt/homebrew/bin:$PATH"
 
 # Shell
 ln -snvf "$(pwd)/shell/.zshrc" "$HOME/.zshrc"
+ln -snvf "$(pwd)/shell/.zshenv" "$HOME/.zshenv"
 ln -snvf "$(pwd)/shell/.zprofile" "$HOME/.zprofile"
+ln -snvf "$(pwd)/shell/.abbr.zsh" "$HOME/.abbr.zsh"
 ln -snvf "$(pwd)/shell/.fzf.zsh" "$HOME/.fzf.zsh"
 # # TODO: fisher のinstallとかを追加
 # mkdir -p "$HOME/.config/fish" & ln -snvf "$(pwd)/shell/fish/config.fish" "$HOME/.config/fish/config.fish"

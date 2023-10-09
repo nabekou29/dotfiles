@@ -64,6 +64,7 @@ brew "cocoapods"
 brew "diff-so-fancy"
 brew "docker"
 brew "git"
+brew "git-delta"
 brew "gh"
 brew "ghq"
 cask "google-cloud-sdk"
@@ -101,8 +102,7 @@ cask "quicklookase"
 cask "suspicious-package"
 
 # Others
+mas "Display Menu", id: 549083868
 mas "Hidden Bar", id: 1452453066
 mas "Magnet", id: 441258766
-mas "RetroClip", id: 1332064978
 mas "Xcode", id: 497799835
-mas "Display Menu", id: 549083868

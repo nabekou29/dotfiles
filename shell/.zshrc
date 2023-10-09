@@ -1,12 +1,16 @@
+# check initilize speed: `time zsh -i -c exit`
+# zmodload zsh/zprof
+
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(sheldon source)"
-eval "$(anyenv init -)"
-eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
+
+# eval "$(starship init zsh)"
+_evalcache starship init zsh
+_evalcache zoxide init zsh
+_evalcache direnv hook zsh
+_evalcache anyenv init -
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-[ -f ~/.config/fsh/overlay.ini ] && fast-theme -q ~/.config/fsh/overlay.ini
 
 # Java
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
@@ -42,28 +46,7 @@ export PATH="$PNPM_HOME:$PATH"
 export PATH=$PATH:`npm prefix --location=global`/bin
 
 # abbr
-my_abbr() {
-  keyvalue=${@: -1}
-  key="${keyvalue%%=*}"
-  # abbr で定義したものが存在するコマンドであることを認識させるために、alias も設定する
-  alias $key="$key"
-  abbr -f -qq $@
-}
-alias ab="my_abbr"
-ab cd="z"
-ab ls="eza --icons"
-ab ll="eza -a -l --icons"
-ab la="eza -a --icons"
-ab g="git"
-ab lg="lazygit"
-ab pn="pnpm"
-ab icat="chafa"
-ab rmdsstore="find . -name '.DS_Store' -type f -ls -delete"
-ab rmmergedbranch="git branch --merged | egrep -v '\*|develop|master|main' | xargs git branch -d"
-
-ab head='ghead'
-ab tail='gtail'
-ab sed='gsed'
+zsh-defer source "$HOME/.abbr.zsh"
 
 function _fzf_cd_ghq() {
     FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --reverse --height=50%"
@@ -77,3 +60,9 @@ function _fzf_cd_ghq() {
 
 zle -N _fzf_cd_ghq
 bindkey "^g" _fzf_cd_ghq
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+# zprof
