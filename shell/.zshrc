@@ -1,7 +1,7 @@
 # check initilize speed: `time zsh -i -c exit`
 # zmodload zsh/zprof
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(brew shellenv)"
 eval "$(sheldon source)"
 
 # eval "$(starship init zsh)"
@@ -31,8 +31,8 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # GCloud
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Deno
@@ -64,5 +64,9 @@ bindkey "^g" _fzf_cd_ghq
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+if [ -f ~/.zshrc.local ] ; then
+. ~/.zshrc.local
+fi
 
 # zprof
