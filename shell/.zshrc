@@ -4,11 +4,10 @@
 eval "$(brew shellenv)"
 eval "$(sheldon source)"
 
-# eval "$(starship init zsh)"
 _evalcache starship init zsh
-_evalcache zoxide init zsh
 _evalcache direnv hook zsh
 _evalcache anyenv init -
+_evalcache github-copilot-cli alias -- "$0"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -31,8 +30,8 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # GCloud
-source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+zsh-defer source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+zsh-defer source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Deno
@@ -43,10 +42,13 @@ export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
-export PATH=$PATH:`npm prefix --location=global`/bin
+zsh-defer -c 'export PATH=$PATH:`npm prefix --location=global`/bin'
 
 # abbr
 zsh-defer source "$HOME/.abbr.zsh"
+
+# zoxide
+zsh-defer _evalcache zoxide init zsh
 
 function _fzf_cd_ghq() {
     FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --reverse --height=50%"
