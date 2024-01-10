@@ -7,7 +7,7 @@
 	pager = delta
 	autocrlf = false
 	quotepath = false
-	excludesfile = ~/.gitignore_global
+	excludessfile = ~/.config/git/ignore
 	symlinks = true
 [color]
 	ui = true

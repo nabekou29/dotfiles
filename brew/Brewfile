@@ -104,5 +104,4 @@ cask "suspicious-package"
 # Others
 mas "Display Menu", id: 549083868
 mas "Hidden Bar", id: 1452453066
-mas "Magnet", id: 441258766
 mas "Xcode", id: 497799835

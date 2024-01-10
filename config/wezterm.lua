@@ -6,8 +6,8 @@ return {
     font = wezterm.font("Liga HackGen35Nerd"),
     use_ime = true,
     font_size = 18.0,
-    term = 'wezterm',
-    -- https://wezfurlong.org/wezterm/colorschemes/index.html
+    -- term = 'wezterm',
+    -- -- https://wezfurlong.org/wezterm/colorschemes/index.html
     color_scheme = "Hardcore",
     -- color_scheme = "Hardcore (base16)",
     -- color_scheme = "Neon (terminal.sexy)",
@@ -39,7 +39,7 @@ return {
         { key = '{',          mods = 'SHIFT|ALT', action = act.MoveTabRelative( -1) },
         { key = '}',          mods = 'SHIFT|ALT', action = act.MoveTabRelative(1) },
         -- Window
-        { key = 't',          mods = 'CMD|SHIFT', action = act.SpawnWindow },
+        { key = 't',          mods = 'CMD|SHIFT', action = act.SpawnWindow }, 
         -- Move to tab
         { key = 'LeftArrow',  mods = 'CMD',       action = act.ActivateTabRelative( -1) },
         { key = 'RightArrow', mods = 'CMD',       action = act.ActivateTabRelative(1) },
