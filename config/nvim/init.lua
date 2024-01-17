@@ -1,5 +1,5 @@
 -- https://github.com/willelz/nvim-lua-guide-ja/blob/master/README.ja.md
--- vim.loader.enable()
+vim.loader.enable()
 
 local ok, res = pcall(require, 'base')
 if not (ok) then print(res) end
@@ -142,17 +142,17 @@ require('mason-lspconfig').setup_handlers({
 -- augroup END
 -- ]]
 
-require("indent_blankline").setup {
-    show_end_of_line = true,
-    show_current_context = true,
-    show_current_context_start = true,
+require("ibl").setup {
+    -- show_end_of_line = true,
+    -- show_current_context = true,
+    -- show_current_context_start = true,
 
-    char = "",
-    char_highlight_list = {"IndentBlanklineIndent1", "IndentBlanklineIndent2"},
-    space_char_highlight_list = {
-        "IndentBlanklineIndent1", "IndentBlanklineIndent2"
-    },
-    show_trailing_blankline_indent = false
+    -- char = "",
+    -- char_highlight_list = {"IndentBlanklineIndent1", "IndentBlanklineIndent2"},
+    -- space_char_highlight_list = {
+    --     "IndentBlanklineIndent1", "IndentBlanklineIndent2"
+    -- },
+    -- show_trailing_blankline_indent = false
 }
 
 vim.opt.termguicolors = true
