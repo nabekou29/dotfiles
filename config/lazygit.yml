@@ -2,7 +2,8 @@
 git:
   paging:
     colorArg: always
-    pager: delta --dark --paging=never
+    # pager: delta --dark --paging=never
+    externalDiffCommand: difft --color=always
 gui:
   showIcons: true
   sidePanelWidth: 0.25
