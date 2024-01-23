@@ -1,1 +1,3 @@
 .node-version
+.envrc
+___ignorefiles

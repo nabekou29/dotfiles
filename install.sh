@@ -33,6 +33,7 @@ ln -snvf "$(pwd)/shell/.zshenv" "$HOME/.zshenv"
 ln -snvf "$(pwd)/shell/.zprofile" "$HOME/.zprofile"
 ln -snvf "$(pwd)/shell/.abbr.zsh" "$HOME/.abbr.zsh"
 ln -snvf "$(pwd)/shell/.fzf.zsh" "$HOME/.fzf.zsh"
+ln -snvf "$(pwd)/shell/.anyenv.zsh" "$HOME/.anyenv.zsh"
 
 # Configirations
 

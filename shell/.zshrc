@@ -6,8 +6,8 @@ eval "$(sheldon source)"
 
 _evalcache starship init zsh
 _evalcache direnv hook zsh
-_evalcache anyenv init -
-_evalcache github-copilot-cli alias -- "$0"
+
+source ~/.anyenv.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -41,8 +41,6 @@ export PATH="$HOME/.deno/bin:$PATH"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
-
-zsh-defer -c 'export PATH=$PATH:`npm prefix --location=global`/bin'
 
 # abbr
 zsh-defer source "$HOME/.abbr.zsh"
