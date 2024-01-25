@@ -112,5 +112,12 @@ return {
     config = function()
       require('Comment').setup()
     end
+  },
+  {
+    -- スクロールをスムーズに
+    "karb94/neoscroll.nvim",
+    config = function()
+      require('neoscroll').setup {}
+    end
   }
 }
