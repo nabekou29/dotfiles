@@ -2,7 +2,6 @@
 git:
   paging:
     colorArg: always
-    # pager: delta --dark --paging=never
     externalDiffCommand: difft --color=always
 gui:
   showIcons: true
@@ -18,7 +17,7 @@ customCommands:
     loadingText: "view repo on GitHub"
   - key: "O"
     command: "{{if .SelectedFile }} code {{ .SelectedFile.Name }} {{end}} "
-    context: 'global'
+    context: "global"
     description: "open vscode"
   - key: "<c-r>"
     command: "gh pr view {{.SelectedLocalBranch.Name}}"

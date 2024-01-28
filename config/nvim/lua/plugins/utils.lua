@@ -56,15 +56,6 @@ return {
     end
   },
   {
-    -- Lazygit
-    'kdheepak/lazygit.nvim',
-    cmd = { "LazyGit" },
-    init = function()
-      -- LazyGit 召喚
-      vim.keymap.set('n', '<leader>G', '<Cmd>LazyGit<CR>')
-    end
-  },
-  {
     'tyru/open-browser.vim',
     cmd = { "OpenBrowser" }
   },
@@ -116,8 +107,13 @@ return {
   {
     -- スクロールをスムーズに
     "karb94/neoscroll.nvim",
+    event = { "VeryLazy" },
     config = function()
       require('neoscroll').setup {}
     end
-  }
+  },
+  {
+    'mg979/vim-visual-multi',
+    event = { "VeryLazy" },
+  },
 }

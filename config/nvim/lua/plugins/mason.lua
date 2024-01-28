@@ -37,6 +37,30 @@ return { {
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       require('mason-lspconfig').setup_handlers { function(server_name)
+        if server_name == 'stylelint_lsp' then
+          require('lspconfig')[server_name].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            filetypes = {
+              "css", "less", "scss", "sugarss", "vue",
+              "wxss" --  "javascript", "javascriptreact", "typescript","typescriptreact"
+            }
+          })
+          return
+        end
+
+        if server_name == 'eslint' or server_name == 'eslint_d' then
+          require('lspconfig')[server_name].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            filetypes = {
+              "javascript", "javascriptreact", "typescript", "typescriptreact", "json"
+            }
+          })
+          return
+        end
+
+
         require('lspconfig')[server_name].setup {
           capabilities = capabilities,
           on_attach = on_attach

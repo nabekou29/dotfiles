@@ -9,6 +9,8 @@
 	quotepath = false
 	excludessfile = ~/.config/git/ignore
 	symlinks = true
+	fsmonitor = true
+	untrackedcache = true
 [color]
 	ui = true
 [interactive]
@@ -28,4 +30,7 @@
 
 [delta]
 	line-numbers = true
-	side-by-side = true
+[scalar]
+	repo = /Users/kohei_watanabe/ghq/github.com/unipos/client-web
+[maintenance]
+	repo = /Users/kohei_watanabe/ghq/github.com/unipos/client-web
