@@ -34,3 +34,5 @@ vim.fn.sign_define("DiagnosticSignHint", {
   text = "🔧",
   texthl = "DiagnosticSignHint"
 })
+
+

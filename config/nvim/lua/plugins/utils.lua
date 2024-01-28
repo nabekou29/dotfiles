@@ -116,4 +116,11 @@ return {
     'mg979/vim-visual-multi',
     event = { "VeryLazy" },
   },
+  {
+    "vim-jp/vimdoc-ja",
+    event = { "BufReadPre", "VeryLazy" },
+    init = function()
+      vim.cmd [[ set helplang=ja,en ]]
+    end
+  }
 }

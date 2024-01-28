@@ -17,6 +17,10 @@ return {
         cmd = "lazygit --ucf " .. paths,
         hidden = true,
         direction = "float",
+        -- 閉じたらすべてのバッファを再読み込みする
+        on_close = function(term)
+          vim.cmd("bufdo edit!")
+        end,
       })
 
       function _lazygit_toggle()
