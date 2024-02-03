@@ -1,19 +1,40 @@
+local set = vim.keymap.set
 -- Key Binding (Pluginは除く)
-vim.keymap.set({ 'n', 'i', 'v' }, '<C-a>', '<HOME>', {})
-vim.keymap.set({ 'n', 'i', 'v' }, '<C-e>', '<END>', {})
-vim.keymap.set('n', '<C-S-h>', '<cmd>wincmd h<CR>', {})
-vim.keymap.set('n', '<C-S-l>', '<cmd>wincmd l<CR>', {})
-vim.keymap.set('n', '<C-S-j>', '<cmd>wincmd j<CR>', {})
-vim.keymap.set('n', '<C-S-k>', '<cmd>wincmd k<CR>', {})
+set({ 'n', 'i', 'v' }, '<C-a>', '<HOME>', {})
+set({ 'n', 'i', 'v' }, '<C-e>', '<END>', {})
+set('n', '<C-S-h>', '<cmd>wincmd h<CR>', {})
+set('n', '<C-S-l>', '<cmd>wincmd l<CR>', {})
+set('n', '<C-S-j>', '<cmd>wincmd j<CR>', {})
+set('n', '<C-S-k>', '<cmd>wincmd k<CR>', {})
+
+set('n', '<C-S-M-h>', '<cmd>tabp<CR>', {})
+set('n', '<C-S-M-l>', '<cmd>tabn<CR>', {})
 
 
 -- Clipboard
-vim.keymap.set('n', '<leader>cp', '<cmd>:let @+ = expand("%:.")<CR>', {
+set('n', '<leader>cp', '<cmd>:let @+ = expand("%:.")<CR>', {
   desc = 'Copy Relative Path',
 })
-vim.keymap.set('n', '<leader>cP', '<cmd>:let @+ = expand("%:p")<CR>', {
+set('n', '<leader>cP', '<cmd>:let @+ = expand("%:p")<CR>', {
   desc = 'Copy Full Path',
 })
-vim.keymap.set('n', '<leader>cf', '<cmd>:let @+ = expand("%:t")<CR>', {
+set('n', '<leader>cf', '<cmd>:let @+ = expand("%:t")<CR>', {
   desc = 'Copy File Name',
+})
+set('n', '<leader>cgl', function()
+  -- 現在の行のリンクをコピー
+  local file = vim.fn.expand('%')
+  local line = vim.fn.line('.')
+  local url = vim.fn.system('gh browse -n ' .. file .. ':' .. line)
+  vim.fn.setreg('+', url)
+end, {
+  desc = 'Copy Link to Line (Github)',
+})
+set('n', '<leader>cgh', function()
+  -- 現在のファイルのリンクをコピー
+  local file = vim.fn.expand('%')
+  local url = vim.fn.system('gh browse -n ' .. file)
+  vim.fn.setreg('+', url)
+end, {
+  desc = 'Copy Link to File (Github)',
 })

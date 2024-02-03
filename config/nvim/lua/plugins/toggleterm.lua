@@ -21,7 +21,7 @@ return {
           border = "double",
           winblend = 20,
         },
-        -- 閉じたらすべてのバッファを再読み込みする
+        -- 閉じたらすべf\ffてのバッファを再読み込みする
         -- on_close = function(term)
         --   vim.cmd("bufdo edit!")
         -- end,

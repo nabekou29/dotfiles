@@ -1,10 +1,11 @@
-return { {
-  "williamboman/mason.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-  config = function()
-    require("mason").setup {}
-  end
-}, --
+return {
+  {
+    "williamboman/mason.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require("mason").setup {}
+    end
+  }, --
   -- https://github.com/williamboman/mason-lspconfig.nvim
   {
     "williamboman/mason-lspconfig.nvim",
@@ -13,7 +14,7 @@ return { {
     config = function()
       require("mason-lspconfig").setup {
         ensure_installed = { 'elmls', 'html', 'jsonls', 'rust_analyzer', 'tsserver', 'tailwindcss', 'svelte',
-          'lua_ls', 'remark_ls' }
+          'lua_ls' }
       }
 
       local on_attach = function(client, bufnr)
@@ -77,4 +78,22 @@ return { {
         ensure_installed = { "eslint_d", "stylelint", "prettierd" }
       }
     end
-  } }
+  },
+  {
+    "j-hui/fidget.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      -- Highlight を定義
+      vim.cmd [[ hi FidgetNormal guifg=#ccc guibg=#1994E3 ]]
+
+      require("fidget").setup {
+        notification = {
+          window = {
+            normal_hl = "FidgetNormal",
+            winblend = 80,
+          }
+        }
+      }
+    end
+  }
+}
