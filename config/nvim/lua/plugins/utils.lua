@@ -33,7 +33,8 @@ return {
     -- TODO コメントに色を付ける
     "folke/todo-comments.nvim",
     event = { "FocusLost", "BufReadPre" },
-    dependencies = { "nvim-lua/plenary.nvim" }
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {}
   },
   {
     -- https://github.com/norcalli/nvim-colorizer.lua

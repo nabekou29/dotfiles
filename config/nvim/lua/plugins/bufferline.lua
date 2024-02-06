@@ -4,14 +4,8 @@ return {
   version = "*",
   dependencies = {
     'nvim-tree/nvim-web-devicons',
-    -- スコープ付きバッファ
-    -- {
-    --   "tiagovla/scope.nvim",
-    --   config = function()
-    --     require("scope").setup {
-    --     }
-    --   end
-    -- }
+    -- Bdelete
+    'famiu/bufdelete.nvim',
   },
   event = { "BufReadPre", "BufNewFile", "VeryLazy" },
   init = function()
@@ -22,7 +16,43 @@ return {
     local bufferline = require('bufferline')
     local groups = require('bufferline.groups')
     bufferline.setup {
+      highlights = {
+        separator = {
+          fg = "#1D2A31",
+        },
+        separator_selected = {
+          fg = "#2B383E",
+        },
+        separator_visible = {
+          fg = "#2B383E",
+        },
+        tab_separator = {
+          fg = "#1D2A31",
+        },
+        tab_separator_selected = {
+          fg = "#1D2A31",
+        }
+      },
       options = {
+        separator_style = "slant", -- "thin",
+        diagnostics = "nvim_lsp",
+        diagnostics_indicator = function(count, level)
+          local icon = ''
+          if level:match("error") then
+            icon = ""
+          elseif level:match("warning") then
+            icon = ""
+          end
+          return " " .. icon .. " " .. count
+        end,
+        tab_size = 10,
+        hover = {
+          enabled = true,
+          delay = 200,
+          reveal = { 'close' }
+        },
+        close_command = "Bdelete! %d",
+        middle_mouse_command = "Bdelete! %d",
         groups = {
           items = {
             groups.builtin.pinned:with({ icon = "" }),

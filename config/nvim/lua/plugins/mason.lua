@@ -46,15 +46,31 @@ return {
               "javascript", "javascriptreact", "typescript", "typescriptreact", "json"
             }
           })
-          return
+        elseif server_name == 'tsserver' then
+          require('lspconfig')[server_name].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            commands = {
+              OrganizeImports = {
+                function()
+                  local params = {
+                    command = "_typescript.organizeImports",
+                    arguments = { vim.api.nvim_buf_get_name(0) },
+                    title = ""
+                  }
+                  vim.lsp.buf.execute_command(params)
+                end
+              }
+            }
+          })
+        else
+          require('lspconfig')[server_name].setup {
+            capabilities = capabilities,
+            on_attach = on_attach
+          }
         end
-
-
-        require('lspconfig')[server_name].setup {
-          capabilities = capabilities,
-          on_attach = on_attach
-        }
-      end }
+      end
+      }
     end
   }, --
   -- https://github.com/jay-babu/mason-null-ls.nvim
