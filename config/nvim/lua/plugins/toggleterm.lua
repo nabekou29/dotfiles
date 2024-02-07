@@ -1,19 +1,18 @@
 return {
   {
-    'akinsho/toggleterm.nvim',
+    "akinsho/toggleterm.nvim",
     version = "*",
     cmd = { "ToggleTerm", "TermExec", "TermCloseAll", "TermOpenAll" },
     event = { "VeryLazy" },
     config = function()
-      require('toggleterm').setup {
-      }
+      require("toggleterm").setup({})
 
-      local base_config_path   = "$HOME/Library/Application Support/lazygit/config.yml"
+      local base_config_path = "$HOME/Library/Application Support/lazygit/config.yml"
       local custom_config_path = "$HOME/.config/nvim/lazygit_for_nvim.yml"
-      local paths              = "\"" .. base_config_path .. "," .. custom_config_path .. "\""
+      local paths = '"' .. base_config_path .. "," .. custom_config_path .. '"'
 
-      local Terminal           = require('toggleterm.terminal').Terminal
-      local lazygit            = Terminal:new({
+      local Terminal = require("toggleterm.terminal").Terminal
+      local lazygit = Terminal:new({
         cmd = "lazygit --ucf " .. paths,
         hidden = true,
         direction = "float",
@@ -32,6 +31,6 @@ return {
       end
 
       vim.keymap.set("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
-    end
-  }
+    end,
+  },
 }
