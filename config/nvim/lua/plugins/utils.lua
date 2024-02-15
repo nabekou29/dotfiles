@@ -137,4 +137,23 @@ return {
     end,
     opt = {},
   },
+  {
+    -- 参照の数などを表示
+    "VidocqH/lsp-lens.nvim",
+    event = { "BufReadPre", "VeryLazy" },
+    config = function()
+      local SymbolKind = vim.lsp.protocol.SymbolKind
+      require("lsp-lens").setup({
+        enable = false,
+        sections = { -- Enable / Disable specific request, formatter example looks 'Format Requests'
+          definition = false,
+          references = true,
+          implements = false,
+          git_authors = true,
+        },
+        target_symbol_kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Interface, SymbolKind.Constant },
+        wrapper_symbol_kinds = { SymbolKind.Class, SymbolKind.Struct, SymbolKind.Module },
+      })
+    end,
+  },
 }

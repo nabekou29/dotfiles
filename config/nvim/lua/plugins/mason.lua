@@ -26,10 +26,10 @@ return {
           "tailwindcss",
           "svelte",
           "lua_ls",
-          "eslint_d",
-          "eslint-lsp",
-          "stylelint",
+          "eslint",
+          "eslint_lsp",
           "stylelint_lsp",
+          "yamlls",
         },
       })
 
@@ -114,6 +114,16 @@ return {
 
       null_ls.setup({
         sources = {
+          -- null_ls.builtins.diagnostics.cspell.with({
+          --   diagnostics_postprocess = function(diagnostic)
+          --     -- レベルをWARNに変更（デフォルトはERROR）
+          --     diagnostic.severity = vim.diagnostic.severity["WARN"]
+          --   end,
+          --   condition = function()
+          --     -- cspellが実行できるときのみ有効
+          --     return vim.fn.executable("cspell") > 0
+          --   end,
+          -- }),
           -- format
           null_ls.builtins.formatting.stylelint.with({}),
           -- null_ls.builtins.formatting.eslint_d.with({}),
@@ -146,7 +156,7 @@ return {
           end
         end,
       })
-      require("mason-null-ls").setup({ ensure_installed = { "prettierd" } })
+      require("mason-null-ls").setup({ ensure_installed = { "prettierd", "stylua" } })
     end,
   },
   {
