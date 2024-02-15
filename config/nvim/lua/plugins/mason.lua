@@ -29,7 +29,7 @@ return {
           "eslint_d",
           "eslint-lsp",
           "stylelint",
-          "stylelint-lsp",
+          "stylelint_lsp",
         },
       })
 

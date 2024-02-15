@@ -1,21 +1,21 @@
 -- https://github.com/akinsho/bufferline.nvim
 return {
-  'akinsho/bufferline.nvim',
+  "akinsho/bufferline.nvim",
   version = "*",
   dependencies = {
-    'nvim-tree/nvim-web-devicons',
+    "nvim-tree/nvim-web-devicons",
     -- Bdelete
-    'famiu/bufdelete.nvim',
+    "famiu/bufdelete.nvim",
   },
   event = { "BufReadPre", "BufNewFile", "VeryLazy" },
   init = function()
-    vim.keymap.set('n', '<C-h>', '<Cmd>BufferLineCyclePrev<CR>', {})
-    vim.keymap.set('n', '<C-l>', '<Cmd>BufferLineCycleNext<CR>', {})
+    vim.keymap.set("n", "<C-h>", "<Cmd>BufferLineCyclePrev<CR>", {})
+    vim.keymap.set("n", "<C-l>", "<Cmd>BufferLineCycleNext<CR>", {})
   end,
   config = function()
-    local bufferline = require('bufferline')
-    local groups = require('bufferline.groups')
-    bufferline.setup {
+    local bufferline = require("bufferline")
+    local groups = require("bufferline.groups")
+    bufferline.setup({
       highlights = {
         separator = {
           fg = "#1D2A31",
@@ -31,13 +31,13 @@ return {
         },
         tab_separator_selected = {
           fg = "#1D2A31",
-        }
+        },
       },
       options = {
         separator_style = "slant", -- "thin",
         diagnostics = "nvim_lsp",
         diagnostics_indicator = function(count, level)
-          local icon = ''
+          local icon = ""
           if level:match("error") then
             icon = ""
           elseif level:match("warning") then
@@ -49,7 +49,7 @@ return {
         hover = {
           enabled = true,
           delay = 200,
-          reveal = { 'close' }
+          reveal = { "close" },
         },
         close_command = "Bdelete! %d",
         middle_mouse_command = "Bdelete! %d",
@@ -62,7 +62,14 @@ return {
               highlight = { sp = "#1994E3" },
               matcher = function(buf)
                 return buf.name:match("%.test") or buf.name:match("%.spec")
-              end
+              end,
+            },
+            {
+              name = "Story",
+              highlight = { sp = "#FC2A72" },
+              matcher = function(buf)
+                return buf.name:match("%.stories")
+              end,
             },
             {
               name = " Style",
@@ -83,12 +90,11 @@ return {
               highlight = { sp = "#4c4c4c" },
               matcher = function(buf)
                 return buf.name:match("%.config") or buf.name:match("^%..*rc$")
-              end
-            }
-
-          }
-        }
-      }
-    }
-  end
+              end,
+            },
+          },
+        },
+      },
+    })
+  end,
 }

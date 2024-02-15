@@ -11,6 +11,7 @@
 	symlinks = true
 	fsmonitor = true
 	untrackedcache = true
+	fileMode = false
 [color]
 	ui = true
 [interactive]

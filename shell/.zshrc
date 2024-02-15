@@ -65,6 +65,18 @@ bindkey "^g" _fzf_cd_ghq
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
+# terminfo
+# ~/.terminfo がなければダウンロードする
+if [ ! -d ~/.terminfo ]; then
+  # https://wezfurlong.org/wezterm/faq.html#how-do-i-enable-undercurl-curly-underlines
+  tempfile=$(mktemp) \
+  && curl -o $tempfile https://raw.githubusercontent.com/wez/wezterm/master/termwiz/data/wezterm.terminfo \
+  && tic -x -o ~/.terminfo $tempfile \
+  && rm $tempfile
+fi
+export TERM=wezterm
+
+
 if [ -f ~/.zshrc.local ] ; then
 . ~/.zshrc.local
 fi
