@@ -27,7 +27,7 @@ return {
           "svelte",
           "lua_ls",
           "eslint",
-          "eslint_lsp",
+          "eslint_d",
           "stylelint_lsp",
           "yamlls",
         },

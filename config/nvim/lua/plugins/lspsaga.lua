@@ -18,6 +18,7 @@ return {
     keymap("n", "gN", "<cmd>Lspsaga rename ++project<CR>")
 
     keymap("n", "ga", "<cmd>Lspsaga code_action<CR>")
+    keymap("v", "ga", "<cmd>Lspsaga code_action<CR>")
 
     keymap("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
     keymap("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>")
