@@ -79,6 +79,13 @@ return {
               end,
             },
             {
+              name = "󰗊 Locals",
+              highlight = { sp = "#2F3C5C" },
+              matcher = function(buf)
+                return buf.path:match("translation.json")
+              end,
+            },
+            {
               name = "󰈙 Docs",
               highlight = { sp = "#2C682A" },
               matcher = function(buf)

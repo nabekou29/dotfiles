@@ -27,7 +27,6 @@ return {
           "svelte",
           "lua_ls",
           "eslint",
-          "eslint_d",
           "stylelint_lsp",
           "yamlls",
         },
@@ -124,6 +123,8 @@ return {
           --     return vim.fn.executable("cspell") > 0
           --   end,
           -- }),
+          null_ls.builtins.diagnostics.actionlint,
+          null_ls.builtins.diagnostics.textlint.with({ filetypes = { "markdown" } }),
           -- format
           null_ls.builtins.formatting.stylelint.with({}),
           -- null_ls.builtins.formatting.eslint_d.with({}),
