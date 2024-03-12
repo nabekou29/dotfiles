@@ -6,14 +6,14 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      require('nightfox').setup({
+      require("nightfox").setup({
         options = {
           transparent = true,
-        }
+        },
       })
       vim.opt.pumblend = 20
       vim.cmd("colorscheme nightfox")
-    end
+    end,
   },
   {
     "folke/tokyonight.nvim",
@@ -26,6 +26,6 @@ return {
         transparent = true,
       })
       vim.cmd("colorscheme tokyonight")
-    end
-  }
+    end,
+  },
 }

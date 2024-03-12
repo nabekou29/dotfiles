@@ -106,28 +106,43 @@ return {
       { "williamboman/mason.nvim" },
       { "nvimtools/none-ls.nvim" },
       { "nvim-lua/plenary.nvim" },
+      { "davidmh/cspell.nvim" },
     },
     config = function()
       local null_ls = require("null-ls")
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+      local cspell = require("cspell")
 
       null_ls.setup({
         sources = {
-          -- null_ls.builtins.diagnostics.cspell.with({
-          --   diagnostics_postprocess = function(diagnostic)
-          --     -- レベルをWARNに変更（デフォルトはERROR）
-          --     diagnostic.severity = vim.diagnostic.severity["WARN"]
-          --   end,
-          --   condition = function()
-          --     -- cspellが実行できるときのみ有効
-          --     return vim.fn.executable("cspell") > 0
-          --   end,
-          -- }),
+          cspell.diagnostics.with({
+            diagnostics_postprocess = function(diagnostic)
+              diagnostic.severity = vim.diagnostic.severity["INFO"]
+            end,
+            condition = function(utils)
+              return not (utils.root_has_file({ ".disabled-cspell" }))
+            end,
+          }),
+          cspell.code_actions.with({
+            condition = function(utils)
+              return not (utils.root_has_file({ ".disabled-cspell" }))
+            end,
+          }),
           null_ls.builtins.diagnostics.actionlint,
-          null_ls.builtins.diagnostics.textlint.with({ filetypes = { "markdown" } }),
+          null_ls.builtins.diagnostics.textlint.with({
+            filetypes = { "markdown" },
+            condition = function(utils)
+              return utils.root_has_file({
+                ".textlintrc",
+                ".textlintrc.js",
+                ".textlintrc.json",
+                ".textlintrc.yaml",
+                ".textlintrc.yml",
+              })
+            end,
+          }),
           -- format
           null_ls.builtins.formatting.stylelint.with({}),
-          -- null_ls.builtins.formatting.eslint_d.with({}),
           null_ls.builtins.formatting.prettierd.with({ prefer_local = "node_modules/.bin" }),
           null_ls.builtins.formatting.stylua.with({}),
         },

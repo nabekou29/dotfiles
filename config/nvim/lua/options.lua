@@ -20,6 +20,3 @@ vim.o.timeout = true -- キーのマッピングに対するタイムアウト
 vim.o.timeoutlen = 1000 -- マッピングのタイムアウトの時間 (規定値: 1000)
 
 vim.g.mapleader = " " -- リーダーをスペースに変更
-
--- Copilot
--- vim.g.copilot_filetypes = { markdown = true }

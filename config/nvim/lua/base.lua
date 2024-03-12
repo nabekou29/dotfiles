@@ -34,3 +34,9 @@ vim.fn.sign_define("DiagnosticSignHint", {
   text = "🔧",
   texthl = "DiagnosticSignHint",
 })
+
+-- Open Cheetsheet
+
+vim.cmd([[
+  command! Cheatsheet edit ~/.config/nvim/cheetsheet.md
+]])
