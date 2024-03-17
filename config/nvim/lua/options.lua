@@ -14,7 +14,9 @@ vim.opt.listchars:append("space:⋅") -- 空白文字
 vim.opt.swapfile = false -- Swapファイルを生成するか
 vim.opt.hidden = true -- バッファを保存しないでも切り替えれるように
 
--- vim.opt.pumblend = 10
+vim.opt.termguicolors = true
+vim.opt.pumblend = 30
+vim.opt.winblend = 30
 
 vim.o.timeout = true -- キーのマッピングに対するタイムアウト
 vim.o.timeoutlen = 1000 -- マッピングのタイムアウトの時間 (規定値: 1000)

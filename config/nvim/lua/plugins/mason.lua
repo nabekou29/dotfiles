@@ -26,6 +26,7 @@ return {
           "tailwindcss",
           "svelte",
           "lua_ls",
+          "cssls",
           "eslint",
           "stylelint_lsp",
           "yamlls",
@@ -37,9 +38,6 @@ return {
 
       require("mason-lspconfig").setup_handlers({
         function(server_name)
-          -- 通知
-          vim.notify("LSP setup" .. server_name)
-
           if server_name == "stylelint_lsp" then
             require("lspconfig")[server_name].setup({
               capabilities = capabilities,
@@ -105,6 +103,7 @@ return {
     dependencies = {
       { "williamboman/mason.nvim" },
       { "nvimtools/none-ls.nvim" },
+      -- { "jose-elias-alvarez/null-ls.nvim" },
       { "nvim-lua/plenary.nvim" },
       { "davidmh/cspell.nvim" },
     },
@@ -172,7 +171,9 @@ return {
           end
         end,
       })
-      require("mason-null-ls").setup({ ensure_installed = { "prettierd", "stylua" } })
+      require("mason-null-ls").setup({
+        ensure_installed = { "prettierd", "stylua", "cspell", "actionlint", "textlint", "stylelint" },
+      })
     end,
   },
   {
