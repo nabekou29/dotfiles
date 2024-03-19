@@ -35,6 +35,17 @@ return {
 
       local on_attach = function(client, bufnr) end
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local settings = {
+        tailwindCSS = {
+          experimental = {
+            classRegex = {
+              { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+              { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+              { "cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+            },
+          },
+        },
+      }
 
       require("mason-lspconfig").setup_handlers({
         function(server_name)
@@ -53,9 +64,7 @@ return {
               },
             })
             return
-          end
-
-          if server_name == "eslint" or server_name == "eslint_d" then
+          elseif server_name == "eslint" or server_name == "eslint_d" then
             require("lspconfig")[server_name].setup({
               capabilities = capabilities,
               on_attach = on_attach,
@@ -90,6 +99,7 @@ return {
             require("lspconfig")[server_name].setup({
               capabilities = capabilities,
               on_attach = on_attach,
+              settings = settings,
             })
           end
         end,
