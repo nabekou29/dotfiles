@@ -11,6 +11,12 @@ return {
   init = function()
     vim.keymap.set("n", "<C-h>", "<Cmd>BufferLineCyclePrev<CR>", {})
     vim.keymap.set("n", "<C-l>", "<Cmd>BufferLineCycleNext<CR>", {})
+
+    vim.keymap.set("n", "<leader>bt", function()
+      require("telescope.bufferline").buffer_line_group_picker()
+    end, {
+      desc = "Toggle Buffer Group",
+    })
   end,
   config = function()
     local bufferline = require("bufferline")

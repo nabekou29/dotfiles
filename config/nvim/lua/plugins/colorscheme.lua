@@ -35,12 +35,7 @@ return {
     -- event = { "VeryLazy" },
     init = function()
       function StartTint()
-        local tint = require("tint")
-        local windows = vim.api.nvim_list_wins()
-        for _, win in ipairs(windows) do
-          tint.tint(win)
-        end
-        tint.untint(vim.api.nvim_get_current_win())
+        require("tint")
       end
       vim.cmd("command! TintStart lua StartTint()")
     end,

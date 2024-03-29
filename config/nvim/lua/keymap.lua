@@ -21,13 +21,25 @@ set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
 
 -- Clipboard
-set("n", "<leader>cp", '<cmd>:let @+ = expand("%:.")<CR>', {
+set("n", "<leader>cp", function()
+  local path = vim.fn.expand("%:.")
+  vim.api.nvim_out_write("Copied: " .. path .. "\n")
+  vim.fn.setreg("+", path)
+end, {
   desc = "Copy Relative Path",
 })
-set("n", "<leader>cP", '<cmd>:let @+ = expand("%:p")<CR>', {
+set("n", "<leader>cP", function()
+  local path = vim.fn.expand("%:p")
+  vim.api.nvim_out_write("Copied: " .. path .. "\n")
+  vim.fn.setreg("+", path)
+end, {
   desc = "Copy Full Path",
 })
-set("n", "<leader>cf", '<cmd>:let @+ = expand("%:t")<CR>', {
+set("n", "<leader>cf", function()
+  local path = vim.fn.expand("%:t")
+  vim.api.nvim_out_write("Copied: " .. path .. "\n")
+  vim.fn.setreg("+", path)
+end, {
   desc = "Copy File Name",
 })
 set("n", "<leader>cgl", function()
@@ -35,6 +47,7 @@ set("n", "<leader>cgl", function()
   local file = vim.fn.expand("%")
   local line = vim.fn.line(".")
   local url = vim.fn.system("gh browse -n " .. file .. ":" .. line)
+  vim.api.nvim_out_write("Copied: " .. url)
   vim.fn.setreg("+", url)
 end, {
   desc = "Copy Link to Line (Github)",
@@ -43,6 +56,7 @@ set("n", "<leader>cgh", function()
   -- 現在のファイルのリンクをコピー
   local file = vim.fn.expand("%")
   local url = vim.fn.system("gh browse -n " .. file)
+  vim.api.nvim_out_write("Copied: " .. url)
   vim.fn.setreg("+", url)
 end, {
   desc = "Copy Link to File (Github)",

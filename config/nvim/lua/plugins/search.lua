@@ -32,7 +32,7 @@ return {
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         -- build = "make",
-build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
         config = function()
           require("telescope").load_extension("fzf")
         end,
@@ -76,6 +76,12 @@ build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --c
         require("telescope.builtin").buffers()
       end, {
         desc = ":Telescope buffers",
+      })
+      -- コマンドの履歴
+      vim.keymap.set("n", "<leader>:", function()
+        require("telescope.builtin").command_history()
+      end, {
+        desc = ":Telescope command_history",
       })
       -- help
       vim.keymap.set("n", "<leader>fh", function()

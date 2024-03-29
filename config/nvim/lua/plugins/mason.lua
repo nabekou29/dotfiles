@@ -132,11 +132,11 @@ return {
               return not (utils.root_has_file({ ".disabled-cspell" }))
             end,
           }),
-          cspell.code_actions.with({
-            condition = function(utils)
-              return not (utils.root_has_file({ ".disabled-cspell" }))
-            end,
-          }),
+          -- cspell.code_actions.with({
+          --   condition = function(utils)
+          --     return not (utils.root_has_file({ ".disabled-cspell" }))
+          --   end,
+          -- }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.textlint.with({
             filetypes = { "markdown" },
@@ -152,7 +152,24 @@ return {
           }),
           -- format
           null_ls.builtins.formatting.stylelint.with({}),
-          null_ls.builtins.formatting.prettierd.with({ prefer_local = "node_modules/.bin" }),
+          null_ls.builtins.formatting.prettierd.with({
+            prefer_local = "node_modules/.bin",
+            filetypes = {
+              "javascript",
+              "javascriptreact",
+              "typescript",
+              "typescriptreact",
+              "json",
+              "css",
+              "scss",
+              "less",
+              "html",
+              "vue",
+              "svelte",
+              "yaml",
+              "markdown",
+            },
+          }),
           null_ls.builtins.formatting.stylua.with({}),
         },
         on_attach = function(client, bufnr)
@@ -182,7 +199,14 @@ return {
         end,
       })
       require("mason-null-ls").setup({
-        ensure_installed = { "prettierd", "stylua", "cspell", "actionlint", "textlint", "stylelint" },
+        ensure_installed = {
+          "prettierd",
+          "stylua",
+          -- "cspell",
+          "actionlint",
+          "textlint",
+          "stylelint",
+        },
       })
     end,
   },

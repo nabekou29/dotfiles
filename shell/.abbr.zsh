@@ -1,6 +1,6 @@
-# my_abbr() {
-#   abbr -f -qq $@
-# }
+# FORCE_COLOR=0 にしないと cspell が壊れる
+alias nvim="FORCE_COLOR=0 nvim"
+
 alias ab="abbr -f -qq "
 ab cd="z"
 ab ls="eza --icons"
