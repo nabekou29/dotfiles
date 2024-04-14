@@ -1,7 +1,14 @@
 # check initilize speed: `time zsh -i -c exit`
 # zmodload zsh/zprof
 
-eval "$(brew shellenv)"
+# /opt/homebrew/bin/brew か、/usr/local/bin/brew が存在する場合はそれを使う
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x /usr/local/bin/brew ]; then
+  eval "$(/user/local/bin/brew shellenv)"
+  export PATH="/usr/local/bin:$PATH"
+fi
+
 eval "$(sheldon source)"
 
 _evalcache starship init zsh

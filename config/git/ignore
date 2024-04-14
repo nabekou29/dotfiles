@@ -1,4 +1,5 @@
 .node-version
 .envrc
 cspell.json
+.snippets
 ___ignorefiles

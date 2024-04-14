@@ -125,6 +125,9 @@ return {
       null_ls.setup({
         sources = {
           cspell.diagnostics.with({
+            env = {
+              FORCE_COLOR = "0",
+            },
             diagnostics_postprocess = function(diagnostic)
               diagnostic.severity = vim.diagnostic.severity["INFO"]
             end,
@@ -132,11 +135,14 @@ return {
               return not (utils.root_has_file({ ".disabled-cspell" }))
             end,
           }),
-          -- cspell.code_actions.with({
-          --   condition = function(utils)
-          --     return not (utils.root_has_file({ ".disabled-cspell" }))
-          --   end,
-          -- }),
+          cspell.code_actions.with({
+            env = {
+              FORCE_COLOR = "0",
+            },
+            condition = function(utils)
+              return not (utils.root_has_file({ ".disabled-cspell" }))
+            end,
+          }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.textlint.with({
             filetypes = { "markdown" },
@@ -151,7 +157,6 @@ return {
             end,
           }),
           -- format
-          null_ls.builtins.formatting.stylelint.with({}),
           null_ls.builtins.formatting.prettierd.with({
             prefer_local = "node_modules/.bin",
             filetypes = {
@@ -169,6 +174,9 @@ return {
               "yaml",
               "markdown",
             },
+          }),
+          null_ls.builtins.formatting.stylelint.with({
+            timeout = 10000,
           }),
           null_ls.builtins.formatting.stylua.with({}),
         },
@@ -202,7 +210,7 @@ return {
         ensure_installed = {
           "prettierd",
           "stylua",
-          -- "cspell",
+          "cspell",
           "actionlint",
           "textlint",
           "stylelint",

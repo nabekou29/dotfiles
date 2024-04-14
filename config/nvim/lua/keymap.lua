@@ -44,7 +44,7 @@ end, {
 })
 set("n", "<leader>cgl", function()
   -- 現在の行のリンクをコピー
-  local file = vim.fn.expand("%")
+  local file = vim.fn.expand("%:.")
   local line = vim.fn.line(".")
   local url = vim.fn.system("gh browse -n " .. file .. ":" .. line)
   vim.api.nvim_out_write("Copied: " .. url)
@@ -54,7 +54,7 @@ end, {
 })
 set("n", "<leader>cgh", function()
   -- 現在のファイルのリンクをコピー
-  local file = vim.fn.expand("%")
+  local file = vim.fn.expand("%:.")
   local url = vim.fn.system("gh browse -n " .. file)
   vim.api.nvim_out_write("Copied: " .. url)
   vim.fn.setreg("+", url)

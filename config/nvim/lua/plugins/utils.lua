@@ -34,6 +34,9 @@ return {
     event = { "FocusLost", "BufReadPre" },
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
+    init = function()
+      vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<CR>")
+    end,
   },
   {
     -- https://github.com/norcalli/nvim-colorizer.lua
@@ -68,17 +71,6 @@ return {
     end,
   },
   { "tyru/open-browser.vim", cmd = { "OpenBrowser" } },
-  {
-    -- バッファを閉じた時にウィンドウを閉じないようにしてくれる
-    "famiu/bufdelete.nvim",
-    cmd = { "Bdelete" },
-    event = { "BufReadPre", "BufNewFile" },
-    init = function()
-      vim.keymap.set("n", "<leader>w", function()
-        require("bufdelete").bufdelete(0, true)
-      end, { desc = ":Bdelete" })
-    end,
-  },
   {
     -- 範囲選択
     "terryma/vim-expand-region",
@@ -168,6 +160,7 @@ return {
     end,
   },
   {
+    -- TS のエラーをわかりやすく
     event = { "VeryLazy" },
     "dmmulroy/ts-error-translator.nvim",
     config = function()

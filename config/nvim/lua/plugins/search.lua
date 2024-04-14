@@ -62,7 +62,7 @@ return {
       -- 隠しファイル込み
       vim.keymap.set("n", "<leader>fF", ":Telescope find_files hidden=true<CR>")
       -- シンボル
-      vim.keymap.set("n", "<leader>fs", ":Telescope lsp_workspace_symbols<CR>")
+      vim.keymap.set("n", "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>")
       -- 最近開いたファイル
       vim.keymap.set("n", "<leader>fr", ":Telescope frecency workspace=CWD<CR>")
       -- 全文検索
@@ -114,10 +114,18 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case",
           },
+          egrepify = {
+            prefixes = {
+              ["-H"] = {
+                flag = "hidden",
+              },
+            },
+          },
         },
       })
 
       pcall(require("telescope").load_extension, "fzf")
+      pcall(require("telescope").load_extension, "egrepify")
     end,
   },
 }
