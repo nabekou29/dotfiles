@@ -24,37 +24,27 @@ return {
       "nvim-lua/plenary.nvim",
       {
         "nvim-telescope/telescope-frecency.nvim",
-        config = function()
-          require("telescope").load_extension("frecency")
-        end,
         dependencies = { "kkharji/sqlite.lua" },
       },
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         -- build = "make",
         build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-        config = function()
-          require("telescope").load_extension("fzf")
-        end,
         cond = function()
           return vim.fn.executable("make") == 1
         end,
       },
       {
         "fdschmidt93/telescope-egrepify.nvim",
-        config = function()
-          require("telescope").load_extension("egrepify")
-        end,
       },
       {
         "Allianaab2m/telescope-kensaku.nvim",
         dependencies = {
           "lambdalisue/kensaku.vim",
         },
-        config = function()
-          require("telescope").load_extension("kensaku") -- :Telescope kensaku
-        end,
       },
+      { "dharmx/telescope-media.nvim" },
+      { "nvim-telescope/telescope-media-files.nvim" },
     },
     init = function()
       -- 通常の検索
@@ -83,6 +73,21 @@ return {
       end, {
         desc = ":Telescope command_history",
       })
+      -- メディア
+      vim.keymap.set("n", "<leader>fm", function()
+        -- require("telescope").extensions.media.media()
+        require("telescope").extensions.media.media({
+          find_command = {
+            "rg",
+            "--files",
+            "--glob",
+            "*.{png,jpg,jpeg,svg,gif,mp4,pdf,webp,webm}",
+            ".",
+          },
+        })
+      end, {
+        desc = ":Telescope media",
+      })
       -- help
       vim.keymap.set("n", "<leader>fh", function()
         require("telescope.builtin").help_tags()
@@ -96,6 +101,12 @@ return {
       require("telescope").setup({
         defaults = {
           prompt_prefix = " ",
+          mappings = {
+            i = {
+              ["<C-S-j>"] = require("telescope.actions").cycle_history_next,
+              ["<C-S-K>"] = require("telescope.actions").cycle_history_prev,
+            },
+          },
         },
         vimgrep_arguments = {
           "rg",
@@ -121,11 +132,34 @@ return {
               },
             },
           },
+          media = {
+            backend = "chafa", -- image/gif backend
+            backend_options = {
+              chafa = {
+                -- move = true, -- GIF preview
+                extra_args = {
+                  ["-f"] = "symbols",
+                  ["--scale"] = "max",
+                },
+              },
+            },
+          },
+          media_files = {
+            -- filetypes whitelist
+            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
+            filetypes = { "png", "webp", "jpg", "jpeg", "svg", "webp", "gif" },
+            -- find command (defaults to `fd`)
+            find_cmd = "rg",
+          },
         },
       })
 
+      pcall(require("telescope").load_extension, "frecency")
       pcall(require("telescope").load_extension, "fzf")
+      pcall(require("telescope").load_extension, "kenasku")
       pcall(require("telescope").load_extension, "egrepify")
+      -- pcall(require("telescope").load_extension, "media")
+      pcall(require("telescope").load_extension, "media_files")
     end,
   },
 }

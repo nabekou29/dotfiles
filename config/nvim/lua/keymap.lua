@@ -20,6 +20,9 @@ set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 
 set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
 
+set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", { desc = "Clear Highlight" })
+set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true })
+
 -- Clipboard
 set("n", "<leader>cp", function()
   local path = vim.fn.expand("%:.")

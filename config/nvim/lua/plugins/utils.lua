@@ -39,6 +39,15 @@ return {
     end,
   },
   {
+    -- カーソルが当たった単語をハイライト
+    "RRethy/vim-illuminate",
+    event = { "FocusLost", "BufReadPre" },
+    opts = {},
+    config = function()
+      require("illuminate").configure({})
+    end,
+  },
+  {
     -- https://github.com/norcalli/nvim-colorizer.lua
     -- カラーコードに色をつける
     "norcalli/nvim-colorizer.lua",
