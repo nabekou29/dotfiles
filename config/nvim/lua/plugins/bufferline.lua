@@ -55,6 +55,7 @@ return {
             return " " .. icon .. " " .. count
           end,
           tab_size = 10,
+          max_name_length = 24,
           hover = {
             enabled = true,
             delay = 200,
@@ -62,6 +63,25 @@ return {
           },
           close_command = "Bdelete! %d",
           middle_mouse_command = "Bdelete! %d",
+          name_formatter = function(buf)
+            -- index.ts などのファイルをわかりやすいように表示
+            if buf.name:match("index%.") then
+              local parentDir = buf.path:match("^.*/(.*)/[^/]*$")
+
+              if parentDir then
+                local name = parentDir .. "/" .. buf.name
+                if name:len() > 24 then
+                  local suffix = "…/" .. buf.name
+                  local subP = parentDir:sub(1, 24 - suffix:len())
+                  name = subP .. suffix
+                end
+
+                return name
+              end
+            end
+
+            return buf.name
+          end,
           groups = {
             items = {
               groups.builtin.pinned:with({ icon = "" }),

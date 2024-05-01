@@ -26,6 +26,7 @@ vim.opt.timeoutlen = 1000 -- マッピングのタイムアウトの時間 (規�
 vim.opt.updatetime = 300 -- インサートモードでの変更を検知する時間
 
 vim.opt.autoread = true -- ファイルが変更されたら自動で読み込む
+vim.cmd([[ au CursorHold * checktime ]])
 
 vim.g.mapleader = " " -- リーダーをスペースに変更
 
