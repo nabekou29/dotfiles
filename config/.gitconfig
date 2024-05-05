@@ -31,10 +31,6 @@
 
 [delta]
 	line-numbers = true
-[scalar]
-	repo = /Users/kohei_watanabe/ghq/github.com/unipos/client-web
-[maintenance]
-	repo = /Users/kohei_watanabe/ghq/github.com/unipos/client-web
 [merge]
 	conflictstyle = zdiff3
 [rerere]
