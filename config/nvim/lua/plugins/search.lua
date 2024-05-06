@@ -19,7 +19,7 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "VeryLazy" },
     dependencies = {
       "nvim-lua/plenary.nvim",
       {

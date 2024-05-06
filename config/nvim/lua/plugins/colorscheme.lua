@@ -30,8 +30,8 @@ return {
   },
   {
     "levouh/tint.nvim",
-    -- 結構後になってから読み込まないと動かない
     commands = { "TintStart" },
+    event = { "VeryLazy" },
     init = function()
       function StartTint()
         require("tint")

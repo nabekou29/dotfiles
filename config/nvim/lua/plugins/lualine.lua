@@ -1,7 +1,7 @@
 -- https://github.com/nvim-lualine/lualine.nvim
 return {
   "nvim-lualine/lualine.nvim",
-  event = { "ModeChanged" },
+  event = { "ModeChanged", "VeryLazy" },
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require("lualine").setup({
@@ -16,7 +16,7 @@ return {
         },
         ignore_focus = {},
         always_divide_middle = true,
-        globalstatus = false,
+        globalstatus = true,
         refresh = {
           statusline = 1000,
           tabline = 1000,

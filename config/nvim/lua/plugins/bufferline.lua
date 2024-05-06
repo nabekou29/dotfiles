@@ -7,7 +7,7 @@ return {
       "nvim-tree/nvim-web-devicons",
       "famiu/bufdelete.nvim",
     },
-    event = { "BufReadPre", "BufNewFile", "VeryLazy" },
+    event = { "VeryLazy" },
     init = function()
       vim.keymap.set("n", "<C-h>", "<Cmd>BufferLineCyclePrev<CR>", {})
       vim.keymap.set("n", "<C-l>", "<Cmd>BufferLineCycleNext<CR>", {})
