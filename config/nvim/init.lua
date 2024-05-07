@@ -3,5 +3,4 @@ vim.loader.enable()
 
 require("options")
 require("lazyvim")
-require("base")
 require("keymap")

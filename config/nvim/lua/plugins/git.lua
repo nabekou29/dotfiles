@@ -1,7 +1,7 @@
 return {
+  -- ターミナルをフローティングで呼び出すやつ（lazygit のためにしか使っていない)
   {
     "akinsho/toggleterm.nvim",
-    version = "*",
     cmd = { "ToggleTerm", "TermExec", "TermCloseAll", "TermOpenAll" },
     event = { "VeryLazy" },
     config = function()
@@ -22,11 +22,32 @@ return {
         },
       })
 
-      function _lazygit_toggle()
+      local function _lazygit_toggle()
         lazygit:toggle()
       end
 
-      vim.keymap.set("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>g", function()
+        _lazygit_toggle()
+      end)
     end,
+  },
+  -- 変更箇所の表示・blame の表示
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "FocusLost", "CursorHold" },
+    opts = {
+      current_line_blame = true,
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = "eol",
+        delay = 300,
+        ignore_whitespace = false,
+      },
+    },
+  },
+  -- diff の表示
+  {
+    "sindrets/diffview.nvim",
+    event = "VeryLazy",
   },
 }
