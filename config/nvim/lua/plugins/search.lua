@@ -22,13 +22,16 @@ return {
     event = { "VeryLazy" },
     dependencies = {
       "nvim-lua/plenary.nvim",
+      -- {
+      --   "nvim-telescope/telescope-frecency.nvim",
+      --   dependencies = { "kkharji/sqlite.lua" },
+      -- },
       {
-        "nvim-telescope/telescope-frecency.nvim",
+        "prochri/telescope-all-recent.nvim",
         dependencies = { "kkharji/sqlite.lua" },
       },
       {
         "nvim-telescope/telescope-fzf-native.nvim",
-        -- build = "make",
         build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
         cond = function()
           return vim.fn.executable("make") == 1
@@ -145,20 +148,17 @@ return {
             },
           },
           media_files = {
-            -- filetypes whitelist
-            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
             filetypes = { "png", "webp", "jpg", "jpeg", "svg", "webp", "gif" },
-            -- find command (defaults to `fd`)
             find_cmd = "rg",
           },
         },
       })
 
-      pcall(require("telescope").load_extension, "frecency")
+      pcall(require("telescope-all-recent").setup, {})
+      -- pcall(require("telescope").load_extension, "frecency")
       pcall(require("telescope").load_extension, "fzf")
       pcall(require("telescope").load_extension, "kenasku")
       pcall(require("telescope").load_extension, "egrepify")
-      -- pcall(require("telescope").load_extension, "media")
       pcall(require("telescope").load_extension, "media_files")
     end,
   },

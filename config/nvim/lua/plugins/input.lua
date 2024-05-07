@@ -38,11 +38,18 @@ return {
     event = { "VeryLazy" },
     config = function()
       require("ccc").setup({
-        highlighter = {
-          auto_enable = true,
-          lsp = true,
-        },
+        highlighter = { auto_enable = true, lsp = true },
       })
     end,
+  },
+  {
+    "Wansmer/treesj",
+    keys = {
+      { "<leader>jt", ":TSJToggle<CR>" },
+      { "<leader>js", ":TSJUSplit<CR>" },
+      { "<leader>jj", ":TSJJoin<CR>" },
+    },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = { use_default_keymaps = false, max_join_length = 256 },
   },
 }

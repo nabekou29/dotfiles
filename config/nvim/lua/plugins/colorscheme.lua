@@ -30,7 +30,7 @@ return {
   },
   {
     "levouh/tint.nvim",
-    commands = { "TintStart" },
+    cmd = { "TintStart" },
     event = { "VeryLazy" },
     init = function()
       function StartTint()

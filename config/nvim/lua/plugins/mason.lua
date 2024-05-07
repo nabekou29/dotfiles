@@ -135,14 +135,14 @@ return {
               return not (utils.root_has_file({ ".disabled-cspell" }))
             end,
           }),
-          cspell.code_actions.with({
-            env = {
-              FORCE_COLOR = "0",
-            },
-            condition = function(utils)
-              return not (utils.root_has_file({ ".disabled-cspell" }))
-            end,
-          }),
+          -- cspell.code_actions.with({
+          --   env = {
+          --     FORCE_COLOR = "0",
+          --   },
+          --   condition = function(utils)
+          --     return not (utils.root_has_file({ ".disabled-cspell" }))
+          --   end,
+          -- }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.textlint.with({
             filetypes = { "markdown" },

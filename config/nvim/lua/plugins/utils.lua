@@ -3,11 +3,21 @@ return {
     -- https://github.com/lukas-reineke/indent-blankline.nvim
     -- インデントのハイライト
     "lukas-reineke/indent-blankline.nvim",
+    enable = false,
     event = { "VeryLazy" },
     main = "ibl",
     config = function()
       require("ibl").setup({})
     end,
+  },
+  {
+    "shellRaining/hlchunk.nvim",
+    event = { "UIEnter" },
+    opts = {
+      indent = { use_treesitter = true },
+      chunk = { style = { { fg = "#208aca" }, { fg = "#9f1b2e" } } },
+      line_num = { enable = false, use_treesitter = true, style = "#208aca" },
+    },
   },
   {
     -- https://github.com/kevinhwang91/nvim-hlslens
@@ -42,7 +52,6 @@ return {
     -- カーソルが当たった単語をハイライト
     "RRethy/vim-illuminate",
     event = { "FocusLost", "BufReadPre" },
-    opts = {},
     config = function()
       require("illuminate").configure({})
     end,
@@ -62,7 +71,7 @@ return {
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
-    opts = {}, -- this is equalent to setup({}) function
+    opts = {},
   },
   -- 文字列を括弧で囲ったりする
   {

@@ -37,7 +37,7 @@ return {
   {
     "stevearc/oil.nvim",
     opts = {},
-    cmd = { "BufReadPre" },
+    event = { "BufReadPre" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 }
