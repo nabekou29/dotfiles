@@ -11,6 +11,8 @@ return {
     init = function()
       vim.keymap.set("n", "<C-h>", "<Cmd>BufferLineCyclePrev<CR>", {})
       vim.keymap.set("n", "<C-l>", "<Cmd>BufferLineCycleNext<CR>", {})
+      vim.keymap.set("n", "<C-M-h>", "<Cmd>BufferLineMovePrev<CR>", {})
+      vim.keymap.set("n", "<C-M-l>", "<Cmd>BufferLineMoveNext<CR>", {})
 
       vim.keymap.set("n", "<leader>bt", function()
         require("telescope.bufferline").buffer_line_group_picker()
@@ -63,6 +65,8 @@ return {
           },
           close_command = "Bdelete! %d",
           middle_mouse_command = "Bdelete! %d",
+          show_duplicate_prefix = false,
+          duplicates_across_groups = false,
           name_formatter = function(buf)
             -- index.ts などのファイルをわかりやすいように表示
             if buf.name:match("index%.") then
