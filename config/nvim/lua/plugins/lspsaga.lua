@@ -1,6 +1,5 @@
 return {
   "nvimdev/lspsaga.nvim",
-  enabled = false,
   cmd = { "Lspsaga" },
   event = { "LspAttach" },
   dependencies = {
