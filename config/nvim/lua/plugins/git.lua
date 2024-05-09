@@ -49,5 +49,12 @@ return {
   {
     "sindrets/diffview.nvim",
     event = "VeryLazy",
+    opts = {},
+  },
+  -- conflict
+  {
+    "akinsho/git-conflict.nvim",
+    event = "VeryLazy",
+    opts = {},
   },
 }

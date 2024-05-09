@@ -36,9 +36,11 @@ return {
 
       cmp.setup({
         sources = {
-          { name = "nvim_lsp" },
-          { name = "buffer" },
           { name = "snippy" },
+          { name = "nvim_lsp" },
+          { name = "path" },
+          { name = "buffer" },
+          { name = "nvim_lua" },
         },
         snippet = {
           expand = function(args)
