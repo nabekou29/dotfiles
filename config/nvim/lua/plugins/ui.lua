@@ -32,6 +32,13 @@ return {
       vim.cmd("colorscheme tokyonight")
     end,
   },
+  -- 画像の表示
+  {
+    "3rd/image.nvim",
+    lazy = false,
+    dependencies = { "luarocks.nvim" },
+    opts = {},
+  },
   -- 非アクティブなタブを暗く表示
   {
     "levouh/tint.nvim",
@@ -237,7 +244,7 @@ return {
                 end,
               },
               {
-                name = "Story",
+                name = " Story",
                 highlight = { sp = "#FC2A72" },
                 matcher = function(buf)
                   return buf.name:match("%.stories")
@@ -261,6 +268,9 @@ return {
                 name = "󰈙 Docs",
                 highlight = { sp = "#2C682A" },
                 matcher = function(buf)
+                  if buf.path:lower():match("obsidian") then
+                    return false
+                  end
                   return buf.name:match("%.md")
                 end,
               },
@@ -269,6 +279,13 @@ return {
                 highlight = { sp = "#4c4c4c" },
                 matcher = function(buf)
                   return buf.name:match("%.config") or buf.name:match("^%..*rc$")
+                end,
+              },
+              {
+                name = " Obsidian",
+                highlight = { sp = "#8658F6" },
+                matcher = function(buf)
+                  return buf.path:lower():match("obsidian")
                 end,
               },
             },

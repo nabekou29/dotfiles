@@ -43,7 +43,6 @@ return {
         },
       },
       { "dharmx/telescope-media.nvim" },
-      { "nvim-telescope/telescope-media-files.nvim" },
     },
     keys = {
       -- 通常の検索
@@ -154,10 +153,6 @@ return {
             },
           },
         },
-        media_files = {
-          filetypes = { "png", "webp", "jpg", "jpeg", "svg", "webp", "gif" },
-          find_cmd = "rg",
-        },
       },
     },
     config = function(_, opts)
@@ -167,7 +162,8 @@ return {
       pcall(require("telescope").load_extension, "fzf")
       pcall(require("telescope").load_extension, "kenasku")
       pcall(require("telescope").load_extension, "egrepify")
-      pcall(require("telescope").load_extension, "media_files")
+      pcall(require("telescope").load_extension, "egrepify")
+      pcall(require("telescope").load_extension, "media")
     end,
   },
   -- カーソルが当たった単語をハイライト

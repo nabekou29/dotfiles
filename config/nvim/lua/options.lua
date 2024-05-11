@@ -38,6 +38,12 @@ if vim.fn.has("persistent_undo") == 1 then
   vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"
 end
 
+-- grep
+if vim.fn.executable("rg") == 1 then
+  vim.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
+  vim.opt.grepformat = "%f:%l:%c:%m"
+end
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   update_in_insert = true,
   virtual_text = {
