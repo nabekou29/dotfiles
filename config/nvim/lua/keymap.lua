@@ -1,7 +1,7 @@
 local set = vim.keymap.set
 -- Key Binding (Pluginは除く)
-set({ "n", "i", "v" }, "<C-a>", "<HOME>", {})
-set({ "n", "i", "v" }, "<C-e>", "<END>", {})
+set({ "i", "v" }, "<C-a>", "<HOME>", {})
+set({ "i", "v" }, "<C-e>", "<END>", {})
 set("n", "<C-S-h>", "<cmd>wincmd h<CR>", {})
 set("n", "<C-S-l>", "<cmd>wincmd l<CR>", {})
 set("n", "<C-S-j>", "<cmd>wincmd j<CR>", {})
@@ -20,7 +20,6 @@ set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 
 set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
 
--- set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>", { desc = "Clear Highlight" })
 set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })
 
 -- Clipboard
@@ -49,7 +48,7 @@ set("n", "<leader>cgl", function()
   -- 現在の行のリンクをコピー
   local file = vim.fn.expand("%:.")
   local line = vim.fn.line(".")
-  local url = vim.fn.system("gh browse -n " .. file .. ":" .. line)
+  local url = vim.fn.system("gh browse -n '" .. file .. ":" .. line .. "'")
   vim.api.nvim_out_write("Copied: " .. url)
   vim.fn.setreg("+", url)
 end, {
@@ -58,7 +57,7 @@ end, {
 set("n", "<leader>cgh", function()
   -- 現在のファイルのリンクをコピー
   local file = vim.fn.expand("%:.")
-  local url = vim.fn.system("gh browse -n " .. file)
+  local url = vim.fn.system("gh browse -n '" .. file .. "'")
   vim.api.nvim_out_write("Copied: " .. url)
   vim.fn.setreg("+", url)
 end, {

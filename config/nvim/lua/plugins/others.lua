@@ -44,9 +44,9 @@ return {
         function()
           local obsidian = require("obsidian")
           local client = obsidian.get_client()
-          local current_path = vim.fn.expand("%")
+          local current_path = vim.fn.expand("%:p")
           -- 現在のバッファが Obsidian のファイルであれば、そのファイルの親ディレクトリを開く
-          if client:path_is_note(current_path) then
+          if current_path:match(vim.fs.normalize(constants.path.obsidian_docs)) then
             local parent_path = vim.fs.dirname(current_path)
             vim.cmd("e " .. parent_path)
           else
@@ -85,5 +85,22 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      local obsidian = require("obsidian")
+      obsidian.setup(opts)
+
+      -- Obsidian のファイルのみ conceallevel を設定する
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "*",
+        callback = function()
+          local filepath = vim.fn.expand("%:p")
+          if filepath:match(vim.fs.normalize(constants.path.obsidian_docs)) then
+            vim.wo.conceallevel = 1
+            -- else
+            --   vim.wo.conceallevel = nil
+          end
+        end,
+      })
+    end,
   },
 }

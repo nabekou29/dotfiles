@@ -86,6 +86,26 @@ return {
     },
     config = function()
       local augend = require("dial.augend")
+      local augend_common = require("dial.augend.common")
+
+      -- ドット記法とブラケット記法を相互変換
+      local dotKey = [==[\(\w\+\)\.\([a-zA-Z0-9\-_]\+\)]==]
+      local bracketKey = [==[\(\w\+\)\[['"]\([a-zA-Z0-9\-_]\+\)['"]\]]==]
+      local propertyAccessor = augend.user.new({
+        find = augend_common.find_pattern_regex(dotKey .. "\\|" .. bracketKey),
+        add = function(text, _, cursor)
+          if text:match("(%w+)%.(.*)") then
+            local obj, key = text:match("(%w+)%.(.*)")
+            text = obj .. "['" .. key .. "']"
+          else
+            local obj, key = text:match("(%w+)%[['\"](.*)['\"]%]")
+            text = obj .. "." .. key
+          end
+          cursor = #text
+          return { text = text, cursor = cursor }
+        end,
+      })
+
       require("dial.config").augends:register_group({
         default = {
           augend.integer.alias.decimal,
@@ -108,6 +128,7 @@ return {
             word = false,
             cyclic = true,
           }),
+          propertyAccessor,
         },
       })
     end,

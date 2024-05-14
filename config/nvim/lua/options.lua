@@ -7,6 +7,9 @@ vim.opt.expandtab = true -- タブでスペースを入力
 vim.opt.tabstop = 2 -- インデントのサイズ
 vim.opt.shiftwidth = 2 -- インデントのサイズ
 
+vim.opt.ignorecase = true -- 検索時に大文字小文字を区別しない
+vim.opt.smartcase = true -- 大文字が含まれる場合は区別する
+
 vim.opt.list = true
 vim.opt.listchars:append("eol:↴") -- 改行文字
 vim.opt.listchars:append("space:⋅") -- 空白文字
@@ -30,7 +33,7 @@ vim.cmd([[ au CursorHold * checktime ]])
 
 vim.g.mapleader = " " -- リーダーをスペースに変更
 
-vim.opt.laststatus = 3
+vim.opt.laststatus = 3 -- ステータスバーをウィンドウごとではなく、一番下に常に表示
 
 -- undo 永続化
 if vim.fn.has("persistent_undo") == 1 then

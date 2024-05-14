@@ -151,14 +151,53 @@ return {
           "svelte",
           "lua_ls",
           "cssls",
+          "cssmodules_ls",
           "eslint",
           "stylelint_lsp",
           "yamlls",
         },
       })
 
-      local on_attach = function(client, bufnr) end
+      local on_attach = function() end
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local filetypes = {
+        stylelint_lsp = {
+          "css",
+          "less",
+          "scss",
+          "sugarss",
+          "vue",
+          "wxss",
+        },
+        eslint = {
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "json",
+        },
+      }
+      local commands = {
+        tsserver = {
+          OrganizeImports = {
+            function()
+              local params = {
+                command = "_typescript.organizeImports",
+                arguments = {
+                  vim.api.nvim_buf_get_name(0),
+                },
+                title = "",
+              }
+              vim.lsp.buf.execute_command(params)
+            end,
+          },
+        },
+      }
+      local init_options = {
+        cssmodules_ls = {
+          camelCase = false,
+        },
+      }
       local settings = {
         tailwindCSS = {
           experimental = {
@@ -173,59 +212,14 @@ return {
 
       require("mason-lspconfig").setup_handlers({
         function(server_name)
-          if server_name == "stylelint_lsp" then
-            require("lspconfig")[server_name].setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-              filetypes = {
-                "css",
-                "less",
-                "scss",
-                "sugarss",
-                "vue",
-                "wxss",
-                --  "javascript", "javascriptreact", "typescript","typescriptreact"
-              },
-            })
-            return
-          elseif server_name == "eslint" or server_name == "eslint_d" then
-            require("lspconfig")[server_name].setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-              filetypes = {
-                "javascript",
-                "javascriptreact",
-                "typescript",
-                "typescriptreact",
-                "json",
-              },
-            })
-          elseif server_name == "tsserver" then
-            require("lspconfig")[server_name].setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-              commands = {
-                OrganizeImports = {
-                  function()
-                    local params = {
-                      command = "_typescript.organizeImports",
-                      arguments = {
-                        vim.api.nvim_buf_get_name(0),
-                      },
-                      title = "",
-                    }
-                    vim.lsp.buf.execute_command(params)
-                  end,
-                },
-              },
-            })
-          else
-            require("lspconfig")[server_name].setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-              settings = settings,
-            })
-          end
+          require("lspconfig")[server_name].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = settings,
+            filetypes = filetypes[server_name],
+            commands = commands[server_name],
+            init_options = init_options[server_name],
+          })
         end,
       })
     end,
@@ -402,6 +396,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
+    enabled = false,
     event = { "VeryLazy" },
     config = function()
       require("treesitter-context").setup({
