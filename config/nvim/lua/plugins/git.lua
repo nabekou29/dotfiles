@@ -4,6 +4,9 @@ return {
     "akinsho/toggleterm.nvim",
     cmd = { "ToggleTerm", "TermExec", "TermCloseAll", "TermOpenAll" },
     event = { "VeryLazy" },
+    keys = {
+      { "<leader>t", "<cmd>ToggleTerm direction=tab<CR>", { noremap = true, silent = true } },
+    },
     config = function()
       require("toggleterm").setup({})
 

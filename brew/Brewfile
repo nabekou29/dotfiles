@@ -27,7 +27,6 @@ brew "yq"
 brew "zoxide"
 
 ## ========== Shell ===========
-brew "fish"
 brew "starship"
 cask "wezterm"
 
@@ -84,6 +83,7 @@ cask "adoptopenjdk/openjdk/adoptopenjdk15"
 cask "adoptopenjdk/openjdk/adoptopenjdk8"
 
 ### ------- IDE/Editor --------
+brew "neovim"
 cask "intellij-idea"
 cask "visual-studio-code"
 

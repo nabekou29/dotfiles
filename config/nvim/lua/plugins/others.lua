@@ -6,8 +6,6 @@ return {
     "folke/which-key.nvim",
     cmd = { "WhichKey" },
   },
-  -- URL をブラウザで開く
-  { "tyru/open-browser.vim", cmd = { "OpenBrowser" }, keys = { { "gx", "<Plug>(openbrowser-smart-search)" } } },
   -- 日本語のヘルプ
   {
     "vim-jp/vimdoc-ja",
@@ -93,11 +91,29 @@ return {
       vim.api.nvim_create_autocmd("BufEnter", {
         pattern = "*",
         callback = function()
+          local mode = vim.api.nvim_get_mode().mode
           local filepath = vim.fn.expand("%:p")
           if filepath:match(vim.fs.normalize(constants.path.obsidian_docs)) then
-            vim.wo.conceallevel = 1
-            -- else
-            --   vim.wo.conceallevel = nil
+            vim.opt_local.concealcursor = "n"
+            if mode == "n" then
+              vim.opt_local.conceallevel = 1
+            else
+              vim.opt_local.conceallevel = 0
+            end
+
+            vim.api.nvim_create_autocmd("InsertLeave", {
+              pattern = "<buffer>",
+              callback = function()
+                vim.opt_local.conceallevel = 1
+              end,
+            })
+
+            vim.api.nvim_create_autocmd("InsertEnter", {
+              pattern = "<buffer>",
+              callback = function()
+                vim.opt_local.conceallevel = 0
+              end,
+            })
           end
         end,
       })

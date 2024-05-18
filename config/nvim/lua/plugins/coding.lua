@@ -193,11 +193,6 @@ return {
           },
         },
       }
-      local init_options = {
-        cssmodules_ls = {
-          camelCase = false,
-        },
-      }
       local settings = {
         tailwindCSS = {
           experimental = {
@@ -209,7 +204,11 @@ return {
           },
         },
       }
-
+      local init_options = {
+        cssmodules_ls = {
+          camelCase = false,
+        },
+      }
       require("mason-lspconfig").setup_handlers({
         function(server_name)
           require("lspconfig")[server_name].setup({
