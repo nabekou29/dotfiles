@@ -10,6 +10,7 @@ cask_args appdir: "/Applications"
 
 ## ========== Common ==========
 brew "bat"
+brew "cloc"
 brew "coreutils"
 brew "eza"
 brew "fzf"
@@ -48,6 +49,7 @@ cask "hammerspoon"
 cask "karabiner-elements"
 cask "keycastr"
 cask "monitorcontrol"
+cask "obsidian"
 cask "raycast"
 
 ## ========= Browser ==========
@@ -56,6 +58,7 @@ cask "firefox"
 cask "google-chrome"
 
 ## ======= Development ========
+brew "ast-grep"
 cask "android-studio"
 cask "android-sdk"
 cask "android-platform-tools"

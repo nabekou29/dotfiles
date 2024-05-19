@@ -11,6 +11,7 @@ return {
       { "onsails/lspkind.nvim" },
       { "dcampos/nvim-snippy" },
       { "dcampos/cmp-snippy" },
+      { "lukas-reineke/cmp-rg" },
     },
     config = function()
       local cmp = require("cmp")
@@ -38,9 +39,10 @@ return {
         sources = {
           { name = "snippy" },
           { name = "nvim_lsp" },
+          { name = "nvim_lua" },
           { name = "path" },
           { name = "buffer" },
-          { name = "nvim_lua" },
+          { name = "rg" },
         },
         snippet = {
           expand = function(args)
@@ -74,6 +76,7 @@ return {
                 nvim_lua = "[Lua]",
                 copilot = "[Copilot]",
                 treesitter = "[Treesitter]",
+                rg = "[Rg]",
               })[entry.source.name]
               return vim_item
             end,
@@ -138,6 +141,7 @@ return {
       { "williamboman/mason.nvim" },
       { "neovim/nvim-lspconfig" },
       { "nvimdev/lspsaga.nvim" },
+      { "marilari88/twoslash-queries.nvim" },
     },
     config = function()
       require("mason-lspconfig").setup({
@@ -158,8 +162,12 @@ return {
         },
       })
 
-      local on_attach = function() end
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local on_attach = {
+        tsserver = function(client, bufnr)
+          require("twoslash-queries").attach(client, bufnr)
+        end,
+      }
       local filetypes = {
         stylelint_lsp = {
           "css",
@@ -213,8 +221,8 @@ return {
         function(server_name)
           require("lspconfig")[server_name].setup({
             capabilities = capabilities,
-            on_attach = on_attach,
             settings = settings,
+            on_attach = on_attach[server_name],
             filetypes = filetypes[server_name],
             commands = commands[server_name],
             init_options = init_options[server_name],
@@ -341,23 +349,18 @@ return {
       { "nvim-tree/nvim-web-devicons" },
       { "nvim-treesitter/nvim-treesitter" },
     },
-    init = function()
-      local keymap = vim.keymap.set
-      keymap("n", "gh", "<cmd>Lspsaga finder<CR>")
-
-      keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
-
-      keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
-      keymap("n", "gD", "<cmd>Lspsaga goto_definition<CR>")
-      keymap("n", "gn", "<cmd>Lspsaga rename<CR>")
-      keymap("n", "gN", "<cmd>Lspsaga rename ++project<CR>")
-
-      keymap("n", "ga", "<cmd>Lspsaga code_action<CR>")
-      keymap("v", "ga", "<cmd>Lspsaga code_action<CR>")
-
-      keymap("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
-      keymap("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>")
-    end,
+    keys = {
+      { "gh", ":Lspsaga finder<CR>" },
+      { "K", ":Lspsaga hover_doc<CR>" },
+      { "gr", ":Lspsaga finder ref<CR>" },
+      { "gd", ":Lspsaga peek_definition<CR>" },
+      { "gD", ":Lspsaga goto_definition<CR>" },
+      { "gn", ":Lspsaga rename<CR>" },
+      { "gN", ":Lspsaga rename ++project<CR>" },
+      { "ga", ":Lspsaga code_action<CR>" },
+      { "g[", ":Lspsaga diagnostic_jump_prev<CR>" },
+      { "g]", ":Lspsaga diagnostic_jump_next<CR>" },
+    },
     opts = {
       symbol_in_winbar = {
         folder_level = 3,
@@ -481,10 +484,14 @@ return {
       }
     end,
   },
-  -- TS のエラーをわかりやすく
+  -- Typescript
   {
     "dmmulroy/ts-error-translator.nvim",
-    event = { "VeryLazy" },
+    ft = { "typescript", "typescriptreact" },
+    opts = {},
+  },
+  {
+    "marilari88/twoslash-queries.nvim",
     opts = {},
   },
 }

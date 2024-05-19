@@ -54,8 +54,8 @@ return {
       },
       -- シンボル
       { "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>" },
-      -- 最近開いたファイル
-      { "<leader>fr", ":Telescope frecency workspace=CWD<CR>" },
+      -- 参照元
+      { "<leader>fr", ":Telescope lsp_references<CR>" },
       -- 全文検索
       {
         "<leader>fg",
