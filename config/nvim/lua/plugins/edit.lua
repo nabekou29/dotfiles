@@ -1,5 +1,3 @@
-local hop_prefix = "<leader><leader>"
-
 return {
   -- 文字列を括弧で囲ったりする
   {
@@ -49,7 +47,7 @@ return {
     "Wansmer/treesj",
     keys = {
       { "<leader>jt", ":TSJToggle<CR>" },
-      { "<leader>js", ":TSJUSplit<CR>" },
+      { "<leader>js", ":TSJSplit<CR>" },
       { "<leader>jj", ":TSJJoin<CR>" },
     },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -136,16 +134,21 @@ return {
   -- 移動
   {
     "phaazon/hop.nvim",
-    dependencies = { { "unblevable/quick-scope" } },
-    keys = {
-      { "f", ":HopChar1CurrentLineAC<CR>", silent = true },
-      { "F", ":HopChar1CurrentLineBC<CR>", silent = true },
-      { "t", ":HopChar1AC<CR>", silent = true },
-      { "T", ":HopChar1BC<CR>", silent = true },
-      { hop_prefix .. "f", ":HopChar2<CR>" },
-      { hop_prefix .. "l", ":HopLineStart<CR>" },
-      { hop_prefix .. "/", ":HopPattern<CR>" },
-    },
+    -- dependencies = { { "unblevable/quick-scope" } },
+    keys = function()
+      local hop_prefix = "<leader><leader>"
+      return {
+        { "f", ":HopChar1CurrentLineAC<CR>", silent = true },
+        { "F", ":HopChar1CurrentLineBC<CR>", silent = true },
+        -- { "t", ":HopChar1AC<CR>", silent = true },
+        -- { "T", ":HopChar1BC<CR>", silent = true },
+        { "t", ":HopChar2AC<CR>", silent = true },
+        { "T", ":HopChar2BC<CR>", silent = true },
+        { hop_prefix .. "f", ":HopChar2<CR>" },
+        { hop_prefix .. "l", ":HopLineStart<CR>" },
+        { hop_prefix .. "/", ":HopPattern<CR>" },
+      }
+    end,
     opts = {},
   },
 }

@@ -32,6 +32,19 @@ return {
       vim.cmd("colorscheme tokyonight")
     end,
   },
+  {
+    "hat0uma/csvview.nvim",
+    ft = {
+      "csv",
+      "tsv",
+      "csv_semicolon",
+      "csv_whitespace",
+      "csv_pipe",
+      "rfc_csv",
+      "rfc_semicolon",
+    },
+    opts = {},
+  },
   -- 画像の表示
   {
     "3rd/image.nvim",
@@ -166,6 +179,7 @@ return {
       },
     },
     config = function()
+      ---@diagnostic disable-next-line: different-requires
       local bufferline = require("bufferline")
       local groups = require("bufferline.groups")
       bufferline.setup({
@@ -369,6 +383,24 @@ return {
         set_number = true,
       })
     end,
+  },
+  -- 関数やオブジェクトのまとまりをわかりやすいように
+  {
+    "shellRaining/hlchunk.nvim",
+    event = { "UIEnter" },
+    opts = {
+      indent = { use_treesitter = true },
+      chunk = { style = { { fg = "#208aca" }, { fg = "#9f1b2e" } } },
+      line_num = { enable = false, use_treesitter = true, style = "#208aca" },
+    },
+  },
+  --- fold
+  {
+    "kevinhwang91/nvim-ufo",
+    enabled = false,
+    dependencies = { "kevinhwang91/promise-async" },
+    event = { "VeryLazy" },
+    opts = {},
   },
   -- スクロールバー表示
   {

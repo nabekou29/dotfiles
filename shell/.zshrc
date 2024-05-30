@@ -72,6 +72,8 @@ bindkey "^g" _fzf_cd_ghq
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
+zsh-defer source "$HOME/.completion-for-pnpm.zsh"
+
 # terminfo
 # ~/.terminfo がなければダウンロードする
 if [ ! -d ~/.terminfo ]; then

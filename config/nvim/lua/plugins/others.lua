@@ -83,13 +83,10 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      local obsidian = require("obsidian")
-      obsidian.setup(opts)
-
+    init = function()
       -- Obsidian のファイルのみ conceallevel を設定する
       vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "*",
+        pattern = "*.md",
         callback = function()
           local mode = vim.api.nvim_get_mode().mode
           local filepath = vim.fn.expand("%:p")
@@ -115,6 +112,25 @@ return {
               end,
             })
           end
+        end,
+      })
+    end,
+    config = function(_, opts)
+      local obsidian = require("obsidian")
+      obsidian.setup(opts)
+    end,
+  },
+  {
+    "subnut/nvim-ghost.nvim",
+    lazy = false,
+    init = function() end,
+    config = function()
+      vim.api.nvim_create_augroup("nvim_ghost_user_autocommands", { clear = true })
+      vim.api.nvim_create_autocmd("User", {
+        pattern = { "*github.com" },
+        group = "nvim_ghost_user_autocommands",
+        callback = function()
+          vim.opt.filetype = "markdown"
         end,
       })
     end,

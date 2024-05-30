@@ -29,7 +29,7 @@ return {
         lazygit:toggle()
       end
 
-      vim.keymap.set("n", "<leader>g", function()
+      vim.keymap.set("n", "<leader>gg", function()
         _lazygit_toggle()
       end)
     end,
@@ -46,6 +46,13 @@ return {
         delay = 300,
         ignore_whitespace = false,
       },
+    },
+  },
+  {
+    "dlvhdr/gh-blame.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
+    keys = {
+      { "<leader>gb", "<cmd>GhBlameCurrentLine<cr>", desc = "GitHub Blame Current Line" },
     },
   },
   -- diff の表示
