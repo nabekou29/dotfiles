@@ -315,6 +315,7 @@ return {
     keys = {
       { "<C-w>d", ":BDelete this<CR>" },
       { "<leader>w", ":BDelete this<CR>" },
+      { "<leader>W", ":BDelete! this<CR>" },
       { "<C-w>D", ":BDelete other<CR>" },
     },
     opts = {},

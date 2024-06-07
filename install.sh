@@ -40,8 +40,7 @@ ln -snvf "$(pwd)/shell/.completion-for-pnpm.zsh" "$HOME/.completion-for-pnpm.zsh
 
 ln -snvf "$(pwd)/config/.gitconfig" "$HOME/.gitconfig"
 mkdir -p "$HOME/.config/"
-mkdir -p "$HOME/.config/git/"
-ln -snvf "$(pwd)/config/git/ignore" "$HOME/.config/git/ignore"
+ln -snvf "$(pwd)/config/git" "$HOME/.config/git"
 
 ln -snvf "$(pwd)/config/starship.toml" "$HOME/.config/starship.toml"
 mkdir -p "$HOME/.config/fsh" & ln -snvf "$(pwd)/config/fsh/overlay.ini" "$HOME/.config/fsh/overlay.ini"

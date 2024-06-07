@@ -14,6 +14,27 @@ return {
       vim.cmd([[ set helplang=ja,en ]])
     end,
   },
+  -- キーストロークの表示
+  {
+    "4513ECHO/nvim-keycastr",
+    init = function()
+      vim.api.nvim_create_user_command("KeyCastrEnable", function()
+        require("keycastr").enable()
+      end, {})
+      vim.api.nvim_create_user_command("KeyCastrDisable", function()
+        require("keycastr").disable()
+      end, {})
+    end,
+    config = function()
+      require("keycastr").config.set({
+        win_config = {
+          border = "rounded",
+          width = 50,
+          height = 1,
+        },
+      })
+    end,
+  },
   -- マークダウンプレビュー
   {
     "iamcco/markdown-preview.nvim",
@@ -22,7 +43,7 @@ return {
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
-    opt = {},
+    opts = {},
   },
   -- Obsidian
   {

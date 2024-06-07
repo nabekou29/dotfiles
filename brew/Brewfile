@@ -73,7 +73,6 @@ cask "google-cloud-sdk"
 brew "lazygit"
 
 ### ---------- Lang -----------
-tap "adoptopenjdk/openjdk"
 brew "anyenv"
 brew "deno"
 brew "openjdk"
@@ -82,8 +81,7 @@ brew "python"
 brew "rust"
 brew "rustup-init"
 brew "sbt"
-cask "adoptopenjdk/openjdk/adoptopenjdk15"
-cask "adoptopenjdk/openjdk/adoptopenjdk8"
+cask "temurin"
 
 ### ------- IDE/Editor --------
 brew "neovim"
