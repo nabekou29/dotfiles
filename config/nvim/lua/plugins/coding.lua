@@ -83,7 +83,7 @@ return {
           }),
         },
         experimental = {
-          ghost_text = true,
+          ghost_text = false,
         },
       })
     end,
@@ -100,6 +100,7 @@ return {
         yaml = true,
         json = true,
         jsonc = true,
+        gitcommit = true,
       },
       suggestion = {
         enabled = true,
@@ -159,6 +160,7 @@ return {
           "eslint",
           "stylelint_lsp",
           "yamlls",
+          "gopls",
         },
       })
 
@@ -258,14 +260,14 @@ return {
               return not (utils.root_has_file({ ".disabled-cspell" }))
             end,
           }),
-          -- cspell.code_actions.with({
-          --   env = {
-          --     FORCE_COLOR = "0",
-          --   },
-          --   condition = function(utils)
-          --     return not (utils.root_has_file({ ".disabled-cspell" }))
-          --   end,
-          -- }),
+          cspell.code_actions.with({
+            env = {
+              FORCE_COLOR = "0",
+            },
+            condition = function(utils)
+              return not (utils.root_has_file({ ".disabled-cspell" }))
+            end,
+          }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.textlint.with({
             filetypes = { "markdown" },
@@ -288,6 +290,7 @@ return {
               "typescript",
               "typescriptreact",
               "json",
+              "jsonc",
               "css",
               "scss",
               "less",
@@ -350,16 +353,16 @@ return {
       { "nvim-treesitter/nvim-treesitter" },
     },
     keys = {
-      { "gh", ":Lspsaga finder<CR>" },
-      { "K", ":Lspsaga hover_doc<CR>" },
-      { "gr", ":Lspsaga finder ref<CR>" },
-      { "gd", ":Lspsaga peek_definition<CR>" },
-      { "gD", ":Lspsaga goto_definition<CR>" },
-      { "gn", ":Lspsaga rename<CR>" },
-      { "gN", ":Lspsaga rename ++project<CR>" },
-      { "ga", ":Lspsaga code_action<CR>" },
-      { "g[", ":Lspsaga diagnostic_jump_prev<CR>" },
-      { "g]", ":Lspsaga diagnostic_jump_next<CR>" },
+      { "gh", ":Lspsaga finder<CR>", silent = true },
+      { "K", ":Lspsaga hover_doc<CR>", silent = true },
+      { "gr", ":Lspsaga finder ref<CR>", silent = true },
+      { "gd", ":Lspsaga peek_definition<CR>", silent = true },
+      { "gD", ":Lspsaga goto_definition<CR>", silent = true },
+      { "gn", ":Lspsaga rename<CR>", silent = true },
+      { "gN", ":Lspsaga rename ++project<CR>", silent = true },
+      { "ga", ":Lspsaga code_action<CR>", silent = true },
+      { "g[", ":Lspsaga diagnostic_jump_prev<CR>", silent = true },
+      { "g]", ":Lspsaga diagnostic_jump_next<CR>", silent = true },
     },
     opts = {
       symbol_in_winbar = {
@@ -372,11 +375,13 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "VeryLazy" },
-    dependencies = { {
-      "windwp/nvim-ts-autotag",
-      event = { "VeryLazy" },
-      opts = {},
-    } },
+    dependencies = {
+      {
+        "windwp/nvim-ts-autotag",
+        event = { "VeryLazy" },
+        opts = {},
+      },
+    },
     config = function()
       require("nvim-treesitter.configs").setup({
         ensure_install = "all",
@@ -455,16 +460,6 @@ return {
       use_diagnostic_signs = true,
     },
   },
-  -- 関数やオブジェクトのまとまりをわかりやすいように
-  {
-    "shellRaining/hlchunk.nvim",
-    event = { "UIEnter" },
-    opts = {
-      indent = { use_treesitter = true },
-      chunk = { style = { { fg = "#208aca" }, { fg = "#9f1b2e" } } },
-      line_num = { enable = false, use_treesitter = true, style = "#208aca" },
-    },
-  },
   -- 参照の数などを表示
   {
     "VidocqH/lsp-lens.nvim",
@@ -479,7 +474,12 @@ return {
           implements = false,
           git_authors = true,
         },
-        target_symbol_kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Interface, SymbolKind.Constant },
+        target_symbol_kinds = {
+          SymbolKind.Function,
+          SymbolKind.Method,
+          SymbolKind.Interface,
+          SymbolKind.Constant,
+        },
         wrapper_symbol_kinds = { SymbolKind.Class, SymbolKind.Struct, SymbolKind.Module },
       }
     end,

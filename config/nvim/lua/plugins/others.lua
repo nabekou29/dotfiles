@@ -43,7 +43,6 @@ return {
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
-    opts = {},
   },
   -- Obsidian
   {
@@ -51,6 +50,7 @@ return {
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
     },
     keys = {
       { "<leader>on", ":ObsidianNew<CR>" },

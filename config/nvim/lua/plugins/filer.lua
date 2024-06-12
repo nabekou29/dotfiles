@@ -22,6 +22,24 @@ return {
       },
       window = {
         position = "float",
+        mappings = {
+          ["w"] = "custom_open_with_window_picker",
+        },
+      },
+      commands = {
+        custom_open_with_window_picker = function(state)
+          local chowcho = require("chowcho")
+
+          local tree = state.tree
+          local node = tree:get_node()
+          local path = node.path
+
+          chowcho.run(function(window)
+            -- ファイルを開く
+            vim.api.nvim_set_current_win(window)
+            vim.api.nvim_command("edit " .. path)
+          end)
+        end,
       },
     },
   },

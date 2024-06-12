@@ -21,6 +21,11 @@ customCommands:
     context: "localBranches"
     description: "view pull request"
     subprocess: true
+  - key: "C"
+    context: "files"
+    command: "git commit -v -t ~/.config/git/commit_template_with_prompt.txt"
+    description: "Commit changes using git editor"
+    subprocess: true
   - key: null
     command: "gh pr merge {{.SelectedLocalBranch.Name}} -d {{index .PromptResponses 0}}"
     context: "localBranches"
@@ -41,3 +46,4 @@ customCommands:
 keybinding:
   universal:
     openRecentRepos: null # '<c-r>'
+    commitChangesWithEditor: null # 'C'
