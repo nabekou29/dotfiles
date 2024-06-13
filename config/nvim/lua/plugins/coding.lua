@@ -36,6 +36,9 @@ return {
       })
 
       cmp.setup({
+        completion = {
+          autocomplete = false,
+        },
         sources = {
           { name = "snippy" },
           { name = "nvim_lsp" },

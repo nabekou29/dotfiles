@@ -126,6 +126,8 @@ return {
             word = false,
             cyclic = true,
           }),
+        },
+        typescript = {
           propertyAccessor,
         },
       })
