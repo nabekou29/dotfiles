@@ -43,6 +43,12 @@ return {
         },
       },
       { "dharmx/telescope-media.nvim" },
+      {
+        "rmagatti/session-lens",
+        dependencies = {
+          "rmagatti/auto-session",
+        },
+      },
     },
     keys = {
       -- 通常の検索
@@ -95,6 +101,14 @@ return {
           })
         end,
         desc = ":Telescope media",
+      },
+      -- セッション
+      {
+        "<leader>fs",
+        function()
+          require("session-lens").search_session()
+        end,
+        desc = ":Telescope session-lens search_session",
       },
       -- help
       vim.keymap.set("n", "<leader>fh", function()
@@ -164,6 +178,7 @@ return {
       pcall(require("telescope").load_extension, "egrepify")
       pcall(require("telescope").load_extension, "egrepify")
       pcall(require("telescope").load_extension, "media")
+      pcall(require("telescope").load_extension, "session-lens")
     end,
   },
   -- カーソルが当たった単語をハイライト

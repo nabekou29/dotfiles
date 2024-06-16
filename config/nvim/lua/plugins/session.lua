@@ -1,17 +1,8 @@
 return {
   {
-    "rmagatti/session-lens",
-    event = { "VeryLazy" },
-    dependencies = {
-      "rmagatti/auto-session",
-      "nvim-telescope/telescope.nvim",
-    },
-    opts = {},
-  },
-  {
     "tiagovla/scope.nvim",
     init = function()
-      vim.opt.sessionoptions = { -- required
+      vim.opt.sessionoptions = {
         "buffers",
         "tabpages",
         "globals",

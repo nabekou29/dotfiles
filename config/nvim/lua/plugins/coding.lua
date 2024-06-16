@@ -97,7 +97,6 @@ return {
     cmd = { "Copilot" },
     event = { "InsertEnter" },
     opts = {
-
       filetypes = {
         markdown = true,
         yaml = true,
@@ -486,6 +485,22 @@ return {
         wrapper_symbol_kinds = { SymbolKind.Class, SymbolKind.Struct, SymbolKind.Module },
       }
     end,
+  },
+  -- i18n
+  {
+    "nabekou29/js-i18n.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig",
+    },
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      primary_language = { "ja" },
+      virt_text = {
+        max_length = 32,
+      },
+    },
   },
   -- Typescript
   {

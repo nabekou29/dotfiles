@@ -2,7 +2,7 @@
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -24,8 +24,9 @@ local opts = {
     },
   },
   dev = {
-    -- たまに clone して挙動確かめるために Downloads にしている。
-    path = "~/Downloads",
+    path = vim.fn.systemlist("ghq root")[1] .. "/github.com/nabekou29",
+    patterns = { "nabekou29" },
+    fallback = true,
   },
 }
 
