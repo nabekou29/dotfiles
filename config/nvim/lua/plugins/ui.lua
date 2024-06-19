@@ -131,8 +131,15 @@ return {
       border_style = "default",
       use_exclude_default = false,
       exclude = function(buf)
-        local fname = vim.fn.expand("#" .. buf .. ":t")
-        return fname == ""
+        local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
+        if bt == "nofile" then
+          return true
+        end
+
+        local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
+        if ft == "neo-tree" then
+          return true
+        end
       end,
       zindex = 10000,
     },

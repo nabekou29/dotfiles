@@ -58,7 +58,11 @@ return {
     "uga-rosa/ccc.nvim",
     event = { "VeryLazy" },
     opts = {
-      highlighter = { auto_enable = true, lsp = true },
+      highlighter = {
+        auto_enable = true,
+        lsp = true,
+        filetypes = { "css", "scss", "javascript", "typescript", "javascriptreact", "typescriptreact", "html" },
+      },
     },
   },
   -- <C-a>, <C-x> の拡張
