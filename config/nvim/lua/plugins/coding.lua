@@ -143,7 +143,6 @@ return {
     dependencies = {
       { "williamboman/mason.nvim" },
       { "neovim/nvim-lspconfig" },
-      { "nvimdev/lspsaga.nvim" },
       { "marilari88/twoslash-queries.nvim" },
     },
     config = function()

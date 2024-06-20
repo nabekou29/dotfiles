@@ -104,7 +104,7 @@ return {
       },
       -- セッション
       {
-        "<leader>fs",
+        "<leader>fS",
         function()
           require("session-lens").search_session()
         end,
