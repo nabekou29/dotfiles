@@ -412,9 +412,19 @@ return {
   },
   -- スクロールバー表示
   {
-    "petertriho/nvim-scrollbar",
+    "dstein64/nvim-scrollview",
     event = { "VeryLazy" },
-    opts = {},
+    opts = {
+      diagnostics_severities = {
+        vim.lsp.protocol.DiagnosticSeverity.Information,
+        vim.lsp.protocol.DiagnosticSeverity.Warning,
+        vim.lsp.protocol.DiagnosticSeverity.Error,
+      },
+      diagnostics_hint_symbol = "🔧",
+      diagnostics_info_symbol = "",
+      diagnostics_warn_symbol = "",
+      diagnostics_error_symbol = "",
+    },
   },
   -- スクロールをスムーズに
   {

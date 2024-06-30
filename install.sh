@@ -38,8 +38,8 @@ ln -snvf "$(pwd)/shell/.completion-for-pnpm.zsh" "$HOME/.completion-for-pnpm.zsh
 
 # Configirations
 
-ln -snvf "$(pwd)/config/.gitconfig" "$HOME/.gitconfig"
 mkdir -p "$HOME/.config/"
+ln -snvf "$(pwd)/config/.gitconfig" "$HOME/.gitconfig"
 ln -snvf "$(pwd)/config/git" "$HOME/.config/git"
 
 ln -snvf "$(pwd)/config/starship.toml" "$HOME/.config/starship.toml"

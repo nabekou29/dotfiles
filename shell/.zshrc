@@ -17,8 +17,7 @@ _evalcache direnv hook zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Java
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
-export JAVA_HOME=`/usr/libexec/java_home -v "15"`
+export JAVA_HOME=`/usr/libexec/java_home`
 export PATH="$JAVA_HOME/bin:$PATH"
 
 # Go
@@ -26,6 +25,9 @@ export GOPATH=$HOME/go
 export GO111MODULE=on
 export PATH="$GOROOT/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Android
 export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -37,7 +39,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 # GCloud
 zsh-defer source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 zsh-defer source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Deno
 export PATH="$HOME/.deno/bin:$PATH"

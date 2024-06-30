@@ -1,6 +1,6 @@
 # Write the commit message according to the commit convention. The title should be a maximum of 50 characters and the message should wrap at 72 characters. Wrap the entire message in a code block in the gitcommit language.
 # Format should follow Conventional Commits.
-# Describe changes at the bottom of this file.
+# The commit message should infer the intent of the change from the changes.
 
 ### commit message from here
 ### subject
@@ -21,3 +21,4 @@
 
 
 ### commit message until here
+

@@ -24,6 +24,11 @@ return {
         position = "float",
         mappings = {
           ["w"] = "custom_open_with_window_picker",
+          ["<right>"] = "toggle_node",
+          ["<space>"] = {
+            "toggle_node",
+            nowait = true, -- disable `nowait` if you have existing combos starting with this char that you want to use
+          },
         },
       },
       commands = {
@@ -40,6 +45,28 @@ return {
             vim.api.nvim_command("edit " .. path)
           end)
         end,
+      },
+      nesting_rules = {
+        ["package.json"] = {
+          pattern = "^package%.json$", -- <-- Lua pattern
+          files = { "package-lock.json", "pnpm*" }, -- <-- glob pattern
+        },
+        ["tsx"] = {
+          "spec.tsx",
+          "test.tsx",
+          "stories.tsx",
+          "spec.ts",
+          "test.ts",
+          "stories.ts",
+        },
+        ["ts"] = {
+          "spec.tsx",
+          "test.tsx",
+          "stories.tsx",
+          "spec.ts",
+          "test.ts",
+          "stories.ts",
+        },
       },
     },
   },

@@ -37,3 +37,5 @@
 	enabled = true
 [diff]
 	algorithm = histogram
+[alias]
+  commit-with-prompt = !sh "$HOME/.config/git/commit_with_prompt.sh"

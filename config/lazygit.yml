@@ -3,6 +3,7 @@ git:
   paging:
     colorArg: always
     # externalDiffCommand: difft --color=always
+
 gui:
   showIcons: true
   sidePanelWidth: 0.25
@@ -23,7 +24,7 @@ customCommands:
     subprocess: true
   - key: "C"
     context: "files"
-    command: "git commit -v -t ~/.config/git/commit_template_with_prompt.txt"
+    command: "git commit-with-prompt"
     description: "Commit changes using git editor"
     subprocess: true
   - key: null
@@ -43,6 +44,7 @@ customCommands:
           - value: "--rebase"
             name: "Rebase and merge"
             description: "gh pr merge {{.SelectedLocalBranch.Name}} -d --rebase -b ''"
+
 keybinding:
   universal:
     openRecentRepos: null # '<c-r>'
