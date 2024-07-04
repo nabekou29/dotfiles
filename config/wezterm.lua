@@ -25,15 +25,16 @@ return {
 	-- https://wezfurlong.org/wezterm/config/lua/keyassignment/index.html
 	disable_default_key_bindings = true,
 	leader = { key = "a", mods = "ALT", timeout_milliseconds = 1000 },
-	keys = { -- General
+	keys = {
+		-- General
 		{
 			key = "c",
 			mods = "CMD",
 			action = act.CopyTo("ClipboardAndPrimarySelection"),
 		},
 		{ key = "v", mods = "CMD", action = act.PasteFrom("Clipboard") },
-		{ key = "=", mods = "CMD", action = wezterm.action.IncreaseFontSize },
-		{ key = "-", mods = "CMD", action = wezterm.action.DecreaseFontSize },
+		{ key = "=", mods = "CMD", action = act.IncreaseFontSize },
+		{ key = "-", mods = "CMD", action = act.DecreaseFontSize },
 		{ key = "f", mods = "CMD", action = act.Search({ Regex = "" }) }, --- Tab
 		--- Tab ---
 		{ key = "t", mods = "CMD", action = act.SpawnTab("CurrentPaneDomain") },
@@ -51,28 +52,28 @@ return {
 		{
 			key = "w",
 			mods = "CMD",
-			action = wezterm.action.CloseCurrentPane({ confirm = true }),
+			action = act.CloseCurrentPane({ confirm = true }),
 		},
 		{
 			key = "r",
 			mods = "CMD|SHIFT",
-			action = wezterm.action.ReloadConfiguration,
+			action = act.ReloadConfiguration,
 		},
-		{ key = "r", mods = "CMD|ALT", action = wezterm.action.ResetTerminal },
+		{ key = "r", mods = "CMD|ALT", action = act.ResetTerminal },
 		--- Pane ---
 		-- 分割
 		{
 			key = "d",
 			mods = "CMD",
-			action = wezterm.action.SplitHorizontal({
+			action = act.SplitHorizontal({
 				domain = "CurrentPaneDomain",
 			}),
 		},
 		{
 			key = "d",
 			mods = "CMD|SHIFT",
-			action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-		}, --
+			action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
+		},
 		-- 移動
 		{
 			key = "LeftArrow",
@@ -103,7 +104,7 @@ return {
 			key = "l",
 			mods = "CMD|ALT",
 			action = act.ActivatePaneDirection("Right"),
-		}, --
+		},
 		-- サイズ調整
 		{ key = "a", mods = "CMD|ALT", action = act.AdjustPaneSize({ "Left", 5 }) },
 		{ key = "s", mods = "CMD|ALT", action = act.AdjustPaneSize({ "Down", 5 }) },
@@ -117,12 +118,18 @@ return {
 			key = "0",
 			mods = "CTRL",
 			action = act.PaneSelect({ mode = "SwapWithActive" }),
-		}, --
+		},
 		-- 最大化
 		{
 			key = "Enter",
 			mods = "CMD|ALT",
-			action = wezterm.action.TogglePaneZoomState,
+			action = act.TogglePaneZoomState,
+		},
+		-- copy mode
+		{
+			key = "x",
+			mods = "CTRL|SHIFT",
+			action = act.ActivateCopyMode,
 		},
 	},
 	--- Mouse Binding ---
