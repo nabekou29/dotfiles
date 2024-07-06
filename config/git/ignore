@@ -1,4 +1,5 @@
 .node-version
+.python-version
 .lua-version
 .envrc
 cspell.json
