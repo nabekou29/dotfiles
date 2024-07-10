@@ -1,7 +1,12 @@
+___ignorefiles
+
+.mise.local.toml
 .node-version
 .python-version
 .lua-version
+
 .envrc
-cspell.json
+
 .snippets
-___ignorefiles
+cspell.json
+

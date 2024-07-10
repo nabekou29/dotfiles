@@ -103,6 +103,13 @@ return {
           path = constants.path.obsidian_docs .. "/Notes",
         },
       },
+      templates = {
+        folder = "_template",
+        date_format = "%Y-%m-%d",
+        time_format = "%H:%M",
+        -- A map for custom variables, the key should be the variable and the value a function
+        substitutions = {},
+      },
     },
     init = function()
       -- Obsidian のファイルのみ conceallevel を設定する
@@ -145,6 +152,7 @@ return {
     "subnut/nvim-ghost.nvim",
     lazy = false,
     init = function() end,
+    enabled = false,
     config = function()
       vim.api.nvim_create_augroup("nvim_ghost_user_autocommands", { clear = true })
       vim.api.nvim_create_autocmd("User", {

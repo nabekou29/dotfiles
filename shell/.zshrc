@@ -13,6 +13,7 @@ eval "$(sheldon source)"
 
 _evalcache starship init zsh
 _evalcache direnv hook zsh
+_evalcache mise activate zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -84,7 +85,8 @@ if [ ! -d ~/.terminfo ]; then
 fi
 export TERM=wezterm
 
-source ~/.anyenv.zsh
+# mise に置き換えを試している
+# source ~/.anyenv.zsh
 
 if [ -f ~/.zshrc.local ] ; then
 . ~/.zshrc.local
