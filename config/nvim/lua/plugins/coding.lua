@@ -511,4 +511,13 @@ return {
     "marilari88/twoslash-queries.nvim",
     opts = {},
   },
+  -- package.json
+  {
+    "vuki656/package-info.nvim",
+    event = { "VeryLazy" },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    opts = {},
+  },
 }

@@ -49,8 +49,9 @@ mkdir -p "$HOME/.config/karabiner/assets/complex_modifications" & ln -snvf "$(pw
 mkdir -p "$HOME/.config/wezterm" & ln -snvf "$(pwd)/config/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
 mkdir -p "$HOME/Library/Application Support/lazygit/" & ln -snvf "$(pwd)/config/lazygit.yml" "$HOME/Library/Application Support/lazygit/config.yml"
 mkdir -p "$HOME/.config/sheldon" & ln -snvf "$(pwd)/config/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
-ln -snvf "$(pwd)/config/hammerspoon" "$HOME/.hammerspoon"
-ln -snvf "$(pwd)/config/nvim" "$HOME/.config/nvim"
+ln -snvf "$(pwd)/config/hammerspoon/" "$HOME/.hammerspoon"
+ln -snvf "$(pwd)/config/nvim/" "$HOME/.config/nvim"
+ln -snvf "$(pwd)/config/mise/" "$HOME/.config/mise"
 # # yabai, skhd
 # mkdir -p "$HOME/.config/yabai" & ln -snvf "$(pwd)/config/yabai/yabairc" "$HOME/.config/yabai/yabairc"
 # mkdir -p "$HOME/.config/skhd" & ln -snvf "$(pwd)/config/skhd/skhdrc" "$HOME/.config/skhd/skhdrc"
@@ -61,7 +62,7 @@ ln -snvf "$(pwd)/config/nvim" "$HOME/.config/nvim"
 # gsed -i -E "s/${DEFAULT_YABAI_PATH}/${REPLACE_YABAI_PATH}/" "$(pwd)/config/hammerspoon/stackline/conf.lua"
 
 # Anyenv
-anyenv install pyenv
-anyenv install nodenv
-anyenv install goenv
-mkdir -p "$(anyenv root)/plugins" & git clone https://github.com/znz/anyenv-update.git "$(anyenv root)/plugins/anyenv-update"
+# anyenv install pyenv
+# anyenv install nodenv
+# anyenv install goenv
+# mkdir -p "$(anyenv root)/plugins" & git clone https://github.com/znz/anyenv-update.git "$(anyenv root)/plugins/anyenv-update"

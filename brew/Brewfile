@@ -15,6 +15,7 @@ brew "coreutils"
 brew "eza"
 brew "fzf"
 brew "gnu-sed"
+brew "jdx/tap/usage"
 brew "jq"
 brew "ripgrep"
 brew "sl"
@@ -29,6 +30,7 @@ brew "zoxide"
 
 ## ========== Shell ===========
 brew "starship"
+brew "zsh-completions"
 cask "wezterm"
 
 ## ========== Fonts ==========
@@ -73,8 +75,7 @@ cask "google-cloud-sdk"
 brew "lazygit"
 
 ### ---------- Lang -----------
-brew "anyenv"
-brew "deno"
+brew "mise"
 brew "openjdk"
 brew "php"
 brew "python"
@@ -105,4 +106,5 @@ cask "suspicious-package"
 # Others
 mas "Display Menu", id: 549083868
 mas "Hidden Bar", id: 1452453066
+mas "Klack", id: 6446206067
 mas "Xcode", id: 497799835

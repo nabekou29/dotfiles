@@ -11,9 +11,16 @@ fi
 
 eval "$(sheldon source)"
 
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  FPATH=$(brew --prefix)/share/zsh/site-functions:${FPATH}
+
+  autoload -Uz compinit
+  compinit
+fi
+
+eval "$(mise activate zsh)"
 _evalcache starship init zsh
-_evalcache direnv hook zsh
-_evalcache mise activate zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -50,7 +57,7 @@ export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
 # abbr
-zsh-defer source "$HOME/.abbr.zsh"
+source "$HOME/.abbr.zsh"
 
 # zoxide
 zsh-defer _evalcache zoxide init zsh

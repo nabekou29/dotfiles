@@ -5,13 +5,13 @@ set -e
 
 tmpfile=$(mktemp /tmp/git-commit-with-prompt.XXXXXX)
 
-echo \
-'# **Examples**\n'\
-'# The following are the last 10 commit messages.'\
->> "$tmpfile"
-# 過去10回のコミットメッセージをテンプレートに追加
-git log -n 10 --pretty=format:"%s" | awk '{print "# - " $0}' >> "$tmpfile"
-echo '' >> "$tmpfile"
+# echo \
+# '# **Examples**\n'\
+# '# The following are the last 10 commit messages.'\
+# >> "$tmpfile"
+# # 過去10回のコミットメッセージをテンプレートに追加
+# git log -n 10 --pretty=format:"%s" | awk '{print "# - " $0}' >> "$tmpfile"
+# echo '' >> "$tmpfile"
 
 # テンプレのテンプレ
 template_path="$HOME/.config/git/commit_template_with_prompt.txt"
