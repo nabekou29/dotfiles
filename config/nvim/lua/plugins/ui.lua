@@ -392,6 +392,11 @@ return {
       })
     end,
   },
+  -- quick fix をいい感じに
+  {
+    "kevinhwang91/nvim-bqf",
+    event = { "VeryLazy" },
+  },
   -- 関数やオブジェクトのまとまりをわかりやすいように
   {
     "shellRaining/hlchunk.nvim",

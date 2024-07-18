@@ -152,7 +152,6 @@ return {
     "subnut/nvim-ghost.nvim",
     lazy = false,
     init = function() end,
-    enabled = false,
     config = function()
       vim.api.nvim_create_augroup("nvim_ghost_user_autocommands", { clear = true })
       vim.api.nvim_create_autocmd("User", {
@@ -163,5 +162,59 @@ return {
         end,
       })
     end,
+  },
+  {
+    "seandewar/bad-apple.nvim",
+    cmd = { "BadApple" },
+  },
+  {
+    "p5quared/apple-music.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    event = { "VeryLazy" },
+    config = {},
+    keys = {
+      {
+        "<leader>amp",
+        function()
+          require("apple-music").toggle_play()
+        end,
+        desc = "Toggle [P]layback",
+      },
+      {
+        "<leader>ams",
+        function()
+          require("apple-music").toggle_shuffle()
+        end,
+        desc = "Toggle [S]huffle",
+      },
+      {
+        "<leader>fap",
+        function()
+          require("apple-music").select_playlist_telescope()
+        end,
+        desc = "[F]ind [P]laylists",
+      },
+      {
+        "<leader>faa",
+        function()
+          require("apple-music").select_album_telescope()
+        end,
+        desc = "[F]ind [A]lbum",
+      },
+      {
+        "<leader>fas",
+        function()
+          require("apple-music").select_track_telescope()
+        end,
+        desc = "[F]ind [S]ong",
+      },
+      {
+        "<leader>amx",
+        function()
+          require("apple-music").cleanup_all()
+        end,
+        desc = "Cleanup Temp Playlists",
+      },
+    },
   },
 }

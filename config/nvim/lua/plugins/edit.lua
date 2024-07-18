@@ -157,4 +157,8 @@ return {
     end,
     opts = {},
   },
+  {
+    "mbbill/undotree",
+    event = { "VeryLazy" },
+  },
 }
