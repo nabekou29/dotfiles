@@ -144,6 +144,7 @@ return {
       { "williamboman/mason.nvim" },
       { "neovim/nvim-lspconfig" },
       { "marilari88/twoslash-queries.nvim" },
+      { "sontungexpt/better-diagnostic-virtual-text" },
     },
     config = function()
       require("mason-lspconfig").setup({
@@ -376,13 +377,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "VeryLazy" },
-    dependencies = {
-      {
-        "windwp/nvim-ts-autotag",
-        event = { "VeryLazy" },
-        opts = {},
-      },
-    },
     config = function()
       require("nvim-treesitter.configs").setup({
         ensure_install = "all",
@@ -391,13 +385,6 @@ return {
           enable = true,
           disable = {},
           additional_vim_regex_highlighting = false,
-        },
-        autotag = {
-          enable = true,
-          enable_rename = true,
-          enable_close = true,
-          enable_close_on_slash = true,
-          filetypes = { "html", "xml", "javascriptreact", "typescriptreact", "svelte", "vue" },
         },
       })
     end,
@@ -411,6 +398,18 @@ return {
         max_lines = 12,
       })
     end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      opts = {
+        enable_rename = true,
+        enable_close = true,
+        enable_close_on_slash = true,
+        filetypes = { "html", "xml", "javascriptreact", "typescriptreact", "svelte", "vue" },
+      },
+    },
   },
   -- TODO など
   {

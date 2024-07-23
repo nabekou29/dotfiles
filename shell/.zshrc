@@ -54,6 +54,7 @@ export PATH="$HOME/.deno/bin:$PATH"
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+source "$HOME/.completion-for-pnpm.zsh"
 # pnpm end
 
 # abbr
@@ -78,8 +79,6 @@ bindkey "^g" _fzf_cd_ghq
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
-
-zsh-defer source "$HOME/.completion-for-pnpm.zsh"
 
 # terminfo
 # ~/.terminfo がなければダウンロードする

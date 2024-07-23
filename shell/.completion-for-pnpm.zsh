@@ -1,6 +1,5 @@
 ###-begin-pnpm-completion-###
 if type compdef &>/dev/null; then
-  echo "load completion-for-pnpm"
   _pnpm_completion () {
     local reply
     local si=$IFS
