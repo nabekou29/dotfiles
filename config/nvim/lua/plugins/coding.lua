@@ -39,6 +39,10 @@ return {
         completion = {
           autocomplete = false,
         },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
         sources = {
           { name = "snippy" },
           { name = "nvim_lsp" },

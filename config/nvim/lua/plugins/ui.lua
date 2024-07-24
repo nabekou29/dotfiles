@@ -1,37 +1,6 @@
 local Ascii = require("ascii_art")
 
 return {
-  -- カラースキーマ
-  {
-    "EdenEast/nightfox.nvim",
-    enabled = true,
-    lazy = false,
-    priority = 1000,
-    opts = {
-      options = {
-        transparent = true,
-      },
-    },
-    config = function(_, opts)
-      require("nightfox").setup(opts)
-      vim.opt.pumblend = 20
-      vim.cmd("colorscheme nightfox")
-    end,
-  },
-  {
-    "folke/tokyonight.nvim",
-    enabled = false,
-    lazy = false,
-    priority = 1000,
-    opts = {
-      style = "night",
-      transparent = true,
-    },
-    config = function(_, opts)
-      require("tokyonight").setup(opts)
-      vim.cmd("colorscheme tokyonight")
-    end,
-  },
   {
     "hat0uma/csvview.nvim",
     ft = {
