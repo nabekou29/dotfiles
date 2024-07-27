@@ -372,7 +372,7 @@ return {
     },
     opts = {
       symbol_in_winbar = {
-        folder_level = 6,
+        folder_level = 0,
       },
     },
   },

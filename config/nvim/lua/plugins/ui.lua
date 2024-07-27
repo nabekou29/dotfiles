@@ -2,6 +2,12 @@ local Ascii = require("ascii_art")
 
 return {
   {
+    "stevearc/dressing.nvim",
+    lazy = false,
+    opts = {},
+  },
+  -- CSV 用のビューア
+  {
     "hat0uma/csvview.nvim",
     ft = {
       "csv",
@@ -412,11 +418,14 @@ return {
     event = { "UIEnter" },
     config = function()
       -- Highlight を定義
-      vim.cmd([[ hi FidgetNormal guifg=#ccc guibg=#1994E3 ]])
+      vim.cmd([[ hi FidgetNormal guifg=#ccc guibg=#3777bd ]])
 
       require("fidget").setup({
+        progress = {
+          -- ignore = { "null-ls" },
+        },
         notification = {
-          window = { normal_hl = "FidgetNormal", winblend = 80 },
+          window = { normal_hl = "FidgetNormal", winblend = 80, border = "single" },
         },
       })
     end,

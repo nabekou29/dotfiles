@@ -140,7 +140,6 @@ return {
   -- 移動
   {
     "phaazon/hop.nvim",
-    -- dependencies = { { "unblevable/quick-scope" } },
     keys = function()
       local hop_prefix = "<leader><leader>"
       return {
@@ -157,8 +156,17 @@ return {
     end,
     opts = {},
   },
+  -- Undo の履歴をツリー表示
   {
     "mbbill/undotree",
     event = { "VeryLazy" },
+  },
+  -- `jj`, `jk` でノーマルモードに戻る（入力の遅延回避）
+  {
+    "max397574/better-escape.nvim",
+    -- toggleterm で正しく動作しないため無効化
+    enabled = false,
+    lazy = false,
+    opts = {},
   },
 }

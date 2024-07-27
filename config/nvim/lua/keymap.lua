@@ -21,6 +21,7 @@ set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
 
 set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })
+set("i", "jk", "<ESC>", { desc = "jk to ESC", silent = true, noremap = true })
 
 -- Clipboard
 set("n", "<leader>cp", function()
