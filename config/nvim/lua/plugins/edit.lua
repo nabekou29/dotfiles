@@ -10,6 +10,10 @@ return {
       })
     end,
   },
+  {
+    "junegunn/vim-easy-align",
+    event = { "VeryLazy" },
+  },
   -- 括弧や引用符を自動で閉じる
   {
     "windwp/nvim-autopairs",
