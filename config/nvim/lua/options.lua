@@ -35,6 +35,9 @@ vim.g.mapleader = " " -- リーダーをスペースに変更
 
 vim.opt.laststatus = 3 -- ステータスバーをウィンドウごとではなく、一番下に常に表示
 
+vim.opt.backup = true
+vim.opt.backupdir = vim.fn.stdpath("data") .. "/backup"
+
 -- undo 永続化
 if vim.fn.has("persistent_undo") == 1 then
   vim.opt.undofile = true
