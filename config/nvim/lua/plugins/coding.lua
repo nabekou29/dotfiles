@@ -497,6 +497,10 @@ return {
       "neovim/nvim-lspconfig",
     },
     event = { "BufReadPre", "BufNewFile" },
+    keys = {
+      { "<leader>il", ":I18nSetLang<CR>", desc = "Set language" },
+      { "<leader>ie", ":I18nEditTranslation<CR>", desc = "Edit translation" },
+    },
     opts = {
       primary_language = { "ja" },
       virt_text = {

@@ -422,7 +422,15 @@ return {
 
       require("fidget").setup({
         progress = {
-          -- ignore = { "null-ls" },
+          ignore = {
+            function(msg)
+              if msg.lsp_client.name == "null-ls" then
+                -- cspell がカーソル移動のたびに code_action を送ってくるので無視
+                return msg.title == "code_action"
+              end
+              return false
+            end,
+          },
         },
         notification = {
           window = { normal_hl = "FidgetNormal", winblend = 80, border = "single" },
