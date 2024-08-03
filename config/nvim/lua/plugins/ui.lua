@@ -1,6 +1,7 @@
 local Ascii = require("ascii_art")
 
 return {
+  -- vim.ui.input を telescope などで置き換える
   {
     "stevearc/dressing.nvim",
     lazy = false,
@@ -19,6 +20,16 @@ return {
       "rfc_semicolon",
     },
     opts = {},
+  },
+  {
+    "MeanderingProgrammer/markdown.nvim",
+    ft = { "markdown" },
+    main = "render-markdown",
+    name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+    opts = {},
+    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
   },
   -- 画像の表示
   {
@@ -209,7 +220,8 @@ return {
           end,
           show_duplicate_prefix = false,
           duplicates_across_groups = false,
-          name_formatter = function(buf)
+          name_formatter = function(buf_)
+            local buf = buf_
             -- index.ts などのファイルをわかりやすいように表示
             if buf.name:match("index%.") then
               local parentDir = buf.path:match("^.*/(.*)/[^/]*$")
@@ -236,8 +248,12 @@ return {
                 name = " Test",
                 highlight = { sp = "#1994E3" },
                 matcher = function(buf)
-                  return buf.name:match("%.test") or buf.name:match("%.spec")
+                  return buf.name:match("%.test")
+                    or buf.name:match("%.spec")
+                    or buf.name:match("_test%.")
+                    or buf.name:match("_spec%.")
                 end,
+                auto_close = false,
               },
               {
                 name = " Story",
@@ -245,6 +261,7 @@ return {
                 matcher = function(buf)
                   return buf.name:match("%.stories")
                 end,
+                auto_close = false,
               },
               {
                 name = " Style",
@@ -252,6 +269,7 @@ return {
                 matcher = function(buf)
                   return buf.name:match("%.css") or buf.name:match("%.scss")
                 end,
+                auto_close = false,
               },
               {
                 name = "󰗊 Locals",
@@ -259,6 +277,7 @@ return {
                 matcher = function(buf)
                   return buf.path:match("translation.json")
                 end,
+                auto_close = false,
               },
               {
                 name = "󰈙 Docs",
@@ -269,6 +288,7 @@ return {
                   end
                   return buf.name:match("%.md")
                 end,
+                auto_close = false,
               },
               {
                 name = " Config",
@@ -276,6 +296,7 @@ return {
                 matcher = function(buf)
                   return buf.name:match("%.config") or buf.name:match("^%..*rc$")
                 end,
+                auto_close = false,
               },
               {
                 name = " Obsidian",
@@ -283,6 +304,7 @@ return {
                 matcher = function(buf)
                   return buf.path:lower():match("obsidian")
                 end,
+                auto_close = false,
               },
             },
           },

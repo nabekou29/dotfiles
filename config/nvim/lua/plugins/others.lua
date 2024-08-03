@@ -32,6 +32,8 @@ return {
           width = 50,
           height = 1,
         },
+        ignore_mouse = true,
+        position = "SE",
       })
     end,
   },
@@ -109,6 +111,9 @@ return {
         time_format = "%H:%M",
         -- A map for custom variables, the key should be the variable and the value a function
         substitutions = {},
+      },
+      ui = {
+        enable = false,
       },
     },
     init = function()

@@ -311,6 +311,7 @@ return {
             timeout = 10000,
           }),
           null_ls.builtins.formatting.stylua.with({}),
+          null_ls.builtins.formatting.gofumpt.with({}),
         },
         on_attach = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then
@@ -339,6 +340,7 @@ return {
         end,
       })
       require("mason-null-ls").setup({
+        automatic_installation = true,
         ensure_installed = {
           "prettierd",
           "stylua",
@@ -346,6 +348,7 @@ return {
           "actionlint",
           "textlint",
           "stylelint",
+          "gofumpt",
         },
       })
     end,
@@ -383,8 +386,11 @@ return {
     event = { "VeryLazy" },
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_install = "all",
+        sync_install = false,
         auto_install = true,
+        ensure_installed = "all",
+        ignore_install = {},
+        modules = {},
         highlight = {
           enable = true,
           disable = {},
@@ -504,7 +510,7 @@ return {
     opts = {
       primary_language = { "ja" },
       virt_text = {
-        max_length = 32,
+        max_width = 64,
       },
     },
   },

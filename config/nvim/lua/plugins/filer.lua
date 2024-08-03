@@ -10,11 +10,11 @@ return {
       "tkmpypy/chowcho.nvim",
     },
     keys = {
-      { "<leader>e", ":Neotree position=float focus<CR>" },
-      { "<leader>E", ":Neotree position=left focus<CR>" },
-      { "<C-1>", ":Neotree source=filesystem reveal=true <CR>" },
-      { "<C-2>", ":Neotree source=buffers focus<CR>" },
-      { "<C-3>", ":Neotree source=git_status focus<CR>" },
+      { "<leader>e", ":Neotree position=float focus<CR>", silent = true },
+      { "<leader>E", ":Neotree position=left focus<CR>", silent = true },
+      { "<C-1>", ":Neotree source=filesystem reveal=true <CR>", silent = true },
+      { "<C-2>", ":Neotree source=buffers focus<CR>", silent = true },
+      { "<C-3>", ":Neotree source=git_status focus<CR>", silent = true },
     },
     opts = {
       source_selector = {

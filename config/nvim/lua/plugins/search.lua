@@ -52,16 +52,17 @@ return {
     },
     keys = {
       -- 通常の検索
-      { "<leader>ff", ":Telescope find_files<CR>" },
+      { "<leader>ff", ":Telescope find_files hidden=true<CR>", silent = true },
       -- 隠しファイル込み
       {
         "<leader>fF",
-        ":Telescope find_files hidden=true<CR>",
+        ":Telescope find_files hidden=false<CR>",
+        silent = true,
       },
       -- シンボル
-      { "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>" },
+      { "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>", silent = true },
       -- 参照元
-      { "<leader>fr", ":Telescope lsp_references<CR>" },
+      { "<leader>fr", ":Telescope lsp_references<CR>", silent = true },
       -- 全文検索
       {
         "<leader>fg",
@@ -69,6 +70,7 @@ return {
           require("telescope").extensions.egrepify.egrepify({})
         end,
         desc = ":Telescope egrepify",
+        silent = true,
       },
       -- バッファから検索
       {
@@ -77,6 +79,7 @@ return {
           require("telescope.builtin").buffers()
         end,
         desc = ":Telescope buffers",
+        silent = true,
       },
       -- コマンドの履歴
       {
@@ -85,6 +88,7 @@ return {
           require("telescope.builtin").command_history()
         end,
         desc = ":Telescope command_history",
+        silent = true,
       },
       -- メディア
       {
@@ -101,6 +105,7 @@ return {
           })
         end,
         desc = ":Telescope media",
+        silent = true,
       },
       -- セッション
       {
@@ -109,13 +114,17 @@ return {
           require("session-lens").search_session()
         end,
         desc = ":Telescope session-lens search_session",
+        silent = true,
       },
       -- help
-      vim.keymap.set("n", "<leader>fh", function()
-        require("telescope.builtin").help_tags()
-      end, {
+      {
+        "<leader>fh",
+        function()
+          require("telescope.builtin").help_tags()
+        end,
         desc = ":Telescope help_tags",
-      }),
+        silent = true,
+      },
     },
     opts = {
       defaults = {
