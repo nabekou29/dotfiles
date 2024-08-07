@@ -289,7 +289,7 @@ return {
           }),
           -- format
           null_ls.builtins.formatting.prettierd.with({
-            prefer_local = "node_modules/.bin",
+            -- prefer_local = "node_modules/.bin",
             filetypes = {
               "javascript",
               "javascriptreact",

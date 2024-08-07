@@ -35,7 +35,7 @@ return {
 		{ key = "v", mods = "CMD", action = act.PasteFrom("Clipboard") },
 		{ key = "=", mods = "CMD", action = act.IncreaseFontSize },
 		{ key = "-", mods = "CMD", action = act.DecreaseFontSize },
-		{ key = "f", mods = "CMD", action = act.Search({ Regex = "" }) }, --- Tab
+		{ key = "f", mods = "CMD", action = act.Search({ Regex = "" }) },
 		--- Tab ---
 		{ key = "t", mods = "CMD", action = act.SpawnTab("CurrentPaneDomain") },
 		{ key = "{", mods = "SHIFT|ALT", action = act.MoveTabRelative(-1) },
@@ -130,6 +130,17 @@ return {
 			key = "x",
 			mods = "CTRL|SHIFT",
 			action = act.ActivateCopyMode,
+		},
+		--Rebind OPT-Left, OPT-Right as ALT-b, ALT-f respectively to match Terminal.app behavior
+		{
+			key = "LeftArrow",
+			mods = "ALT",
+			action = act.SendKey({ key = "b", mods = "ALT" }),
+		},
+		{
+			key = "RightArrow",
+			mods = "ALT",
+			action = act.SendKey({ key = "f", mods = "ALT" }),
 		},
 	},
 	--- Mouse Binding ---

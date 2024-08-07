@@ -22,14 +22,23 @@ return {
     opts = {},
   },
   {
-    "MeanderingProgrammer/markdown.nvim",
+    "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown" },
-    main = "render-markdown",
-    name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
-    opts = {},
     dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    opts = {},
+    init = function()
+      -- Override highlight groups
+      vim.cmd([[
+        hi! default link RenderMarkdownH1Bg @markup.heading
+        hi! default link RenderMarkdownH2Bg @markup.heading
+        hi! default link RenderMarkdownH3Bg @markup.heading
+        hi! default link RenderMarkdownH4Bg @markup.heading
+        hi! default link RenderMarkdownH5Bg @markup.heading
+        hi! default link RenderMarkdownH6Bg @markup.heading
+      ]])
+    end,
   },
   -- 画像の表示
   {
@@ -317,10 +326,10 @@ return {
     "kazhala/close-buffers.nvim",
     event = { "VeryLazy" },
     keys = {
-      { "<C-w>d", ":BDelete this<CR>" },
-      { "<leader>w", ":BDelete this<CR>" },
-      { "<leader>W", ":BDelete! this<CR>" },
-      { "<C-w>D", ":BDelete other<CR>" },
+      { "<C-w>d", ":BDelete this<CR>", silent = true },
+      { "<leader>w", ":BDelete this<CR>", silent = true },
+      { "<leader>W", ":BDelete! this<CR>", silent = true },
+      { "<C-w>D", ":BDelete other<CR>", silent = true },
     },
     opts = {},
   },
@@ -399,9 +408,7 @@ return {
     "shellRaining/hlchunk.nvim",
     event = { "UIEnter" },
     opts = {
-      indent = { use_treesitter = true },
-      chunk = { style = { { fg = "#208aca" }, { fg = "#9f1b2e" } } },
-      line_num = { enable = false, use_treesitter = true, style = "#208aca" },
+      chunk = { enable = true, use_treesitter = true, style = { { fg = "#208aca" }, { fg = "#9f1b2e" } } },
     },
   },
   --- fold
