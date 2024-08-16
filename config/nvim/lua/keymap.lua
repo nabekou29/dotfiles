@@ -18,6 +18,10 @@ set("n", "<M-S-k>", "<Cmd>move .-2<CR>==", { desc = "Move line Up" })
 set("x", "<M-S-k>", ":move '<-2<CR>gv=gv", { desc = "Move line Up" })
 set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 
+-- Emacs
+set("i", "<C-d>", "<Del>", { desc = "Delete" })
+set("i", "<C-h>", "<BS>", { desc = "Backspace" })
+
 set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
 
 set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })

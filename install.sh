@@ -60,9 +60,3 @@ ln -snvf "$(pwd)/config/mise/" "$HOME/.config/mise"
 # DEFAULT_YABAI_PATH=$(echo "/usr/local/bin/yabai" | gsed -E "s/\//\\\\\//g")
 # REPLACE_YABAI_PATH="$(which yabai | gsed -E "s/\//\\\\\//g")"
 # gsed -i -E "s/${DEFAULT_YABAI_PATH}/${REPLACE_YABAI_PATH}/" "$(pwd)/config/hammerspoon/stackline/conf.lua"
-
-# Anyenv
-# anyenv install pyenv
-# anyenv install nodenv
-# anyenv install goenv
-# mkdir -p "$(anyenv root)/plugins" & git clone https://github.com/znz/anyenv-update.git "$(anyenv root)/plugins/anyenv-update"

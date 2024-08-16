@@ -116,38 +116,6 @@ return {
         enable = false,
       },
     },
-    init = function()
-      -- Obsidian のファイルのみ conceallevel を設定する
-      vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "*.md",
-        callback = function()
-          local mode = vim.api.nvim_get_mode().mode
-          local filepath = vim.fn.expand("%:p")
-          if filepath:match(vim.fs.normalize(constants.path.obsidian_docs)) then
-            vim.opt_local.concealcursor = "n"
-            if mode == "n" then
-              vim.opt_local.conceallevel = 1
-            else
-              vim.opt_local.conceallevel = 0
-            end
-
-            vim.api.nvim_create_autocmd("InsertLeave", {
-              pattern = "<buffer>",
-              callback = function()
-                vim.opt_local.conceallevel = 1
-              end,
-            })
-
-            vim.api.nvim_create_autocmd("InsertEnter", {
-              pattern = "<buffer>",
-              callback = function()
-                vim.opt_local.conceallevel = 0
-              end,
-            })
-          end
-        end,
-      })
-    end,
     config = function(_, opts)
       local obsidian = require("obsidian")
       obsidian.setup(opts)
