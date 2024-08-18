@@ -289,7 +289,7 @@ return {
           }),
           -- format
           null_ls.builtins.formatting.prettierd.with({
-            -- prefer_local = "node_modules/.bin",
+            prefer_local = "node_modules/.bin",
             filetypes = {
               "javascript",
               "javascriptreact",
@@ -306,12 +306,21 @@ return {
               "yaml",
               "markdown",
             },
+            condition = function(utils)
+              return not utils.root_has_file({ "biome.json" })
+            end,
+          }),
+          null_ls.builtins.formatting.biome.with({
+            condition = function(utils)
+              return utils.root_has_file({ "biome.json" })
+            end,
           }),
           null_ls.builtins.formatting.stylelint.with({
             timeout = 10000,
           }),
           null_ls.builtins.formatting.stylua.with({}),
           null_ls.builtins.formatting.gofumpt.with({}),
+          null_ls.builtins.formatting.terraform_fmt.with({}),
         },
         on_attach = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then
