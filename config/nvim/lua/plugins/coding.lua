@@ -1,3 +1,5 @@
+local lc = require("local_config")
+
 return {
   -- CMP
   {
@@ -197,6 +199,7 @@ return {
           require("twoslash-queries").attach(client, bufnr)
         end,
       }
+
       local filetypes = {
         stylelint_lsp = {
           "css",
@@ -205,13 +208,6 @@ return {
           "sugarss",
           "vue",
           "wxss",
-        },
-        eslint = {
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact",
-          "json",
         },
       }
       local commands = {
@@ -252,7 +248,7 @@ return {
             capabilities = capabilities,
             settings = settings,
             on_attach = on_attach[server_name],
-            filetypes = filetypes[server_name],
+            filetypes = lc.get("lsp", server_name, "filetypes"),
             commands = commands[server_name],
             init_options = init_options[server_name],
           })

@@ -24,11 +24,11 @@ require("lazy").setup({
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
-  -- install = { colorscheme = { "habamax" } },
+  install = { colorscheme = { "kanagawa" } },
   -- automatically check for plugin updates
-  checker = {
-    enabled = true,
-  },
+  -- checker = {
+  --   enabled = true,
+  -- },
   defaults = {
     lazy = true,
   },
@@ -36,10 +36,9 @@ require("lazy").setup({
   change_detection = {
     enabled = false,
   },
-  -- 起動時間に影響があるので、開発時以外はコメントアウトする
-  -- dev = {
-  --   path = vim.fn.systemlist("ghq root")[1] .. "/github.com/nabekou29",
-  --   patterns = { "nabekou29" },
-  --   fallback = true,
-  -- },
+  dev = {
+    path = "~/ghq/github.com/nabekou29",
+    patterns = { "nabekou29" },
+    fallback = true,
+  },
 })

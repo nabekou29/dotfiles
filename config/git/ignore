@@ -10,3 +10,4 @@ ___ignorefiles
 .snippets
 cspell.json
 
+.nvim.lua
