@@ -125,7 +125,28 @@ return {
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    event = { "VeryLazy" },
+    cmd = {
+      "CopilotChat",
+      "CopilotChatOpen",
+      "CopilotChatClose",
+      "CopilotChatToggle",
+      "CopilotChatStop",
+      "CopilotChatReset",
+      "CopilotChatSave",
+      "CopilotChatLoad",
+      "CopilotChatDebugInfo",
+      "CopilotChatModels",
+      "CopilotChatModel",
+      "CopilotChatExplain",
+      "CopilotChatReview",
+      "CopilotChatFix",
+      "CopilotChatOptimize",
+      "CopilotChatDocs",
+      "CopilotChatTests",
+      "CopilotChatFixDiagnostic",
+      "CopilotChatCommit",
+      "CopilotChatCommitStaged",
+    },
     branch = "canary",
     dependencies = {
       { "zbirenbaum/copilot.lua" },
@@ -236,6 +257,27 @@ return {
             init_options = init_options[server_name],
           })
         end,
+      })
+
+      vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        update_in_insert = true,
+        virtual_text = {
+          prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応
+          suffix = "",
+          format = function(diagnostic)
+            local prefix = "?"
+            if diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
+              prefix = ""
+            elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Warning then
+              prefix = ""
+            elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Information then
+              prefix = ""
+            elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Hint then
+              prefix = "🔧"
+            end
+            return string.format("%s %s [%s: %s]", prefix, diagnostic.message, diagnostic.source, diagnostic.code)
+          end,
+        },
       })
     end,
   },
@@ -420,7 +462,7 @@ return {
   },
   {
     "windwp/nvim-ts-autotag",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "InsertEnter" },
     opts = {
       opts = {
         enable_rename = true,
@@ -511,7 +553,7 @@ return {
       "nvim-lua/plenary.nvim",
       "neovim/nvim-lspconfig",
     },
-    event = { "BufReadPre", "BufNewFile" },
+    ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
     keys = {
       { "<leader>il", ":I18nSetLang<CR>", desc = "Set language" },
       { "<leader>ie", ":I18nEditTranslation<CR>", desc = "Edit translation" },

@@ -50,27 +50,6 @@ if vim.fn.executable("rg") == 1 then
   vim.opt.grepformat = "%f:%l:%c:%m"
 end
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  update_in_insert = true,
-  virtual_text = {
-    prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応
-    suffix = "",
-    format = function(diagnostic)
-      local prefix = "?"
-      if diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
-        prefix = ""
-      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Warning then
-        prefix = ""
-      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Information then
-        prefix = ""
-      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Hint then
-        prefix = "🔧"
-      end
-      return string.format("%s %s [%s: %s]", prefix, diagnostic.message, diagnostic.source, diagnostic.code)
-    end,
-  },
-})
-
 vim.fn.sign_define("DiagnosticSignWarn", {
   text = "",
   texthl = "DiagnosticSignWarn",

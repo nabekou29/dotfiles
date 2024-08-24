@@ -1,7 +1,9 @@
 return {
+  -- 遅いのでなるべく使わないほうが良さそう
   {
     "vhyrro/luarocks.nvim",
-    priority = 1001,
+    enabled = false,
+    priority = 2000,
     opts = {
       rocks = { "magick" },
     },

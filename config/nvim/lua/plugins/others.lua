@@ -142,6 +142,7 @@ return {
   },
   {
     "p5quared/apple-music.nvim",
+    enabled = false,
     dependencies = { "nvim-telescope/telescope.nvim" },
     event = { "VeryLazy" },
     config = {},

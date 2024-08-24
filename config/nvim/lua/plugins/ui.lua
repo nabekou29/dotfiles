@@ -1,10 +1,8 @@
-local Ascii = require("ascii_art")
-
 return {
   -- vim.ui.input を telescope などで置き換える
   {
     "stevearc/dressing.nvim",
-    lazy = false,
+    event = { "VeryLazy" },
     opts = {},
   },
   -- CSV 用のビューア
@@ -44,6 +42,7 @@ return {
   {
     "3rd/image.nvim",
     lazy = false,
+    enabled = false,
     dependencies = { "luarocks.nvim" },
     opts = {},
   },
@@ -76,6 +75,8 @@ return {
     event = { "VimEnter" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
+      local Ascii = require("ascii_art")
+
       local alpha = require("alpha")
       local dashboard = require("alpha.themes.dashboard")
 
@@ -143,14 +144,11 @@ return {
   {
     "simeji/winresizer",
     cmd = { "WinResizerStartResize", "WinResizerStartMove", "WinResizerStartFocus" },
+    keys = {
+      { "<C-w>r", "<Cmd>WinResizerStartResize<CR>", silent = true, desc = "WinResizerStartResize" },
+      { "<C-w>m", "<Cmd>WinResizerStartMove<CR>", silent = true, desc = "WinResizerStartMove" },
+    },
     init = function()
-      vim.keymap.set("n", "<C-w>r", ":WinResizerStartResize<CR>", {
-        desc = ":WinResizerStartResize",
-      })
-      vim.keymap.set("n", "<C-w>m", ":WinResizerStartMove<CR>", {
-        desc = ":WinResizerStartMove",
-      })
-
       vim.g.winresizer_start_key = "<C-w>r"
     end,
   },
@@ -338,46 +336,48 @@ return {
     "nvim-lualine/lualine.nvim",
     event = { "VeryLazy" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      options = {
-        icons_enabled = true,
-        theme = "auto",
-        component_separators = { left = "", right = "" },
-        section_separators = { left = "", right = "" },
-        disabled_filetypes = {
-          statusline = {},
-          winbar = {},
+    opts = function()
+      return {
+        options = {
+          icons_enabled = true,
+          theme = "auto",
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
+          disabled_filetypes = {
+            statusline = {},
+            winbar = {},
+          },
+          ignore_focus = {},
+          always_divide_middle = true,
+          globalstatus = true,
+          refresh = {
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
+          },
         },
-        ignore_focus = {},
-        always_divide_middle = true,
-        globalstatus = true,
-        refresh = {
-          statusline = 1000,
-          tabline = 1000,
-          winbar = 1000,
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff", "diagnostics" },
+          lualine_c = { { "filename", path = 1 } },
+          lualine_x = { "encoding", "fileformat", "filetype" },
+          lualine_y = { "progress" },
+          lualine_z = { "location" },
         },
-      },
-      sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = { { "filename", path = 1 } },
-        lualine_x = { "encoding", "fileformat", "filetype" },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
-      },
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { { "filename", path = 1 } },
-        lualine_x = { "location" },
-        lualine_y = {},
-        lualine_z = {},
-      },
-      tabline = {},
-      winbar = {},
-      inactive_winbar = {},
-      extensions = {},
-    },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { { "filename", path = 1 } },
+          lualine_x = { "location" },
+          lualine_y = {},
+          lualine_z = {},
+        },
+        tabline = {},
+        winbar = {},
+        inactive_winbar = {},
+        extensions = {},
+      }
+    end,
   },
   -- モードをわかりやすく
   {
@@ -406,7 +406,7 @@ return {
   -- 関数やオブジェクトのまとまりをわかりやすいように
   {
     "shellRaining/hlchunk.nvim",
-    event = { "UIEnter" },
+    event = { "VeryLazy" },
     opts = {
       chunk = { enable = true, use_treesitter = true, style = { { fg = "#208aca" }, { fg = "#9f1b2e" } } },
     },
@@ -423,17 +423,19 @@ return {
   {
     "dstein64/nvim-scrollview",
     event = { "VeryLazy" },
-    opts = {
-      diagnostics_severities = {
-        vim.lsp.protocol.DiagnosticSeverity.Information,
-        vim.lsp.protocol.DiagnosticSeverity.Warning,
-        vim.lsp.protocol.DiagnosticSeverity.Error,
-      },
-      diagnostics_hint_symbol = "🔧",
-      diagnostics_info_symbol = "",
-      diagnostics_warn_symbol = "",
-      diagnostics_error_symbol = "",
-    },
+    opts = function()
+      return {
+        diagnostics_severities = {
+          vim.lsp.protocol.DiagnosticSeverity.Information,
+          vim.lsp.protocol.DiagnosticSeverity.Warning,
+          vim.lsp.protocol.DiagnosticSeverity.Error,
+        },
+        diagnostics_hint_symbol = "🔧",
+        diagnostics_info_symbol = "",
+        diagnostics_warn_symbol = "",
+        diagnostics_error_symbol = "",
+      }
+    end,
   },
   -- スクロールをスムーズに
   {
@@ -444,7 +446,7 @@ return {
   -- LSP の起動状況などを右下に表示
   {
     "j-hui/fidget.nvim",
-    event = { "UIEnter" },
+    event = { "VeryLazy" },
     config = function()
       -- Highlight を定義
       vim.cmd([[ hi FidgetNormal guifg=#ccc guibg=#3777bd ]])

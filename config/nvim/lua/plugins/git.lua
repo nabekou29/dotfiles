@@ -58,7 +58,14 @@ return {
   -- diff の表示
   {
     "sindrets/diffview.nvim",
-    event = "VeryLazy",
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewToggleFiles",
+      "DiffviewFocusFiles",
+      "DiffviewRefresh",
+      "DiffviewFileHistory",
+    },
     opts = {},
   },
   -- conflict

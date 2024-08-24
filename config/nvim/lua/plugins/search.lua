@@ -12,7 +12,6 @@ return {
   },
   {
     "lambdalisue/kensaku-search.vim",
-    lazy = false,
     dependencies = { "lambdalisue/kensaku.vim" },
     keys = {
       { "<CR>", "<Plug>(kensaku-search-replace)<CR>", mode = "c" },
@@ -43,12 +42,6 @@ return {
         },
       },
       { "dharmx/telescope-media.nvim" },
-      {
-        "rmagatti/session-lens",
-        dependencies = {
-          "rmagatti/auto-session",
-        },
-      },
     },
     keys = {
       -- 通常の検索
@@ -105,15 +98,6 @@ return {
           })
         end,
         desc = ":Telescope media",
-        silent = true,
-      },
-      -- セッション
-      {
-        "<leader>fS",
-        function()
-          require("session-lens").search_session()
-        end,
-        desc = ":Telescope session-lens search_session",
         silent = true,
       },
       -- help
@@ -187,13 +171,12 @@ return {
       pcall(require("telescope").load_extension, "egrepify")
       pcall(require("telescope").load_extension, "egrepify")
       pcall(require("telescope").load_extension, "media")
-      pcall(require("telescope").load_extension, "session-lens")
     end,
   },
   -- カーソルが当たった単語をハイライト
   {
     "RRethy/vim-illuminate",
-    event = { "VeryLazy" },
+    event = { "FocusLost", "CursorHold" },
     config = function()
       require("illuminate").configure({})
     end,

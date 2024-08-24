@@ -4,8 +4,8 @@ return {
     init = function()
       vim.opt.sessionoptions = {
         "buffers",
-        "tabpages",
-        "globals",
+        -- "tabpages",
+        -- "globals",
       }
     end,
     opts = {},
@@ -16,9 +16,12 @@ return {
     lazy = false,
     dependencies = { "tiagovla/scope.nvim" },
     opts = {
+      session_lens = {
+        load_on_setup = false,
+      },
       log_level = "error",
       auto_session_suppress_dirs = { "~/", "~/Downloads" },
-      silent_restore = false,
+      silent_restore = true,
       pre_save_cmds = {
         function()
           vim.cmd([[ScopeSaveState]])

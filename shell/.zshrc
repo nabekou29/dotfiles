@@ -95,7 +95,7 @@ export TERM=wezterm
 # source ~/.anyenv.zsh
 
 if [ -f ~/.zshrc.local ] ; then
-. ~/.zshrc.local
+  source ~/.zshrc.local
 fi
 
 # zprof
