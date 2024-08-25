@@ -10,6 +10,9 @@ set("n", "<C-S-k>", "<cmd>wincmd k<CR>", {})
 set("n", "<C-S-M-h>", "<cmd>tabp<CR>", {})
 set("n", "<C-S-M-l>", "<cmd>tabn<CR>", {})
 
+set({ "n", "x" }, "d", '"_d', { desc = "Delete without yank", silent = true, noremap = true })
+set({ "x" }, "p", '"_dP', { desc = "Paste without yank", silent = true, noremap = true })
+
 -- 行の移動
 set("n", "<M-S-j>", "<Cmd>move .+1<CR>==", { desc = "Move line Down" })
 set("x", "<M-S-j>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })

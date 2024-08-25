@@ -41,8 +41,8 @@ return {
   -- 画像の表示
   {
     "3rd/image.nvim",
-    lazy = false,
     enabled = false,
+    lazy = false,
     dependencies = { "luarocks.nvim" },
     opts = {},
   },

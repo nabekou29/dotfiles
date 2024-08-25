@@ -6,8 +6,9 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
-      "3rd/image.nvim",
+      -- "3rd/image.nvim",
       "tkmpypy/chowcho.nvim",
+      "adelarsq/image_preview.nvim",
     },
     keys = {
       { "<leader>e", ":Neotree position=float focus<CR>", silent = true },
@@ -30,6 +31,7 @@ return {
             "toggle_node",
             nowait = true, -- disable `nowait` if you have existing combos starting with this char that you want to use
           },
+          ["<leader>p"] = "image_wezterm",
         },
       },
       commands = {
@@ -45,6 +47,12 @@ return {
             vim.api.nvim_set_current_win(window)
             vim.api.nvim_command("edit " .. path)
           end)
+        end,
+        image_wezterm = function(state)
+          local node = state.tree:get_node()
+          if node.type == "file" then
+            require("image_preview").PreviewImage(node.path)
+          end
         end,
       },
       nesting_rules = {

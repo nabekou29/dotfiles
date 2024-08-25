@@ -147,8 +147,10 @@ return {
     keys = function()
       local hop_prefix = "<leader><leader>"
       return {
-        { "f", ":HopChar1CurrentLineAC<CR>", silent = true },
-        { "F", ":HopChar1CurrentLineBC<CR>", silent = true },
+        -- { "f", ":HopChar1CurrentLineAC<CR>", silent = true },
+        -- { "F", ":HopChar1CurrentLineBC<CR>", silent = true },
+        { "f", ":HopChar2CurrentLineAC<CR>", silent = true },
+        { "F", ":HopChar2CurrentLineBC<CR>", silent = true },
         -- { "t", ":HopChar1AC<CR>", silent = true },
         -- { "T", ":HopChar1BC<CR>", silent = true },
         { "t", ":HopChar2AC<CR>", silent = true },

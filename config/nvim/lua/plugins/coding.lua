@@ -46,12 +46,12 @@ return {
           documentation = cmp.config.window.bordered(),
         },
         sources = {
-          { name = "snippy" },
-          { name = "nvim_lsp" },
-          { name = "nvim_lua" },
-          { name = "path" },
-          { name = "buffer" },
-          { name = "rg" },
+          { name = "snippy", priority = 50 },
+          { name = "nvim_lua", priority = 50 },
+          { name = "path", priority = 50 },
+          { name = "buffer", priority = 10 },
+          { name = "rg", priority = 0 },
+          { name = "nvim_lsp", priority = 100 },
         },
         snippet = {
           expand = function(args)
@@ -461,7 +461,7 @@ return {
     event = { "InsertEnter" },
     opts = {
       opts = {
-        enable_rename = true,
+        enable_rename = false,
         enable_close = true,
         enable_close_on_slash = true,
         filetypes = { "html", "xml", "javascriptreact", "typescriptreact", "svelte", "vue" },
