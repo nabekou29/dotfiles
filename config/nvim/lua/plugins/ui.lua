@@ -2,7 +2,7 @@ return {
   -- vim.ui.input を telescope などで置き換える
   {
     "stevearc/dressing.nvim",
-    event = { "VeryLazy" },
+    event = { "ModeChanged" },
     opts = {},
   },
   -- CSV 用のビューア

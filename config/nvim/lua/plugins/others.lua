@@ -123,7 +123,7 @@ return {
   },
   {
     "subnut/nvim-ghost.nvim",
-    lazy = false,
+    event = { "FocusLost" },
     init = function() end,
     config = function()
       vim.api.nvim_create_augroup("nvim_ghost_user_autocommands", { clear = true })
