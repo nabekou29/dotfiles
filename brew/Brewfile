@@ -50,6 +50,7 @@ cask "deepl"
 cask "hammerspoon"
 cask "karabiner-elements"
 cask "keycastr"
+cask "logi-options+"
 cask "monitorcontrol"
 cask "obsidian"
 cask "raycast"
@@ -86,6 +87,7 @@ cask "temurin"
 
 ### ------- IDE/Editor --------
 brew "neovim"
+brew "neovim-remote"
 cask "intellij-idea"
 cask "visual-studio-code"
 

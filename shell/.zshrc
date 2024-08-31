@@ -24,6 +24,23 @@ _evalcache starship init zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# ヒストリー機能
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt hist_ignore_all_dups # 重複するコマンド行は古い方を削除
+setopt hist_ignore_dups # 直前と同じコマンドラインはヒストリに追加しない
+setopt share_history # コマンド履歴ファイルを共有する
+setopt append_history # 履歴を追加 (毎回 .zsh_history を作るのではなく)
+setopt inc_append_history # 履歴をインクリメンタルに追加
+setopt hist_no_store # historyコマンドは履歴に登録しない
+setopt hist_reduce_blanks # 余分な空白は詰めて記録
+
+setopt auto_cd # ディレクトリ名だけで移動
+
+zstyle ':completion:*:default' menu select=1 # 補完候補のカーソル選択を有効に
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} # 補完候補のカーソル選択を有効に
+
 # Java
 export JAVA_HOME=`/usr/libexec/java_home`
 export PATH="$JAVA_HOME/bin:$PATH"
@@ -90,9 +107,6 @@ if [ ! -d ~/.terminfo ]; then
   && rm $tempfile
 fi
 export TERM=wezterm
-
-# mise に置き換えを試している
-# source ~/.anyenv.zsh
 
 if [ -f ~/.zshrc.local ] ; then
   source ~/.zshrc.local
