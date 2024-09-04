@@ -10,6 +10,7 @@ return {
       })
     end,
   },
+  -- , や : などでいい感じに配置するやつ
   {
     "junegunn/vim-easy-align",
     event = { "VeryLazy" },
@@ -140,6 +141,20 @@ return {
         },
       })
     end,
+  },
+  -- quickfix での置換
+  {
+    "gabrielpoca/replacer.nvim",
+    opts = { rename_files = false },
+    keys = {
+      {
+        "<leader>h",
+        function()
+          require("replacer").run()
+        end,
+        desc = "run replacer.nvim",
+      },
+    },
   },
   -- 移動
   {

@@ -14,6 +14,17 @@ return {
       vim.cmd([[ set helplang=ja,en ]])
     end,
   },
+  -- IME
+  {
+    "keaising/im-select.nvim",
+    event = { "InsertEnter" },
+    opts = {
+      set_default_events = { "VimEnter", "FocusGained", "InsertLeave", "CmdlineLeave" },
+      set_previous_events = {
+        --"InsertEnter"
+      },
+    },
+  },
   -- キーストロークの表示
   {
     "4513ECHO/nvim-keycastr",
@@ -142,6 +153,7 @@ return {
   },
   {
     "p5quared/apple-music.nvim",
+    -- telescope が読み込まれて起動が遅くなるので無効化
     enabled = false,
     dependencies = { "nvim-telescope/telescope.nvim" },
     event = { "VeryLazy" },

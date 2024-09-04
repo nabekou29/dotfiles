@@ -7,6 +7,11 @@ vim.opt.expandtab = true -- タブでスペースを入力
 vim.opt.tabstop = 2 -- インデントのサイズ
 vim.opt.shiftwidth = 2 -- インデントのサイズ
 
+vim.opt.foldcolumn = "1"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+
 vim.opt.ignorecase = true -- 検索時に大文字小文字を区別しない
 vim.opt.smartcase = true -- 大文字が含まれる場合は区別する
 

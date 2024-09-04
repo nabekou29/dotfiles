@@ -200,16 +200,6 @@ return {
         end,
       }
 
-      local filetypes = {
-        stylelint_lsp = {
-          "css",
-          "less",
-          "scss",
-          "sugarss",
-          "vue",
-          "wxss",
-        },
-      }
       local commands = {
         tsserver = {
           OrganizeImports = {
@@ -399,6 +389,11 @@ return {
         },
       })
     end,
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = { "InsertEnter" },
+    opts = {},
   },
   {
     "nvimdev/lspsaga.nvim",

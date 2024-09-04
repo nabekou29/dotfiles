@@ -42,16 +42,11 @@ return {
         },
       },
       { "dharmx/telescope-media.nvim" },
+      { "nvim-telescope/telescope-frecency.nvim" },
     },
     keys = {
       -- 通常の検索
-      { "<leader>ff", ":Telescope find_files hidden=true<CR>", silent = true },
-      -- 隠しファイル込み
-      {
-        "<leader>fF",
-        ":Telescope find_files hidden=false<CR>",
-        silent = true,
-      },
+      { "<leader>ff", ":Telescope frecency workspace=CWD<CR>", silent = true },
       -- シンボル
       { "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>", silent = true },
       -- 参照元
@@ -169,8 +164,8 @@ return {
       pcall(require("telescope").load_extension, "fzf")
       pcall(require("telescope").load_extension, "kenasku")
       pcall(require("telescope").load_extension, "egrepify")
-      pcall(require("telescope").load_extension, "egrepify")
       pcall(require("telescope").load_extension, "media")
+      pcall(require("telescope").load_extension, "frecency")
     end,
   },
   -- カーソルが当たった単語をハイライト

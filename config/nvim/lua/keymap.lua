@@ -30,6 +30,26 @@ set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
 set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })
 set("i", "jk", "<ESC>", { desc = "jk to ESC", silent = true, noremap = true })
 
+-- set("n", "<ESC><ESC>", ":nohlsearch<CR>", { desc = "Clear Highlight", silent = true, noremap = true })
+-- -- 特定のファイルタイプで無効化する
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = {
+--     "TelescopePrompt",
+--   },
+--   callback = function(event)
+--     vim.api.nvim_buf_del_keymap(event.buf, "n", "<ESC><ESC>")
+--   end,
+-- })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function(event)
+    if event.file ~= "TelescopePrompt" then
+      vim.api.nvim_buf_set_keymap(event.buf, "n", "<ESC><ESC>", ":nohlsearch<CR>", { silent = true, noremap = true })
+    end
+  end,
+})
+
 -- Clipboard
 set("n", "<leader>cp", function()
   local path = vim.fn.expand("%:.")
