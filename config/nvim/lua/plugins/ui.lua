@@ -50,13 +50,14 @@ return {
   {
     "levouh/tint.nvim",
     cmd = { "TintStart" },
-    -- event = { "FocusLost", "CursorHold" },
     init = function()
       function StartTint()
         require("tint")
       end
       vim.cmd("command! TintStart lua StartTint()")
     end,
+    -- event = { "FocusLost", "CursorHold" },
+    -- event = { "ColorScheme" },
     opts = {
       tint_background_colors = true,
       highlight_ignore_patterns = {
@@ -467,5 +468,9 @@ return {
         },
       })
     end,
+  },
+  {
+    "shortcuts/no-neck-pain.nvim",
+    event = { "VeryLazy" },
   },
 }

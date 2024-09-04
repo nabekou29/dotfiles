@@ -10,6 +10,7 @@ return {
       { "hrsh7th/cmp-path" },
       { "hrsh7th/cmp-nvim-lua" },
       { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "onsails/lspkind.nvim" },
       { "dcampos/nvim-snippy" },
       { "dcampos/cmp-snippy" },
@@ -52,6 +53,7 @@ return {
           { name = "buffer", priority = 10 },
           { name = "rg", priority = 0 },
           { name = "nvim_lsp", priority = 100 },
+          { name = "nvim_lsp_signature_help", priority = 100 },
         },
         snippet = {
           expand = function(args)
@@ -194,6 +196,11 @@ return {
       })
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
+
       local on_attach = {
         tsserver = function(client, bufnr)
           require("twoslash-queries").attach(client, bufnr)
@@ -392,8 +399,12 @@ return {
   },
   {
     "ray-x/lsp_signature.nvim",
+    -- enabled = false,
     event = { "InsertEnter" },
-    opts = {},
+    opts = {
+      max_width = 100,
+      hint_enable = false,
+    },
   },
   {
     "nvimdev/lspsaga.nvim",
@@ -550,6 +561,10 @@ return {
       { "<leader>ie", ":I18nEditTranslation<CR>", desc = "Edit translation" },
     },
     opts = {
+      -- translation_source = { "**/messages/*.json" },
+      -- detect_language = function(path)
+      --   return path:match("([^/]+)%.json$")
+      -- end,
       primary_language = { "ja" },
       virt_text = {
         max_width = 64,

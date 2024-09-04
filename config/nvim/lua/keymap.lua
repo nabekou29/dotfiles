@@ -30,6 +30,9 @@ set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
 set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })
 set("i", "jk", "<ESC>", { desc = "jk to ESC", silent = true, noremap = true })
 
+set("n", "*", [[*``]], { noremap = true, silent = true })
+set("n", "#", [[#``]], { noremap = true, silent = true })
+
 -- set("n", "<ESC><ESC>", ":nohlsearch<CR>", { desc = "Clear Highlight", silent = true, noremap = true })
 -- -- 特定のファイルタイプで無効化する
 -- vim.api.nvim_create_autocmd("FileType", {

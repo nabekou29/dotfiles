@@ -2,7 +2,17 @@ return {
   -- 検索時に右に n/N を表示してくれる
   {
     "kevinhwang91/nvim-hlslens",
-    event = { "VeryLazy" },
+    event = { "CmdlineEnter" },
+    keys = {
+      -- stylua: ignore start
+      { "n", "<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" }, noremap = true, silent = true },
+      { "N", "<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" }, noremap = true, silent = true },
+      { "*", [[*``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
+      { "#", [[#``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
+      { "g*", [[g*``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
+      { "g#", [[g#``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
+      -- stylua: ignore end
+    },
     opts = {},
   },
   -- ローマ字検索
@@ -24,29 +34,31 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
-        "prochri/telescope-all-recent.nvim",
-        dependencies = { "kkharji/sqlite.lua" },
-      },
-      {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
         cond = function()
           return vim.fn.executable("make") == 1
         end,
       },
+      -- { "prochri/telescope-all-recent.nvim", dependencies = { "kkharji/sqlite.lua" } },
       { "fdschmidt93/telescope-egrepify.nvim" },
-      {
-        "Allianaab2m/telescope-kensaku.nvim",
-        dependencies = {
-          "lambdalisue/kensaku.vim",
-        },
-      },
       { "dharmx/telescope-media.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim" },
+      -- { "nvim-telescope/telescope-frecency.nvim" },
+      { "danielfalk/smart-open.nvim", dependencies = { "kkharji/sqlite.lua" } },
     },
     keys = {
       -- 通常の検索
-      { "<leader>ff", ":Telescope frecency workspace=CWD<CR>", silent = true },
+      -- { "<leader>ff", ":Telescope frecency workspace=CWD<CR>", silent = true },
+      {
+        "<leader>ff",
+        function()
+          require("telescope").extensions.smart_open.smart_open({
+            cwd_only = true,
+            -- filename_first = false,
+          })
+        end,
+        silent = true,
+      },
       -- シンボル
       { "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>", silent = true },
       -- 参照元
@@ -136,6 +148,11 @@ return {
           override_file_sorter = true,
           case_mode = "smart_case",
         },
+        smart_open = {
+          show_scores = true,
+          match_algorithm = "fzf",
+          disable_devicons = false,
+        },
         egrepify = {
           prefixes = {
             ["-H"] = {
@@ -160,12 +177,12 @@ return {
     config = function(_, opts)
       require("telescope").setup(opts)
 
-      pcall(require("telescope-all-recent").setup, {})
+      -- pcall(require("telescope-all-recent").setup, {})
       pcall(require("telescope").load_extension, "fzf")
-      pcall(require("telescope").load_extension, "kenasku")
       pcall(require("telescope").load_extension, "egrepify")
       pcall(require("telescope").load_extension, "media")
       pcall(require("telescope").load_extension, "frecency")
+      pcall(require("telescope").load_extension, "smart_open")
     end,
   },
   -- カーソルが当たった単語をハイライト
