@@ -22,9 +22,9 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown" },
-    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+    -- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
     opts = {},
     init = function()
       -- Override highlight groups
@@ -34,7 +34,7 @@ return {
         hi! default link RenderMarkdownH3Bg @markup.heading
         hi! default link RenderMarkdownH4Bg @markup.heading
         hi! default link RenderMarkdownH5Bg @markup.heading
-        hi! default link RenderMarkdownH6Bg @markup.heading
+        hi! default link RenderMarkdownH10Bg @markup.heading
       ]])
     end,
   },
@@ -56,8 +56,9 @@ return {
       end
       vim.cmd("command! TintStart lua StartTint()")
     end,
-    -- event = { "FocusLost", "CursorHold" },
+    -- event = { "FocusLost" },
     -- event = { "ColorScheme" },
+    -- event = { "VeryLazy" },
     opts = {
       tint_background_colors = true,
       highlight_ignore_patterns = {
@@ -156,6 +157,7 @@ return {
   -- バッファーのタブ表示
   {
     "akinsho/bufferline.nvim",
+    enabled = false,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "kazhala/close-buffers.nvim",
@@ -440,7 +442,7 @@ return {
   -- スクロールをスムーズに
   {
     "karb94/neoscroll.nvim",
-    event = { "VeryLazy" },
+    keys = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
     opts = {},
   },
   -- LSP の起動状況などを右下に表示

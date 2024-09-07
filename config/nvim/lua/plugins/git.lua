@@ -3,9 +3,10 @@ return {
   {
     "akinsho/toggleterm.nvim",
     cmd = { "ToggleTerm", "TermExec", "TermCloseAll", "TermOpenAll" },
-    event = { "VeryLazy" },
     keys = {
       { "<leader>t", "<cmd>ToggleTerm direction=tab<CR>", { noremap = true, silent = true } },
+      "<leader>gg",
+      "<leader>gd",
     },
     config = function()
       require("toggleterm").setup({})
@@ -24,13 +25,29 @@ return {
           winblend = 20,
         },
       })
-
       local function _lazygit_toggle()
         lazygit:toggle()
       end
 
       vim.keymap.set("n", "<leader>gg", function()
         _lazygit_toggle()
+      end)
+
+      local dashboard = Terminal:new({
+        cmd = "gh dash",
+        hidden = true,
+        direction = "float",
+        float_opts = {
+          border = "double",
+          winblend = 20,
+        },
+      })
+      local function _dashboard_toggle()
+        dashboard:toggle()
+      end
+
+      vim.keymap.set("n", "<leader>gd", function()
+        _dashboard_toggle()
       end)
     end,
   },

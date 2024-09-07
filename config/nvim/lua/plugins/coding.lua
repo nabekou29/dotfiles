@@ -196,10 +196,10 @@ return {
       })
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      capabilities.textDocument.foldingRange = {
-        dynamicRegistration = false,
-        lineFoldingOnly = true,
-      }
+      -- capabilities.textDocument.foldingRange = {
+      --   dynamicRegistration = false,
+      --   lineFoldingOnly = true,
+      -- }
 
       local on_attach = {
         tsserver = function(client, bufnr)
@@ -399,7 +399,6 @@ return {
   },
   {
     "ray-x/lsp_signature.nvim",
-    -- enabled = false,
     event = { "InsertEnter" },
     opts = {
       max_width = 100,
@@ -485,39 +484,17 @@ return {
   -- エラー
   {
     "folke/trouble.nvim",
-    event = { "VeryLazy" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    init = function()
-      vim.keymap.set("n", "<leader>xx", function()
-        require("trouble").toggle()
-      end, {
-        desc = ":TroubleToggle",
-      })
-      vim.keymap.set("n", "<leader>xX", function()
-        require("trouble").toggle("workspace_diagnostics")
-      end, {
-        desc = ":TroubleToggle workspace_diagnostics",
-      })
-      vim.keymap.set("n", "<leader>xd", function()
-        require("trouble").toggle("document_diagnostics")
-      end, {
-        desc = ":TroubleToggle document_diagnostics",
-      })
-      vim.keymap.set("n", "<leader>xl", function()
-        require("trouble").toggle("loclist")
-      end, {
-        desc = ":TroubleToggle loclist",
-      })
-      vim.keymap.set("n", "<leader>xq", function()
-        require("trouble").toggle("quickfix")
-      end, {
-        desc = ":TroubleToggle quickfix",
-      })
-      vim.keymap.set("n", "gR", function()
-        require("trouble").toggle("lsp_references")
-      end, {
-        desc = ":TroubleToggle lsp_references",
-      })
+    cmd = { "Trouble", "TroubleClose" },
+    keys = function()
+      local prefix = "<leader>x"
+
+      return {
+        { prefix .. "x", ":Trouble diagnostics toggle filetype.buf=0<CR>" },
+        { prefix .. "X", ":Trouble diagnostics toggle<CR>" },
+        { prefix .. "l", ":Trouble loclist toggle<CR>" },
+        { prefix .. "q", ":Trouble quickfix toggle<CR>" },
+      }
     end,
     opts = {
       use_diagnostic_signs = true,
@@ -561,10 +538,6 @@ return {
       { "<leader>ie", ":I18nEditTranslation<CR>", desc = "Edit translation" },
     },
     opts = {
-      -- translation_source = { "**/messages/*.json" },
-      -- detect_language = function(path)
-      --   return path:match("([^/]+)%.json$")
-      -- end,
       primary_language = { "ja" },
       virt_text = {
         max_width = 64,
@@ -587,6 +560,26 @@ return {
     event = { "VeryLazy" },
     dependencies = {
       "MunifTanjim/nui.nvim",
+    },
+    opts = {},
+  },
+  -- コメントアウト
+  {
+    "numToStr/Comment.nvim",
+    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+    event = { "VeryLazy" },
+    config = function()
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      })
+    end,
+  },
+  -- Docコメント生成
+  {
+    "danymat/neogen",
+    cmd = { "Neogen" },
+    keys = {
+      { "<leader>gc", ":Neogen<CR>" },
     },
     opts = {},
   },

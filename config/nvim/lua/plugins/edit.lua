@@ -21,17 +21,6 @@ return {
     event = "InsertEnter",
     opts = {},
   },
-  -- コメントアウト
-  {
-    "numToStr/Comment.nvim",
-    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    event = { "VeryLazy" },
-    config = function()
-      require("Comment").setup({
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-      })
-    end,
-  },
   -- 範囲選択
   {
     "terryma/vim-expand-region",
@@ -45,6 +34,7 @@ return {
   -- マルチカーソル
   {
     "mg979/vim-visual-multi",
+    dependencies = { "kevinhwang91/nvim-hlslens" },
     event = { "VeryLazy" },
   },
   -- 配列などを一行にまとめたり複数行に展開したり
@@ -162,10 +152,10 @@ return {
     keys = function()
       local hop_prefix = "<leader><leader>"
       return {
-        -- { "f", ":HopChar1CurrentLineAC<CR>", silent = true },
-        -- { "F", ":HopChar1CurrentLineBC<CR>", silent = true },
-        { "f", ":HopChar2CurrentLineAC<CR>", silent = true },
-        { "F", ":HopChar2CurrentLineBC<CR>", silent = true },
+        { "f", ":HopChar1CurrentLineAC<CR>", silent = true },
+        { "F", ":HopChar1CurrentLineBC<CR>", silent = true },
+        -- { "f", ":HopChar2CurrentLineAC<CR>", silent = true },
+        -- { "F", ":HopChar2CurrentLineBC<CR>", silent = true },
         -- { "t", ":HopChar1AC<CR>", silent = true },
         -- { "T", ":HopChar1BC<CR>", silent = true },
         { "t", ":HopChar2AC<CR>", silent = true },
@@ -177,17 +167,35 @@ return {
     end,
     opts = {},
   },
+  -- w,b,e でキャメルケースを考慮した移動
+  {
+    "chaoren/vim-wordmotion",
+    event = { "VeryLazy" },
+    keys = { "w", "b", "e", "W", "B", "E" },
+  },
   -- Undo の履歴をツリー表示
   {
     "mbbill/undotree",
     event = { "VeryLazy" },
   },
-  -- `jj`, `jk` でノーマルモードに戻る（入力の遅延回避）
+  -- `jj` でノーマルモードに戻る（入力の遅延回避）
   {
     "max397574/better-escape.nvim",
-    -- toggleterm で正しく動作しないため無効化
-    enabled = false,
     lazy = false,
-    opts = {},
+    opts = {
+      default_mappings = false,
+      mappings = {
+        i = {
+          j = {
+            j = "<Esc>",
+          },
+        },
+        c = {
+          j = {
+            j = "<Esc>",
+          },
+        },
+      },
+    },
   },
 }

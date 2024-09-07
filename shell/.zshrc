@@ -11,19 +11,6 @@ fi
 
 eval "$(sheldon source)"
 
-if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-  FPATH=$(brew --prefix)/share/zsh/site-functions:${FPATH}
-
-  autoload -Uz compinit
-  compinit
-fi
-
-eval "$(mise activate zsh)"
-_evalcache starship init zsh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # ヒストリー機能
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -35,11 +22,33 @@ setopt append_history # 履歴を追加 (毎回 .zsh_history を作るのでは�
 setopt inc_append_history # 履歴をインクリメンタルに追加
 setopt hist_no_store # historyコマンドは履歴に登録しない
 setopt hist_reduce_blanks # 余分な空白は詰めて記録
-
+bindkey "^[[Z" reverse-menu-complete  # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
 setopt auto_cd # ディレクトリ名だけで移動
 
+# 色の設定
+export LSCOLORS=Exfxcxdxbxegedabagacad
+# 補完時の色の設定
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+export ZLS_COLORS=$LS_COLORS
+export CLICOLOR=true
+# 補完候補に色を付ける
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:default' menu select=1 # 補完候補のカーソル選択を有効に
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} # 補完候補のカーソル選択を有効に
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  FPATH=$(brew --prefix)/share/zsh/site-functions:${FPATH}
+
+  autoload -Uz compinit
+  compinit
+fi
+
+# eval "$(direnv hook zsh)"
+eval "$(mise activate zsh)"
+_evalcache starship init zsh
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Java
 export JAVA_HOME=`/usr/libexec/java_home`

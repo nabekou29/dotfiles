@@ -17,7 +17,7 @@ return {
 	-- color_scheme = "Gigavolt (base16)",
 	-- color_scheme = "Mashup Colors (terminal.sexy)",
 	-- color_scheme = "Operator Mono Dark",
-	window_background_opacity = 0.92,
+	window_background_opacity = 0.93,
 	inactive_pane_hsb = { saturation = 0.95, brightness = 0.3 },
 	hide_tab_bar_if_only_one_tab = true,
 	adjust_window_size_when_changing_font_size = false,

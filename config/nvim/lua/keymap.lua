@@ -6,11 +6,15 @@ set("n", "<C-S-h>", "<cmd>wincmd h<CR>", {})
 set("n", "<C-S-l>", "<cmd>wincmd l<CR>", {})
 set("n", "<C-S-j>", "<cmd>wincmd j<CR>", {})
 set("n", "<C-S-k>", "<cmd>wincmd k<CR>", {})
+set("n", "<C-h>", "<cmd>wincmd h<CR>", {})
+set("n", "<C-l>", "<cmd>wincmd l<CR>", {})
+set("n", "<C-j>", "<cmd>wincmd j<CR>", {})
+set("n", "<C-k>", "<cmd>wincmd k<CR>", {})
 
 set("n", "<C-S-M-h>", "<cmd>tabp<CR>", {})
 set("n", "<C-S-M-l>", "<cmd>tabn<CR>", {})
 
-set({ "n", "x" }, "d", '"_d', { desc = "Delete without yank", silent = true, noremap = true })
+-- set({ "n", "x" }, "d", '"_d', { desc = "Delete without yank", silent = true, noremap = true })
 set({ "x" }, "p", '"_dP', { desc = "Paste without yank", silent = true, noremap = true })
 
 -- 行の移動
@@ -27,22 +31,11 @@ set("i", "<C-h>", "<BS>", { desc = "Backspace" })
 
 set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
 
-set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })
-set("i", "jk", "<ESC>", { desc = "jk to ESC", silent = true, noremap = true })
+-- set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })
+-- set("i", "jk", "<ESC>", { desc = "jk to ESC", silent = true, noremap = true })
 
 set("n", "*", [[*``]], { noremap = true, silent = true })
 set("n", "#", [[#``]], { noremap = true, silent = true })
-
--- set("n", "<ESC><ESC>", ":nohlsearch<CR>", { desc = "Clear Highlight", silent = true, noremap = true })
--- -- 特定のファイルタイプで無効化する
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = {
---     "TelescopePrompt",
---   },
---   callback = function(event)
---     vim.api.nvim_buf_del_keymap(event.buf, "n", "<ESC><ESC>")
---   end,
--- })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
