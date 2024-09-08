@@ -54,7 +54,7 @@ return {
   -- 変更箇所の表示・blame の表示
   {
     "lewis6991/gitsigns.nvim",
-    event = { "FocusLost", "CursorHold" },
+    event = { "FocusLost" },
     opts = {
       current_line_blame = true,
       current_line_blame_opts = {

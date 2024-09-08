@@ -6,7 +6,6 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
-      -- "3rd/image.nvim",
       "tkmpypy/chowcho.nvim",
       "adelarsq/image_preview.nvim",
     },

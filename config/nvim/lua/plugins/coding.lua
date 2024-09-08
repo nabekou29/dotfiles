@@ -196,10 +196,10 @@ return {
       })
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      -- capabilities.textDocument.foldingRange = {
-      --   dynamicRegistration = false,
-      --   lineFoldingOnly = true,
-      -- }
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
 
       local on_attach = {
         tsserver = function(client, bufnr)
@@ -332,6 +332,7 @@ return {
               "typescriptreact",
               "json",
               "jsonc",
+              "json5",
               "css",
               "scss",
               "less",

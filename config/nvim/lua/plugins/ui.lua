@@ -92,8 +92,10 @@ return {
       -- Menu
       dashboard.section.buttons.val = {
         dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
-        dashboard.button("f", "󰈞  Find file", ":Telescope find_files<CR>"),
-        dashboard.button("g", "  Grep word", ":Telescope live_grep<CR>"),
+        dashboard.button("f", "󰈞  Find file", function()
+          require("telescope").extensions.smart_open.smart_open({ cwd_only = true })
+        end),
+        dashboard.button("g", "  Grep word", ":Telescope egrepify<CR>"),
         dashboard.button("q", "  Quit", ":qa<CR>"),
       }
       -- Set footer

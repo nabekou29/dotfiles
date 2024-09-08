@@ -40,83 +40,91 @@ return {
           return vim.fn.executable("make") == 1
         end,
       },
-      -- { "prochri/telescope-all-recent.nvim", dependencies = { "kkharji/sqlite.lua" } },
       { "fdschmidt93/telescope-egrepify.nvim" },
       { "dharmx/telescope-media.nvim" },
-      -- { "nvim-telescope/telescope-frecency.nvim" },
       { "danielfalk/smart-open.nvim", dependencies = { "kkharji/sqlite.lua" } },
     },
-    keys = {
-      -- 通常の検索
-      -- { "<leader>ff", ":Telescope frecency workspace=CWD<CR>", silent = true },
-      {
-        "<leader>ff",
-        function()
-          require("telescope").extensions.smart_open.smart_open({
-            cwd_only = true,
-            -- filename_first = false,
-          })
-        end,
-        silent = true,
-      },
-      -- シンボル
-      { "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>", silent = true },
-      -- 参照元
-      { "<leader>fr", ":Telescope lsp_references<CR>", silent = true },
-      -- 全文検索
-      {
-        "<leader>fg",
-        function()
-          require("telescope").extensions.egrepify.egrepify({})
-        end,
-        desc = ":Telescope egrepify",
-        silent = true,
-      },
-      -- バッファから検索
-      {
-        "<leader>fb",
-        function()
-          require("telescope.builtin").buffers()
-        end,
-        desc = ":Telescope buffers",
-        silent = true,
-      },
-      -- コマンドの履歴
-      {
-        "<leader>:",
-        function()
-          require("telescope.builtin").command_history()
-        end,
-        desc = ":Telescope command_history",
-        silent = true,
-      },
-      -- メディア
-      {
-        "<leader>fm",
-        function()
-          require("telescope").extensions.media.media({
-            find_command = {
-              "rg",
-              "--files",
-              "--glob",
-              "*.{png,jpg,jpeg,svg,gif,mp4,pdf,webp,webm}",
-              ".",
-            },
-          })
-        end,
-        desc = ":Telescope media",
-        silent = true,
-      },
-      -- help
-      {
-        "<leader>fh",
-        function()
-          require("telescope.builtin").help_tags()
-        end,
-        desc = ":Telescope help_tags",
-        silent = true,
-      },
-    },
+    keys = function()
+      local loaded = {}
+      local function load_extension(name)
+        if not loaded[name] then
+          pcall(require("telescope").load_extension, name)
+          loaded[name] = true
+        end
+      end
+
+      return {
+        -- 通常の検索
+        {
+          "<leader>ff",
+          function()
+            load_extension("fzf")
+            load_extension("smart_open")
+            require("telescope").extensions.smart_open.smart_open({ cwd_only = true })
+          end,
+          silent = true,
+        },
+        -- シンボル
+        { "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>", silent = true },
+        -- 参照元
+        { "<leader>fr", ":Telescope lsp_references<CR>", silent = true },
+        -- 全文検索
+        {
+          "<leader>fg",
+          function()
+            load_extension("egrepify")
+            require("telescope").extensions.egrepify.egrepify({})
+          end,
+          desc = ":Telescope egrepify",
+          silent = true,
+        },
+        -- バッファから検索
+        {
+          "<leader>fb",
+          function()
+            require("telescope.builtin").buffers()
+          end,
+          desc = ":Telescope buffers",
+          silent = true,
+        },
+        -- コマンドの履歴
+        {
+          "<leader>:",
+          function()
+            require("telescope.builtin").command_history()
+          end,
+          desc = ":Telescope command_history",
+          silent = true,
+        },
+        -- メディア
+        {
+          "<leader>fm",
+          function()
+            load_extension("media")
+            require("telescope").extensions.media.media({
+              find_command = {
+                "rg",
+                "--files",
+                "--glob",
+                "*.{png,jpg,jpeg,svg,gif,mp4,pdf,webp,webm}",
+                ".",
+              },
+            })
+          end,
+          desc = ":Telescope media",
+          silent = true,
+        },
+        -- help
+        {
+          "<leader>fh",
+          function()
+            require("telescope.builtin").help_tags()
+          end,
+          desc = ":Telescope help_tags",
+          silent = true,
+        },
+      }
+    end,
     opts = {
       defaults = {
         prompt_prefix = " ",
@@ -174,21 +182,11 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      require("telescope").setup(opts)
-
-      -- pcall(require("telescope-all-recent").setup, {})
-      pcall(require("telescope").load_extension, "fzf")
-      pcall(require("telescope").load_extension, "egrepify")
-      pcall(require("telescope").load_extension, "media")
-      pcall(require("telescope").load_extension, "frecency")
-      pcall(require("telescope").load_extension, "smart_open")
-    end,
   },
   -- カーソルが当たった単語をハイライト
   {
     "RRethy/vim-illuminate",
-    event = { "FocusLost", "CursorHold" },
+    event = { "FocusLost" },
     config = function()
       require("illuminate").configure({})
     end,
