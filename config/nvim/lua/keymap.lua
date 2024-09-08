@@ -29,7 +29,8 @@ set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 set("i", "<C-d>", "<Del>", { desc = "Delete" })
 set("i", "<C-h>", "<BS>", { desc = "Backspace" })
 
-set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><ESC>", { desc = "Save" })
+-- 保存 (無名のファイルの場合は単にESC)
+set({ "n", "i", "v" }, "<C-s>", "<cmd>if expand('%') != '' | write | endif<CR><ESC>", { desc = "Save and ESC" })
 
 -- set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })
 -- set("i", "jk", "<ESC>", { desc = "jk to ESC", silent = true, noremap = true })

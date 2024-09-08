@@ -583,4 +583,49 @@ return {
     },
     opts = {},
   },
+  -- repl
+  {
+    "Vigemus/iron.nvim",
+    keys = {
+      { "<leader>rS", ":IronRepl<CR>" },
+      { "<leader>rR", ":IronRestart<CR>" },
+      { "<leader>rF", ":IronFocus<CR>" },
+      { "<leader>rH", ":IronHide<CR>" },
+    },
+    main = "iron.core",
+    opts = function()
+      return {
+        config = {
+          repl_definition = {
+            sh = {
+              command = { "zsh" },
+            },
+            python = {
+              command = { "python3" }, -- or { "ipython", "--no-autoindent" }
+              format = require("iron.fts.common").bracketed_paste_python,
+            },
+            javascript = {
+              command = { "node" },
+            },
+            typescript = {
+              command = { "deno" },
+            },
+          },
+        },
+        keymaps = {
+          send_motion = "<leader>rs",
+          visual_send = "<leader>rs",
+          send_file = "<leader>rf",
+          send_line = "<leader>rl",
+          cr = "<leader>r<CR>",
+          interrupt = "<leader>r<space>",
+          exit = "<leader>rq",
+          clear = "<leader>rc",
+        },
+        highlight = {
+          italic = true,
+        },
+      }
+    end,
+  },
 }
