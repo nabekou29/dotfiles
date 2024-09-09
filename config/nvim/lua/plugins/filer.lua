@@ -10,11 +10,11 @@ return {
       "adelarsq/image_preview.nvim",
     },
     keys = {
-      { "<leader>e", ":Neotree position=float focus<CR>", silent = true },
-      { "<leader>E", ":Neotree position=left focus<CR>", silent = true },
-      { "<C-1>", ":Neotree source=filesystem reveal=true <CR>", silent = true },
-      { "<C-2>", ":Neotree source=buffers focus<CR>", silent = true },
-      { "<C-3>", ":Neotree source=git_status focus<CR>", silent = true },
+      { "<leader>e", "<Cmd>Neotree position=float focus<CR>" },
+      { "<leader>E", "<Cmd>Neotree position=left focus<CR>" },
+      { "<C-1>", "<Cmd>Neotree source=filesystem reveal=true <CR>" },
+      { "<C-2>", "<Cmd>Neotree source=buffers focus<CR>" },
+      { "<C-3>", "<Cmd>Neotree source=git_status focus<CR>" },
     },
     opts = {
       source_selector = {
@@ -89,12 +89,12 @@ return {
     main = "other-nvim",
     cmd = { "Other", "OtherTabNew", "OtherVsplit", "OtherSplit", "OtherClear" },
     keys = {
-      { "<leader>ll", ":Other<CR>", silent = true },
-      { "<leader>lL", ":OtherClear<CR>:Other<CR>", silent = true },
-      { "<leader>li", ":Other impl<CR>", silent = true },
-      { "<leader>lt", ":Other test<CR>", silent = true },
-      { "<leader>ls", ":Other stories<CR>", silent = true },
-      { "<leader>lc", ":Other css<CR>", silent = true },
+      { "<leader>ll", "<Cmd>Other<CR>" },
+      { "<leader>lL", "<Cmd>OtherClear<CR><Cmd>Other<CR>" },
+      { "<leader>li", "<Cmd>Other impl<CR>" },
+      { "<leader>lt", "<Cmd>Other test<CR>" },
+      { "<leader>ls", "<Cmd>Other stories<CR>" },
+      { "<leader>lc", "<Cmd>Other css<CR>" },
     },
     opts = {
       showMissingFiles = false,

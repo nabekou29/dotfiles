@@ -67,11 +67,11 @@ return {
       "hrsh7th/nvim-cmp",
     },
     keys = {
-      { "<leader>on", ":ObsidianNew<CR>" },
-      { "<leader>oO", ":ObsidianOpen<CR>" },
-      { "<leader>oo", ":ObsidianQuickSwitch<CR>" },
-      { "<leader>or", ":ObsidianRename<CR>" },
-      { "<leader>os", ":ObsidianSearch<CR>" },
+      { "<leader>on", "<CMD>ObsidianNew<CR>" },
+      { "<leader>oO", "<CMD>ObsidianOpen<CR>" },
+      { "<leader>oo", "<CMD>ObsidianQuickSwitch<CR>" },
+      { "<leader>or", "<CMD>ObsidianRename<CR>" },
+      { "<leader>os", "<CMD>ObsidianSearch<CR>" },
       {
         "<leader>oe",
         function()
@@ -136,7 +136,9 @@ return {
   {
     "subnut/nvim-ghost.nvim",
     event = { "FocusLost" },
-    init = function() end,
+    init = function()
+      vim.g.nvim_ghost_super_quiet = 1
+    end,
     config = function()
       vim.api.nvim_create_augroup("nvim_ghost_user_autocommands", { clear = true })
       vim.api.nvim_create_autocmd("User", {
@@ -151,14 +153,15 @@ return {
   {
     "seandewar/bad-apple.nvim",
     cmd = { "BadApple" },
+    config = function()
+      -- require("bad-apple.sound").libcanberra_fname =
+      -- "/opt/homebrew/Cellar/libcanberra/0.30/lib/libcanberra-0.30/libcanberra-null.so"
+      -- "/opt/homebrew/Cellar/libcanberra/0.30/lib/libcanberra-0.30/libcanberra-multi.so"
+      -- "/opt/homebrew/Cellar/libcanberra/0.30/lib/libcanberra.dylib"
+    end,
   },
   {
     "p5quared/apple-music.nvim",
-    -- telescope が読み込まれて起動が遅くなるので無効化
-    enabled = false,
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    event = { "VeryLazy" },
-    config = {},
     keys = {
       {
         "<leader>amp",
@@ -204,4 +207,5 @@ return {
       },
     },
   },
+  opts = {},
 }

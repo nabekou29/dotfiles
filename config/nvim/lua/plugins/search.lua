@@ -5,8 +5,8 @@ return {
     event = { "CmdlineEnter" },
     keys = {
       -- stylua: ignore start
-      { "n", "<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" }, noremap = true, silent = true },
-      { "N", "<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" }, noremap = true, silent = true },
+      { "n", "<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" }, noremap = true },
+      { "N", "<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" }, noremap = true },
       { "*", [[*``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
       { "#", [[#``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
       { "g*", [[g*``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
@@ -62,12 +62,11 @@ return {
             load_extension("smart_open")
             require("telescope").extensions.smart_open.smart_open({ cwd_only = true })
           end,
-          silent = true,
         },
         -- シンボル
-        { "<leader>fs", ":Telescope lsp_dynamic_workspace_symbols<CR>", silent = true },
+        { "<leader>fs", "<CMD>Telescope lsp_dynamic_workspace_symbols<CR>" },
         -- 参照元
-        { "<leader>fr", ":Telescope lsp_references<CR>", silent = true },
+        { "<leader>fr", "<CMD>Telescope lsp_references<CR>" },
         -- 全文検索
         {
           "<leader>fg",
@@ -76,7 +75,6 @@ return {
             require("telescope").extensions.egrepify.egrepify({})
           end,
           desc = ":Telescope egrepify",
-          silent = true,
         },
         -- バッファから検索
         {
@@ -85,7 +83,6 @@ return {
             require("telescope.builtin").buffers()
           end,
           desc = ":Telescope buffers",
-          silent = true,
         },
         -- コマンドの履歴
         {
@@ -94,7 +91,6 @@ return {
             require("telescope.builtin").command_history()
           end,
           desc = ":Telescope command_history",
-          silent = true,
         },
         -- メディア
         {
@@ -112,7 +108,6 @@ return {
             })
           end,
           desc = ":Telescope media",
-          silent = true,
         },
         -- help
         {
@@ -121,7 +116,6 @@ return {
             require("telescope.builtin").help_tags()
           end,
           desc = ":Telescope help_tags",
-          silent = true,
         },
       }
     end,

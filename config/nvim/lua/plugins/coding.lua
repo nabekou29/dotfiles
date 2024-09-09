@@ -165,7 +165,7 @@ return {
     config = function()
       require("mason").setup({})
     end,
-  }, --
+  },
   {
     "williamboman/mason-lspconfig.nvim",
     event = { "BufReadPre", "BufNewFile" },
@@ -173,7 +173,6 @@ return {
       { "williamboman/mason.nvim" },
       { "neovim/nvim-lspconfig" },
       { "marilari88/twoslash-queries.nvim" },
-      { "sontungexpt/better-diagnostic-virtual-text" },
     },
     config = function()
       require("mason-lspconfig").setup({
@@ -244,7 +243,7 @@ return {
           require("lspconfig")[server_name].setup({
             capabilities = capabilities,
             settings = settings,
-            on_attach = on_attach[server_name],
+            on_attach = on_attach[server_name] or on_attach["*"],
             filetypes = lc.get("lsp", server_name, "filetypes"),
             commands = commands[server_name],
             init_options = init_options[server_name],
@@ -415,16 +414,16 @@ return {
       { "nvim-treesitter/nvim-treesitter" },
     },
     keys = {
-      { "gh", ":Lspsaga finder<CR>", silent = true },
-      { "K", ":Lspsaga hover_doc<CR>", silent = true },
-      { "gr", ":Lspsaga finder ref<CR>", silent = true },
-      { "gd", ":Lspsaga peek_definition<CR>", silent = true },
-      { "gD", ":Lspsaga goto_definition<CR>", silent = true },
-      { "gn", ":Lspsaga rename<CR>", silent = true },
-      { "gN", ":Lspsaga rename ++project<CR>", silent = true },
-      { "ga", ":Lspsaga code_action<CR>", silent = true },
-      { "g[", ":Lspsaga diagnostic_jump_prev<CR>", silent = true },
-      { "g]", ":Lspsaga diagnostic_jump_next<CR>", silent = true },
+      { "gh", "<Cmd>Lspsaga finder<CR>" },
+      { "K", "<Cmd>Lspsaga hover_doc<CR>" },
+      { "gr", "<Cmd>Lspsaga finder ref<CR>" },
+      { "gd", "<Cmd>Lspsaga peek_definition<CR>" },
+      { "gD", "<Cmd>Lspsaga goto_definition<CR>" },
+      { "gn", "<Cmd>Lspsaga rename<CR>" },
+      { "gN", "<Cmd>Lspsaga rename ++project<CR>" },
+      { "ga", "<Cmd>Lspsaga code_action<CR>" },
+      { "g[", "<Cmd>Lspsaga diagnostic_jump_prev<CR>" },
+      { "g]", "<Cmd>Lspsaga diagnostic_jump_next<CR>" },
     },
     opts = {
       symbol_in_winbar = {
@@ -479,7 +478,7 @@ return {
     "folke/todo-comments.nvim",
     event = { "VeryLazy" },
     dependencies = { "nvim-lua/plenary.nvim" },
-    keys = { "<leader>ft", ":TodoTelescope<CR>" },
+    keys = { "<leader>ft", "<Cmd>TodoTelescope<CR>" },
     opts = {},
   },
   -- エラー
@@ -491,10 +490,10 @@ return {
       local prefix = "<leader>x"
 
       return {
-        { prefix .. "x", ":Trouble diagnostics toggle filetype.buf=0<CR>" },
-        { prefix .. "X", ":Trouble diagnostics toggle<CR>" },
-        { prefix .. "l", ":Trouble loclist toggle<CR>" },
-        { prefix .. "q", ":Trouble quickfix toggle<CR>" },
+        { prefix .. "x", "<Cmd>Trouble diagnostics toggle filetype.buf=0<CR>" },
+        { prefix .. "X", "<Cmd>Trouble diagnostics toggle<CR>" },
+        { prefix .. "l", "<Cmd>Trouble loclist toggle<CR>" },
+        { prefix .. "q", "<Cmd>Trouble quickfix toggle<CR>" },
       }
     end,
     opts = {
@@ -588,10 +587,10 @@ return {
   {
     "Vigemus/iron.nvim",
     keys = {
-      { "<leader>rS", ":IronRepl<CR>" },
-      { "<leader>rR", ":IronRestart<CR>" },
-      { "<leader>rF", ":IronFocus<CR>" },
-      { "<leader>rH", ":IronHide<CR>" },
+      { "<leader>rS", "<Cmd>IronRepl<CR>" },
+      { "<leader>rR", "<Cmd>IronRestart<CR>" },
+      { "<leader>rF", "<Cmd>IronFocus<CR>" },
+      { "<leader>rH", "<Cmd>IronHide<CR>" },
     },
     main = "iron.core",
     opts = function()

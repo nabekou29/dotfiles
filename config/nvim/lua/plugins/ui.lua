@@ -91,12 +91,12 @@ return {
 
       -- Menu
       dashboard.section.buttons.val = {
-        dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
+        dashboard.button("e", "  New file", "<Cme>ene <BAR> startinsert <CR>"),
         dashboard.button("f", "󰈞  Find file", function()
           require("telescope").extensions.smart_open.smart_open({ cwd_only = true })
         end),
-        dashboard.button("g", "  Grep word", ":Telescope egrepify<CR>"),
-        dashboard.button("q", "  Quit", ":qa<CR>"),
+        dashboard.button("g", "  Grep word", "<Cmd>Telescope egrepify<CR>"),
+        dashboard.button("q", "  Quit", "<Cmd>qa<CR>"),
       }
       -- Set footer
       local function footer()
@@ -114,7 +114,7 @@ return {
   {
     "tkmpypy/chowcho.nvim",
     keys = {
-      { "<C-w>w", ":Chowcho<CR>" },
+      { "<C-w>w", "<Cmd>Chowcho<CR>" },
       {
         "<C-w>q",
         function()
@@ -149,8 +149,8 @@ return {
     "simeji/winresizer",
     cmd = { "WinResizerStartResize", "WinResizerStartMove", "WinResizerStartFocus" },
     keys = {
-      { "<C-w>r", "<Cmd>WinResizerStartResize<CR>", silent = true, desc = "WinResizerStartResize" },
-      { "<C-w>m", "<Cmd>WinResizerStartMove<CR>", silent = true, desc = "WinResizerStartMove" },
+      { "<C-w>r", "<Cmd>WinResizerStartResize<CR>", desc = "WinResizerStartResize" },
+      { "<C-w>m", "<Cmd>WinResizerStartMove<CR>", desc = "WinResizerStartMove" },
     },
     init = function()
       vim.g.winresizer_start_key = "<C-w>r"
@@ -329,10 +329,10 @@ return {
     "kazhala/close-buffers.nvim",
     event = { "VeryLazy" },
     keys = {
-      { "<C-w>d", ":BDelete this<CR>", silent = true },
-      { "<leader>w", ":BDelete this<CR>", silent = true },
-      { "<leader>W", ":BDelete! this<CR>", silent = true },
-      { "<C-w>D", ":BDelete other<CR>", silent = true },
+      { "<C-w>d", "<Cmd>BDelete this<CR>" },
+      { "<leader>w", "<Cmd>BDelete this<CR>" },
+      { "<leader>W", "<Cmd>BDelete! this<CR>" },
+      { "<C-w>D", "<Cmd>BDelete other<CR>" },
     },
     opts = {},
   },
@@ -413,7 +413,18 @@ return {
     "shellRaining/hlchunk.nvim",
     event = { "VeryLazy" },
     opts = {
-      chunk = { enable = true, use_treesitter = true, style = { { fg = "#208aca" }, { fg = "#9f1b2e" } } },
+      chunk = {
+        enable = true,
+        use_treesitter = true,
+        style = { { fg = "#208aca" }, { fg = "#9f1b2e" } },
+        chars = {
+          horizontal_line = "─",
+          vertical_line = "│",
+          left_top = "╭",
+          left_bottom = "╰",
+          right_arrow = "»",
+        },
+      },
     },
   },
   --- fold

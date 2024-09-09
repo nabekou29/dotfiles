@@ -19,10 +19,10 @@ set({ "x" }, "p", '"_dP', { desc = "Paste without yank", silent = true, noremap 
 
 -- 行の移動
 set("n", "<M-S-j>", "<Cmd>move .+1<CR>==", { desc = "Move line Down" })
-set("x", "<M-S-j>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })
+set("x", "<M-S-j>", "<Cmd>move '>+1<CR>gv=gv", { desc = "Move line Down" })
 set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
 set("n", "<M-S-k>", "<Cmd>move .-2<CR>==", { desc = "Move line Up" })
-set("x", "<M-S-k>", ":move '<-2<CR>gv=gv", { desc = "Move line Up" })
+set("x", "<M-S-k>", "<Cmd>move '<-2<CR>gv=gv", { desc = "Move line Up" })
 set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 
 -- Emacs
@@ -42,7 +42,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function(event)
     if event.file ~= "TelescopePrompt" then
-      vim.api.nvim_buf_set_keymap(event.buf, "n", "<ESC><ESC>", ":nohlsearch<CR>", { silent = true, noremap = true })
+      vim.api.nvim_buf_set_keymap(event.buf, "n", "<ESC><ESC>", "<CMD>nohlsearch<CR>", {})
     end
   end,
 })

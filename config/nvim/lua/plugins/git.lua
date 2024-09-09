@@ -4,7 +4,7 @@ return {
     "akinsho/toggleterm.nvim",
     cmd = { "ToggleTerm", "TermExec", "TermCloseAll", "TermOpenAll" },
     keys = {
-      { "<leader>t", "<cmd>ToggleTerm direction=tab<CR>", { noremap = true, silent = true } },
+      { "<leader>t", "<cmd>ToggleTerm direction=tab<CR>" },
       "<leader>gg",
       "<leader>gd",
     },

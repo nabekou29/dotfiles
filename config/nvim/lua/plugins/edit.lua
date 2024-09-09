@@ -41,9 +41,9 @@ return {
   {
     "Wansmer/treesj",
     keys = {
-      { "<leader>jt", ":TSJToggle<CR>" },
-      { "<leader>js", ":TSJSplit<CR>" },
-      { "<leader>jj", ":TSJJoin<CR>" },
+      { "<leader>jt", "<Cmd>TSJToggle<CR>" },
+      { "<leader>js", "<Cmd>TSJSplit<CR>" },
+      { "<leader>jj", "<Cmd>TSJJoin<CR>" },
     },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = { use_default_keymaps = false, max_join_length = 256 },
@@ -152,26 +152,34 @@ return {
     keys = function()
       local hop_prefix = "<leader><leader>"
       return {
-        { "f", ":HopChar1CurrentLineAC<CR>", silent = true },
-        { "F", ":HopChar1CurrentLineBC<CR>", silent = true },
-        -- { "f", ":HopChar2CurrentLineAC<CR>", silent = true },
-        -- { "F", ":HopChar2CurrentLineBC<CR>", silent = true },
-        -- { "t", ":HopChar1AC<CR>", silent = true },
-        -- { "T", ":HopChar1BC<CR>", silent = true },
-        { "t", ":HopChar2AC<CR>", silent = true },
-        { "T", ":HopChar2BC<CR>", silent = true },
-        { hop_prefix .. "f", ":HopChar2<CR>" },
-        { hop_prefix .. "l", ":HopLineStart<CR>" },
-        { hop_prefix .. "/", ":HopPattern<CR>" },
+        { "f", "<Cmd>HopChar1CurrentLineAC<CR>" },
+        { "F", "<Cmd>HopChar1CurrentLineBC<CR>" },
+        -- { "f", "<Cmd>HopChar2CurrentLineAC<CR>",  },
+        -- { "F", "<Cmd>HopChar2CurrentLineBC<CR>",  },
+        -- { "t", "<Cmd>HopChar1AC<CR>",  },
+        -- { "T", "<Cmd>HopChar1BC<CR>",  },
+        { "t", "<Cmd>HopChar2AC<CR>" },
+        { "T", "<Cmd>HopChar2BC<CR>" },
+        { hop_prefix .. "f", "<Cmd>HopChar2<CR>" },
+        { hop_prefix .. "l", "<Cmd>HopLineStart<CR>" },
+        { hop_prefix .. "/", "<Cmd>HopPattern<CR>" },
       }
     end,
     opts = {},
   },
   -- w,b,e でキャメルケースを考慮した移動
+  -- {
+  --   "chaoren/vim-wordmotion",
+  --   event = { "VeryLazy" },
+  --   keys = { "w", "b", "e", "W", "B", "E" },
+  -- },
   {
-    "chaoren/vim-wordmotion",
-    event = { "VeryLazy" },
-    keys = { "w", "b", "e", "W", "B", "E" },
+    "chrisgrieser/nvim-spider",
+    keys = {
+      { "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+      { "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+      { "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+    },
   },
   -- Undo の履歴をツリー表示
   {
