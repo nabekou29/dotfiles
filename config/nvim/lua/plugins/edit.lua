@@ -49,16 +49,22 @@ return {
     opts = { use_default_keymaps = false, max_join_length = 256 },
   },
   -- カラーピッカー
+  -- {
+  --   "uga-rosa/ccc.nvim",
+  --   lazy = false,
+  --   event = { "VeryLazy" },
+  --   opts = {
+  --     highlighter = {
+  --       auto_enable = true,
+  --       lsp = true,
+  --       -- filetypes = { "css", "scss", "javascript", "typescript", "javascriptreact", "typescriptreact", "html", "json", "jsonc", "json5", "yaml", "toml", "markdown", "cmp_menu" },
+  --     },
+  --   },
+  -- },
   {
-    "uga-rosa/ccc.nvim",
+    "brenoprata10/nvim-highlight-colors",
     event = { "VeryLazy" },
-    opts = {
-      highlighter = {
-        auto_enable = true,
-        lsp = true,
-        filetypes = { "css", "scss", "javascript", "typescript", "javascriptreact", "typescriptreact", "html" },
-      },
-    },
+    opts = {},
   },
   -- <C-a>, <C-x> の拡張
   {
@@ -168,11 +174,6 @@ return {
     opts = {},
   },
   -- w,b,e でキャメルケースを考慮した移動
-  -- {
-  --   "chaoren/vim-wordmotion",
-  --   event = { "VeryLazy" },
-  --   keys = { "w", "b", "e", "W", "B", "E" },
-  -- },
   {
     "chrisgrieser/nvim-spider",
     keys = {

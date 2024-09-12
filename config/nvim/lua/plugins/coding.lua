@@ -181,7 +181,7 @@ return {
           "html",
           "jsonls",
           "rust_analyzer",
-          "tsserver",
+          "ts_ls",
           "tailwindcss",
           "svelte",
           "lua_ls",
@@ -201,13 +201,13 @@ return {
       }
 
       local on_attach = {
-        tsserver = function(client, bufnr)
+        ts_ls = function(client, bufnr)
           require("twoslash-queries").attach(client, bufnr)
         end,
       }
 
       local commands = {
-        tsserver = {
+        ts_ls = {
           OrganizeImports = {
             function()
               local params = {
@@ -242,7 +242,7 @@ return {
         function(server_name)
           require("lspconfig")[server_name].setup({
             capabilities = capabilities,
-            settings = settings,
+            settings = lc.get("lsp", server_name, "settings") or settings,
             on_attach = on_attach[server_name] or on_attach["*"],
             filetypes = lc.get("lsp", server_name, "filetypes"),
             commands = commands[server_name],

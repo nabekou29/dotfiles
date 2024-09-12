@@ -18,11 +18,11 @@ set("n", "<C-S-M-l>", "<cmd>tabn<CR>", {})
 set({ "x" }, "p", '"_dP', { desc = "Paste without yank", silent = true, noremap = true })
 
 -- 行の移動
-set("n", "<M-S-j>", "<Cmd>move .+1<CR>==", { desc = "Move line Down" })
-set("x", "<M-S-j>", "<Cmd>move '>+1<CR>gv=gv", { desc = "Move line Down" })
+set("n", "<M-S-j>", ":move .+1<CR>==", { desc = "Move line Down" })
+set("x", "<M-S-j>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })
 set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
-set("n", "<M-S-k>", "<Cmd>move .-2<CR>==", { desc = "Move line Up" })
-set("x", "<M-S-k>", "<Cmd>move '<-2<CR>gv=gv", { desc = "Move line Up" })
+set("n", "<M-S-k>", ":move .-2<CR>==", { desc = "Move line Up" })
+set("x", "<M-S-k>", ":move '<-2<CR>gv=gv", { desc = "Move line Up" })
 set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 
 -- Emacs

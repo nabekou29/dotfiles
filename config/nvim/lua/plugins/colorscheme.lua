@@ -47,17 +47,4 @@ return {
       vim.cmd("colorscheme tokyonight")
     end,
   },
-  {
-    "0xstepit/flow.nvim",
-    cond = cond,
-    lazy = false,
-    priority = 1000,
-    opts = {
-      transparent = true,
-    },
-    config = function(_, opts)
-      require("flow").setup(opts)
-      vim.cmd("colorscheme flow")
-    end,
-  },
 }

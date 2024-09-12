@@ -124,6 +124,8 @@ return {
           pattern = "/(.*)/(.*)/([A-Z][a-zA-Z-_]*).test.([jt]sx)$",
           target = {
             { target = "/%1/%2/%3.%4", context = "impl" },
+            { target = "/%1/%2/%3.module.scss", context = "css" },
+            { target = "/%1/%2/%3.stories.tsx", context = "stories" },
           },
         },
         {
@@ -142,6 +144,9 @@ return {
             { target = "/%1/%2/%3.stories.tsx", context = "stories" },
           },
         },
+      },
+      style = {
+        border = "rounded",
       },
     },
   },
