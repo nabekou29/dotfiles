@@ -356,6 +356,9 @@ return {
           null_ls.builtins.formatting.stylua.with({}),
           null_ls.builtins.formatting.gofumpt.with({}),
           null_ls.builtins.formatting.terraform_fmt.with({}),
+          null_ls.builtins.formatting.shfmt.with({
+            filetypes = { "sh", "zsh" },
+          }),
         },
         on_attach = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then
