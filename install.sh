@@ -43,13 +43,20 @@ ln -snvf "$(pwd)/config/.gitconfig" "$HOME/.gitconfig"
 ln -snvf "$(pwd)/config/git" "$HOME/.config/git"
 
 ln -snvf "$(pwd)/config/starship.toml" "$HOME/.config/starship.toml"
-mkdir -p "$HOME/.config/fsh" & ln -snvf "$(pwd)/config/fsh/overlay.ini" "$HOME/.config/fsh/overlay.ini"
-mkdir -p "$HOME/.config/karabiner" & ln -snvf "$(pwd)/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
-mkdir -p "$HOME/.config/karabiner/assets/complex_modifications" & ln -snvf "$(pwd)/config/karabiner/assets/complex_modifications" "$HOME/.config/karabiner/assets/complex_modifications"
-mkdir -p "$HOME/.config/wezterm" & ln -snvf "$(pwd)/config/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
-mkdir -p "$HOME/Library/Application Support/lazygit/" & ln -snvf "$(pwd)/config/lazygit.yml" "$HOME/Library/Application Support/lazygit/config.yml"
-mkdir -p "$HOME/.config/sheldon" & ln -snvf "$(pwd)/config/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
+mkdir -p "$HOME/.config/fsh" &
+ln -snvf "$(pwd)/config/fsh/overlay.ini" "$HOME/.config/fsh/overlay.ini"
+mkdir -p "$HOME/.config/karabiner" &
+ln -snvf "$(pwd)/config/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+mkdir -p "$HOME/.config/karabiner/assets/complex_modifications" &
+ln -snvf "$(pwd)/config/karabiner/assets/complex_modifications" "$HOME/.config/karabiner/assets/complex_modifications"
+mkdir -p "$HOME/.config/wezterm" &
+ln -snvf "$(pwd)/config/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
+mkdir -p "$HOME/Library/Application Support/lazygit/" &
+ln -snvf "$(pwd)/config/lazygit.yml" "$HOME/Library/Application Support/lazygit/config.yml"
+mkdir -p "$HOME/.config/sheldon" &
+ln -snvf "$(pwd)/config/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
 ln -snvf "$(pwd)/config/hammerspoon/" "$HOME/.hammerspoon"
+ln -snvf "$(pwd)/config/.vimrc" "$HOME/.vimrc"
 ln -snvf "$(pwd)/config/nvim/" "$HOME/.config/nvim"
 ln -snvf "$(pwd)/config/mise/" "$HOME/.config/mise"
 # # yabai, skhd

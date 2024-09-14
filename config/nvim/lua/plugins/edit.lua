@@ -48,23 +48,31 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = { use_default_keymaps = false, max_join_length = 256 },
   },
+  -- ダイナミックマクロ
+  {
+    "tani/dmacro.vim",
+    event = { "VeryLazy" },
+    keys = {
+      { "<C-q>", "<Plug>(dmacro-play-macro)", mode = { "i", "n" }, noremap = true },
+    },
+  },
   -- カラーピッカー
-  -- {
-  --   "uga-rosa/ccc.nvim",
-  --   lazy = false,
-  --   event = { "VeryLazy" },
-  --   opts = {
-  --     highlighter = {
-  --       auto_enable = true,
-  --       lsp = true,
-  --       -- filetypes = { "css", "scss", "javascript", "typescript", "javascriptreact", "typescriptreact", "html", "json", "jsonc", "json5", "yaml", "toml", "markdown", "cmp_menu" },
-  --     },
-  --   },
-  -- },
+  {
+    "uga-rosa/ccc.nvim",
+    cmd = { "CccConvert", "CccPick" },
+    opts = {
+      highlighter = {
+        auto_enable = false,
+      },
+    },
+  },
+  -- カラーハイライト
   {
     "brenoprata10/nvim-highlight-colors",
     event = { "VeryLazy" },
-    opts = {},
+    opts = {
+      render = "virtual",
+    },
   },
   -- <C-a>, <C-x> の拡張
   {
@@ -154,16 +162,12 @@ return {
   },
   -- 移動
   {
-    "phaazon/hop.nvim",
+    "smoka7/hop.nvim",
     keys = function()
       local hop_prefix = "<leader><leader>"
       return {
         { "f", "<Cmd>HopChar1CurrentLineAC<CR>" },
         { "F", "<Cmd>HopChar1CurrentLineBC<CR>" },
-        -- { "f", "<Cmd>HopChar2CurrentLineAC<CR>",  },
-        -- { "F", "<Cmd>HopChar2CurrentLineBC<CR>",  },
-        -- { "t", "<Cmd>HopChar1AC<CR>",  },
-        -- { "T", "<Cmd>HopChar1BC<CR>",  },
         { "t", "<Cmd>HopChar2AC<CR>" },
         { "T", "<Cmd>HopChar2BC<CR>" },
         { hop_prefix .. "f", "<Cmd>HopChar2<CR>" },
@@ -175,11 +179,13 @@ return {
   },
   -- w,b,e でキャメルケースを考慮した移動
   {
-    "chrisgrieser/nvim-spider",
+    "bkad/CamelCaseMotion",
     keys = {
-      { "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
-      { "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
-      { "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+      { "w", "<Plug>CamelCaseMotion_w", mode = { "n", "o", "x" }, noremap = true },
+      { "b", "<Plug>CamelCaseMotion_b", mode = { "n", "o", "x" }, noremap = true },
+      { "e", "<Plug>CamelCaseMotion_e", mode = { "n", "o", "x" }, noremap = true },
+      { "<C-f>", "<C-o><Plug>CamelCaseMotion_w", mode = "i", noremap = true },
+      { "<C-b>", "<C-o><Plug>CamelCaseMotion_b", mode = "i", noremap = true },
     },
   },
   -- Undo の履歴をツリー表示

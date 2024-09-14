@@ -19,6 +19,7 @@ return {
     },
     opts = {},
   },
+  -- Markdown
   {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown" },
@@ -37,6 +38,14 @@ return {
         hi! default link RenderMarkdownH10Bg @markup.heading
       ]])
     end,
+  },
+  -- help
+  {
+    "OXY2DEV/helpview.nvim",
+    ft = "help",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
   },
   -- 画像の表示
   {
@@ -126,7 +135,7 @@ return {
     opts = {
       icon_enabled = true,
       text_color = "#FFFFFF",
-      bg_color = "#555555",
+      bg_color = "#545454",
       active_border_color = "#0A8BFF",
       border_style = "default",
       use_exclude_default = false,
@@ -159,7 +168,6 @@ return {
   -- バッファーのタブ表示
   {
     "akinsho/bufferline.nvim",
-    enabled = false,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "kazhala/close-buffers.nvim",

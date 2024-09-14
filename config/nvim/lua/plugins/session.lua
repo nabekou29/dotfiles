@@ -21,7 +21,7 @@ return {
       },
       log_level = "error",
       auto_session_suppress_dirs = { "~/", "~/Downloads" },
-      silent_restore = true,
+      silent_restore = false,
       pre_save_cmds = {
         function()
           vim.cmd([[ScopeSaveState]])

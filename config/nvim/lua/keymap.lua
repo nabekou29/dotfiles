@@ -1,21 +1,24 @@
 local set = vim.keymap.set
+
 -- Key Binding (Pluginは除く)
-set({ "i", "v" }, "<C-a>", "<HOME>", {})
-set({ "i", "v" }, "<C-e>", "<END>", {})
-set("n", "<C-S-h>", "<cmd>wincmd h<CR>", {})
-set("n", "<C-S-l>", "<cmd>wincmd l<CR>", {})
-set("n", "<C-S-j>", "<cmd>wincmd j<CR>", {})
-set("n", "<C-S-k>", "<cmd>wincmd k<CR>", {})
-set("n", "<C-h>", "<cmd>wincmd h<CR>", {})
-set("n", "<C-l>", "<cmd>wincmd l<CR>", {})
-set("n", "<C-j>", "<cmd>wincmd j<CR>", {})
-set("n", "<C-k>", "<cmd>wincmd k<CR>", {})
+set("n", "<C-S-h>", "<cmd>wincmd h<CR>")
+set("n", "<C-S-l>", "<cmd>wincmd l<CR>")
+set("n", "<C-S-j>", "<cmd>wincmd j<CR>")
+set("n", "<C-S-k>", "<cmd>wincmd k<CR>")
 
-set("n", "<C-S-M-h>", "<cmd>tabp<CR>", {})
-set("n", "<C-S-M-l>", "<cmd>tabn<CR>", {})
+set("n", "<C-S-M-h>", "<cmd>tabp<CR>")
+set("n", "<C-S-M-l>", "<cmd>tabn<CR>")
 
--- set({ "n", "x" }, "d", '"_d', { desc = "Delete without yank", silent = true, noremap = true })
-set({ "x" }, "p", '"_dP', { desc = "Paste without yank", silent = true, noremap = true })
+-- Emacs
+set({ "i", "v" }, "<C-a>", "<HOME>")
+set({ "i", "v" }, "<C-e>", "<END>")
+set("i", "<C-d>", "<Del>")
+set("i", "<C-h>", "<BS>")
+
+-- Y を行末までコピーに (C, D などの挙動に揃える)
+set("n", "Y", "y$")
+-- ペースト時にレジスタを上書きしない
+set({ "x" }, "p", '"_dP')
 
 -- 行の移動
 set("n", "<M-S-j>", ":move .+1<CR>==", { desc = "Move line Down" })
@@ -25,19 +28,34 @@ set("n", "<M-S-k>", ":move .-2<CR>==", { desc = "Move line Up" })
 set("x", "<M-S-k>", ":move '<-2<CR>gv=gv", { desc = "Move line Up" })
 set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 
--- Emacs
-set("i", "<C-d>", "<Del>", { desc = "Delete" })
-set("i", "<C-h>", "<BS>", { desc = "Backspace" })
+-- <,> を連続で使えるように
+set("x", "<", "<gv")
+set("x", ">", ">gv")
+
+-- U で redo
+set("n", "U", "<C-r>")
+
+-- マクロは qq のみを使用
+set("n", "q", function()
+  return vim.fn.empty(vim.fn.reg_recording()) == 1 and "<Plug>(q)" or "q"
+end, { expr = true })
+set("n", "Q", function()
+  return vim.fn.empty(vim.fn.reg_recording()) == 1 and "@q" or "q@q"
+end, { expr = true })
+set("n", "<Plug>(q)q", "qq", { noremap = true })
 
 -- 保存 (無名のファイルの場合は単にESC)
 set({ "n", "i", "v" }, "<C-s>", "<cmd>if expand('%') != '' | write | endif<CR><ESC>", { desc = "Save and ESC" })
 
--- set("i", "jj", "<ESC>", { desc = "jj to ESC", silent = true, noremap = true })
--- set("i", "jk", "<ESC>", { desc = "jk to ESC", silent = true, noremap = true })
+-- *, # でカーソルの位置を保持
+set("n", "*", [[*``]])
+set("n", "#", [[#``]])
 
-set("n", "*", [[*``]], { noremap = true, silent = true })
-set("n", "#", [[#``]], { noremap = true, silent = true })
+-- / で /\v を入力
+set("n", "/", "/\\v")
+set("n", "?", "?\\v")
 
+-- <ESC><ESC> でハイライトを消す
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function(event)

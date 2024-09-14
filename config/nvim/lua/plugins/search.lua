@@ -5,12 +5,12 @@ return {
     event = { "CmdlineEnter" },
     keys = {
       -- stylua: ignore start
-      { "n", "<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" }, noremap = true },
-      { "N", "<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" }, noremap = true },
-      { "*", [[*``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
-      { "#", [[#``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
-      { "g*", [[g*``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
-      { "g#", [[g#``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, noremap = true, silent = true },
+      { "n", "<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" } },
+      { "N", "<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>", mode = { "n" } },
+      { "*", [[*``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, silent = true },
+      { "#", [[#``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, silent = true },
+      { "g*", [[g*``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, silent = true },
+      { "g#", [[g#``<Cmd>lua require('hlslens').start()<CR>]], mode = { "n" }, silent = true },
       -- stylua: ignore end
     },
     opts = {},
@@ -27,6 +27,16 @@ return {
       { "<CR>", "<Plug>(kensaku-search-replace)<CR>", mode = "c" },
     },
   },
+  -- \v \V 切り替え
+  {
+    "kawarimidoll/magic.vim",
+    event = { "CmdlineEnter" },
+    init = function()
+      vim.cmd([[
+        cnoremap <expr> <C-x> magic#expr()
+      ]])
+    end,
+  },
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -35,7 +45,7 @@ return {
       "nvim-lua/plenary.nvim",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
+        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
         cond = function()
           return vim.fn.executable("make") == 1
         end,
