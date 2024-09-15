@@ -39,6 +39,9 @@ return {
       })
 
       cmp.setup({
+        performance = {
+          max_view_entries = 32,
+        },
         completion = {
           autocomplete = false,
         },
@@ -47,12 +50,12 @@ return {
           documentation = cmp.config.window.bordered(),
         },
         sources = {
+          { name = "nvim_lsp", priority = 100 },
           { name = "snippy", priority = 50 },
           { name = "nvim_lua", priority = 50 },
           { name = "path", priority = 50 },
-          { name = "buffer", priority = 10 },
-          { name = "rg", priority = 0 },
-          { name = "nvim_lsp", priority = 100 },
+          { name = "buffer", priority = 10, keyword_length = 4, max_item_count = 10 },
+          { name = "rg", priority = 0, keyword_length = 4, max_item_count = 10 },
           { name = "nvim_lsp_signature_help", priority = 100 },
         },
         snippet = {
@@ -419,7 +422,7 @@ return {
     keys = {
       { "gh", "<Cmd>Lspsaga finder<CR>" },
       { "K", "<Cmd>Lspsaga hover_doc<CR>" },
-      { "gr", "<Cmd>Lspsaga finder ref<CR>" },
+      -- { "gr", "<Cmd>Lspsaga finder ref<CR>" },
       { "gd", "<Cmd>Lspsaga peek_definition<CR>" },
       { "gD", "<Cmd>Lspsaga goto_definition<CR>" },
       { "gn", "<Cmd>Lspsaga rename<CR>" },

@@ -56,6 +56,43 @@ return {
       { "<C-q>", "<Plug>(dmacro-play-macro)", mode = { "i", "n" }, noremap = true },
     },
   },
+  -- jjレジスタの編集
+  {
+    "tversteeg/registers.nvim",
+    cmd = "Registers",
+    keys = {
+      { '"', mode = { "n", "v" } },
+      { "<C-R>", mode = "i" },
+    },
+    opts = function()
+      local registers = require("registers")
+
+      return {
+        show = '*+"-/_=#%.q0123456789:',
+        window = {
+          border = "rounded",
+        },
+        bind_keys = {
+          -- レジスタの編集
+          ["<C-e>"] = function(reg)
+            reg = registers._register_symbol(reg)
+            local reg_content = vim.fn.getreg(reg)
+            vim.ui.input({
+              prompt = "Edit register " .. reg .. ": ",
+              default = reg_content,
+            }, function(input)
+              if input == nil or input == "" then
+                vim.notify("Edit a register canceled")
+                return
+              end
+              vim.fn.setreg(reg, input)
+              registers._close_window()
+            end)
+          end,
+        },
+      }
+    end,
+  },
   -- カラーピッカー
   {
     "uga-rosa/ccc.nvim",
@@ -72,6 +109,7 @@ return {
     event = { "VeryLazy" },
     opts = {
       render = "virtual",
+      exclude_filetypes = { "lazy" },
     },
   },
   -- <C-a>, <C-x> の拡張
@@ -146,6 +184,11 @@ return {
       })
     end,
   },
+  -- substitution の強化など
+  {
+    "tpope/vim-abolish",
+    event = { "VeryLazy" },
+  },
   -- quickfix での置換
   {
     "gabrielpoca/replacer.nvim",
@@ -164,15 +207,23 @@ return {
   {
     "smoka7/hop.nvim",
     keys = function()
+      local hop = require("hop")
+      local hint = require("hop.hint")
       local hop_prefix = "<leader><leader>"
+
+      local AC = hint.HintDirection.AFTER_CURSOR
+      local BC = hint.HintDirection.BEFORE_CURSOR
+
       return {
-        { "f", "<Cmd>HopChar1CurrentLineAC<CR>" },
-        { "F", "<Cmd>HopChar1CurrentLineBC<CR>" },
-        { "t", "<Cmd>HopChar2AC<CR>" },
-        { "T", "<Cmd>HopChar2BC<CR>" },
+        -- stylua: ignore start
+        { "f", function() hop.hint_char1({ direction = AC, current_line_only = true }) end },
+        { "F", function() hop.hint_char1({ direction = BC, current_line_only = true }) end },
+        { "t", function() hop.hint_char1({ direction = AC, current_line_only = true, hint_offset = -1 }) end },
+        { "T", function() hop.hint_char1({ direction = BC, current_line_only = true, hint_offset = 1 }) end },
         { hop_prefix .. "f", "<Cmd>HopChar2<CR>" },
         { hop_prefix .. "l", "<Cmd>HopLineStart<CR>" },
         { hop_prefix .. "/", "<Cmd>HopPattern<CR>" },
+        -- stylua: ignore end
       }
     end,
     opts = {},
