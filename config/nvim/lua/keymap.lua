@@ -6,8 +6,8 @@ set("n", "<C-S-l>", "<cmd>wincmd l<CR>")
 set("n", "<C-S-j>", "<cmd>wincmd j<CR>")
 set("n", "<C-S-k>", "<cmd>wincmd k<CR>")
 
-set("n", "<C-S-M-h>", "<cmd>tabp<CR>")
-set("n", "<C-S-M-l>", "<cmd>tabn<CR>")
+set("n", "<C-]>", "<cmd>tabp<CR>")
+set("n", "<C-[>", "<cmd>tabn<CR>")
 
 -- Emacs
 set({ "i", "v" }, "<C-a>", "<HOME>")

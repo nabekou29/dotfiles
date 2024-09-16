@@ -26,6 +26,16 @@ return {
       },
     },
   },
+  -- nvim を http リクエスト経由で開く
+  {
+    "nabekou29/open-by-http.nvim",
+    event = { "FocusLost" },
+    opts = {
+      enabled = function()
+        return #vim.fs.find("package.json", {}) > 0
+      end,
+    },
+  },
   -- キーストロークの表示
   {
     "4513ECHO/nvim-keycastr",

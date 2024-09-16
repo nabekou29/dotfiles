@@ -185,6 +185,7 @@ return {
           "jsonls",
           "rust_analyzer",
           "ts_ls",
+          "denols",
           "tailwindcss",
           "svelte",
           "lua_ls",
@@ -243,6 +244,10 @@ return {
       }
       require("mason-lspconfig").setup_handlers({
         function(server_name)
+          if lc.get("lsp", server_name, "enabled") == false then
+            return
+          end
+
           require("lspconfig")[server_name].setup({
             capabilities = capabilities,
             settings = lc.get("lsp", server_name, "settings") or settings,

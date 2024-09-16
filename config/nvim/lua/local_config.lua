@@ -1,9 +1,20 @@
 local M = {}
 
+local default = {
+  lsp = {
+    denols = {
+      enabled = false,
+    },
+  },
+}
+
 function M.get(...)
+  local config = default
+
   ---@diagnostic disable-next-line: undefined-field
-  if not _G.local_config then
-    return nil
+  local local_config = _G.local_config
+  if local_config then
+    config = vim.tbl_deep_extend("force", config, local_config)
   end
 
   local keys = {}
@@ -14,7 +25,7 @@ function M.get(...)
     end
   end
 
-  return vim.tbl_get(_G.local_config, unpack(keys))
+  return vim.tbl_get(config, unpack(keys))
 end
 
 return M
