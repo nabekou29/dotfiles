@@ -207,20 +207,23 @@ return {
   {
     "smoka7/hop.nvim",
     keys = function()
-      local hop = require("hop")
-      local hint = require("hop.hint")
       local hop_prefix = "<leader><leader>"
 
-      local AC = hint.HintDirection.AFTER_CURSOR
-      local BC = hint.HintDirection.BEFORE_CURSOR
+      local function AC()
+        return require("hop.hint").HintDirection.AFTER_CURSOR
+      end
+      local function BC()
+        return require("hop.hint").HintDirection.BEFORE_CURSOR
+      end
 
       return {
         -- stylua: ignore start
-        { "f", function() hop.hint_char1({ direction = AC, current_line_only = true }) end },
-        { "F", function() hop.hint_char1({ direction = BC, current_line_only = true }) end },
-        { "t", function() hop.hint_char1({ direction = AC, current_line_only = true, hint_offset = -1 }) end },
-        { "T", function() hop.hint_char1({ direction = BC, current_line_only = true, hint_offset = 1 }) end },
+        { "f", function() require("hop").hint_char1({ direction = AC(), current_line_only = true }) end },
+        { "F", function() require("hop").hint_char1({ direction = BC(), current_line_only = true }) end },
+        { "t", function() require("hop").hint_char1({ direction = AC(), current_line_only = true, hint_offset = -1 }) end },
+        { "T", function() require("hop").hint_char1({ direction = BC(), current_line_only = true, hint_offset = 1 }) end },
         { hop_prefix .. "f", "<Cmd>HopChar2<CR>" },
+        { hop_prefix .. "w", "<Cmd>HopWord<CR>" },
         { hop_prefix .. "l", "<Cmd>HopLineStart<CR>" },
         { hop_prefix .. "/", "<Cmd>HopPattern<CR>" },
         -- stylua: ignore end

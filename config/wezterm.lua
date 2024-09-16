@@ -112,8 +112,8 @@ return {
 		{ key = "f", mods = "CMD|ALT", action = act.AdjustPaneSize({ "Right", 5 }) },
 		--
 		-- 場所替え
-		-- { key = 'b', mods = 'CTRL',    action = act.RotatePanes 'CounterClockwise' },
-		-- { key = 'n', mods = 'CTRL',    action = act.RotatePanes 'Clockwise' },
+		-- { key = 'b', mods = 'CTRL', action = act.RotatePanes 'CounterClockwise' },
+		-- { key = 'n', mods = 'CTRL', action = act.RotatePanes 'Clockwise' },
 		{
 			key = "0",
 			mods = "CTRL",
@@ -141,6 +141,30 @@ return {
 			key = "RightArrow",
 			mods = "ALT",
 			action = act.SendKey({ key = "f", mods = "ALT" }),
+		},
+		{
+			key = "o",
+			mods = "CMD",
+			action = wezterm.action_callback(function(window, _pane)
+				local overrides = window:get_config_overrides() or {}
+
+				local opacity_list = { 0.55, 0.95, 1.00 }
+				local current_opacity = overrides.window_background_opacity or 0.95
+
+				local idx = 1
+				for i, opacity in ipairs(opacity_list) do
+					if opacity > current_opacity then
+						overrides.window_background_opacity = opacity
+						break
+					end
+					idx = i
+				end
+				if idx == #opacity_list then
+					overrides.window_background_opacity = opacity_list[1]
+				end
+
+				window:set_config_overrides(overrides)
+			end),
 		},
 	},
 	--- Mouse Binding ---
