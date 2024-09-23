@@ -6,9 +6,6 @@ set("n", "<C-S-l>", "<cmd>wincmd l<CR>")
 set("n", "<C-S-j>", "<cmd>wincmd j<CR>")
 set("n", "<C-S-k>", "<cmd>wincmd k<CR>")
 
-set("n", "<C-]>", "<cmd>tabp<CR>")
-set("n", "<C-[>", "<cmd>tabn<CR>")
-
 -- Emacs
 set({ "i", "v" }, "<C-a>", "<HOME>")
 set({ "i", "v" }, "<C-e>", "<END>")
@@ -18,7 +15,7 @@ set("i", "<C-h>", "<BS>")
 -- Y を行末までコピーに (C, D などの挙動に揃える)
 set("n", "Y", "y$")
 -- ペースト時にレジスタを上書きしない
-set({ "x" }, "p", '"_dP')
+set({ "x" }, "p", '"_dp')
 
 -- 行の移動
 set("n", "<M-S-j>", ":move .+1<CR>==", { desc = "Move line Down" })
@@ -27,6 +24,8 @@ set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
 set("n", "<M-S-k>", ":move .-2<CR>==", { desc = "Move line Up" })
 set("x", "<M-S-k>", ":move '<-2<CR>gv=gv", { desc = "Move line Up" })
 set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
+
+set({ "x", "o" }, "ii", 'i"')
 
 -- <,> を連続で使えるように
 set("x", "<", "<gv")
@@ -53,10 +52,6 @@ set({ "n", "i", "v" }, "<C-s>", "<cmd>if expand('%') != '' | write | endif<CR><E
 set("n", "*", [[*``]])
 set("n", "#", [[#``]])
 
--- / で /\v を入力
-set("n", "/", "/\\v")
-set("n", "?", "?\\v")
-
 -- <ESC><ESC> でハイライトを消す
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
@@ -66,6 +61,15 @@ vim.api.nvim_create_autocmd("FileType", {
     end
   end,
 })
+
+set("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>")
+set("n", "gn", "<Cmd>lua vim.lsp.buf.rename()<CR>")
+-- set("n", "gr", "<Cmd>lua vim.lsp.buf.references()<CR>") -- → Telescope
+-- set("n", "ga", "<Cmd>lua vim.lsp.buf.code_action()<CR>") -- → actions-preview.nvim
+set("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>")
+set({ "n", "i" }, "<C-k>", "<Cmd>lua vim.lsp.buf.signature_help()<CR>")
+set("n", "]g", "<Cmd>lua vim.diagnostic.goto_next()<CR>")
+set("n", "[g", "<Cmd>lua vim.diagnostic.goto_prev()<CR>")
 
 -- Clipboard
 set("n", "<leader>cp", function()

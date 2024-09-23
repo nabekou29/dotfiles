@@ -76,7 +76,7 @@ return {
         -- シンボル
         { "<leader>fs", "<CMD>Telescope lsp_dynamic_workspace_symbols<CR>" },
         -- 参照元
-        { "<leader>fr", "<CMD>Telescope lsp_references<CR>" },
+        { "gr", "<CMD>Telescope lsp_references<CR>" },
         -- 全文検索
         {
           "<leader>fg",
@@ -140,6 +140,9 @@ return {
             ["<C-S-K>"] = function(prompt_bufnr)
               require("telescope.actions").cycle_history_prev(prompt_bufnr)
             end,
+            -- ["<M-d>"] = function(prompt_bufnr)
+            -- require("telescope.actions").delete_buffer(prompt_bufnr)
+            -- end,
           },
         },
       },

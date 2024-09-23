@@ -29,6 +29,7 @@ return {
   -- nvim を http リクエスト経由で開く
   {
     "nabekou29/open-by-http.nvim",
+    cmd = { "OpenByHttpServerStart", "OpenByHttpServerStop" },
     event = { "FocusLost" },
     opts = {
       enabled = function()

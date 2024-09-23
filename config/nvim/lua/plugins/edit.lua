@@ -233,13 +233,20 @@ return {
   },
   -- w,b,e でキャメルケースを考慮した移動
   {
-    "bkad/CamelCaseMotion",
+    "chrisgrieser/nvim-spider",
     keys = {
-      { "w", "<Plug>CamelCaseMotion_w", mode = { "n", "o", "x" }, noremap = true },
-      { "b", "<Plug>CamelCaseMotion_b", mode = { "n", "o", "x" }, noremap = true },
-      { "e", "<Plug>CamelCaseMotion_e", mode = { "n", "o", "x" }, noremap = true },
-      { "<C-f>", "<C-o><Plug>CamelCaseMotion_w", mode = "i", noremap = true },
-      { "<C-b>", "<C-o><Plug>CamelCaseMotion_b", mode = "i", noremap = true },
+      { "e", "<Cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+      { "b", "<Cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+      { "w", "<Cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+    },
+    opts = {
+      skipInsignificantPunctuation = true,
+      consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
+      subwordMovement = true,
+      customPatterns = {
+        patterns = {},
+        overrideDefault = false,
+      },
     },
   },
   -- Undo の履歴をツリー表示

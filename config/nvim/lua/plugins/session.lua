@@ -14,6 +14,7 @@ return {
   {
     "rmagatti/auto-session",
     lazy = false,
+    -- enabled = false,
     dependencies = { "tiagovla/scope.nvim" },
     opts = {
       session_lens = {

@@ -24,8 +24,8 @@ vim.opt.swapfile = false -- Swapファイルを生成するか
 vim.opt.hidden = true -- バッファを保存しないでも切り替えれるように
 
 vim.opt.termguicolors = true
-vim.opt.pumblend = 30 -- ポップアップメニューの透過度
-vim.opt.winblend = 30 -- ウィンドウの透過度
+vim.opt.pumblend = 15 -- ポップアップメニューの透過度
+vim.opt.winblend = 15 -- ウィンドウの透過度
 
 vim.opt.timeout = true -- キーのマッピングに対するタイムアウト
 vim.opt.timeoutlen = 1000 -- マッピングのタイムアウトの時間 (規定値: 1000)
@@ -69,6 +69,31 @@ vim.fn.sign_define("DiagnosticSignInfo", {
 vim.fn.sign_define("DiagnosticSignHint", {
   text = "🔧",
   texthl = "DiagnosticSignHint",
+})
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  update_in_insert = true,
+  virtual_text = {
+    prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応
+    suffix = "",
+    format = function(diagnostic)
+      local prefix = "?"
+      if diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
+        prefix = ""
+      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Warning then
+        prefix = ""
+      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Information then
+        prefix = ""
+      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Hint then
+        prefix = "🔧"
+      end
+      return string.format("%s %s [%s: %s]", prefix, diagnostic.message, diagnostic.source, diagnostic.code)
+    end,
+  },
+})
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
 })
 
 -- Open Cheetsheet

@@ -1,5 +1,5 @@
 local cond = function(plugin)
-  local enabled_colorscheme = "kanagawa.nvim"
+  local enabled_colorscheme = "catppuccin"
   return plugin.name == enabled_colorscheme
 end
 
@@ -45,6 +45,21 @@ return {
     config = function(_, opts)
       require("tokyonight").setup(opts)
       vim.cmd("colorscheme tokyonight")
+    end,
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    cond = cond,
+    priority = 1000,
+    opts = {
+      transparent_background = true,
+      term_colors = true,
+    },
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd("colorscheme catppuccin")
     end,
   },
 }

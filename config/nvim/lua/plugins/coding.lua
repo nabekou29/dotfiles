@@ -41,6 +41,8 @@ return {
       cmp.setup({
         performance = {
           max_view_entries = 32,
+          debounce = 0,
+          throttle = 0,
         },
         completion = {
           autocomplete = false,
@@ -66,6 +68,8 @@ return {
         mapping = cmp.mapping.preset.insert({
           ["<C-p>"] = cmp.mapping.select_prev_item(),
           ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-k>"] = cmp.mapping.select_prev_item(),
+          ["<C-j>"] = cmp.mapping.select_next_item(),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({
@@ -165,9 +169,7 @@ return {
   {
     "williamboman/mason.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require("mason").setup({})
-    end,
+    opts = {},
   },
   {
     "williamboman/mason-lspconfig.nvim",
@@ -178,26 +180,9 @@ return {
       { "marilari88/twoslash-queries.nvim" },
     },
     config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "elmls",
-          "html",
-          "jsonls",
-          "rust_analyzer",
-          "ts_ls",
-          "denols",
-          "tailwindcss",
-          "svelte",
-          "lua_ls",
-          "cssls",
-          "cssmodules_ls",
-          "eslint",
-          "stylelint_lsp",
-          "yamlls",
-          "gopls",
-        },
-      })
-
+      local is_node_dir = function()
+        return require("lspconfig").util.root_pattern("package.json")(vim.fn.getcwd())
+      end
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
@@ -206,7 +191,17 @@ return {
 
       local on_attach = {
         ts_ls = function(client, bufnr)
+          if not is_node_dir() then
+            client.stop()
+            return true
+          end
           require("twoslash-queries").attach(client, bufnr)
+        end,
+        denols = function(client)
+          if is_node_dir() then
+            client.stop()
+            return true
+          end
         end,
       }
 
@@ -250,8 +245,12 @@ return {
 
           require("lspconfig")[server_name].setup({
             capabilities = capabilities,
-            settings = lc.get("lsp", server_name, "settings") or settings,
-            on_attach = on_attach[server_name] or on_attach["*"],
+            settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server_name, "settings") or {}),
+            on_attach = function(client, bufnr)
+              if on_attach[server_name] then
+                on_attach[server_name](client, bufnr)
+              end
+            end,
             filetypes = lc.get("lsp", server_name, "filetypes"),
             commands = commands[server_name],
             init_options = init_options[server_name],
@@ -259,24 +258,23 @@ return {
         end,
       })
 
-      vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        update_in_insert = true,
-        virtual_text = {
-          prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応
-          suffix = "",
-          format = function(diagnostic)
-            local prefix = "?"
-            if diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
-              prefix = ""
-            elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Warning then
-              prefix = ""
-            elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Information then
-              prefix = ""
-            elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Hint then
-              prefix = "🔧"
-            end
-            return string.format("%s %s [%s: %s]", prefix, diagnostic.message, diagnostic.source, diagnostic.code)
-          end,
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "elmls",
+          "html",
+          "jsonls",
+          "rust_analyzer",
+          "ts_ls",
+          "denols",
+          "tailwindcss",
+          "svelte",
+          "lua_ls",
+          "cssls",
+          "cssmodules_ls",
+          "eslint",
+          "stylelint_lsp",
+          "yamlls",
+          "gopls",
         },
       })
     end,
@@ -408,39 +406,31 @@ return {
       })
     end,
   },
+  -- 定義のプレビュー表示
   {
-    "ray-x/lsp_signature.nvim",
-    event = { "InsertEnter" },
+    "rmagatti/goto-preview",
+    event = { "LspAttach" },
+    keys = {
+      { "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>" },
+      { "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>" },
+    },
     opts = {
-      max_width = 100,
-      hint_enable = false,
+      height = 20,
     },
   },
+  -- コードアクションのプレビューを表示
   {
-    "nvimdev/lspsaga.nvim",
-    cmd = { "Lspsaga" },
-    event = { "LspAttach" },
-    dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      { "nvim-treesitter/nvim-treesitter" },
-    },
+    "aznhe21/actions-preview.nvim",
     keys = {
-      { "gh", "<Cmd>Lspsaga finder<CR>" },
-      { "K", "<Cmd>Lspsaga hover_doc<CR>" },
-      -- { "gr", "<Cmd>Lspsaga finder ref<CR>" },
-      { "gd", "<Cmd>Lspsaga peek_definition<CR>" },
-      { "gD", "<Cmd>Lspsaga goto_definition<CR>" },
-      { "gn", "<Cmd>Lspsaga rename<CR>" },
-      { "gN", "<Cmd>Lspsaga rename ++project<CR>" },
-      { "ga", "<Cmd>Lspsaga code_action<CR>" },
-      { "g[", "<Cmd>Lspsaga diagnostic_jump_prev<CR>" },
-      { "g]", "<Cmd>Lspsaga diagnostic_jump_next<CR>" },
+      { "ga", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
     },
-    opts = {
-      symbol_in_winbar = {
-        folder_level = 0,
-      },
-    },
+    opts = {},
+  },
+  -- ホバーを綺麗に
+  {
+    "Fildo7525/pretty_hover",
+    event = { "LspAttach" },
+    opts = {},
   },
   -- Treesitter
   {

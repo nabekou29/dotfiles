@@ -23,9 +23,7 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown" },
-    -- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     opts = {},
     init = function()
       -- Override highlight groups
@@ -67,7 +65,6 @@ return {
     end,
     -- event = { "FocusLost" },
     -- event = { "ColorScheme" },
-    -- event = { "VeryLazy" },
     opts = {
       tint_background_colors = true,
       highlight_ignore_patterns = {
@@ -172,14 +169,14 @@ return {
       "nvim-tree/nvim-web-devicons",
       "kazhala/close-buffers.nvim",
     },
-    event = { "VeryLazy" },
+    -- event = { "VeryLazy" },
     keys = {
       { "<C-h>", "<Cmd>BufferLineCyclePrev<CR>" },
       { "<C-l>", "<Cmd>BufferLineCycleNext<CR>" },
       { "<C-M-h>", "<Cmd>BufferLineMovePrev<CR>" },
       { "<C-M-l>", "<Cmd>BufferLineMoveNext<CR>" },
       {
-        "<leader>bt",
+        "<leader>bg",
         function()
           require("telescope.bufferline").buffer_line_group_picker()
         end,
@@ -189,6 +186,14 @@ return {
         "<leader>bs",
         "<Cmd>BufferLineSortByDirectory<CR>",
         desc = "Sort Buffer By Directory",
+      },
+      {
+        "<leader>bb",
+        function()
+          vim.o.showtabline = vim.o.showtabline == 2 and 0 or 2
+          vim.cmd("BufferLineSortByDirectory")
+        end,
+        desc = "Toggle BufferLine Visible",
       },
     },
     config = function()
@@ -330,15 +335,77 @@ return {
           },
         },
       })
+      vim.o.showtabline = 0
     end,
+  },
+  -- ファイルの状態を表示
+  {
+    "b0o/incline.nvim",
+    event = { "VeryLazy" },
+    opts = {
+      render = function(props)
+        local devicons = require("nvim-web-devicons")
+        local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+        if filename == "" then
+          filename = "[No Name]"
+        end
+        local ft_icon, ft_color = devicons.get_icon_color(filename)
+
+        local function get_git_diff()
+          local icons = { removed = " ", changed = " ", added = " " }
+
+          local signs = vim.b[props.buf].gitsigns_status_dict
+          local labels = {}
+          if signs == nil then
+            return labels
+          end
+          for name, icon in pairs(icons) do
+            if tonumber(signs[name]) and signs[name] > 0 then
+              table.insert(labels, { icon .. signs[name] .. " ", group = "Diff" .. name })
+            end
+          end
+          if #labels > 0 then
+            table.insert(labels, { "┊ " })
+          end
+          return labels
+        end
+
+        local function get_diagnostic_label()
+          local icons = { error = "", warn = "", info = "", hint = "" }
+          local label = {}
+
+          for severity, icon in pairs(icons) do
+            local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[string.upper(severity)] })
+            if n > 0 then
+              table.insert(label, { icon .. n .. " ", group = "DiagnosticSign" .. severity })
+            end
+          end
+          if #label > 0 then
+            table.insert(label, { "┊ " })
+          end
+          return label
+        end
+
+        return {
+          { get_diagnostic_label() },
+          { get_git_diff() },
+          { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" },
+          {
+            filename .. " ",
+            gui = vim.bo[props.buf].modified and "bold,italic" or "bold",
+            guifg = vim.bo[props.buf].modified and "#ffbc94" or "#FFFFFF",
+          },
+        }
+      end,
+    },
   },
   -- バッファを閉じる操作の拡張
   {
     "kazhala/close-buffers.nvim",
     event = { "VeryLazy" },
     keys = {
-      { "<C-w>d", "<Cmd>BDelete this<CR>" },
-      { "<leader>w", "<Cmd>BDelete this<CR>" },
+      { "<C-w>d", "<Cmd>BDelete! this<CR>" },
+      { "<leader>w", "<Cmd>BDelete! this<CR>" },
       { "<leader>W", "<Cmd>BDelete! this<CR>" },
       { "<C-w>D", "<Cmd>BDelete other<CR>" },
     },
