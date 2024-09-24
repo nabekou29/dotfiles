@@ -71,7 +71,11 @@ vim.fn.sign_define("DiagnosticSignHint", {
   texthl = "DiagnosticSignHint",
 })
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+})
+
+vim.diagnostic.config({
   update_in_insert = true,
   virtual_text = {
     prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応
@@ -90,10 +94,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
       return string.format("%s %s [%s: %s]", prefix, diagnostic.message, diagnostic.source, diagnostic.code)
     end,
   },
-})
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
+  float = {
+    border = "rounded",
+  },
 })
 
 -- Open Cheetsheet

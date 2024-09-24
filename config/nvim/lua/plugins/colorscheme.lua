@@ -1,5 +1,5 @@
 local cond = function(plugin)
-  local enabled_colorscheme = "catppuccin"
+  local enabled_colorscheme = "kanagawa.nvim"
   return plugin.name == enabled_colorscheme
 end
 
