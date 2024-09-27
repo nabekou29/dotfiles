@@ -79,6 +79,14 @@ return {
   },
   -- 起動時の画面
   {
+    "folke/drop.nvim",
+    enabled = false,
+    event = { "VeryLazy" },
+    opts = {
+      screensaver = 3 * 60 * 1000,
+    },
+  },
+  {
     "goolord/alpha-nvim",
     event = { "VimEnter" },
     dependencies = { "nvim-tree/nvim-web-devicons" },

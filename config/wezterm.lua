@@ -17,7 +17,7 @@ return {
 	-- color_scheme = "Gigavolt (base16)",
 	-- color_scheme = "Mashup Colors (terminal.sexy)",
 	-- color_scheme = "Operator Mono Dark",
-	window_background_opacity = 0.95,
+	window_background_opacity = 0.94,
 	inactive_pane_hsb = { saturation = 0.95, brightness = 0.3 },
 	hide_tab_bar_if_only_one_tab = true,
 	adjust_window_size_when_changing_font_size = false,
@@ -148,7 +148,7 @@ return {
 			action = wezterm.action_callback(function(window, _pane)
 				local overrides = window:get_config_overrides() or {}
 
-				local opacity_list = { 0.55, 0.95, 1.00 }
+				local opacity_list = { 0.55, 0.94, 1.00 }
 				local current_opacity = overrides.window_background_opacity or 0.95
 
 				local idx = 1

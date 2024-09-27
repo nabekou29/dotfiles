@@ -76,6 +76,10 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 })
 
 vim.diagnostic.config({
+  float = { border = "rounded" },
+})
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   update_in_insert = true,
   virtual_text = {
     prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応
@@ -93,9 +97,6 @@ vim.diagnostic.config({
       end
       return string.format("%s %s [%s: %s]", prefix, diagnostic.message, diagnostic.source, diagnostic.code)
     end,
-  },
-  float = {
-    border = "rounded",
   },
 })
 

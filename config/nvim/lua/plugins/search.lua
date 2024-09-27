@@ -40,6 +40,7 @@ return {
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
+    event = { "VeryLazy" },
     cmd = { "Telescope" },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -189,6 +190,16 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      require("telescope").setup(opts)
+      -- 非同期でプラグインを読み込む
+      vim.schedule(function()
+        require("telescope").load_extension("fzf")
+        require("telescope").load_extension("smart_open")
+        require("telescope").load_extension("egrepify")
+        require("telescope").load_extension("media")
+      end)
+    end,
   },
   -- カーソルが当たった単語をハイライト
   {
