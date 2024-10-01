@@ -6,6 +6,7 @@ return {
 	font = wezterm.font("Liga HackGen35Nerd"),
 	use_ime = true,
 	font_size = 18.0,
+	scrollback_lines = 35000,
 	term = "wezterm",
 	-- -- https://wezfurlong.org/wezterm/colorschemes/index.html
 	color_scheme = "Hardcore",

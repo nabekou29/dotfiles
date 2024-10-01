@@ -4,6 +4,7 @@ vim.loader.enable()
 require("options")
 require("lazyvim")
 require("keymap")
+require("command")
 
 vim.env.CURRENT_PROGPATH = vim.v.progpath
 vim.env.CURRENT_SERVERNAME = vim.v.servername

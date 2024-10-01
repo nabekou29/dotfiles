@@ -351,6 +351,11 @@ return {
     "b0o/incline.nvim",
     event = { "VeryLazy" },
     opts = {
+      hide = {
+        cursorline = true,
+        focused_win = false,
+        only_win = false,
+      },
       render = function(props)
         local devicons = require("nvim-web-devicons")
         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")

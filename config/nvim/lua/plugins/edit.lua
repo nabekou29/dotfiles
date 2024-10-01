@@ -56,7 +56,7 @@ return {
       { "<C-q>", "<Plug>(dmacro-play-macro)", mode = { "i", "n" }, noremap = true },
     },
   },
-  -- jjレジスタの編集
+  -- レジスタの編集
   {
     "tversteeg/registers.nvim",
     cmd = "Registers",
