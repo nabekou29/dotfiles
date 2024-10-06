@@ -1,0 +1,40 @@
+[user]
+	name = nabekou29
+	email = nabekou0729@gmail.com
+[core]
+	ignorecase = false
+	editor = nvim
+	pager = delta
+	autocrlf = false
+	quotepath = false
+	excludessfile = ~/.config/git/ignore
+	symlinks = true
+	fsmonitor = true
+	untrackedcache = true
+	fileMode = false
+[color]
+	ui = true
+[interactive]
+	diffFilter = delta --color-only
+[fetch]
+	prune = true
+[init]
+	defaultBranch = main
+[push]
+	default = current
+[pull]
+	rebase = true
+[rebase]
+	autostash = true
+[url "ssh://git@github.com"]
+	insteadOf = https://github.com
+[delta]
+	line-numbers = true
+[merge]
+	conflictstyle = zdiff3
+[rerere]
+	enabled = true
+[diff]
+	algorithm = histogram
+[alias]
+  commit-with-prompt = !sh "$HOME/.config/git/commit_with_prompt.sh"

@@ -1,0 +1,8 @@
+# See https://www.chezmoi.io/docs/reference/#chezmoiignore
+
+README.md
+
+dot_Brewfile
+
+# chezmoi で管理される前のファイル
+old/

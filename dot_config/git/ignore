@@ -1,0 +1,13 @@
+___ignorefiles
+
+.mise.local.toml
+.node-version
+.python-version
+.lua-version
+
+.envrc
+
+.snippets
+cspell.json
+
+.nvim.lua
