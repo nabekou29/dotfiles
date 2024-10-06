@@ -18,6 +18,7 @@ return {
   -- ローマ字検索
   {
     "lambdalisue/kensaku.vim",
+    event = { "CmdlineEnter" },
     dependencies = { "vim-denops/denops.vim" },
   },
   {
@@ -142,7 +143,7 @@ return {
               require("telescope.actions").cycle_history_prev(prompt_bufnr)
             end,
             -- ["<M-d>"] = function(prompt_bufnr)
-            -- require("telescope.actions").delete_buffer(prompt_bufnr)
+            --   require("telescope.actions").delete_buffer(prompt_bufnr)
             -- end,
           },
         },
