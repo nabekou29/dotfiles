@@ -4,7 +4,6 @@
 
 tap "homebrew/bundle"
 tap "homebrew/cask"
-tap "homebrew/cask-versions"
 tap "homebrew/core"
 cask_args appdir: "/Applications"
 
@@ -15,7 +14,6 @@ brew "coreutils"
 brew "eza"
 brew "fzf"
 brew "gnu-sed"
-brew "jdx/tap/usage"
 brew "jq"
 brew "ripgrep"
 brew "sl"
@@ -25,29 +23,32 @@ brew "tree"
 brew "mas"
 brew "watchman"
 brew "wget"
+brew "yazi"
 brew "yq"
 brew "zoxide"
 
 ## ========== Shell ===========
+brew "sheldon"
 brew "starship"
+brew "chezmoi"
 brew "zsh-completions"
 cask "wezterm"
 
 ## ========== Fonts ==========
-tap "homebrew/cask-fonts"
 cask "font-fira-code-nerd-font"
 cask "font-hackgen"
 cask "font-hackgen-nerd"
 
 ## ========= Utility ==========
 tap "1password/tap"
+tap "daipeihust/tap"
 cask "1password"
 cask "1password-cli"
 cask "alfred"
 cask "alt-tab"
 cask "cleanshot"
+brew "daipeihust/tap/im-select"
 cask "deepl"
-cask "hammerspoon"
 cask "karabiner-elements"
 cask "keycastr"
 cask "logi-options+"
@@ -63,7 +64,6 @@ cask "google-chrome"
 ## ======= Development ========
 brew "ast-grep"
 cask "android-studio"
-cask "android-sdk"
 cask "android-platform-tools"
 brew "cocoapods"
 brew "diff-so-fancy"
@@ -73,7 +73,10 @@ brew "git-delta"
 brew "gh"
 brew "ghq"
 cask "google-cloud-sdk"
+brew "infracost"
 brew "lazygit"
+brew "pre-commit"
+brew "trivy"
 
 ### ---------- Lang -----------
 brew "mise"
@@ -81,9 +84,11 @@ brew "openjdk"
 brew "php"
 brew "python"
 brew "rust"
-brew "rustup-init"
+brew "rustup"
 brew "sbt"
-cask "temurin"
+brew "terraform-docs"
+brew "tfenv"
+brew "tflint"
 
 ### ------- IDE/Editor --------
 brew "neovim"
@@ -92,6 +97,9 @@ cask "intellij-idea"
 cask "visual-studio-code"
 
 ### ------- Other Apps --------
+tap "ngrok/ngrok"
+cask "chatgpt"
+cask "ngrok"
 cask "postman"
 
 ## ======== Quick Look ========

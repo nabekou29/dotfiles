@@ -43,12 +43,10 @@ if type brew &>/dev/null; then
   compinit
 fi
 
-# eval "$(direnv hook zsh)"
 eval "$(mise activate zsh)"
 _evalcache starship init zsh
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.config/zsh/fzf.zsh ] && source ~/.config/zsh/fzf.zsh
 
 # Java
 export JAVA_HOME=`/usr/libexec/java_home`
@@ -80,11 +78,10 @@ export PATH="$HOME/.deno/bin:$PATH"
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
-source "$HOME/.completion-for-pnpm.zsh"
 # pnpm end
 
 # abbr
-source "$HOME/.abbr.zsh"
+[ -f ~/.config/zsh/abbr.zsh ] && source ~/.config/zsh/abbr.zsh
 
 # zoxide
 zsh-defer _evalcache zoxide init zsh

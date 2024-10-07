@@ -4,6 +4,6 @@ My dotfiles managed by [chezmoi](https://www.chezmoi.io/)
 
 ## Installation
 
-```bash
+```sh
 $ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply nabekou29
 ```

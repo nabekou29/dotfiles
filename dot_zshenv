@@ -1,5 +1,7 @@
 # export WORDCHARS='*?_-.//[]~=&;!#$%^(){}<>'
 
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # gh notify
 # https://github.com/meiji163/gh-notify?tab=readme-ov-file#key-bindings-fzf
 export GH_NOTIFY_RELOAD_KEY='ctrl-R'
