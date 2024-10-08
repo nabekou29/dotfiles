@@ -43,7 +43,7 @@ return {
       end)
 
       -- Lazygit
-      local base_config_path = "$HOME/Library/Application Support/lazygit/config.yml"
+      local base_config_path = "$HOME/.config/lazygit/config.yml"
       local custom_config_path = "$HOME/.config/nvim/lazygit_for_nvim.yml"
       local paths = '"' .. base_config_path .. "," .. custom_config_path .. '"'
 
