@@ -3,19 +3,19 @@ setopt extendedglob
 
 typeset -Ag abbreviations
 abbreviations=(
-	"cd" "z"
+	# "cd" "z"
 	"ls" "eza --icons always"
 	"ll" "eza -a -l --icons always"
 	"la" "eza -a --icons always"
 	"g" "git"
+	"cm" "chezmoi"
 	"lg" "lazygit"
 	"pn" "pnpm"
 	"icat" "chafa"
-	"rmdsstore" "find . -name '.DS_Store' -type f -ls -delete"
-	"rmmergedbranch" "git branch --merged | egrep -v '\*|develop|master|main' | xargs git branch -d"
 	"head" "ghead"
 	"tail" "gtail"
 	"sed" "gsed"
+	"rmdsstore" "find . -name '.DS_Store' -type f -ls -delete"
 )
 
 magic-abbrev-expand() {

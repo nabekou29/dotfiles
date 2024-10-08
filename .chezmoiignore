@@ -2,5 +2,5 @@
 
 README.md
 
-# chezmoi で管理される前のファイル
-old/
+Brewfile
+nvim

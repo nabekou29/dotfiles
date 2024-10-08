@@ -328,7 +328,7 @@ return {
             end,
           }),
           -- format
-          null_ls.builtins.formatting.prettierd.with({
+          null_ls.builtins.formatting.prettier.with({
             prefer_local = "node_modules/.bin",
             filetypes = {
               "javascript",
