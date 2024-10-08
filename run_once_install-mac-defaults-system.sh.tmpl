@@ -1,0 +1,70 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+echo "Setting up macOS defaults..."
+
+########################################################
+
+# キーリピートの速度を速くする
+defaults write -g KeyRepeat -int 2
+# キーリピート開始までの時間を短くする
+defaults write -g InitialKeyRepeat -int 25
+# キー長押しで特殊文字を入力する機能を無効にする
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+
+### Menu bar
+
+defaults -currentHost write -globalDomain NSStatusItemSpacing -int 8
+defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 6
+defaults write com.apple.menuextra.battery ShowPercent -string "YES"
+
+### Dock
+
+# 自動的に隠す
+defaults write com.apple.dock autohide -bool true
+# サイズ
+defaults write com.apple.dock tilesize -int 16
+# 高速化
+defaults write com.apple.dock autohide-time-modifier -float 0.1
+defaults write com.apple.dock autohide-delay -float 0.1
+
+
+### ショートカット
+# (無効) Dock を自動的に表示/非表示のオン/オフ
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 52 "<dict><key>enabled</key><false/></dict>"
+# (無効) 前の入力ソースを選択
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 "<dict><key>enabled</key><false/></dict>"
+# (無効) 次の入力ソースを選択
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 "<dict><key>enabled</key><false/></dict>"
+# (無効) Spotlight
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/></dict>"
+
+
+# スクリーンショットの保存先を変更
+mkdir -p ~/Documents/_screenshot
+defaults write com.apple.screencapture location ~/Documents/_screenshot
+
+# .DS_Store ファイルを作成しない
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
+
+########################################################
+
+echo "macOS defaults setup complete."
+
+killall Finder
+killall Dock
+killall SystemUIServer
+/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+
+# 再起動するか確認する
+while true; do
+    read -p "Would you like to restart your computer? (y/n): " yn
+    case $yn in
+        [Yy]* ) sudo reboot; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+{{ end }}
