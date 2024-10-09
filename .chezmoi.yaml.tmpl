@@ -1,0 +1,14 @@
+# https://www.chezmoi.io/reference/configuration-file/variables/
+
+sourceDir: ~/.local/share/chezmoi
+mode: symlink
+
+edit:
+  command: nvim
+  args: [ "--cmd", "cd ~/.local/share/chezmoi" ]
+  apply: true
+  watch: true
+
+merge:
+  command: nvim
+  args: [ "-d", "{{"{{ .Destination }}"}}", "{{"{{ .Source }}"}}", "{{"{{ .Target }}"}}" ]

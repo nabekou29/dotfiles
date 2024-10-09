@@ -3,7 +3,9 @@ local lc = require("local_config")
 return {
   -- CMP
   {
-    "hrsh7th/nvim-cmp",
+    "iguanacucumber/magazine.nvim",
+    -- "hrsh7th/nvim-cmp",
+    name = "nvim-cmp",
     event = { "InsertEnter" },
     dependencies = {
       { "hrsh7th/cmp-buffer" },
