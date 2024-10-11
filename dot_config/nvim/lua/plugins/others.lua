@@ -160,12 +160,6 @@ return {
   {
     "seandewar/bad-apple.nvim",
     cmd = { "BadApple" },
-    config = function()
-      -- require("bad-apple.sound").libcanberra_fname =
-      -- "/opt/homebrew/Cellar/libcanberra/0.30/lib/libcanberra-0.30/libcanberra-null.so"
-      -- "/opt/homebrew/Cellar/libcanberra/0.30/lib/libcanberra-0.30/libcanberra-multi.so"
-      -- "/opt/homebrew/Cellar/libcanberra/0.30/lib/libcanberra.dylib"
-    end,
   },
   {
     "p5quared/apple-music.nvim",

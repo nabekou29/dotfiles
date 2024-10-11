@@ -3,6 +3,7 @@ go = "1.22.4"
 python = "3.12.4"
 deno = "latest"
 node = "22.7.0"
+ruby = "3.3.5"
 
 [settings]
 experimental = true

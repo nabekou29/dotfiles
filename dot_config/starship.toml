@@ -71,16 +71,17 @@ $golang\
 $nodejs\
 $python\
 $rust\
+$lua\
 $env_var\
 $custom\
+$cmd_duration\
 $line_break\
-$lua\
 $time\
 $status\
 $shell\
 $character"""
 
-command_timeout = 1000
+command_timeout = 2_000
 
 [aws]
 symbol = " "
@@ -96,7 +97,8 @@ success_symbol = "[>](bold green) "
 error_symbol = "[✗](bold red) "
 
 [cmd_duration]
-min_time = 10
+min_time = 5_000
+min_time_to_notify = 10_000
 format = "[\\[$duration\\]](yellow)"
 show_notifications = true
 

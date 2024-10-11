@@ -55,7 +55,7 @@ return {
         },
         sources = {
           { name = "nvim_lsp", priority = 100 },
-          { name = "snippy", priority = 50 },
+          { name = "snippy", priority = 60 },
           { name = "nvim_lua", priority = 50 },
           { name = "path", priority = 50 },
           { name = "buffer", priority = 10, keyword_length = 4, max_item_count = 10 },
@@ -222,6 +222,13 @@ return {
             end,
           },
         },
+        stylelint_lsp = {
+          StylelintFixAll = {
+            function()
+              vim.system({ "npx", "stylelint", "--fix", vim.api.nvim_buf_get_name(0) })
+            end,
+          },
+        },
       }
       local settings = {
         tailwindCSS = {
@@ -358,9 +365,9 @@ return {
               return utils.root_has_file({ "biome.json" })
             end,
           }),
-          null_ls.builtins.formatting.stylelint.with({
-            timeout = 10000,
-          }),
+          -- null_ls.builtins.formatting.stylelint.with({
+          --   timeout = 10000,
+          -- }),
           null_ls.builtins.formatting.stylua.with({}),
           null_ls.builtins.formatting.gofumpt.with({}),
           null_ls.builtins.formatting.terraform_fmt.with({}),
@@ -397,7 +404,7 @@ return {
       require("mason-null-ls").setup({
         automatic_installation = true,
         ensure_installed = {
-          "prettierd",
+          "prettier",
           "stylua",
           "cspell",
           "actionlint",
