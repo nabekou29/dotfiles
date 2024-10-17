@@ -91,7 +91,8 @@
                             "from": { "key_code": "caps_lock" },
                             "to": [{ "key_code": "left_control" }]
                         }
-                    ]
+                    ],
+                    "treat_as_built_in_keyboard": true
                 },
                 {
                     "identifiers": {
@@ -155,6 +156,14 @@
                         "vendor_id": 13364
                     },
                     "ignore": false
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 50475,
+                        "vendor_id": 1133
+                    },
+                    "treat_as_built_in_keyboard": true
                 }
             ],
             "name": "Default",

@@ -68,6 +68,8 @@ return {
       vim.fn["mkdp#util#install"]()
     end,
   },
+  -- WakaTime
+  { "wakatime/vim-wakatime", lazy = false },
   -- Obsidian
   {
     "epwalsh/obsidian.nvim",

@@ -5,6 +5,8 @@ echo "Setting up macOS defaults..."
 
 ########################################################
 
+# https://macos-defaults.com/
+
 # キーリピートの速度を速くする
 defaults write -g KeyRepeat -int 2
 # キーリピート開始までの時間を短くする
@@ -12,6 +14,23 @@ defaults write -g InitialKeyRepeat -int 25
 # キー長押しで特殊文字を入力する機能を無効にする
 defaults write -g ApplePressAndHoldEnabled -bool false
 
+
+### Finder
+
+# パスバーを表示
+defaults write com.apple.finder ShowPathbar -bool true
+# 検索範囲をカレントディレクトリに限定
+defaults write com.apple.finder FXDefaultSearchScope -string SCcf
+# 新しいウィンドウでデフォルトでホームフォルダを開く
+defaults write com.apple.finder NewWindowTarget -string "PfDe"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
+
+# スクリーンショットの保存先を変更
+mkdir -p ~/Downloads/_screenshot
+defaults write com.apple.screencapture location ~/Downloads/_screenshot
+
+# .DS_Store ファイルを作成しない
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 
 ### Menu bar
 
@@ -39,14 +58,6 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 "<dic
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 "<dict><key>enabled</key><false/></dict>"
 # (無効) Spotlight
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/></dict>"
-
-
-# スクリーンショットの保存先を変更
-mkdir -p ~/Documents/_screenshot
-defaults write com.apple.screencapture location ~/Documents/_screenshot
-
-# .DS_Store ファイルを作成しない
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 
 ########################################################
 
