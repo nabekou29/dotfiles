@@ -42,6 +42,10 @@ github = 'g-plane/pnpm-shell-completion'
 apply = ['defer']
 # cd ~/.local/share/sheldon/repos/github.com/g-plane/pnpm-shell-completion/ && ./zplug.zsh
 
+[plugins.ni]
+github = "azu/ni.zsh"
+apply = ['defer']
+
 # For example:
 #
 # [plugins.base16]

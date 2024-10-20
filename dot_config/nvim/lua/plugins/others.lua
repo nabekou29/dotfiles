@@ -211,6 +211,7 @@ return {
     },
     opts = {},
   },
+  { "willothy/wezterm.nvim", opts = {} },
   {
     "alexghergh/nvim-tmux-navigation",
     keys = {

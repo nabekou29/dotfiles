@@ -59,6 +59,17 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 "<dic
 # (無効) Spotlight
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/></dict>"
 
+VALUE="<dict><key>enabled_context_menu</key><false/><key>enabled_services_menu</key><false/><key>presentation_modes</key><dict><key>ContextMenu</key><false/><key>ServicesMenu</key><false/></dict></dict>"
+
+defaults write pbs NSServicesStatus \
+  -dict-add \
+  'com.apple.Terminal - Open man Page in Terminal - openManPage' \
+  "$VALUE"
+defaults write pbs NSServicesStatus \
+  -dict-add \
+  'com.apple.Terminal - Search man Page Index in Terminal - searchManPages' \
+  "$VALUE"
+
 ########################################################
 
 echo "macOS defaults setup complete."
