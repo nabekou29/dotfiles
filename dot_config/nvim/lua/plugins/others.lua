@@ -69,7 +69,7 @@ return {
     end,
   },
   -- WakaTime
-  { "wakatime/vim-wakatime", lazy = false },
+  { "wakatime/vim-wakatime", lazy = false, enabled = false },
   -- Obsidian
   {
     "epwalsh/obsidian.nvim",
@@ -209,6 +209,30 @@ return {
         desc = "Cleanup Temp Playlists",
       },
     },
+    opts = {},
   },
-  opts = {},
+  {
+    "alexghergh/nvim-tmux-navigation",
+    keys = {
+      "<C-h>",
+      "<C-j>",
+      "<C-k>",
+      "<C-l>",
+      "<C-\\>",
+    },
+    enabled = function()
+      return vim.fn.exists("$TMUX") == 1
+    end,
+    opts = {
+      disable_when_zoomed = true,
+      keybindings = {
+        left = "<C-h>",
+        down = "<C-j>",
+        up = "<C-k>",
+        right = "<C-l>",
+        last_active = "<C-\\>",
+        -- next = "<C-Space>",
+      },
+    },
+  },
 }

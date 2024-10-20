@@ -104,18 +104,12 @@ bindkey "^g" _fzf_cd_ghq
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
 # terminfo
-# ~/.terminfo がなければダウンロードする
-if [ ! -d ~/.terminfo ]; then
-  # https://wezfurlong.org/wezterm/faq.html#how-do-i-enable-undercurl-curly-underlines
-  tempfile=$(mktemp) \
-  && curl -o $tempfile https://raw.githubusercontent.com/wez/wezterm/master/termwiz/data/wezterm.terminfo \
-  && tic -x -o ~/.terminfo $tempfile \
-  && rm $tempfile
+if [ -d ~/.terminfo ]; then
+    export TERM=wezterm
 fi
-export TERM=wezterm
 
 if [ -f ~/.zshrc.local ] ; then
-  source ~/.zshrc.local
+    source ~/.zshrc.local
 fi
 
 # zprof

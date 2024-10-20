@@ -62,7 +62,7 @@ return {
     cmd = "Registers",
     keys = {
       { '"', mode = { "n", "v" } },
-      { "<C-R>", mode = "i" },
+      { "<C-r>", mode = "i" },
     },
     opts = function()
       local registers = require("registers")
@@ -241,7 +241,7 @@ return {
     },
     opts = {
       skipInsignificantPunctuation = true,
-      consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
+      consistentOperatorPending = false,
       subwordMovement = true,
       customPatterns = {
         patterns = {},

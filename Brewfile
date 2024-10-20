@@ -16,7 +16,6 @@ brew "fzf"
 brew "gnu-sed"
 brew "jq"
 brew "ripgrep"
-brew "sl"
 brew "direnv"
 brew "terminal-notifier"
 brew "tree"
@@ -113,7 +112,13 @@ cask "quicklook-json"
 cask "quicklookase"
 cask "suspicious-package"
 
-# Others
+## ========= Others ==========
+brew "cmatrix"
+brew "neofetch"
+brew "nyancat"
+brew "sl"
+
+# App store
 mas "Display Menu", id: 549083868
 mas "Hidden Bar", id: 1452453066
 mas "Klack", id: 6446206067
