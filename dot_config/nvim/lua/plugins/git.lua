@@ -21,7 +21,7 @@ return {
         direction = "float",
         float_opts = {
           border = "double",
-          winblend = 20,
+          -- winblend = 20,
         },
       })
       local function _main_toggle()
@@ -53,7 +53,7 @@ return {
         direction = "float",
         float_opts = {
           border = "double",
-          winblend = 20,
+          -- winblend = 20,
         },
       })
       local function _lazygit_toggle()
@@ -74,7 +74,7 @@ return {
         direction = "float",
         float_opts = {
           border = "double",
-          winblend = 20,
+          -- winblend = 20,
         },
       })
       local function _dashboard_toggle()

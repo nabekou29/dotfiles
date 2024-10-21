@@ -93,3 +93,7 @@ set("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>")
 set({ "n", "i" }, "<C-k>", "<Cmd>lua vim.lsp.buf.signature_help()<CR>")
 set("n", "]g", "<Cmd>lua vim.diagnostic.goto_next()<CR>")
 set("n", "[g", "<Cmd>lua vim.diagnostic.goto_prev()<CR>")
+
+-- quickfix
+set("n", "]c", "<Cmd>cnext<CR>")
+set("n", "[c", "<Cmd>cprev<CR>")
