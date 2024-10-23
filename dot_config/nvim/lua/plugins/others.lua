@@ -69,7 +69,7 @@ return {
     end,
   },
   -- WakaTime
-  { "wakatime/vim-wakatime", lazy = false, enabled = false },
+  { "wakatime/vim-wakatime", lazy = false },
   -- Obsidian
   {
     "epwalsh/obsidian.nvim",

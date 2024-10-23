@@ -165,7 +165,62 @@ return {
       { "zbirenbaum/copilot.lua" },
       { "nvim-lua/plenary.nvim" },
     },
-    opts = {},
+    opts = {
+      show_help = "yes",
+      prompts = {
+        Explain = {
+          prompt = "/COPILOT_EXPLAIN アクティブな選択範囲の説明を段落形式で書いてください。日本語で返答ください。",
+        },
+        Review = {
+          prompt = "/COPILOT_REVIEW 選択されたコードをレビューしてください。日本語で返答ください。",
+        },
+        FixCode = {
+          prompt = "/COPILOT_GENERATE このコードには問題があります。バグを修正したコードに書き直してください。日本語で返答ください。",
+        },
+        Refactor = {
+          prompt = "/COPILOT_GENERATE 明瞭性と可読性を向上させるために、次のコードをリファクタリングしてください。日本語で返答ください。",
+        },
+        BetterNamings = {
+          prompt = "/COPILOT_GENERATE 選択されたコードの変数名や関数名を改善してください。日本語で返答ください。",
+        },
+        Documentation = {
+          prompt = "/COPILOT_GENERATE 選択範囲にドキュメントコメントを追加してください。日本語で返答ください。",
+        },
+        Tests = {
+          prompt = "/COPILOT_GENERATE コードのテストを生成してください。日本語で返答ください。",
+        },
+        Wording = {
+          prompt = "/COPILOT_GENERATE 次のテキストの文法と表現を改善してください。日本語で返答ください。",
+        },
+        Summarize = {
+          prompt = "/COPILOT_GENERATE 選択範囲の要約を書いてください。日本語で返答ください。",
+        },
+        Spelling = {
+          prompt = "/COPILOT_GENERATE 次のテキストのスペルミスを修正してください。日本語で返答ください。",
+        },
+        FixDiagnostic = {
+          prompt = "ファイル内の次の問題を支援してください:",
+          selection = function(source)
+            local select = require("CopilotChat.select")
+            select.diagnostics(source)
+          end,
+        },
+        Commit = {
+          prompt = "変更のコミットメッセージをcommitizenの規約に従って日本語で書いてください。タイトルは最大50文字、メッセージは72文字で折り返してください。メッセージ全体をgitcommit言語のコードブロックで囲んでください。",
+          selection = function(source)
+            local select = require("CopilotChat.select")
+            select.diff(source)
+          end,
+        },
+        CommitStaged = {
+          prompt = "変更のコミットメッセージをcommitizenの規約に従って日本語で書いてください。タイトルは最大50文字、メッセージは72文字で折り返してください。メッセージ全体をgitcommit言語のコードブロックで囲んでください。",
+          selection = function(source)
+            local select = require("CopilotChat.select")
+            return select.gitdiff(source, true)
+          end,
+        },
+      },
+    },
   },
   -- LSP
   {
@@ -231,6 +286,12 @@ return {
         },
       }
       local settings = {
+        css = {
+          validate = true,
+          lint = {
+            unknownAtRules = "ignore",
+          },
+        },
         tailwindCSS = {
           experimental = {
             classRegex = {
@@ -256,6 +317,13 @@ return {
             capabilities = capabilities,
             settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server_name, "settings") or {}),
             on_attach = function(client, bufnr)
+              -- フォーマットを無効化
+              if client.server_capabilities.documentFormattingProvider then
+                client.server_capabilities.documentFormattingProvider = false
+              end
+              if client.server_capabilities.documentRangeFormattingProvider then
+                client.server_capabilities.documentRangeFormattingProvider = false
+              end
               if on_attach[server_name] then
                 on_attach[server_name](client, bufnr)
               end
@@ -302,6 +370,10 @@ return {
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       local cspell = require("cspell")
 
+      local cspell_config = {
+        cspell_config_dirs = { "~/.config/" },
+      }
+
       null_ls.setup({
         sources = {
           cspell.diagnostics.with({
@@ -314,6 +386,7 @@ return {
             condition = function(utils)
               return not (utils.root_has_file({ ".disabled-cspell" }))
             end,
+            config = cspell_config,
           }),
           cspell.code_actions.with({
             env = {
@@ -322,6 +395,7 @@ return {
             condition = function(utils)
               return not (utils.root_has_file({ ".disabled-cspell" }))
             end,
+            config = cspell_config,
           }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.textlint.with({
@@ -357,12 +431,20 @@ return {
               "markdown",
             },
             condition = function(utils)
-              return not utils.root_has_file({ "biome.json" })
+              return not utils.has_file({ "biome.json", "biome.jsonc" })
             end,
           }),
           null_ls.builtins.formatting.biome.with({
+            -- prefer_local = "node_modules/.bin",
+            command = "biome",
+            args = {
+              "check",
+              "--apply",
+              "--stdin-file-path",
+              "$FILENAME",
+            },
             condition = function(utils)
-              return utils.root_has_file({ "biome.json" })
+              return utils.has_file({ "biome.json", "biome.jsonc" })
             end,
           }),
           -- null_ls.builtins.formatting.stylelint.with({
