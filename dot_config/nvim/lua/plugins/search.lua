@@ -15,6 +15,7 @@ return {
     },
     opts = {},
   },
+
   -- ローマ字検索
   {
     "lambdalisue/kensaku.vim",
@@ -28,6 +29,7 @@ return {
       { "<CR>", "<Plug>(kensaku-search-replace)<CR>", mode = "c" },
     },
   },
+
   -- \v \V 切り替え
   {
     "kawarimidoll/magic.vim",
@@ -38,6 +40,7 @@ return {
       ]])
     end,
   },
+
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -202,6 +205,7 @@ return {
       end)
     end,
   },
+
   -- カーソルが当たった単語をハイライト
   {
     "RRethy/vim-illuminate",

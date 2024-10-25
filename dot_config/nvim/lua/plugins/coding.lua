@@ -632,7 +632,7 @@ return {
     opts = {
       primary_language = { "ja" },
       virt_text = {
-        max_width = 64,
+        max_width = 48,
       },
     },
   },

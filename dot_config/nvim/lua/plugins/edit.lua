@@ -10,17 +10,20 @@ return {
       })
     end,
   },
+
   -- , や : などでいい感じに配置するやつ
   {
     "junegunn/vim-easy-align",
     event = { "VeryLazy" },
   },
+
   -- 括弧や引用符を自動で閉じる
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     opts = {},
   },
+
   -- 範囲選択
   {
     "terryma/vim-expand-region",
@@ -31,12 +34,14 @@ return {
       { "<A-j>", "<Plug>(expand_region_shrint)", mode = { "n", "v" }, desc = "Shrint region" },
     },
   },
+
   -- マルチカーソル
   {
     "mg979/vim-visual-multi",
     dependencies = { "kevinhwang91/nvim-hlslens" },
     event = { "VeryLazy" },
   },
+
   -- 配列などを一行にまとめたり複数行に展開したり
   {
     "Wansmer/treesj",
@@ -48,6 +53,7 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = { use_default_keymaps = false, max_join_length = 256 },
   },
+
   -- ダイナミックマクロ
   {
     "tani/dmacro.vim",
@@ -56,6 +62,7 @@ return {
       { "<C-q>", "<Plug>(dmacro-play-macro)", mode = { "i", "n" }, noremap = true },
     },
   },
+
   -- レジスタの編集
   {
     "tversteeg/registers.nvim",
@@ -93,6 +100,7 @@ return {
       }
     end,
   },
+
   -- カラーピッカー
   {
     "uga-rosa/ccc.nvim",
@@ -103,6 +111,7 @@ return {
       },
     },
   },
+
   -- カラーハイライト
   {
     "brenoprata10/nvim-highlight-colors",
@@ -112,6 +121,7 @@ return {
       exclude_filetypes = { "lazy" },
     },
   },
+
   -- <C-a>, <C-x> の拡張
   {
     "monaqa/dial.nvim",
@@ -184,11 +194,13 @@ return {
       })
     end,
   },
+
   -- substitution の強化など
   {
     "tpope/vim-abolish",
     event = { "VeryLazy" },
   },
+
   -- quickfix での置換
   {
     "gabrielpoca/replacer.nvim",
@@ -203,6 +215,7 @@ return {
       },
     },
   },
+
   -- 移動
   {
     "smoka7/hop.nvim",
@@ -231,6 +244,7 @@ return {
     end,
     opts = {},
   },
+
   -- w,b,e でキャメルケースを考慮した移動
   {
     "chrisgrieser/nvim-spider",
@@ -249,11 +263,13 @@ return {
       },
     },
   },
+
   -- Undo の履歴をツリー表示
   {
     "mbbill/undotree",
     event = { "VeryLazy" },
   },
+
   -- `jj` でノーマルモードに戻る（入力の遅延回避）
   {
     "max397574/better-escape.nvim",
