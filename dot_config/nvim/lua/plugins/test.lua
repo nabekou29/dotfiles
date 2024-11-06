@@ -55,7 +55,7 @@ return {
       return {
         adapters = {
           require("neotest-vitest")({
-            vitestCommand = "pnpm vitest",
+            vitestCommand = "ni exec vitest",
             vitestConfigFile = function()
               return nil
             end,

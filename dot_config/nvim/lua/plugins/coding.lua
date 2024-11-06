@@ -498,17 +498,17 @@ return {
     end,
   },
   -- 定義のプレビュー表示
-  {
-    "rmagatti/goto-preview",
-    event = { "LspAttach" },
-    keys = {
-      { "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>" },
-      { "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>" },
-    },
-    opts = {
-      height = 20,
-    },
-  },
+  -- {
+  --   "rmagatti/goto-preview",
+  --   event = { "LspAttach" },
+  --   keys = {
+  --     { "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>" },
+  --     { "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>" },
+  --   },
+  --   opts = {
+  --     height = 20,
+  --   },
+  -- },
   -- コードアクションのプレビューを表示
   {
     "aznhe21/actions-preview.nvim",
@@ -522,6 +522,32 @@ return {
     "Fildo7525/pretty_hover",
     event = { "LspAttach" },
     opts = {},
+  },
+  {
+    "nvimdev/lspsaga.nvim",
+    cmd = { "Lspsaga" },
+    event = { "LspAttach" },
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons" },
+      { "nvim-treesitter/nvim-treesitter" },
+    },
+    keys = {
+      { "gh", ":Lspsaga finder<CR>", silent = true },
+      -- { "K", ":Lspsaga hover_doc<CR>", silent = true },
+      -- { "gr", ":Lspsaga finder ref<CR>", silent = true },
+      { "gp", ":Lspsaga peek_definition<CR>", silent = true },
+      { "gd", ":Lspsaga goto_definition<CR>", silent = true },
+      -- { "gn", ":Lspsaga rename<CR>", silent = true },
+      { "gN", ":Lspsaga rename ++project<CR>", silent = true },
+      -- { "ga", ":Lspsaga code_action<CR>", silent = true },
+      -- { "g[", ":Lspsaga diagnostic_jump_prev<CR>", silent = true },
+      -- { "g]", ":Lspsaga diagnostic_jump_next<CR>", silent = true },
+    },
+    opts = {
+      symbol_in_winbar = {
+        folder_level = 0,
+      },
+    },
   },
   -- Treesitter
   {
