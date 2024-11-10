@@ -79,13 +79,13 @@ return {
       -- "hrsh7th/nvim-cmp",
     },
     keys = {
-      { "<leader>on", "<CMD>ObsidianNew<CR>" },
-      { "<leader>oO", "<CMD>ObsidianOpen<CR>" },
-      { "<leader>oo", "<CMD>ObsidianQuickSwitch<CR>" },
-      { "<leader>or", "<CMD>ObsidianRename<CR>" },
-      { "<leader>os", "<CMD>ObsidianSearch<CR>" },
+      { "<leader><leader>on", "<CMD>ObsidianNew<CR>" },
+      { "<leader><leader>oO", "<CMD>ObsidianOpen<CR>" },
+      { "<leader><leader>oo", "<CMD>ObsidianQuickSwitch<CR>" },
+      { "<leader><leader>or", "<CMD>ObsidianRename<CR>" },
+      { "<leader><leader>os", "<CMD>ObsidianSearch<CR>" },
       {
-        "<leader>oe",
+        "<leader><leader>oe",
         function()
           local obsidian = require("obsidian")
           local client = obsidian.get_client()

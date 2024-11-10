@@ -490,6 +490,7 @@ return {
     },
     opts = {
       symbol_in_winbar = {
+        enable = false,
         folder_level = 0,
       },
     },

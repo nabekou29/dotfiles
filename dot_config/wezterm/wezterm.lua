@@ -97,6 +97,21 @@ config.keys = {
     action = act.ReloadConfiguration,
   },
   { key = "r", mods = "CMD|ALT", action = act.ResetTerminal },
+  {
+    key = "f",
+    mods = "CMD",
+    action = wezterm.action_callback(function(window, pane)
+      window:perform_action(act.Search("CurrentSelectionOrEmptyString"), pane)
+      window:perform_action(
+        act.Multiple({
+          act.CopyMode("ClearPattern"),
+          act.CopyMode("ClearSelectionMode"),
+          act.CopyMode("MoveToScrollbackBottom"),
+        }),
+        pane
+      )
+    end),
+  },
   --- Pane ---
   -- 分割
   {

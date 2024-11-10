@@ -40,6 +40,9 @@ set("n", "Y", "y$")
 -- ペースト時にレジスタを上書きしない
 set({ "x" }, "p", '"_dp')
 
+-- 現在のカーソル位置で改行して、挿入モードに移行
+set("n", "<leader>o", "i<CR><Esc>kA")
+
 -- 行の移動
 set("n", "<M-S-j>", ":move .+1<CR>==", { desc = "Move line Down" })
 set("x", "<M-S-j>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })
