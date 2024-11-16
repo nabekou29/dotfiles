@@ -1,6 +1,7 @@
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
+    enabled = false,
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -78,12 +79,84 @@ return {
       },
     },
   },
+
+  {
+    "nvim-tree/nvim-tree.lua",
+    requires = { "kyazdani42/nvim-web-devicons" },
+    keys = {
+      { "<leader>e", "<Cmd>NvimTreeToggle<CR>" },
+      { "<leader>E", "<Cmd>NvimTreeFindFile<CR>" },
+      { "<C-1>", "<Cmd>NvimTreeFindFile<CR>" },
+    },
+    opts = {
+      disable_netrw = true,
+      hijack_netrw = true,
+      respect_buf_cwd = true,
+      sync_root_with_cwd = true,
+      view = {
+        float = {
+          enable = true,
+          open_win_config = function()
+            local screen_w = vim.opt.columns:get()
+            local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+            local window_w = screen_w * 0.5
+            local window_h = screen_h * 0.9
+            local window_w_int = math.floor(window_w)
+            local window_h_int = math.floor(window_h)
+            local center_x = (screen_w - window_w) / 2
+            local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
+            return {
+              border = "rounded",
+              relative = "editor",
+              row = center_y,
+              col = center_x,
+              width = window_w_int,
+              height = window_h_int,
+            }
+          end,
+        },
+        width = function()
+          return math.floor(vim.opt.columns:get() * 0.5)
+        end,
+      },
+      renderer = {
+        special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+      },
+      sort = {
+        folders_first = true,
+        sorter = function(nodes)
+          -- _test や .test を削って比較する
+          local remove_test = function(name)
+            return name
+              :gsub("(.*)_test", "%1")
+              :gsub("(.*)%.test", "%1")
+              :gsub("(.*)%.spec", "%1")
+              :gsub("(.*)%.stories", "%1")
+          end
+          table.sort(nodes, function(a, b)
+            local a_original_name = a.name
+            local b_original_name = b.name
+            local a_name = remove_test(a_original_name)
+            local b_name = remove_test(b_original_name)
+
+            if a_name == b_name then
+              return #a_original_name <= #b_original_name
+            else
+              return a_name <= b_name
+            end
+          end)
+        end,
+      },
+    },
+  },
+
   {
     "stevearc/oil.nvim",
     event = { "BufReadPre" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
   },
+
   {
     "rgroli/other.nvim",
     main = "other-nvim",
@@ -114,14 +187,14 @@ return {
         },
         -- ts, tsx
         {
-          pattern = "/(.*)/(.*)/([A-Z][a-zA-Z-_]*).*.([jt]sx)$",
+          pattern = "/(.*)/(.*)/([a-zA-Z-_]*).*.([jt]sx)$",
           target = {
             { target = "/%1/%2/%3.stories.%4", context = "stories" },
             { target = "/%1/%2/%3.module.scss", context = "css" },
           },
         },
         {
-          pattern = "/(.*)/(.*)/([A-Z][a-zA-Z-_]*).test.([jt]sx)$",
+          pattern = "/(.*)/(.*)/([a-zA-Z-_]*).test.([jt]sx)$",
           target = {
             { target = "/%1/%2/%3.%4", context = "impl" },
             { target = "/%1/%2/%3.module.scss", context = "css" },

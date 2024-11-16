@@ -1,17 +1,17 @@
 bindkey ' ' expand-alias-and-self-insert
 
-alias -g 'ls'='lsd'
-alias -g 'la'='lsd -a'
-alias -g 'll'='lsd -la'
-alias -g 'g'='git'
-alias -g 'cm'='chezmoi'
-alias -g 'lg'='lazygit'
-alias -g 'pn'='pnpm'
-alias -g 'icat'='chafa'
-alias -g 'head'='ghead'
-alias -g 'tail'='gtail'
-alias -g 'sed'='gsed'
-alias -g 'rmdsstore'='find . -name ".DS_Store" -type f -ls -delete'
+alias 'ls'='lsd'
+alias 'la'='lsd -a'
+alias 'll'='lsd -la'
+alias 'g'='git'
+alias 'cm'='chezmoi'
+alias 'lg'='lazygit'
+alias 'pn'='pnpm'
+alias 'icat'='chafa'
+alias 'head'='ghead'
+alias 'tail'='gtail'
+alias 'sed'='gsed'
+alias 'rmdsstore'='find . -name ".DS_Store" -type f -ls -delete'
 
 expand-alias-and-self-insert() {
   local words=(${(z)LBUFFER})
