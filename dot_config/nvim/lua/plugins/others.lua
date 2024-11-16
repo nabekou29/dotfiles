@@ -79,11 +79,11 @@ return {
       -- "hrsh7th/nvim-cmp",
     },
     keys = {
-      { "<leader><leader>on", "<CMD>ObsidianNew<CR>" },
-      { "<leader><leader>oO", "<CMD>ObsidianOpen<CR>" },
-      { "<leader><leader>oo", "<CMD>ObsidianQuickSwitch<CR>" },
-      { "<leader><leader>or", "<CMD>ObsidianRename<CR>" },
-      { "<leader><leader>os", "<CMD>ObsidianSearch<CR>" },
+      { "<leader>on", "<CMD>ObsidianNew<CR>" },
+      { "<leader>oO", "<CMD>ObsidianOpen<CR>" },
+      { "<leader>oo", "<CMD>ObsidianQuickSwitch<CR>" },
+      { "<leader>or", "<CMD>ObsidianRename<CR>" },
+      { "<leader>os", "<CMD>ObsidianSearch<CR>" },
       {
         "<leader><leader>oe",
         function()
@@ -133,8 +133,14 @@ return {
         folder = "_template",
         date_format = "%Y-%m-%d",
         time_format = "%H:%M",
-        -- A map for custom variables, the key should be the variable and the value a function
         substitutions = {},
+      },
+      daily_notes = {
+        folder = "notes/dailies",
+        date_format = "%Y-%m-%d",
+        alias_format = "%Y年%m月%d日",
+        default_tags = { "daily-notes" },
+        template = nil,
       },
       ui = {
         enable = false,

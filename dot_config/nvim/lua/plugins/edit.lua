@@ -252,6 +252,9 @@ return {
       { "e", "<Cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
       { "b", "<Cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
       { "w", "<Cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+      { "E", "e", mode = { "n", "o", "x" }, noremap = true },
+      { "B", "b", mode = { "n", "o", "x" }, noremap = true },
+      { "W", "w", mode = { "n", "o", "x" }, noremap = true },
     },
     opts = {
       skipInsignificantPunctuation = true,

@@ -147,6 +147,15 @@ return {
           end)
         end,
       },
+      actions = {
+        open_file = {
+          window_picker = {
+            picker = function()
+              return require("chowcho").run()
+            end,
+          },
+        },
+      },
     },
   },
 

@@ -458,7 +458,8 @@ return {
   {
     "aznhe21/actions-preview.nvim",
     keys = {
-      { "ga", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
+      -- { "ga", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
+      { "gA", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
     },
     opts = {},
   },
@@ -500,6 +501,9 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "VeryLazy" },
+    dependencies = {
+      { "nvim-treesitter/nvim-treesitter-textobjects" },
+    },
     config = function()
       require("nvim-treesitter.configs").setup({
         sync_install = false,
@@ -511,6 +515,18 @@ return {
           enable = true,
           disable = {},
           additional_vim_regex_highlighting = false,
+        },
+        textobjects = {
+          select = {
+            enable = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+              ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+            },
+          },
         },
       })
     end,

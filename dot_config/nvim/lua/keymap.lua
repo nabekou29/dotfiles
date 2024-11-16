@@ -41,7 +41,8 @@ set("n", "Y", "y$")
 set({ "x" }, "p", '"_dp')
 
 -- 現在のカーソル位置で改行して、挿入モードに移行
-set("n", "<leader>o", "i<CR><Esc>kA")
+set("n", "<C-CR>", "i<CR><Esc>kA")
+set("i", "<C-CR>", "<CR><Esc>kA")
 
 -- 行の移動
 set("n", "<M-S-j>", ":move .+1<CR>==", { desc = "Move line Down" })
@@ -50,8 +51,6 @@ set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
 set("n", "<M-S-k>", ":move .-2<CR>==", { desc = "Move line Up" })
 set("x", "<M-S-k>", ":move '<-2<CR>gv=gv", { desc = "Move line Up" })
 set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
-
-set({ "x", "o" }, "ii", 'i"')
 
 -- <,> を連続で使えるように
 set("x", "<", "<gv")
@@ -91,7 +90,7 @@ vim.api.nvim_create_autocmd("FileType", {
 set("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>")
 set("n", "gn", "<Cmd>lua vim.lsp.buf.rename()<CR>")
 -- set("n", "gr", "<Cmd>lua vim.lsp.buf.references()<CR>") -- → Telescope
--- set("n", "ga", "<Cmd>lua vim.lsp.buf.code_action()<CR>") -- → actions-preview.nvim
+set("n", "ga", "<Cmd>lua vim.lsp.buf.code_action()<CR>") -- → actions-preview.nvim
 set("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>")
 set({ "n", "i" }, "<C-k>", "<Cmd>lua vim.lsp.buf.signature_help()<CR>")
 set("n", "]g", "<Cmd>lua vim.diagnostic.goto_next()<CR>")

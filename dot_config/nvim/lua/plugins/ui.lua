@@ -3,7 +3,6 @@ return {
   {
     "stevearc/dressing.nvim",
     event = { "ModeChanged" },
-    opts = {},
   },
   -- CSV 用のビューア
   {
@@ -56,15 +55,23 @@ return {
   -- 非アクティブなタブを暗く表示
   {
     "levouh/tint.nvim",
-    cmd = { "TintStart" },
-    init = function()
-      function StartTint()
-        require("tint")
-      end
-      vim.cmd("command! TintStart lua StartTint()")
+    cmd = { "TintRefresh" },
+    config = function(_, opts)
+      vim.api.nvim_create_user_command("TintRefresh", function()
+        require("tint").refresh()
+      end, {})
+      vim.api.nvim_create_user_command("TintEnable", function()
+        require("tint").enable()
+      end, {})
+      vim.api.nvim_create_user_command("TintDisable", function()
+        require("tint").disable()
+      end, {})
+      vim.api.nvim_create_user_command("TintToggle", function()
+        require("tint").toggle()
+      end, {})
+      require("tint").setup(opts)
     end,
-    -- event = { "FocusLost" },
-    -- event = { "ColorScheme" },
+    event = { "ColorScheme" },
     opts = {
       tint_background_colors = true,
       highlight_ignore_patterns = {
@@ -138,6 +145,7 @@ return {
       },
     },
     opts = {
+      labels = { "a", "s", "d", "g", "h", "k", "l" },
       icon_enabled = true,
       text_color = "#FFFFFF",
       bg_color = "#545454",
