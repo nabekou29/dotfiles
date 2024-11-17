@@ -134,6 +134,11 @@ return {
               :gsub("(.*)%.stories", "%1")
           end
           table.sort(nodes, function(a, b)
+            if a.type ~= b.type then
+              -- ディレクトリを先に表示
+              return a.type < b.type
+            end
+
             local a_original_name = a.name
             local b_original_name = b.name
             local a_name = remove_test(a_original_name)

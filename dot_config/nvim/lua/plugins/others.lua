@@ -2,10 +2,11 @@ local constants = require("constants")
 
 return {
   -- キーバインドの確認
-  {
-    "folke/which-key.nvim",
-    cmd = { "WhichKey" },
-  },
+  { "folke/which-key.nvim", cmd = { "WhichKey" } },
+
+  -- どのキーバインドが空いてるかの確認
+  { "meznaric/key-analyzer.nvim", cmd = { "KeyAnalyzer" }, opts = {} },
+
   -- 日本語のヘルプ
   {
     "vim-jp/vimdoc-ja",
@@ -14,6 +15,7 @@ return {
       vim.cmd([[ set helplang=ja,en ]])
     end,
   },
+
   -- IME
   {
     "keaising/im-select.nvim",
@@ -25,6 +27,7 @@ return {
       },
     },
   },
+
   -- nvim を http リクエスト経由で開く
   {
     "nabekou29/open-by-http.nvim",
@@ -36,6 +39,7 @@ return {
       end,
     },
   },
+
   -- キーストロークの表示
   {
     "4513ECHO/nvim-keycastr",
@@ -59,6 +63,7 @@ return {
       })
     end,
   },
+
   -- マークダウンプレビュー
   {
     "iamcco/markdown-preview.nvim",
@@ -68,8 +73,10 @@ return {
       vim.fn["mkdp#util#install"]()
     end,
   },
+
   -- WakaTime
-  { "wakatime/vim-wakatime", lazy = false },
+  { "wakatime/vim-wakatime", lazy = false, enabled = false },
+
   -- Obsidian
   {
     "epwalsh/obsidian.nvim",
@@ -151,6 +158,7 @@ return {
       obsidian.setup(opts)
     end,
   },
+
   {
     "subnut/nvim-ghost.nvim",
     lazy = false,
@@ -165,59 +173,29 @@ return {
       })
     end,
   },
+
   {
     "seandewar/bad-apple.nvim",
     cmd = { "BadApple" },
   },
+
   {
     "p5quared/apple-music.nvim",
     keys = {
-      {
-        "<leader>amp",
-        function()
-          require("apple-music").toggle_play()
-        end,
-        desc = "Toggle [P]layback",
-      },
-      {
-        "<leader>ams",
-        function()
-          require("apple-music").toggle_shuffle()
-        end,
-        desc = "Toggle [S]huffle",
-      },
-      {
-        "<leader>fap",
-        function()
-          require("apple-music").select_playlist_telescope()
-        end,
-        desc = "[F]ind [P]laylists",
-      },
-      {
-        "<leader>faa",
-        function()
-          require("apple-music").select_album_telescope()
-        end,
-        desc = "[F]ind [A]lbum",
-      },
-      {
-        "<leader>fas",
-        function()
-          require("apple-music").select_track_telescope()
-        end,
-        desc = "[F]ind [S]ong",
-      },
-      {
-        "<leader>amx",
-        function()
-          require("apple-music").cleanup_all()
-        end,
-        desc = "Cleanup Temp Playlists",
-      },
+      -- stylua: ignore start
+      { "<leader>amp", function() require("apple-music").toggle_play() end,               desc = "Toggle [P]layback" },
+      { "<leader>ams", function() require("apple-music").toggle_shuffle() end,            desc = "Toggle [S]huffle" },
+      { "<leader>fap", function() require("apple-music").select_playlist_telescope() end, desc = "[F]ind [P]laylists" },
+      { "<leader>faa", function() require("apple-music").select_album_telescope() end,    desc = "[F]ind [A]lbum" },
+      { "<leader>fas", function() require("apple-music").select_track_telescope() end,    desc = "[F]ind [S]ong" },
+      { "<leader>amx", function() require("apple-music").cleanup_all() end,               desc = "Cleanup Temp Playlists" },
+      -- stylua: ignore end
     },
     opts = {},
   },
+
   { "willothy/wezterm.nvim", opts = {} },
+
   {
     "alexghergh/nvim-tmux-navigation",
     keys = {
