@@ -121,6 +121,7 @@ return {
       },
       renderer = {
         special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+        group_empty = true,
       },
       sort = {
         folders_first = true,
@@ -156,7 +157,13 @@ return {
         open_file = {
           window_picker = {
             picker = function()
-              return require("chowcho").run()
+              local async = require("plenary.async")
+              local chowcho_run = async.wrap(require("chowcho").run, 1)
+              local win = nil
+              async.util.block_on(function()
+                win = chowcho_run()
+              end)
+              return win
             end,
           },
         },

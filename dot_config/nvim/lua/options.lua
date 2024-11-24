@@ -42,6 +42,8 @@ vim.opt.laststatus = 3 -- ステータスバーをウィンドウごとではな
 vim.opt.backup = true
 vim.opt.backupdir = vim.fn.stdpath("data") .. "/backup"
 
+vim.g.editorconfig = true
+
 -- undo 永続化
 if vim.fn.has("persistent_undo") == 1 then
   vim.opt.undofile = true

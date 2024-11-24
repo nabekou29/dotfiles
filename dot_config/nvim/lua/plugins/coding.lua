@@ -3,8 +3,8 @@ local lc = require("local_config")
 return {
   -- CMP
   {
-    "iguanacucumber/magazine.nvim",
-    -- "hrsh7th/nvim-cmp",
+    -- "iguanacucumber/magazine.nvim",
+    "hrsh7th/nvim-cmp",
     name = "nvim-cmp",
     event = { "InsertEnter" },
     dependencies = {
@@ -182,9 +182,6 @@ return {
       { "marilari88/twoslash-queries.nvim" },
     },
     config = function()
-      local is_node_dir = function()
-        return require("lspconfig").util.root_pattern("package.json")(vim.fn.getcwd())
-      end
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
@@ -193,17 +190,7 @@ return {
 
       local on_attach = {
         ts_ls = function(client, bufnr)
-          if not is_node_dir() then
-            client.stop()
-            return true
-          end
           require("twoslash-queries").attach(client, bufnr)
-        end,
-        denols = function(client)
-          if is_node_dir() then
-            client.stop()
-            return true
-          end
         end,
       }
 
@@ -478,16 +465,16 @@ return {
       { "nvim-treesitter/nvim-treesitter" },
     },
     keys = {
-      { "gh", ":Lspsaga finder<CR>", silent = true },
-      -- { "K", ":Lspsaga hover_doc<CR>", silent = true },
-      -- { "gr", ":Lspsaga finder ref<CR>", silent = true },
-      { "gp", ":Lspsaga peek_definition<CR>", silent = true },
-      { "gd", ":Lspsaga goto_definition<CR>", silent = true },
-      -- { "gn", ":Lspsaga rename<CR>", silent = true },
-      { "gN", ":Lspsaga rename ++project<CR>", silent = true },
-      -- { "ga", ":Lspsaga code_action<CR>", silent = true },
-      -- { "g[", ":Lspsaga diagnostic_jump_prev<CR>", silent = true },
-      -- { "g]", ":Lspsaga diagnostic_jump_next<CR>", silent = true },
+      { "gh", "<Cmd>Lspsaga finder<CR>", silent = true },
+      -- { "K", "<Cmd>Lspsaga hover_doc<CR>", silent = true },
+      -- { "gr", "<Cmd>Lspsaga finder ref<CR>", silent = true },
+      { "gp", "<Cmd>Lspsaga peek_definition<CR>", silent = true },
+      { "gd", "<Cmd>Lspsaga goto_definition<CR>", silent = true },
+      -- { "gn", "<Cmd>Lspsaga rename<CR>", silent = true },
+      { "gN", "<Cmd>Lspsaga rename ++project<CR>", silent = true },
+      -- { "ga", "<Cmd>Lspsaga code_action<CR>", silent = true },
+      -- { "g[", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", silent = true },
+      -- { "g]", "<Cmd>Lspsaga diagnostic_jump_next<CR>", silent = true },
     },
     opts = {
       symbol_in_winbar = {
@@ -622,6 +609,7 @@ return {
       virt_text = {
         max_width = 48,
       },
+      -- namespace_separator = ":",
     },
   },
   -- Typescript

@@ -9,5 +9,6 @@ ___ignorefiles
 
 .snippets
 cspell.json
+.disabled-cspell
 
 .nvim.lua

@@ -1,4 +1,26 @@
 return {
+  {
+    "folke/noice.nvim",
+    enabled = false,
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        progress = { enabled = false },
+        hover = { enabled = false },
+      },
+      presets = {
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false, -- add a border to hover docs and signature help
+      },
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+  },
   -- vim.ui.input を telescope などで置き換える
   {
     "stevearc/dressing.nvim",
@@ -55,7 +77,7 @@ return {
   -- 非アクティブなタブを暗く表示
   {
     "levouh/tint.nvim",
-    cmd = { "TintRefresh" },
+    cmd = { "TintRefresh", "TintEnable", "TintDisable", "TintToggle" },
     config = function(_, opts)
       vim.api.nvim_create_user_command("TintRefresh", function()
         require("tint").refresh()
@@ -71,7 +93,6 @@ return {
       end, {})
       require("tint").setup(opts)
     end,
-    event = { "ColorScheme" },
     opts = {
       tint_background_colors = true,
       highlight_ignore_patterns = {

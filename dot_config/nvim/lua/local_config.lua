@@ -2,9 +2,25 @@ local M = {}
 
 local default = {
   lsp = {
-    denols = {
-      enabled = false,
-    },
+    biome = { enabled = nil },
+    ["css-lsp"] = { enabled = nil },
+    css_variables = { enabled = nil },
+    cssmodules_ls = { enabled = nil },
+    denols = { enabled = false },
+    elmls = { enabled = nil },
+    eslint = { enabled = nil },
+    gopls = { enabled = nil },
+    html = { enabled = nil },
+    jsonls = { enabled = nil },
+    lua_ls = { enabled = nil },
+    rust_analyzer = { enabled = nil },
+    stylelint_lsp = { enabled = nil },
+    svelte = { enabled = nil },
+    tailwindcss = { enabled = nil },
+    terraformls = { enabled = nil },
+    tflint = { enabled = nil },
+    ts_ls = { enabled = nil },
+    yamlls = { enabled = nil },
   },
 }
 
