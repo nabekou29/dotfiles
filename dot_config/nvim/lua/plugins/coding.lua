@@ -306,7 +306,10 @@ return {
         cspell_config_dirs = { "~/.config/" },
       }
 
+      local root_dir = require("null-ls.utils").root_pattern(".null-ls-root", "Makefile", ".git", "package.json")
+
       null_ls.setup({
+        root_dir = root_dir,
         sources = {
           cspell.diagnostics.with({
             env = {
@@ -330,6 +333,7 @@ return {
             config = cspell_config,
           }),
           null_ls.builtins.diagnostics.actionlint,
+          null_ls.builtins.diagnostics.markdownlint,
           null_ls.builtins.diagnostics.textlint.with({
             filetypes = { "markdown" },
             condition = function(utils)
@@ -340,6 +344,11 @@ return {
                 ".textlintrc.yaml",
                 ".textlintrc.yml",
               })
+            end,
+            runtime_condition = function(params)
+              local cwd = vim.fn.getcwd()
+              local bufname = params.bufname
+              return bufname:find(cwd, 1, true) == 1
             end,
           }),
           -- format
@@ -360,14 +369,16 @@ return {
               "vue",
               "svelte",
               "yaml",
-              "markdown",
+              -- "markdown",
             },
             condition = function(utils)
-              return not utils.has_file({ "biome.json", "biome.jsonc" })
+              if lc.get("formatter", "prettier", "enabled") ~= nil then
+                return lc.get("formatter", "prettier", "enabled")
+              end
+              return utils.root_has_file({ ".prettierrc", ".prettierrc.js", ".prettierrc.json" })
             end,
           }),
           null_ls.builtins.formatting.biome.with({
-            -- prefer_local = "node_modules/.bin",
             command = "biome",
             args = {
               "check",
@@ -376,7 +387,7 @@ return {
               "$FILENAME",
             },
             condition = function(utils)
-              return utils.has_file({ "biome.json", "biome.jsonc" })
+              return utils.root_has_file({ "biome.json", "biome.jsonc" })
             end,
           }),
           -- null_ls.builtins.formatting.stylelint.with({
@@ -384,6 +395,7 @@ return {
           -- }),
           null_ls.builtins.formatting.stylua.with({}),
           null_ls.builtins.formatting.gofumpt.with({}),
+          null_ls.builtins.formatting.markdownlint.with({}),
           null_ls.builtins.formatting.terraform_fmt.with({}),
           null_ls.builtins.formatting.shfmt.with({
             filetypes = { "sh", "zsh" },

@@ -22,6 +22,9 @@ local default = {
     ts_ls = { enabled = nil },
     yamlls = { enabled = nil },
   },
+  formatter = {
+    prettier = { enabled = nil },
+  },
 }
 
 function M.get(...)

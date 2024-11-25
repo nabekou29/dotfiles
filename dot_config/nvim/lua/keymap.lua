@@ -81,7 +81,7 @@ set("n", "#", [[#``]])
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function(event)
-    if event.file ~= "TelescopePrompt" then
+    if event.file ~= "TelescopePrompt" and event.file ~= "DressingInput" then
       vim.api.nvim_buf_set_keymap(event.buf, "n", "<ESC><ESC>", "<CMD>nohlsearch<CR>", {})
     end
   end,

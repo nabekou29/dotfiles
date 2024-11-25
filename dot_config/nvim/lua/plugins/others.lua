@@ -83,16 +83,17 @@ return {
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      -- "hrsh7th/nvim-cmp",
+      "hrsh7th/nvim-cmp",
     },
     keys = {
+      { "<leader>oo", "<CMD>ObsidianToday<CR>" },
       { "<leader>on", "<CMD>ObsidianNew<CR>" },
       { "<leader>oO", "<CMD>ObsidianOpen<CR>" },
-      { "<leader>oo", "<CMD>ObsidianQuickSwitch<CR>" },
+      { "<leader>of", "<CMD>ObsidianQuickSwitch<CR>" },
       { "<leader>or", "<CMD>ObsidianRename<CR>" },
       { "<leader>os", "<CMD>ObsidianSearch<CR>" },
       {
-        "<leader><leader>oe",
+        "<leader>oe",
         function()
           local obsidian = require("obsidian")
           local client = obsidian.get_client()
@@ -143,14 +144,21 @@ return {
         substitutions = {},
       },
       daily_notes = {
-        folder = "notes/dailies",
-        date_format = "%Y-%m-%d",
+        folder = "daily",
+        date_format = "%Y/%m/%Y-%m-%d",
         alias_format = "%Y年%m月%d日",
         default_tags = { "daily-notes" },
-        template = nil,
+        template = "daily.md",
       },
       ui = {
         enable = false,
+        checkboxes = {
+          [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+          ["x"] = { char = "", hl_group = "ObsidianDone" },
+          -- [">"] = { char = "", hl_group = "ObsidianRightArrow" },
+          -- ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+          -- ["!"] = { char = "", hl_group = "ObsidianImportant" },
+        },
       },
     },
     config = function(_, opts)
