@@ -121,6 +121,7 @@
   "vim-test": { "branch": "master", "commit": "8872ec0f788af934386b2aef0cd28a5c2b923146" },
   "vim-visual-multi": { "branch": "master", "commit": "a6975e7c1ee157615bbc80fc25e4392f71c344d4" },
   "vim-wakatime": { "branch": "master", "commit": "cf51327a9e08935569614d1cb24e779ee9f45519" },
+  "vimade": { "branch": "master", "commit": "cde9665d44225d9eb40007780211d1bb9dc2f19f" },
   "vimdoc-ja": { "branch": "master", "commit": "7ce6c1f1313ae5795ecba5846ee79ba25ea68152" },
   "wezterm.nvim": { "branch": "main", "commit": "032c33b621b96cc7228955b4352b48141c482098" },
   "which-key.nvim": { "branch": "main", "commit": "68e37e12913a66b60073906f5d3f14dee0de19f2" },

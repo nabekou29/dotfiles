@@ -76,34 +76,15 @@ return {
   },
   -- 非アクティブなタブを暗く表示
   {
-    "levouh/tint.nvim",
-    cmd = { "TintRefresh", "TintEnable", "TintDisable", "TintToggle" },
-    config = function(_, opts)
-      vim.api.nvim_create_user_command("TintRefresh", function()
-        require("tint").refresh()
-      end, {})
-      vim.api.nvim_create_user_command("TintEnable", function()
-        require("tint").enable()
-      end, {})
-      vim.api.nvim_create_user_command("TintDisable", function()
-        require("tint").disable()
-      end, {})
-      vim.api.nvim_create_user_command("TintToggle", function()
-        require("tint").toggle()
-      end, {})
-      require("tint").setup(opts)
+    "tadaa/vimade",
+    event = "VeryLazy",
+    opts = function()
+      vim.cmd([[let vimade.basebg='#001040']])
+      vim.cmd([[let vimade.fadelevel=0.65]])
+
+      local Default = require("vimade.recipe.default").Default
+      return Default({ animate = true })
     end,
-    opts = {
-      tint_background_colors = true,
-      highlight_ignore_patterns = {
-        "SignColumn",
-        "LineNr",
-        "CursorLine",
-        "WinSeparator",
-        "VertSplit",
-        "StatusLineNC",
-      },
-    },
   },
   -- 起動時の画面
   {
