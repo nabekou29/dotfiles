@@ -77,10 +77,10 @@ return {
   -- 非アクティブなタブを暗く表示
   {
     "tadaa/vimade",
-    event = "VeryLazy",
+    event = { "VeryLazy" },
     opts = function()
       vim.cmd([[let vimade.basebg='#001040']])
-      vim.cmd([[let vimade.fadelevel=0.65]])
+      vim.cmd([[let vimade.fadelevel=0.66]])
 
       local Default = require("vimade.recipe.default").Default
       return Default({ animate = true })
@@ -147,7 +147,7 @@ return {
       },
     },
     opts = {
-      labels = { "a", "s", "d", "g", "h", "k", "l" },
+      labels = vim.split("asdfghjklqwertyuiopzxcvbnmASDFGHJKLQWERTYUIOPZXCVBNM1234567890", ""),
       icon_enabled = true,
       text_color = "#FFFFFF",
       bg_color = "#545454",

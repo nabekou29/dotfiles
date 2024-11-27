@@ -82,7 +82,7 @@ vim.diagnostic.config({
 })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  update_in_insert = true,
+  update_in_insert = false,
   virtual_text = {
     prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応
     suffix = "",
