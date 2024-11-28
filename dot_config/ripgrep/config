@@ -1,0 +1,12 @@
+# https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#configuration-file
+
+--type-add
+web:*.{html,css,js}*
+
+# ファイルサイズが 10MB 以上は検索しない
+--max-filesize=10M
+
+# *.min.css, *.min.html, *.min.js を除外する
+--type-not=minified
+
+--smart-case

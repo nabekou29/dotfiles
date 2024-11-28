@@ -1,6 +1,6 @@
 # export WORDCHARS='*?_-.//[]~=&;!#$%^(){}<>'
-
 export XDG_CONFIG_HOME="$HOME/.config"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 
 # gh notify
 # https://github.com/meiji163/gh-notify?tab=readme-ov-file#key-bindings-fzf
