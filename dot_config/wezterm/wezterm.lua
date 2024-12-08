@@ -209,7 +209,7 @@ config.keys = {
     action = wezterm.action_callback(function(window, _pane)
       local overrides = window:get_config_overrides() or {}
 
-      local opacity_list = { 0.55, 0.92, 1.00 }
+      local opacity_list = { 0.55, 0.8, 0.92, 1.00 }
       local current_opacity = overrides.window_background_opacity or 0.95
 
       local idx = 1

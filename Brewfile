@@ -1,23 +1,32 @@
 ## ----------------------------------------
-##  Brewfile
+## Brewfile
+##
+## sort command: %g/## ====/+1,/^$/-1 sort
 ## ----------------------------------------
 
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
+tap "1password/tap"
+tap "daipeihust/tap"
+tap "ngrok/ngrok"
+
 cask_args appdir: "/Applications"
 
 ## ========== Common ==========
 brew "bat"
+brew "chafa"
 brew "cloc"
 brew "coreutils"
 brew "direnv"
 brew "fzf"
 brew "gnu-sed"
+brew "imagemagick"
 brew "jq"
 brew "lsd"
 brew "mas"
 brew "ripgrep"
+brew "sd"
 brew "terminal-notifier"
 brew "tree"
 brew "watchman"
@@ -27,9 +36,9 @@ brew "yq"
 brew "zoxide"
 
 ## ========== Shell ===========
+brew "chezmoi"
 brew "sheldon"
 brew "starship"
-brew "chezmoi"
 brew "zsh-completions"
 cask "wezterm"
 
@@ -39,13 +48,11 @@ cask "font-hackgen"
 cask "font-hackgen-nerd"
 
 ## ========= Utility ==========
-tap "1password/tap"
-tap "daipeihust/tap"
+brew "daipeihust/tap/im-select"
 cask "1password"
 cask "1password-cli"
 cask "alfred"
 cask "alt-tab"
-brew "daipeihust/tap/im-select"
 cask "deepl"
 cask "deskpad"
 cask "karabiner-elements"
@@ -63,20 +70,20 @@ cask "google-chrome"
 
 ## ======= Development ========
 brew "ast-grep"
-cask "android-studio"
-cask "android-platform-tools"
 brew "cocoapods"
 brew "diff-so-fancy"
 brew "docker"
-brew "git"
-brew "git-delta"
 brew "gh"
 brew "ghq"
-cask "google-cloud-sdk"
+brew "git"
+brew "git-delta"
 brew "infracost"
 brew "lazygit"
 brew "pre-commit"
 brew "trivy"
+cask "android-platform-tools"
+cask "android-studio"
+cask "google-cloud-sdk"
 
 ### ---------- Lang -----------
 brew "mise"
@@ -97,7 +104,6 @@ cask "intellij-idea"
 cask "visual-studio-code"
 
 ### ------- Other Apps --------
-tap "ngrok/ngrok"
 cask "chatgpt"
 cask "ngrok"
 cask "postman"

@@ -12,3 +12,5 @@ cspell.json
 .disabled-cspell
 
 .nvim.lua
+
+.DS_Store
