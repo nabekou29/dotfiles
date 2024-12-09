@@ -3,6 +3,9 @@
 --type-add
 web:*.{html,css,js}*
 
+# 後方参照などを使ったときだけ正規表現ライブラリを PCRE2 に変更する
+--engine=auto
+
 # ファイルサイズが 10MB 以上は検索しない
 --max-filesize=10M
 

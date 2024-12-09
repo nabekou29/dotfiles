@@ -6,6 +6,7 @@ local default = {
     ["css-lsp"] = { enabled = nil },
     css_variables = { enabled = nil },
     cssmodules_ls = { enabled = nil },
+    cspell = { enabled = nil },
     denols = { enabled = false },
     elmls = { enabled = nil },
     eslint = { enabled = nil },
