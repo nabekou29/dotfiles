@@ -319,6 +319,9 @@ return {
               diagnostic.severity = vim.diagnostic.severity["INFO"]
             end,
             condition = function(utils)
+              if lc.get("lsp", "cspell", "enabled") ~= nil then
+                return lc.get("lsp", "cspell", "enabled")
+              end
               return not (utils.root_has_file({ ".disabled-cspell" }))
             end,
             config = cspell_config,
@@ -328,12 +331,22 @@ return {
               FORCE_COLOR = "0",
             },
             condition = function(utils)
+              if lc.get("lsp", "cspell", "enabled") ~= nil then
+                return lc.get("lsp", "cspell", "enabled")
+              end
               return not (utils.root_has_file({ ".disabled-cspell" }))
             end,
             config = cspell_config,
           }),
           null_ls.builtins.diagnostics.actionlint,
-          null_ls.builtins.diagnostics.markdownlint,
+          null_ls.builtins.diagnostics.markdownlint.with({
+            root_dir = require("null-ls.utils").root_pattern(".markdownlint.json"),
+            runtime_condition = function(params)
+              local cwd = vim.fn.getcwd()
+              local bufname = params.bufname
+              return bufname:find(cwd, 1, true) == 1
+            end,
+          }),
           null_ls.builtins.diagnostics.textlint.with({
             filetypes = { "markdown" },
             condition = function(utils)
@@ -369,7 +382,7 @@ return {
               "vue",
               "svelte",
               "yaml",
-              -- "markdown",
+              "markdown",
             },
             condition = function(utils)
               if lc.get("formatter", "prettier", "enabled") ~= nil then
@@ -395,7 +408,14 @@ return {
           -- }),
           null_ls.builtins.formatting.stylua.with({}),
           null_ls.builtins.formatting.gofumpt.with({}),
-          null_ls.builtins.formatting.markdownlint.with({}),
+          -- null_ls.builtins.formatting.markdownlint.with({
+          --   root_dir = require("null-ls.utils").root_pattern(".markdownlint.json"),
+          --   runtime_condition = function(params)
+          --     local cwd = vim.fn.getcwd()
+          --     local bufname = params.bufname
+          --     return bufname:find(cwd, 1, true) == 1
+          --   end,
+          -- }),
           null_ls.builtins.formatting.terraform_fmt.with({}),
           null_ls.builtins.formatting.shfmt.with({
             filetypes = { "sh", "zsh" },
