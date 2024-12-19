@@ -48,6 +48,22 @@ return {
     end,
   },
   {
+    "neanias/everforest-nvim",
+    name = "everforest",
+    lazy = false,
+    cond = cond,
+    priority = 1000,
+    opts = {
+      background = "hard",
+      transparent_background_level = 2,
+      italics = true,
+    },
+    config = function(_, opts)
+      require("everforest").setup(opts)
+      vim.cmd("colorscheme everforest")
+    end,
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,

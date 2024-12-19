@@ -211,9 +211,8 @@ return {
                 return string.format([[!*{%s}*]], input)
               end,
             },
-            ["-H"] = {
-              flag = "hidden",
-            },
+            ["-H"] = { flag = "hidden" },
+            ["-U"] = { flag = "U" },
           },
         },
         media = {

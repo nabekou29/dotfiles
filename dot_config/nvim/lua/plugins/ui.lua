@@ -513,6 +513,10 @@ return {
     opts = {
       chunk = {
         enable = true,
+        exclude_filetypes = {
+          yaml = true,
+          markdown = true,
+        },
         use_treesitter = true,
         style = { { fg = "#208aca" }, { fg = "#9f1b2e" } },
         chars = {

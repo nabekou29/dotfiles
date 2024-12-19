@@ -21,6 +21,7 @@ config.colors = {
 
 config.font = wezterm.font("Liga HackGen35Nerd")
 config.font_size = 18.0
+config.line_height = 1.15
 
 config.window_background_opacity = 0.92
 config.inactive_pane_hsb = { saturation = 0.95, brightness = 0.3 }

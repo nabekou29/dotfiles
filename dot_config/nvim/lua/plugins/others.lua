@@ -92,6 +92,7 @@ return {
       { "<leader>of", "<CMD>ObsidianQuickSwitch<CR>" },
       { "<leader>or", "<CMD>ObsidianRename<CR>" },
       { "<leader>os", "<CMD>ObsidianSearch<CR>" },
+      { "<leader>og", "<CMD>ObsidianSearch<CR>" },
       {
         "<leader>oe",
         function()
