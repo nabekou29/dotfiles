@@ -4,6 +4,7 @@ python = "3.12.4"
 node = "22.7.0"
 ruby = "3.3.5"
 deno = "latest"
+watchexec = "latest"
 
 [settings]
 experimental = true

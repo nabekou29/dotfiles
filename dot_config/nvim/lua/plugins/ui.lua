@@ -528,6 +528,10 @@ return {
           left_bottom = "╰",
           right_arrow = "»",
         },
+        exclude_filetypes = {
+          yaml = true,
+          markdown = true,
+        },
       },
     },
   },

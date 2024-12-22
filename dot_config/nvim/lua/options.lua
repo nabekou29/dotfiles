@@ -40,7 +40,7 @@ vim.g.mapleader = " " -- リーダーをスペースに変更
 vim.opt.laststatus = 3 -- ステータスバーをウィンドウごとではなく、一番下に常に表示
 
 vim.opt.backup = true
-vim.opt.backupdir = vim.fn.stdpath("data") .. "/backup"
+vim.opt.backupdir = vim.fn.stdpath("data") .. "/backup//" -- // をつけるとパス構造が保持される
 
 vim.g.editorconfig = true
 
