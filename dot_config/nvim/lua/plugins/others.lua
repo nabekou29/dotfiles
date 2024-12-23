@@ -147,7 +147,7 @@ return {
       daily_notes = {
         folder = "daily",
         date_format = "%Y/%m/%Y-%m-%d",
-        alias_format = "%Y年%m月%d日",
+        -- alias_format = "%Y年%m月%d日",
         default_tags = { "daily-notes" },
         template = "daily.md",
       },

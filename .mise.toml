@@ -1,0 +1,17 @@
+# https://mise.jdx.dev/configuration.html
+[tasks.brew-diff]
+    description = "Brewfile diff"
+    run = """
+    #!/usr/bin/env bash
+    mkdir -p tmp_brewfile
+    echo "==> Dumping Brewfile"
+    brew bundle dump --file=- | sort > tmp_brewfile/after
+    echo "==> Formatting managed Brewfile"
+    cat Brewfile | gsed '/^$/d' | gsed '/^#/d' | sort > tmp_brewfile/before
+    echo "==> Diffing Brewfile"
+    nvim -d tmp_brewfile/before tmp_brewfile/after
+    """
+
+[tasks.brew-reinstall]
+    description = "Reinstall Brewfile"
+    run = "brew bundle --file=Brewfile"
