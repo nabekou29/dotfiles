@@ -9,6 +9,8 @@ elif [ -x /usr/local/bin/brew ]; then
   export PATH="/usr/local/bin:$PATH"
 fi
 
+PATH=$HOME/bin:$PATH
+
 eval "$(sheldon source)"
 
 # ヒストリー機能
