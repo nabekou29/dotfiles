@@ -134,8 +134,8 @@ return {
     opts = {
       workspaces = {
         {
-          name = "Notes",
-          path = constants.path.obsidian_docs .. "/Notes",
+          name = "obsidian",
+          path = constants.path.obsidian_docs,
         },
       },
       templates = {
