@@ -63,6 +63,7 @@ return {
       vim.cmd("colorscheme everforest")
     end,
   },
+
   {
     "catppuccin/nvim",
     name = "catppuccin",

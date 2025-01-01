@@ -23,10 +23,10 @@ if os.getenv("WEZTERM_PANE") then
     end)
   end
 else
-  set("n", "<C-S-h>", "<cmd>wincmd h<CR>")
-  set("n", "<C-S-l>", "<cmd>wincmd l<CR>")
-  set("n", "<C-S-j>", "<cmd>wincmd j<CR>")
-  set("n", "<C-S-k>", "<cmd>wincmd k<CR>")
+  -- set("n", "<C-S-h>", "<cmd>wincmd h<CR>")
+  -- set("n", "<C-S-l>", "<cmd>wincmd l<CR>")
+  -- set("n", "<C-S-j>", "<cmd>wincmd j<CR>")
+  -- set("n", "<C-S-k>", "<cmd>wincmd k<CR>")
 end
 
 -- Emacs

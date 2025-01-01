@@ -109,6 +109,7 @@ bindkey "^g" ghq-fzf
 # terminfo
 if [ -d ~/.terminfo ]; then
     # export TERM=wezterm
+    export TERM=ghostty
 fi
 
 if [ -f ~/.zshrc.local ] ; then

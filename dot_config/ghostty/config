@@ -1,0 +1,15 @@
+term = ghostty
+macos-option-as-alt = true
+shell-integration = zsh
+
+theme = iceberg-dark
+
+background-opacity = 0.96
+
+# font-family = Liga HackGen35Nerd
+# font-family = HackGen35Nerd
+# font-family = FireCode Nerd Font Mono
+font-thicken = true
+adjust-cell-height = 10%
+
+macos-titlebar-style = hidden
