@@ -1,33 +1,10 @@
 -- Key Binding (Pluginは除く)
 local set = vim.keymap.set
 
--- $WEZTERM_PANE が設定されている場合はWeztermのPane移動を試す
-if os.getenv("WEZTERM_PANE") then
-  local directions = { h = "Left", j = "Down", k = "Up", l = "Right" }
-
-  local move_nvim_win_or_wezterm_pane = function(hjkl)
-    -- 現在のウィンドウIDを取得
-    local oldwin = vim.api.nvim_get_current_win()
-
-    -- ウィンドウ移動を試す
-    vim.cmd.wincmd(hjkl)
-    -- 現在ウィンドウに変化がなければWeztermのPane移動を試す
-    if oldwin == vim.api.nvim_get_current_win() then
-      require("wezterm").switch_pane.direction(directions[hjkl])
-    end
-  end
-
-  for k, _ in pairs(directions) do
-    vim.keymap.set("n", "<C-S-" .. k .. ">", function()
-      move_nvim_win_or_wezterm_pane(k)
-    end)
-  end
-else
-  -- set("n", "<C-S-h>", "<cmd>wincmd h<CR>")
-  -- set("n", "<C-S-l>", "<cmd>wincmd l<CR>")
-  -- set("n", "<C-S-j>", "<cmd>wincmd j<CR>")
-  -- set("n", "<C-S-k>", "<cmd>wincmd k<CR>")
-end
+set("n", "<C-h>", "<cmd>wincmd h<CR>")
+set("n", "<C-l>", "<cmd>wincmd l<CR>")
+set("n", "<C-j>", "<cmd>wincmd j<CR>")
+set("n", "<C-k>", "<cmd>wincmd k<CR>")
 
 -- Emacs
 set({ "i", "v" }, "<C-a>", "<HOME>")
@@ -45,12 +22,12 @@ set("n", "<C-CR>", "i<CR><Esc>kA")
 set("i", "<C-CR>", "<CR><Esc>kA")
 
 -- 行の移動
-set("n", "<M-S-j>", ":move .+1<CR>==", { desc = "Move line Down" })
-set("x", "<M-S-j>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })
-set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
-set("n", "<M-S-k>", ":move .-2<CR>==", { desc = "Move line Up" })
-set("x", "<M-S-k>", ":move '<-2<CR>gv=gv", { desc = "Move line Up" })
-set("i", "<M-S-k>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
+set("n", "<M-n>", ":move .+1<CR>==", { desc = "Move line Down" })
+set("x", "<M-n>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })
+set("i", "<M-n>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
+set("n", "<M-p>", ":move .-2<CR>==", { desc = "Move line Up" })
+set("x", "<M-p>", ":move '<-2<CR>gv=gv", { desc = "Move line Up" })
+set("i", "<M-p>", "<Esc><Cmd>move .-2<CR>==gi", { desc = "Move line Up" })
 
 -- <,> を連続で使えるように
 set("x", "<", "<gv")

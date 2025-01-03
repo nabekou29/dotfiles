@@ -4,10 +4,14 @@ shell-integration = zsh
 
 theme = iceberg-dark
 
-background-opacity = 0.96
+background-opacity = 0.93
+background-blur-radius = 10
+resize-overlay = never
 
-font-family = HackGen35 Console NF
+font-family = Liga HackGen35Nerd
 font-thicken = true
 adjust-cell-height = 10%
 
 macos-titlebar-style = hidden
+
+mouse-hide-while-typing = true

@@ -108,6 +108,7 @@ return {
       })
     end,
   },
+
   -- Copilot
   {
     "zbirenbaum/copilot.lua",
@@ -126,9 +127,9 @@ return {
         auto_trigger = true, -- false,
         debounce = 75,
         keymap = {
-          accept = "<M-;>",
+          accept = "<M-CR>",
           accept_word = "<M-l>",
-          accept_line = "<M-j>",
+          accept_line = "<M-;>",
           next = "<M-]>",
           prev = "<M-[>",
           dismiss = "<C-]>",
@@ -167,6 +168,7 @@ return {
       prompts = require("copilot_prompts"),
     },
   },
+
   -- LSP
   {
     "williamboman/mason.nvim",

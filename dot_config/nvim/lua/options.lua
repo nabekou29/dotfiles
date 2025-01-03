@@ -60,15 +60,15 @@ if vim.fn.executable("rg") == 1 then
 end
 
 vim.fn.sign_define("DiagnosticSignWarn", {
-  text = "",
+  text = "",
   texthl = "DiagnosticSignWarn",
 })
 vim.fn.sign_define("DiagnosticSignError", {
-  text = "",
+  text = "",
   texthl = "DiagnosticSignError",
 })
 vim.fn.sign_define("DiagnosticSignInfo", {
-  text = "",
+  text = "󰋽",
   texthl = "DiagnosticSignInfo",
 })
 vim.fn.sign_define("DiagnosticSignHint", {
@@ -92,11 +92,11 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
     format = function(diagnostic)
       local prefix = "?"
       if diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
-        prefix = ""
+        prefix = ""
       elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Warning then
-        prefix = ""
+        prefix = ""
       elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Information then
-        prefix = ""
+        prefix = "󰋽"
       elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Hint then
         prefix = "🔧"
       end

@@ -3,6 +3,8 @@ return {
     "klen/nvim-config-local",
     lazy = false,
     priority = 1001,
-    opts = {},
+    opts = {
+      lookup_parents = true,
+    },
   },
 }
