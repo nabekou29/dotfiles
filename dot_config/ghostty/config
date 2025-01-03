@@ -6,7 +6,7 @@ theme = iceberg-dark
 
 background-opacity = 0.96
 
-font-family = HackGen35 Console NF
+font-family = Liga HackGen35Nerd
 font-thicken = true
 adjust-cell-height = 10%
 

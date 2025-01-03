@@ -189,10 +189,10 @@ return {
     },
     -- event = { "VeryLazy" },
     keys = {
-      { "<C-h>", "<Cmd>BufferLineCyclePrev<CR>" },
-      { "<C-l>", "<Cmd>BufferLineCycleNext<CR>" },
-      { "<C-M-h>", "<Cmd>BufferLineMovePrev<CR>" },
-      { "<C-M-l>", "<Cmd>BufferLineMoveNext<CR>" },
+      { "<C-S-H>", "<Cmd>BufferLineCyclePrev<CR>" },
+      { "<C-S-L>", "<Cmd>BufferLineCycleNext<CR>" },
+      -- { "<C-M-h>", "<Cmd>BufferLineMovePrev<CR>" },
+      -- { "<C-M-l>", "<Cmd>BufferLineMoveNext<CR>" },
       {
         "<leader>bg",
         function()
@@ -528,10 +528,6 @@ return {
           left_bottom = "╰",
           right_arrow = "»",
         },
-        exclude_filetypes = {
-          yaml = true,
-          markdown = true,
-        },
       },
     },
   },
@@ -554,9 +550,9 @@ return {
           vim.lsp.protocol.DiagnosticSeverity.Error,
         },
         diagnostics_hint_symbol = "🔧",
-        diagnostics_info_symbol = "",
-        diagnostics_warn_symbol = "",
-        diagnostics_error_symbol = "",
+        diagnostics_info_symbol = "󰋽",
+        diagnostics_warn_symbol = "",
+        diagnostics_error_symbol = "",
       }
     end,
   },
