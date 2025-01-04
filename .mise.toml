@@ -15,3 +15,13 @@
 [tasks.brew-reinstall]
     description = "Reinstall Brewfile"
     run = "brew bundle --file=Brewfile"
+
+[tasks.karabiner-build]
+    description = "Build Karabiner-Elements configuration"
+    run = "deno run --allow-env --allow-read --allow-write main.ts"
+    dir = "./karabiner"
+
+[tasks.karabiner-watch]
+    description = "Watch Karabiner-Elements configuration"
+    run = "deno run --allow-env --allow-read --allow-write --watch main.ts"
+    dir = "./karabiner" 

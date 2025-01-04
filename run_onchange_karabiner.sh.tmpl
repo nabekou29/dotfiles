@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# karabiner/**
+# hash: {{ include "karabiner/main.ts" | sha256sum }}
+
+cd {{ .chezmoi.sourceDir }}
+mise run karabiner-build

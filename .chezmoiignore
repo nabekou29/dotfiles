@@ -1,6 +1,9 @@
 # See https://www.chezmoi.io/docs/reference/#chezmoiignore
+biome.json
 
 README.md
 
 Brewfile
+karabiner/**/*
+
 tmp_*
