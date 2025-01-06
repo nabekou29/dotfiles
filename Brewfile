@@ -54,6 +54,7 @@ cask "font-hackgen-nerd"
 
 ## ========= Utility ==========
 brew "laishulu/homebrew/macism"
+brew "nowplaying-cli"
 cask "1password"
 cask "1password-cli"
 cask "alfred"

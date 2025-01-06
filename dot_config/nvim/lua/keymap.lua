@@ -1,10 +1,12 @@
 -- Key Binding (Pluginは除く)
 local set = vim.keymap.set
 
-set("n", "<C-h>", "<cmd>wincmd h<CR>")
-set("n", "<C-l>", "<cmd>wincmd l<CR>")
-set("n", "<C-j>", "<cmd>wincmd j<CR>")
-set("n", "<C-k>", "<cmd>wincmd k<CR>")
+if vim.fn.exists("$TMUX") ~= 1 then
+  set("n", "<C-h>", "<cmd>wincmd h<CR>")
+  set("n", "<C-l>", "<cmd>wincmd l<CR>")
+  set("n", "<C-j>", "<cmd>wincmd j<CR>")
+  set("n", "<C-k>", "<cmd>wincmd k<CR>")
+end
 
 -- Emacs
 set({ "i", "v" }, "<C-a>", "<HOME>")
