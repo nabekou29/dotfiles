@@ -5,8 +5,6 @@
 ## ----------------------------------------
 
 tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/core"
 tap "1password/tap"
 tap "ngrok/ngrok"
 
@@ -44,6 +42,7 @@ brew "starship"
 brew "terminal-notifier"
 brew "tmux"
 brew "zsh-completions"
+brew "zellij"
 cask "ghostty"
 cask "wezterm@nightly"
 
