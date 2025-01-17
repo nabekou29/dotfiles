@@ -509,8 +509,6 @@ return {
   -- 関数やオブジェクトのまとまりをわかりやすいように
   {
     "shellRaining/hlchunk.nvim",
-    -- 重い
-    enabled = false,
     event = { "VeryLazy" },
     opts = {
       chunk = {

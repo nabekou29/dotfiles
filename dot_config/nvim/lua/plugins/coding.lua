@@ -226,6 +226,11 @@ return {
             unknownAtRules = "ignore",
           },
         },
+        eslint = {
+          experimental = {
+            useFlatConfig = true,
+          },
+        },
         tailwindCSS = {
           experimental = {
             classRegex = {
@@ -328,18 +333,18 @@ return {
             end,
             config = cspell_config,
           }),
-          cspell.code_actions.with({
-            env = {
-              FORCE_COLOR = "0",
-            },
-            condition = function(utils)
-              if lc.get("lsp", "cspell", "enabled") ~= nil then
-                return lc.get("lsp", "cspell", "enabled")
-              end
-              return not (utils.root_has_file({ ".disabled-cspell" }))
-            end,
-            config = cspell_config,
-          }),
+          -- cspell.code_actions.with({
+          --   env = {
+          --     FORCE_COLOR = "0",
+          --   },
+          --   condition = function(utils)
+          --     if lc.get("lsp", "cspell", "enabled") ~= nil then
+          --       return lc.get("lsp", "cspell", "enabled")
+          --     end
+          --     return not (utils.root_has_file({ ".disabled-cspell" }))
+          --   end,
+          --   config = cspell_config,
+          -- }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.markdownlint.with({
             root_dir = require("null-ls.utils").root_pattern(".markdownlint.json"),
@@ -554,7 +559,6 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
-    enabled = false,
     event = { "VeryLazy" },
     config = function()
       require("treesitter-context").setup({
