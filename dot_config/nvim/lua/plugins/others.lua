@@ -221,4 +221,29 @@ return {
       },
     },
   },
+  {
+    "https://github.com/swaits/zellij-nav.nvim",
+    enabled = function()
+      return vim.fn.exists("$ZELLIJ") == 1
+    end,
+    event = "VeryLazy",
+    keys = {
+      { "<c-h>", "<cmd>ZellijNavigateLeft<cr>", { esc = "navigate left or tab" } },
+      { "<c-j>", "<cmd>ZellijNavigateDown<cr>", { esc = "navigate down" } },
+      { "<c-k>", "<cmd>ZellijNavigateUp<cr>", { esc = "navigate up" } },
+      { "<c-l>", "<cmd>ZellijNavigateRight<cr>", { esc = "navigate right or tab" } },
+    },
+    opts = {},
+    init = function()
+      vim.api.nvim_create_autocmd("FocusLost", {
+        pattern = "*",
+        command = "silent !zellij action switch-mode normal",
+      })
+      vim.api.nvim_create_autocmd("FocusGained", {
+        pattern = "*",
+        command = "silent !zellij action switch-mode locked",
+      })
+      vim.cmd("silent !zellij action switch-mode locked")
+    end,
+  },
 }

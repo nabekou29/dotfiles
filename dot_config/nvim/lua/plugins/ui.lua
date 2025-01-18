@@ -189,10 +189,10 @@ return {
     },
     -- event = { "VeryLazy" },
     keys = {
-      { "<C-S-H>", "<Cmd>BufferLineCyclePrev<CR>" },
-      { "<C-S-L>", "<Cmd>BufferLineCycleNext<CR>" },
-      -- { "<C-M-h>", "<Cmd>BufferLineMovePrev<CR>" },
-      -- { "<C-M-l>", "<Cmd>BufferLineMoveNext<CR>" },
+      { "<C-S-h>", "<Cmd>BufferLineCyclePrev<CR>" },
+      { "<C-S-l>", "<Cmd>BufferLineCycleNext<CR>" },
+      { "<C-M-h>", "<Cmd>BufferLineMovePrev<CR>" },
+      { "<C-M-l>", "<Cmd>BufferLineMoveNext<CR>" },
       {
         "<leader>bg",
         function()

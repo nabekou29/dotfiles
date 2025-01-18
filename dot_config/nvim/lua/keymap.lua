@@ -1,7 +1,7 @@
 -- Key Binding (Pluginは除く)
 local set = vim.keymap.set
 
-if vim.fn.exists("$TMUX") ~= 1 then
+if vim.fn.exists("$ZELLIJ") ~= 1 then
   set("n", "<C-h>", "<cmd>wincmd h<CR>")
   set("n", "<C-l>", "<cmd>wincmd l<CR>")
   set("n", "<C-j>", "<cmd>wincmd j<CR>")

@@ -82,8 +82,8 @@ export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
-# abbr
-[ -f ~/.config/zsh/abbr.zsh ] && source ~/.config/zsh/abbr.zsh
+# alias
+[ -f ~/.config/zsh/alias.zsh ] && source ~/.config/zsh/alias.zsh
 
 # zoxide
 zsh-defer _evalcache zoxide init zsh
