@@ -72,7 +72,7 @@ plugins {
 themes {
     iceberg-dark-custom {
         fg "#C6C8D1"
-        bg "#363e56" // #161821"
+        bg "#363e56" // "#161821"
         black "#1E222F"
         red "#E27878"
         green "#84A0C6"

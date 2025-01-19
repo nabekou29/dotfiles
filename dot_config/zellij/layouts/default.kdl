@@ -74,7 +74,7 @@ layout {
 
                 // Music
                 command_music_command     "bash -c ~/.config/zellij/scripts/macos_music.sh"
-                command_music_format      "#[bg=$bg2,fg=$fg1]#[bg=$fg1,fg=$bg1] {stdout}"
+                command_music_format      "#[bg=$bg2,fg=$fg1]#[bg=$fg1,fg=$bg1] {stdout} "
                 command_music_interval    "2"
                 command_music_rendermode  "static"
 
