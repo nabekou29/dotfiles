@@ -36,7 +36,7 @@ keybinds clear-defaults=true {
         bind "Alt n" { NewTab; SwitchToMode "Normal"; }
         bind "Alt Shift l" { GoToNextTab; SwitchToMode "Normal"; }
         bind "Alt Shift h" { GoToPreviousTab; SwitchToMode "Normal"; }
-        bind "Alt w" { CloseTab; }
+        bind "Alt w" { CloseFocus; }
     }
 
     locked {

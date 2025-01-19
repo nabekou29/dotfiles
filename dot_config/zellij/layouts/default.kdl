@@ -73,33 +73,33 @@ layout {
                 notification_show_interval "10"
 
                 // Music
-                command_music_command     "bash -c ~/.config/zellij/scripts/macos_music.sh"
+                command_music_command     "bash -c '$ZELLIJ_CONFIG_DIR/scripts/cache.sh $ZELLIJ_CONFIG_DIR/scripts/macos_music.sh 5'"
                 command_music_format      "#[bg=$bg2,fg=$fg1]#[bg=$fg1,fg=$bg1] {stdout} "
-                command_music_interval    "2"
+                command_music_interval    "5"
                 command_music_rendermode  "static"
 
                 // Battery
-                command_battery_command     "bash -c ~/.config/zellij/scripts/battery.sh"
+                command_battery_command     "bash -c '$ZELLIJ_CONFIG_DIR/scripts/cache.sh $ZELLIJ_CONFIG_DIR/scripts/battery.sh 5'"
                 command_battery_format      "#[bg=$fg1,fg=$red]#[bg=$red,fg=$bg1] {stdout}"
-                command_battery_interval    "2"
+                command_battery_interval    "30"
                 command_battery_rendermode  "static"
 
                 // CPU
-                command_cpu_command     "bash -c ~/.config/zellij/scripts/cpu_info.sh"
+                command_cpu_command     "bash -c '$ZELLIJ_CONFIG_DIR/scripts/cache.sh $ZELLIJ_CONFIG_DIR/scripts/cpu_info.sh 10'"
                 command_cpu_format      "#[bg=$red,fg=$blue]#[bg=$blue,fg=$bg1]{stdout}"
-                command_cpu_interval    "2"
+                command_cpu_interval    "30"
                 command_cpu_rendermode  "static"
 
                 // RAM
-                command_ram_command     "bash -c ~/.config/zellij/scripts/ram_info.sh"
+                command_ram_command     "bash -c '$ZELLIJ_CONFIG_DIR/scripts/cache.sh $ZELLIJ_CONFIG_DIR/scripts/ram_info.sh 5'"
                 command_ram_format      "#[bg=$blue,fg=$green]#[bg=$green,fg=$bg1]{stdout}"
-                command_ram_interval    "2"
+                command_ram_interval    "30"
                 command_ram_rendermode  "static"
 
                 // Weather
-                command_weather_command     "bash -c '~/.config/zellij/scripts/weather_wrapper.sh false false false'"
+                command_weather_command     "bash -c '$ZELLIJ_CONFIG_DIR/scripts/cache.sh \"$ZELLIJ_CONFIG_DIR/scripts/weather.sh false false false\" 120'"
                 command_weather_format      "#[bg=$green,fg=$yellow]#[bg=$yellow,fg=$bg1]{stdout}"
-                command_weather_interval    "60"
+                command_weather_interval    "900"
                 command_weather_rendermode  "static"
 
                 datetime          "#[bg=$yellow,fg=$fg3]#[bg=$fg3,fg=$bg1] {format} "

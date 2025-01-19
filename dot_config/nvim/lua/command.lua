@@ -43,3 +43,33 @@ end, {
       :totable()
   end,
 })
+
+-- vim.api.nvim_create_user_command("Backup", function(opts)
+--   local subCommand = opts.fargs[1]
+--
+--   --- @type string
+--   local backupDir = vim.opt.backupdir:get()[1]
+--
+--   local backupFilePath = nil
+--
+--   if vim.endswith(backupDir, "//") then
+--     local fullPath = vim.fn.expand("%:p")
+--     backupDir = backupDir:sub(1, -2)
+--     backupFilePath = backupDir .. fullPath:gsub("/", "%%") .. "~"
+--   end
+--
+--   vim.print({ fullPath = fullPath, backupDir = backupDir, backupFilePath = backupFilePath })
+-- end, {
+--   nargs = 1,
+--   complete = function(arg_lead)
+--     return vim
+--       .iter({
+--         "show",
+--         "restore",
+--       })
+--       :filter(function(target)
+--         return target:match(arg_lead)
+--       end)
+--       :totable()
+--   end,
+-- })

@@ -34,12 +34,6 @@
     executable: true
     refreshPeriod: 720h
 
-".config/zellij/scripts/weather_wrapper.sh":
-    type: file
-    url: https://raw.githubusercontent.com/dracula/tmux/master/scripts/weather_wrapper.sh
-    executable: true
-    refreshPeriod: 720h
-
 ".config/zellij/scripts/utils.sh":
     type: file
     url: https://raw.githubusercontent.com/dracula/tmux/master/scripts/utils.sh

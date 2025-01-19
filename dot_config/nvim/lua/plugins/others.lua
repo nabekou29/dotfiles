@@ -237,12 +237,12 @@ return {
     init = function()
       vim.api.nvim_create_autocmd({ "FocusLost", "VimLeave" }, {
         pattern = "*",
-        command = "silent !zellij action switch-mode normal",
+        command = "silent! !zellij action switch-mode normal || true",
       })
       vim.api.nvim_create_autocmd({ "FocusGained", "VimEnter" }, {
         pattern = "*",
         -- nvim から nvim に切り替えたときにも正常に動作するように、sleep を入れている
-        command = "silent !sleep 0.01 && zellij action switch-mode locked",
+        command = "silent! !sleep 0.01 && zellij action switch-mode locked || true",
       })
     end,
   },

@@ -38,14 +38,14 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:default' menu select=1 # 補完候補のカーソル選択を有効に
 
 if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-  FPATH=$(brew --prefix)/share/zsh/site-functions:${FPATH}
+  FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
+  FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}
 
   autoload -Uz compinit
   compinit
 fi
 
-eval "$(mise activate zsh)"
+_evalcache mise activate zsh
 _evalcache starship init zsh
 
 [ -f ~/.config/zsh/fzf.zsh ] && source ~/.config/zsh/fzf.zsh
@@ -71,8 +71,8 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # GCloud
-zsh-defer source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-zsh-defer source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 
 # Deno
 export PATH="$HOME/.deno/bin:$PATH"
@@ -80,7 +80,6 @@ export PATH="$HOME/.deno/bin:$PATH"
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
-# pnpm end
 
 # alias
 [ -f ~/.config/zsh/alias.zsh ] && source ~/.config/zsh/alias.zsh
