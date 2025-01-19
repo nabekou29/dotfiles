@@ -5,6 +5,7 @@ return {
     priority = 1001,
     opts = {
       lookup_parents = true,
+      silent = true,
     },
   },
 }

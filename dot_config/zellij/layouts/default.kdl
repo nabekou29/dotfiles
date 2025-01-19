@@ -1,0 +1,111 @@
+layout {
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="zjstatus" {
+
+                // iceberg-dark https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/themes/iceberg.kdl
+                color_fg "#C6C8D1"
+                color_bg "#161821"
+                color_black "#1E222F"
+                color_red "#E27878"
+                color_green "#84A0C6"
+                color_yellow "#E2A478"
+                color_blue "#B4BE82"
+                color_magenta "#A093C7"
+                color_cyan "#89B8C2"
+                color_white "#C6C8D1"
+                color_orange "#E2A578"
+
+                color_fg0 "#EEEFF1"
+                color_fg1 "#C6C8D1" // fg
+                color_fg2 "#A2A2B2"
+                color_fg3 "#7A7989"
+                color_bg0 "#161821" // bg
+                color_bg1 "#363e56"
+                color_bg2 "#3e4766"
+                color_bg3 "#4c587d"
+
+                color_light-red "#f7d1d1"
+
+                color_prpt-bg  /* bg1 */ "#3e4766"
+                color_prpt-fg  /* fg1 */ "#C6C8D1"
+                color_tb-bg /* magenta */ "#A093C7"
+
+                format_left   "#[bg=$prpt-bg,fg=$prpt-fg] {session} {mode}#[bg=$bg1]{tabs}"
+                format_center "{notifications}"
+                format_right  "{command_music}{command_battery}{command_cpu}{command_ram}{command_weather}{datetime} "
+                format_space  "#[bg=$bg1,fg=$fg1]"
+                format_hide_on_overlength "true"
+                format_precedence "lrc"
+
+                // hide_frame_for_single_pane "true"
+
+                mode_normal        "#[bg=$bg3,fg=$prpt-bg]#[bg=$bg3,fg=$fg1,bold] NORMAL#[bg=$bg1,fg=$bg3]"
+                mode_tmux          "#[bg=$green,fg=$prpt-bg]#[bg=$green,fg=$bg0,bold] TMUX#[bg=$bg1,fg=$green]"
+                mode_locked        "#[bg=$green,fg=$prpt-bg]#[bg=$green,fg=$bg0,bold] LOCKED#[bg=$bg1,fg=$green]"
+                mode_pane          "#[bg=$cyan,fg=$prpt-bg]#[bg=$cyan,fg=$bg0,bold] PANE#[bg=$bg1,fg=$cyan]"
+                mode_tab           "#[bg=$cyan,fg=$prpt-bg]#[bg=$cyan,fg=$bg0,bold] TAB#[bg=$bg1,fg=$cyan]"
+                mode_scroll        "#[bg=$blue,fg=$prpt-bg]#[bg=$blue,fg=$bg0,bold] SCROLL#[bg=$bg1,fg=$blue]"
+                mode_enter_search  "#[bg=$blue,fg=$prpt-bg]#[bg=$blue,fg=$bg0,bold] ENT-SEARCH#[bg=$bg1,fg=$blue]"
+                mode_search        "#[bg=$blue,fg=$prpt-bg]#[bg=$blue,fg=$bg0,bold] SEARCH#[bg=$bg1,fg=$blue]"
+                mode_resize        "#[bg=$yellow,fg=$prpt-bg]#[bg=$yellow,fg=$bg0,bold] RESIZE#[bg=$bg1,fg=$yellow]"
+                mode_rename_tab    "#[bg=$yellow,fg=$prpt-bg]#[bg=$yellow,fg=$bg0,bold] RESIZE#[bg=$bg1,fg=$yellow]"
+                mode_rename_pane   "#[bg=$yellow,fg=$prpt-bg]#[bg=$yellow,fg=$bg0,bold] RESIZE#[bg=$bg1,fg=$yellow]"
+                mode_move          "#[bg=$yellow,fg=$prpt-bg]#[bg=$yellow,fg=$bg0,bold] MOVE#[bg=$bg1,fg=$yellow]"
+                mode_session       "#[bg=$magenta,fg=$prpt-bg]#[bg=$magenta,fg=$bg0,bold] MOVE#[bg=$bg1,fg=$magenta]"
+                mode_prompt        "#[bg=$magenta,fg=$prpt-bg]#[bg=$magenta,fg=$bg0,bold] PROMPT#[bg=$bg1,fg=$magenta]"
+
+                tab_normal              "#[bg=$bg2,fg=$bg1]#[bg=$bg2,fg=$fg1] {index} #[bg=$bg2,fg=$fg1,bold] {name} {floating_indicator}#[bg=$bg1,fg=$bg2]"
+                tab_normal_fullscreen   "#[bg=$bg2,fg=$bg1]#[bg=$bg2,fg=$fg1] {index} #[bg=$bg2,fg=$fg1,bold] {name} {fullscreen_indicator}#[bg=$bg1,fg=$bg2]"
+                tab_normal_sync         "#[bg=$bg2,fg=$bg1]#[bg=$bg2,fg=$fg1] {index} #[bg=$bg2,fg=$fg1,bold] {name} {sync_indicator}#[bg=$bg1,fg=$bg2]"
+                tab_active              "#[bg=$tb-bg,fg=$bg1]#[bg=$tb-bg,fg=$bg2] {index} #[bg=$tb-bg,fg=$bg2,bold] {name} {floating_indicator}#[bg=$bg1,fg=$tb-bg]"
+                tab_active_fullscreen   "#[bg=$tb-bg,fg=$bg1]#[bg=$tb-bg,fg=$bg2] {index} #[bg=$tb-bg,fg=$bg2,bold] {name} {fullscreen_indicator}#[bg=$bg1,fg=$tb-bg]"
+                tab_active_sync         "#[bg=$tb-bg,fg=$bg1]#[bg=$tb-bg,fg=$bg2] {index} #[bg=$tb-bg,fg=$bg2,bold] {name} {sync_indicator}#[bg=$bg1,fg=$tb-bg]"
+                tab_separator           "#[bg=$bg1,fg=$fg1]"
+
+                tab_sync_indicator       ""
+                tab_fullscreen_indicator "󰊓"
+                tab_floating_indicator   "󰹙"
+
+                notification_format_unread "#[bg=$orange,fg=$bg1]#[bg=$orange,fg=$bg1] {message} #[bg=$bg1,fg=$orange]"
+                notification_format_no_notifications ""
+                notification_show_interval "10"
+
+                // Music
+                command_music_command     "bash -c ~/.config/zellij/scripts/macos_music.sh"
+                command_music_format      "#[bg=$bg2,fg=$fg1]#[bg=$fg1,fg=$bg1] {stdout}"
+                command_music_interval    "2"
+                command_music_rendermode  "static"
+
+                // Battery
+                command_battery_command     "bash -c ~/.config/zellij/scripts/battery.sh"
+                command_battery_format      "#[bg=$fg1,fg=$red]#[bg=$red,fg=$bg1] {stdout}"
+                command_battery_interval    "2"
+                command_battery_rendermode  "static"
+
+                // CPU
+                command_cpu_command     "bash -c ~/.config/zellij/scripts/cpu_info.sh"
+                command_cpu_format      "#[bg=$red,fg=$blue]#[bg=$blue,fg=$bg1]{stdout}"
+                command_cpu_interval    "2"
+                command_cpu_rendermode  "static"
+
+                // RAM
+                command_ram_command     "bash -c ~/.config/zellij/scripts/ram_info.sh"
+                command_ram_format      "#[bg=$blue,fg=$green]#[bg=$green,fg=$bg1]{stdout}"
+                command_ram_interval    "2"
+                command_ram_rendermode  "static"
+
+                // Weather
+                command_weather_command     "bash -c '~/.config/zellij/scripts/weather_wrapper.sh false false false'"
+                command_weather_format      "#[bg=$green,fg=$yellow]#[bg=$yellow,fg=$bg1]{stdout}"
+                command_weather_interval    "60"
+                command_weather_rendermode  "static"
+
+                datetime          "#[bg=$yellow,fg=$fg3]#[bg=$fg3,fg=$bg1] {format} "
+                datetime_format   "%H:%M"
+                datetime_timezone "Asia/Tokyo"
+            }
+        }
+    }
+}
