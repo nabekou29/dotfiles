@@ -148,7 +148,10 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        default = { "lsp", "path", "snippets", "ripgrep" },
+        default = { "lsp", "path", "snippets", "markdown", "ripgrep" },
+        per_filetype = {
+          codecompanion = { "codecompanion" },
+        },
         providers = {
           ripgrep = {
             module = "blink-ripgrep",
@@ -157,6 +160,11 @@ return {
             opts = {
               prefix_min_len = 5,
             },
+          },
+          markdown = {
+            name = "RenderMarkdown",
+            module = "render-markdown.integ.blink",
+            fallbacks = { "lsp" },
           },
         },
       },
@@ -239,6 +247,9 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
+    init = function()
+      vim.cmd([[ cab cc CodeCompanion ]])
+    end,
     opts = {
       strategies = {
         chat = {
@@ -246,6 +257,14 @@ return {
         },
         inline = {
           adapter = "copilot",
+        },
+      },
+      display = {
+        chat = {
+          window = {
+            position = "right",
+            width = 0.35,
+          },
         },
       },
     },

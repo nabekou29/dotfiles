@@ -19,12 +19,11 @@ brew "coreutils"
 brew "daipeihust/tap/im-select"
 brew "direnv"
 brew "fzf"
+brew "fzf-make"
 brew "gnu-sed"
 brew "imagemagick"
 brew "jq"
-brew "fzf-make"
 brew "lsd"
-brew "mas"
 brew "ripgrep"
 brew "sd"
 brew "tree"
@@ -41,8 +40,8 @@ brew "sheldon"
 brew "starship"
 brew "terminal-notifier"
 brew "tmux"
-brew "zsh-completions"
 brew "zellij"
+brew "zsh-completions"
 cask "ghostty"
 cask "wezterm@nightly"
 
@@ -134,6 +133,7 @@ brew "nyancat"
 brew "sl"
 
 # App store
+brew "mas"
 mas "Display Menu", id: 549083868
 mas "Hidden Bar", id: 1452453066
 mas "Klack", id: 6446206067

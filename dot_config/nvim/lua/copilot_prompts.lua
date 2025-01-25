@@ -60,27 +60,6 @@ return {
   PullRequestSummary = {
     prompt = (function()
       local txt = "変更の Pull Request の詳細を日本語で書いてください。"
-
-      txt = txt
-        .. [[テンプレートに従ってください:
-
-## Summary
-<!-- 変更内容の要約を記載してください / Describe what you changed -->
-
-## Why
-<!-- 変更した目的を記載してください / Describe why you made these changes -->
-<!-- JiraチケットやGitHub Issueを記載してください / List related Jira tickets or GitHub issue numbers -->
-
-## QA/Test
-<!-- 動作確認手順とテスト結果を記載してください / Describe how you tested and verified the changes -->
-
-- [ ] ビルドが通ること (`npm run build`)
-- [ ] UT が通ること (`npm run test`)
-
-## Other
-<!-- 保留事項や参考資料など補足情報を記載してください / List any pending items or references -->
-]]
-
       return txt
     end)(),
     selection = function(source)
