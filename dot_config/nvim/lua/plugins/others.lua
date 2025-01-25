@@ -83,7 +83,6 @@ return {
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
     },
     keys = {
       { "<leader>oo", "<CMD>ObsidianToday<CR>" },
@@ -223,6 +222,7 @@ return {
   },
   {
     "https://github.com/swaits/zellij-nav.nvim",
+    -- enabled = false,
     enabled = function()
       return vim.fn.exists("$ZELLIJ") == 1
     end,

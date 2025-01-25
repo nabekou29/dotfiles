@@ -1,0 +1,15 @@
+{
+    "mise-toml-template": {
+        "prefix": "mise-toml-template",
+        "body": [
+            "# https://mise.jdx.dev/configuration.html",
+            "# [env]",
+            "#     NODE_ENV = 'production'",
+            "# [tools]",
+            "#     node = \"20.12.2\"",
+            "# [settings]",
+            "#     env_file = '.env'"
+        ],
+        "description": "Mise TOML template"
+    }
+}

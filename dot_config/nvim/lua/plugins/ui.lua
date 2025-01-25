@@ -21,11 +21,13 @@ return {
       "rcarriga/nvim-notify",
     },
   },
+
   -- vim.ui.input を telescope などで置き換える
   {
     "stevearc/dressing.nvim",
     event = { "ModeChanged" },
   },
+
   -- CSV 用のビューア
   {
     "hat0uma/csvview.nvim",
@@ -40,6 +42,7 @@ return {
     },
     opts = {},
   },
+
   -- Markdown
   {
     "MeanderingProgrammer/render-markdown.nvim",
@@ -58,6 +61,7 @@ return {
       ]])
     end,
   },
+
   -- help
   {
     "OXY2DEV/helpview.nvim",
@@ -66,6 +70,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
   },
+
   -- 画像の表示
   {
     "3rd/image.nvim",
@@ -74,6 +79,7 @@ return {
     dependencies = { "luarocks.nvim" },
     opts = {},
   },
+
   -- 非アクティブなタブを暗く表示
   {
     "tadaa/vimade",
@@ -86,6 +92,7 @@ return {
       return Default({ animate = true })
     end,
   },
+
   -- 起動時の画面
   {
     "folke/drop.nvim",
@@ -133,6 +140,7 @@ return {
       alpha.setup(dashboard.config)
     end,
   },
+
   -- ウィンドウの選択
   {
     "tkmpypy/chowcho.nvim",
@@ -168,6 +176,7 @@ return {
       zindex = 10000,
     },
   },
+
   -- ウィンドウのリサイズ
   {
     "simeji/winresizer",
@@ -180,6 +189,7 @@ return {
       vim.g.winresizer_start_key = "<C-w>r"
     end,
   },
+
   -- バッファーのタブ表示
   {
     "akinsho/bufferline.nvim",
@@ -356,6 +366,7 @@ return {
       vim.o.showtabline = 0
     end,
   },
+
   -- ファイルの状態を表示
   {
     "b0o/incline.nvim",
@@ -422,6 +433,7 @@ return {
       end,
     },
   },
+
   -- バッファを閉じる操作の拡張
   {
     "kazhala/close-buffers.nvim",
@@ -434,6 +446,7 @@ return {
     },
     opts = {},
   },
+
   -- ステータスバー
   {
     "nvim-lualine/lualine.nvim",
@@ -501,11 +514,13 @@ return {
       })
     end,
   },
+
   -- quick fix をいい感じに
   {
     "kevinhwang91/nvim-bqf",
     event = { "VeryLazy" },
   },
+
   -- 関数やオブジェクトのまとまりをわかりやすいように
   {
     "shellRaining/hlchunk.nvim",
@@ -529,6 +544,7 @@ return {
       },
     },
   },
+
   --- fold
   {
     "kevinhwang91/nvim-ufo",
@@ -536,6 +552,7 @@ return {
     event = { "VeryLazy" },
     opts = {},
   },
+
   -- スクロールバー表示
   {
     "dstein64/nvim-scrollview",
@@ -554,12 +571,14 @@ return {
       }
     end,
   },
+
   -- スクロールをスムーズに
   {
     "karb94/neoscroll.nvim",
     keys = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
     opts = {},
   },
+
   -- LSP の起動状況などを右下に表示
   {
     "j-hui/fidget.nvim",

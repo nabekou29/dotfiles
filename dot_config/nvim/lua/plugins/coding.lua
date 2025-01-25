@@ -5,6 +5,7 @@ return {
   {
     -- "iguanacucumber/magazine.nvim",
     "hrsh7th/nvim-cmp",
+    enabled = false,
     name = "nvim-cmp",
     event = { "InsertEnter" },
     dependencies = {
@@ -108,6 +109,69 @@ return {
       })
     end,
   },
+  {
+    "saghen/blink.cmp",
+    event = { "InsertEnter" },
+    version = "*",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "mikavilpas/blink-ripgrep.nvim",
+    },
+    opts = {
+      keymap = {
+        preset = "enter",
+        ["<Esc>"] = { "cancel", "fallback" },
+        cmdline = {
+          preset = "enter",
+          ["<Tab>"] = { "show", "select_next", "fallback" },
+          ["<S-Tab>"] = { "show", "select_prev", "fallback" },
+        },
+      },
+      completion = {
+        menu = {
+          border = "rounded",
+          winblend = 10,
+          auto_show = false,
+        },
+        documentation = {
+          auto_show = true,
+          window = {
+            border = "rounded",
+          },
+        },
+        ghost_text = {
+          enabled = false,
+        },
+      },
+      signature = { enabled = true },
+      appearance = {
+        nerd_font_variant = "mono",
+      },
+      sources = {
+        default = { "lsp", "path", "snippets", "ripgrep" },
+        providers = {
+          ripgrep = {
+            module = "blink-ripgrep",
+            name = "Ripgrep",
+            score_offset = -10,
+            opts = {
+              prefix_min_len = 5,
+            },
+          },
+        },
+      },
+    },
+    opts_extend = { "sources.default" },
+    config = function(_, opts)
+      require("blink.cmp").setup(opts)
+
+      -- Highlight groups
+      vim.cmd([[
+        highlight BlinkCmpMenu guibg=#03142f
+        highlight BlinkCmpMenuBorder guifg=#1c2e5f guibg=#03142f
+      ]])
+    end,
+  },
 
   -- Copilot
   {
@@ -168,6 +232,40 @@ return {
       prompts = require("copilot_prompts"),
     },
   },
+  {
+    "olimorris/codecompanion.nvim",
+    event = { "VeryLazy" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      strategies = {
+        chat = {
+          adapter = "copilot",
+        },
+        inline = {
+          adapter = "copilot",
+        },
+      },
+    },
+  },
+  {
+    "yetone/avante.nvim",
+    event = { "VeryLazy" },
+    version = false,
+    build = "make",
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "zbirenbaum/copilot.lua",
+    },
+    opts = {
+      ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
+      provider = "copilot",
+    },
+  },
 
   -- LSP
   {
@@ -184,7 +282,9 @@ return {
       { "marilari88/twoslash-queries.nvim" },
     },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true,

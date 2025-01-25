@@ -91,6 +91,10 @@ return {
     opts = function()
       vim.api.nvim_set_hl(0, "@nvim-tree-decorator.test-file", { fg = "#6c6c6c" })
 
+      local grouping_regexps = {
+        "(.*)_",
+      }
+
       local Decorator = require("nvim-tree.api").decorator.UserDecorator:extend()
       function Decorator:new()
         self.enabled = true

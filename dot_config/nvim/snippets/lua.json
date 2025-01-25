@@ -1,0 +1,12 @@
+{
+    "stylua-ignore-start": {
+        "prefix": "stylua-ignore-start",
+        "body": ["-- stylua: ignore start"],
+        "description": "Start ignoring stylua formatting"
+    },
+    "stylua-ignore-end": {
+        "prefix": "stylua-ignore-end",
+        "body": ["-- stylua: ignore end"],
+        "description": "End ignoring stylua formatting"
+    }
+}
