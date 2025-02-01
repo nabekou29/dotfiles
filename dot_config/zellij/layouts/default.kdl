@@ -34,7 +34,8 @@ layout {
 
                 format_left   "#[bg=$prpt-bg,fg=$prpt-fg] {session} {mode}#[bg=$bg1]{tabs}"
                 format_center "{notifications}"
-                format_right  "{command_music}{command_battery}{command_cpu}{command_ram}{command_weather}{datetime} "
+                // format_right  "{command_music}{command_battery}{command_cpu}{command_ram}{command_weather}{datetime} "
+                format_right  "{command_battery}{command_cpu}{command_ram}{command_weather}{datetime} "
                 format_space  "#[bg=$bg1,fg=$fg1]"
                 format_hide_on_overlength "true"
                 format_precedence "lrc"
@@ -80,7 +81,8 @@ layout {
 
                 // Battery
                 command_battery_command     "bash -c '$ZELLIJ_CONFIG_DIR/scripts/cache.sh $ZELLIJ_CONFIG_DIR/scripts/battery.sh 5'"
-                command_battery_format      "#[bg=$fg1,fg=$red]#[bg=$red,fg=$bg1] {stdout}"
+                // command_battery_format      "#[bg=$fg1,fg=$red]#[bg=$red,fg=$bg1] {stdout}"
+                command_battery_format      "#[bg=$bg2,fg=$red]#[bg=$red,fg=$bg1] {stdout}"
                 command_battery_interval    "30"
                 command_battery_rendermode  "static"
 

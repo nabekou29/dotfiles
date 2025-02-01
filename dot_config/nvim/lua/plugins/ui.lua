@@ -547,6 +547,17 @@ return {
     },
   },
 
+  {
+    "nabekou29/pair-lens.nvim",
+    event = { "BufRead" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("pair-lens").setup()
+    end,
+  },
+
   --- fold
   {
     "kevinhwang91/nvim-ufo",

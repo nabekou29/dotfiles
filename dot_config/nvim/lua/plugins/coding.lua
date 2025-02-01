@@ -448,22 +448,22 @@ return {
               if lc.get("lsp", "cspell", "enabled") ~= nil then
                 return lc.get("lsp", "cspell", "enabled")
               end
-              return not (utils.root_has_file({ ".disabled-cspell" }))
+              return true
             end,
             config = cspell_config,
           }),
-          -- cspell.code_actions.with({
-          --   env = {
-          --     FORCE_COLOR = "0",
-          --   },
-          --   condition = function(utils)
-          --     if lc.get("lsp", "cspell", "enabled") ~= nil then
-          --       return lc.get("lsp", "cspell", "enabled")
-          --     end
-          --     return not (utils.root_has_file({ ".disabled-cspell" }))
-          --   end,
-          --   config = cspell_config,
-          -- }),
+          cspell.code_actions.with({
+            env = {
+              FORCE_COLOR = "0",
+            },
+            condition = function(utils)
+              if lc.get("lsp", "cspell", "enabled") ~= nil then
+                return lc.get("lsp", "cspell", "enabled")
+              end
+              return true
+            end,
+            config = cspell_config,
+          }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.markdownlint.with({
             root_dir = require("null-ls.utils").root_pattern(".markdownlint.json"),
@@ -679,6 +679,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter-context",
     event = { "VeryLazy" },
+    enabled = false,
     config = function()
       require("treesitter-context").setup({
         max_lines = 12,
