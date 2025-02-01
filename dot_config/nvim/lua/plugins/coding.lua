@@ -661,6 +661,9 @@ return {
           disable = {},
           additional_vim_regex_highlighting = false,
         },
+        matchup = {
+          enable = true,
+        },
         textobjects = {
           select = {
             enable = true,
@@ -698,6 +701,20 @@ return {
       },
     },
   },
+  {
+    "andymass/vim-matchup",
+    event = { "VeryLazy" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    -- init = function()
+    --   vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    -- end,
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
+
   -- TODO など
   {
     "folke/todo-comments.nvim",

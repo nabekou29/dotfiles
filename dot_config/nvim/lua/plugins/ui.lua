@@ -553,8 +553,17 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
-    config = function()
-      require("pair-lens").setup()
+    opts = {
+      enabled = true,
+      style = {
+        hl = "PairLens",
+      },
+      disable_filetypes = {},
+      min_lines = 5, -- 表示する最小行数（デフォルト3行）
+    },
+    config = function(_, opts)
+      vim.api.nvim_set_hl(0, "PairLens", { fg = "#3b5f6f" })
+      require("pair-lens").setup(opts)
     end,
   },
 
