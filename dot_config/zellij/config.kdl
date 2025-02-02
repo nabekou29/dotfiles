@@ -8,10 +8,14 @@ serialize_pane_viewport true
 
 mouse_mode true
 
+// copy_on_select false
+copy_command "pbcopy" 
+
 keybinds clear-defaults=true {
     shared {
         bind "Alt r" { SwitchToMode "resize"; }
         bind "Alt g" { SwitchToMode "locked"; }
+        bind "Alt x" { SwitchToMode "scroll"; }
         bind "Alt s" { NewPane "Down"; SwitchToMode "Normal"; }
         bind "Alt v" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "Alt q" { Quit; }
@@ -37,6 +41,7 @@ keybinds clear-defaults=true {
         bind "Alt Shift l" { GoToNextTab; SwitchToMode "Normal"; }
         bind "Alt Shift h" { GoToPreviousTab; SwitchToMode "Normal"; }
         bind "Alt w" { CloseFocus; }
+        bind "Alt c" { Copy; }
     }
 
     locked {
@@ -48,6 +53,33 @@ keybinds clear-defaults=true {
         bind "Ctrl j" { MoveFocus "Down"; }
         bind "Ctrl k" { MoveFocus "Up"; }
         bind "Ctrl l" { MoveFocus "Right"; }
+    }
+
+    shared_among "scroll" "search" {
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "Ctrl d" { HalfPageScrollDown; }
+        bind "Ctrl u" { HalfPageScrollUp; }
+    }
+
+    scroll {
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
+        bind "e" { EditScrollback; SwitchToMode "Normal"; }
+    }
+
+    entersearch {
+        bind "Ctrl c" "Esc" { SwitchToMode "Scroll"; }
+        bind "Enter" { SwitchToMode "Search"; }
+    }
+
+    search {
+        bind "Esc" { SwitchToMode "scroll"; }
+        bind "n" { Search "down"; }
+        bind "N" "p" { Search "up"; }
+        bind "c" { SearchToggleOption "CaseSensitivity"; }
+        bind "w" { SearchToggleOption "Wrap"; }
+        bind "o" { SearchToggleOption "WholeWord"; }
     }
 
     resize {
