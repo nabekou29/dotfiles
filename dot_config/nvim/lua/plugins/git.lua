@@ -90,8 +90,17 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "FocusLost" },
+    keys = {
+      {
+        "<leader>gb",
+        function()
+          require("gitsigns").toggle_current_line_blame()
+        end,
+        desc = "Toggle Blame",
+      },
+    },
     opts = {
-      current_line_blame = true,
+      current_line_blame = false,
       current_line_blame_opts = {
         virt_text = true,
         virt_text_pos = "eol",
