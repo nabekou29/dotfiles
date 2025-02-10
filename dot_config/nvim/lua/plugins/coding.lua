@@ -452,18 +452,18 @@ return {
             end,
             config = cspell_config,
           }),
-          cspell.code_actions.with({
-            env = {
-              FORCE_COLOR = "0",
-            },
-            condition = function(utils)
-              if lc.get("lsp", "cspell", "enabled") ~= nil then
-                return lc.get("lsp", "cspell", "enabled")
-              end
-              return true
-            end,
-            config = cspell_config,
-          }),
+          -- cspell.code_actions.with({
+          --   env = {
+          --     FORCE_COLOR = "0",
+          --   },
+          --   condition = function(utils)
+          --     if lc.get("lsp", "cspell", "enabled") ~= nil then
+          --       return lc.get("lsp", "cspell", "enabled")
+          --     end
+          --     return true
+          --   end,
+          --   config = cspell_config,
+          -- }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.markdownlint.with({
             root_dir = require("null-ls.utils").root_pattern(".markdownlint.json"),

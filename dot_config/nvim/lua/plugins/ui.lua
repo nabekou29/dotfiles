@@ -549,7 +549,7 @@ return {
 
   {
     "nabekou29/pair-lens.nvim",
-    event = { "BufRead" },
+    event = { "FocusLost" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -624,6 +624,11 @@ return {
         },
         notification = {
           window = { normal_hl = "FidgetNormal", winblend = 80, border = "single" },
+        },
+        integration = {
+          ["nvim-tree"] = {
+            enable = false,
+          },
         },
       })
     end,
