@@ -11,3 +11,6 @@ export GH_NOTIFY_MARK_READ_KEY='ctrl-r'
 # API Keys
 export ANTHROPIC_API_KEY={{ (onepasswordDetailsFields "claude-api-key").credential.value}}
 export OPENAI_API_KEY={{ (onepasswordDetailsFields "openai-api-key").credential.value}}
+
+# Docker
+export DOCKER_HOST="unix:/.docker/run/docker.sock"

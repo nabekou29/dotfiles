@@ -142,8 +142,13 @@ return {
         ghost_text = {
           enabled = false,
         },
+        list = { selection = {
+          preselect = function(ctx)
+            return ctx.mode ~= "cmdline"
+          end,
+        } },
       },
-      signature = { enabled = true },
+      signature = { enabled = false },
       appearance = {
         nerd_font_variant = "mono",
       },
@@ -303,6 +308,7 @@ return {
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+      vim.notify(vim.inspect(capabilities), "info")
 
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,

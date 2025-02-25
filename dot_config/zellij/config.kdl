@@ -13,7 +13,7 @@ copy_command "pbcopy"
 
 keybinds clear-defaults=true {
     shared {
-        bind "Alt r" { SwitchToMode "resize"; }
+        bind "Alt r" { SwitchToMode "pane"; }
         bind "Alt g" { SwitchToMode "locked"; }
         bind "Alt x" { SwitchToMode "scroll"; }
         bind "Alt s" { NewPane "Down"; SwitchToMode "Normal"; }
@@ -82,7 +82,7 @@ keybinds clear-defaults=true {
         bind "o" { SearchToggleOption "WholeWord"; }
     }
 
-    resize {
+    pane {
         bind "Esc" { SwitchToMode "normal"; }
         bind "h" { Resize "Increase Left"; }
         bind "j" { Resize "Increase Down"; }
@@ -94,6 +94,10 @@ keybinds clear-defaults=true {
         bind "L" { Resize "Decrease Right"; }
         bind "+" { Resize "Increase"; }
         bind "-" { Resize "Decrease"; }
+        bind "a" { MovePane "Left"; }
+        bind "s" { MovePane "Down"; }
+        bind "d" { MovePane "Up"; }
+        bind "f" { MovePane "Right"; }
     }
 }
 
