@@ -121,7 +121,9 @@ return {
       keymap = {
         preset = "enter",
         ["<Esc>"] = { "cancel", "fallback" },
-        cmdline = {
+      },
+      cmdline = {
+        keymap = {
           preset = "enter",
           ["<Tab>"] = { "show", "select_next", "fallback" },
           ["<S-Tab>"] = { "show", "select_prev", "fallback" },
@@ -142,11 +144,13 @@ return {
         ghost_text = {
           enabled = false,
         },
-        list = { selection = {
-          preselect = function(ctx)
-            return ctx.mode ~= "cmdline"
-          end,
-        } },
+        list = {
+          selection = {
+            preselect = function(ctx)
+              return ctx.mode ~= "cmdline"
+            end,
+          },
+        },
       },
       signature = { enabled = false },
       appearance = {
@@ -308,7 +312,6 @@ return {
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
-      vim.notify(vim.inspect(capabilities), "info")
 
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
