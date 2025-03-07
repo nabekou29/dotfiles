@@ -67,6 +67,9 @@ export PATH="$HOME/.deno/bin:$PATH"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+[ -f ~/.config/zsh/completion-for-pnpm.zsh ] || pnpm completion zsh > ~/.config/zsh/completion-for-pnpm.zsh
+source ~/.config/zsh/completion-for-pnpm.zsh
+
 # alias
 [ -f ~/.config/zsh/alias.zsh ] && source ~/.config/zsh/alias.zsh
 

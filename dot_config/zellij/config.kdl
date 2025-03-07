@@ -18,7 +18,7 @@ keybinds clear-defaults=true {
         bind "Alt x" { SwitchToMode "scroll"; }
         bind "Alt s" { NewPane "Down"; SwitchToMode "Normal"; }
         bind "Alt v" { NewPane "Right"; SwitchToMode "Normal"; }
-        bind "Alt q" { Quit; }
+        bind "Alt Shift q" { Quit; }
         bind "Ctrl Shift Enter" { ToggleFocusFullscreen; }
         bind "Alt Shift S" {
             LaunchOrFocusPlugin "session-manager" {
@@ -95,9 +95,11 @@ keybinds clear-defaults=true {
         bind "+" { Resize "Increase"; }
         bind "-" { Resize "Decrease"; }
         bind "a" { MovePane "Left"; }
-        bind "s" { MovePane "Down"; }
-        bind "d" { MovePane "Up"; }
+        bind "s" { MovePane "Up"; }
+        bind "d" { MovePane "Down"; }
         bind "f" { MovePane "Right"; }
+        bind "Alt a" { MoveTab "Left"; }
+        bind "Alt f" { MoveTab "Right"; }
     }
 }
 

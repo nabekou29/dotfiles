@@ -1,7 +1,7 @@
 [tools]
 go = "1.22.4"
 python = "3.12.4"
-node = "22.7.0"
+node = "23.9.0"
 ruby = "3.3.5"
 deno = "latest"
 watchexec = "latest"
