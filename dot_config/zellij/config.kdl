@@ -40,7 +40,7 @@ keybinds clear-defaults=true {
         bind "Alt n" { NewTab; SwitchToMode "Normal"; }
         bind "Alt Shift l" { GoToNextTab; SwitchToMode "Normal"; }
         bind "Alt Shift h" { GoToPreviousTab; SwitchToMode "Normal"; }
-        bind "Alt w" { CloseFocus; }
+        bind "Alt Shift w" { CloseFocus; }
         bind "Alt c" { Copy; }
     }
 
