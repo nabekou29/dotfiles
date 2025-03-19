@@ -21,7 +21,7 @@ local default = {
     terraformls = { enabled = nil },
     tflint = { enabled = nil },
     ts_ls = { enabled = nil },
-    yamlls = { enabled = nil },
+    yamlls = { enabled = nil, filetypes = { "yaml", "yml", "json", "jsonc" } },
   },
   formatter = {
     prettier = { enabled = nil },
