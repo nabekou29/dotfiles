@@ -3,113 +3,6 @@ local lc = require("local_config")
 return {
   -- CMP
   {
-    -- "iguanacucumber/magazine.nvim",
-    "hrsh7th/nvim-cmp",
-    enabled = false,
-    name = "nvim-cmp",
-    event = { "InsertEnter" },
-    dependencies = {
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
-      { "hrsh7th/cmp-nvim-lua" },
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-nvim-lsp-signature-help" },
-      { "onsails/lspkind.nvim" },
-      { "dcampos/nvim-snippy" },
-      { "dcampos/cmp-snippy" },
-      { "lukas-reineke/cmp-rg" },
-    },
-    config = function()
-      local cmp = require("cmp")
-      local lspkind = require("lspkind")
-
-      require("snippy").setup({
-        scopes = {
-          typescript = function(scopes)
-            table.insert(scopes, "javascript")
-            return scopes
-          end,
-          javascriptreact = function(scopes)
-            table.insert(scopes, "javascript")
-            return scopes
-          end,
-          typescriptreact = function(scopes)
-            table.insert(scopes, "javascript")
-            table.insert(scopes, "javascriptreact")
-            return scopes
-          end,
-        },
-      })
-
-      cmp.setup({
-        performance = {
-          max_view_entries = 32,
-          debounce = 0,
-          throttle = 0,
-        },
-        completion = {
-          autocomplete = false,
-        },
-        window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
-        },
-        sources = {
-          { name = "nvim_lsp", priority = 100 },
-          { name = "snippy", priority = 60 },
-          { name = "nvim_lua", priority = 50 },
-          { name = "path", priority = 50 },
-          { name = "buffer", priority = 10, keyword_length = 4, max_item_count = 10 },
-          { name = "rg", priority = 0, keyword_length = 4, max_item_count = 10 },
-          { name = "nvim_lsp_signature_help", priority = 100 },
-        },
-        snippet = {
-          expand = function(args)
-            require("snippy").expand_snippet(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<C-n>"] = cmp.mapping.select_next_item(),
-          ["<C-k>"] = cmp.mapping.select_prev_item(),
-          ["<C-j>"] = cmp.mapping.select_next_item(),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({
-            select = true,
-            behavior = cmp.ConfirmBehavior.Replace,
-          }),
-        }),
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = "symbol_text",
-            preset = "codicons",
-            ellipsis_char = "...",
-            before = function(entry, vim_item)
-              vim_item.menu = ({
-                nvim_lsp = "[LSP]",
-                snippy = "[Snippy]",
-                emoji = "[Emoji]",
-                path = "[Path]",
-                calc = "[Calc]",
-                vsnip = "[Snippet]",
-                buffer = "[Buffer]",
-                nvim_lua = "[Lua]",
-                copilot = "[Copilot]",
-                treesitter = "[Treesitter]",
-                rg = "[Rg]",
-              })[entry.source.name]
-              return vim_item
-            end,
-          }),
-        },
-        experimental = {
-          ghost_text = false,
-        },
-      })
-    end,
-  },
-  {
     "saghen/blink.cmp",
     event = { "InsertEnter" },
     version = "*",
@@ -239,7 +132,6 @@ return {
       end
       return cmd
     end,
-    branch = "canary",
     dependencies = {
       { "zbirenbaum/copilot.lua" },
       { "nvim-lua/plenary.nvim" },
@@ -257,15 +149,15 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     init = function()
-      vim.cmd([[ cab cc CodeCompanion ]])
+      vim.cmd([[cab cc CodeCompanion]])
     end,
     opts = {
       strategies = {
         chat = {
-          adapter = "copilot",
+          adapter = "anthropic",
         },
         inline = {
-          adapter = "copilot",
+          adapter = "anthropic",
         },
       },
       display = {
@@ -291,7 +183,7 @@ return {
     },
     opts = {
       ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-      provider = "copilot",
+      provider = "claude",
     },
   },
 
@@ -374,6 +266,7 @@ return {
           camelCase = false,
         },
       }
+
       require("mason-lspconfig").setup_handlers({
         function(server_name)
           if lc.get("lsp", server_name, "enabled") == false then
@@ -421,6 +314,32 @@ return {
           "gopls",
         },
       })
+
+      local lspconfig = require("lspconfig")
+      local lsp_configs = require("lspconfig.configs")
+      if not lsp_configs.js_in_ls then
+        lsp_configs.js_in_ls = {
+          default_config = {
+            name = "js-i18n-ls",
+            cmd = {
+              "/Users/kohei_watanabe/ghq/github.com/nabekou29/js-i18n-language-server/dist/main.js",
+              "--stdio",
+            },
+            filetypes = {
+              "javascript",
+              "typescript",
+              "javascriptreact",
+              "typescriptreact",
+              "json",
+            },
+            root_dir = function(fname)
+              return lspconfig.util.find_git_ancestor(fname) or vim.loop.cwd()
+            end,
+          },
+        }
+      end
+      lspconfig.js_in_ls.setup({})
+      vim.lsp.set_log_level("info")
     end,
   },
   {
@@ -778,6 +697,7 @@ return {
   -- i18n
   {
     "nabekou29/js-i18n.nvim",
+    enabled = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
