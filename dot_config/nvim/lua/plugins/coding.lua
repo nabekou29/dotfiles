@@ -216,29 +216,30 @@ return {
         end,
       }
 
-      local commands = {
-        ts_ls = {
-          OrganizeImports = {
-            function()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(ev)
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if client == nil then
+            return
+          end
+
+          if client.name == "ts_ls" then
+            vim.api.nvim_create_user_command("OrganizeImports", function()
               local params = {
                 command = "_typescript.organizeImports",
-                arguments = {
-                  vim.api.nvim_buf_get_name(0),
-                },
+                arguments = { vim.api.nvim_buf_get_name(0) },
                 title = "",
               }
               vim.lsp.buf.execute_command(params)
-            end,
-          },
-        },
-        stylelint_lsp = {
-          StylelintFixAll = {
-            function()
-              vim.system({ "npx", "stylelint", "--fix", vim.api.nvim_buf_get_name(0) })
-            end,
-          },
-        },
-      }
+            end, { desc = "Organize Imports" })
+          elseif client.name == "stylelint_lsp" then
+            vim.api.nvim_create_user_command("StylelintFixAll", function()
+              vim.fn.system({ "npx", "stylelint", "--fix", vim.api.nvim_buf_get_name(0) })
+            end, { desc = "Stylelint Fix All" })
+          end
+        end,
+      })
+
       local settings = {
         css = {
           validate = true,
@@ -289,7 +290,6 @@ return {
               end
             end,
             filetypes = lc.get("lsp", server_name, "filetypes"),
-            commands = commands[server_name],
             init_options = init_options[server_name],
           })
         end,

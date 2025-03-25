@@ -40,7 +40,8 @@ vim.g.mapleader = " " -- リーダーをスペースに変更
 vim.opt.laststatus = 3 -- ステータスバーをウィンドウごとではなく、一番下に常に表示
 vim.opt.cmdheight = 0 -- コマンド入力中以外はコマンドラインを非表示
 vim.api.nvim_create_autocmd({ "CmdlineEnter", "RecordingEnter" }, { pattern = "*", command = "set cmdheight=1" })
-vim.api.nvim_create_autocmd({ "CmdlineLeave", "RecordingLeave" }, { pattern = "*", command = "set cmdheight=0" })
+-- vim.api.nvim_create_autocmd({ "CmdlineLeave", "RecordingLeave" }, { pattern = "*", command = "set cmdheight=0" })
+vim.api.nvim_create_autocmd({ "ModeChanged" }, { pattern = "*:[ivV\x16]", command = "set cmdheight=0" })
 
 vim.opt.backup = true
 vim.opt.backupdir = vim.fn.stdpath("data") .. "/backup//" -- // をつけるとパス構造が保持される
