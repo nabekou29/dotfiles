@@ -6,8 +6,8 @@ end
 return {
   {
     "rebelot/kanagawa.nvim",
-    cond = cond,
     lazy = false,
+    cond = cond,
     priority = 1000,
     opts = {
       transparent = true,
@@ -15,6 +15,30 @@ return {
     config = function(_, opts)
       require("kanagawa").setup(opts)
       vim.cmd("colorscheme kanagawa")
+    end,
+  },
+  {
+    "thesimonho/kanagawa-paper.nvim",
+    lazy = false,
+    cond = cond,
+    priority = 1000,
+    opts = {
+      transparent = true,
+      styles = {
+        comment = { italic = true },
+        functions = { italic = true },
+        keyword = { italic = true, bold = true },
+        statement = { italic = false, bold = false },
+        type = { italic = true },
+      },
+      color_balance = {
+        ink = { brightness = 0.2, saturation = 0.6 },
+        canvas = { brightness = 0, saturation = 0 },
+      },
+    },
+    config = function(_, opts)
+      require("kanagawa-paper").setup(opts)
+      vim.cmd("colorscheme kanagawa-paper")
     end,
   },
   {

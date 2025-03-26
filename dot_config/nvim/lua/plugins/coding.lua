@@ -726,15 +726,6 @@ return {
     "marilari88/twoslash-queries.nvim",
     opts = {},
   },
-  -- package.json
-  {
-    "vuki656/package-info.nvim",
-    event = { "VeryLazy" },
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-    opts = {},
-  },
   -- コメントアウト
   {
     "numToStr/Comment.nvim",
@@ -744,60 +735,6 @@ return {
       require("Comment").setup({
         pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       })
-    end,
-  },
-  -- Docコメント生成
-  {
-    "danymat/neogen",
-    cmd = { "Neogen" },
-    keys = {
-      { "<leader>gc", ":Neogen<CR>" },
-    },
-    opts = {},
-  },
-  -- repl
-  {
-    "Vigemus/iron.nvim",
-    keys = {
-      { "<leader>rS", "<Cmd>IronRepl<CR>" },
-      { "<leader>rR", "<Cmd>IronRestart<CR>" },
-      { "<leader>rF", "<Cmd>IronFocus<CR>" },
-      { "<leader>rH", "<Cmd>IronHide<CR>" },
-    },
-    main = "iron.core",
-    opts = function()
-      return {
-        config = {
-          repl_definition = {
-            sh = {
-              command = { "zsh" },
-            },
-            python = {
-              command = { "python3" }, -- or { "ipython", "--no-autoindent" }
-              format = require("iron.fts.common").bracketed_paste_python,
-            },
-            javascript = {
-              command = { "node" },
-            },
-            typescript = {
-              command = { "deno" },
-            },
-          },
-        },
-        keymaps = {
-          send_motion = "<leader>rs",
-          visual_send = "<leader>rs",
-          send_file = "<leader>rf",
-          send_line = "<leader>rl",
-          cr = "<leader>r<CR>",
-          interrupt = "<leader>r<space>",
-          exit = "<leader>rq",
-          clear = "<leader>rc",
-        },
-        highlight = {
-          italic = true,
-        },
-      }
     end,
   },
 }

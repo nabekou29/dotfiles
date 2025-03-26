@@ -4,9 +4,6 @@ return {
   -- キーバインドの確認
   { "folke/which-key.nvim", cmd = { "WhichKey" } },
 
-  -- どのキーバインドが空いてるかの確認
-  { "meznaric/key-analyzer.nvim", cmd = { "KeyAnalyzer" }, opts = {} },
-
   -- 日本語のヘルプ
   {
     "vim-jp/vimdoc-ja",

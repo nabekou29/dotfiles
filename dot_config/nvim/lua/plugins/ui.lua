@@ -73,15 +73,6 @@ return {
     },
   },
 
-  -- 画像の表示
-  {
-    "3rd/image.nvim",
-    enabled = false,
-    lazy = false,
-    dependencies = { "luarocks.nvim" },
-    opts = {},
-  },
-
   -- 非アクティブなタブを暗く表示
   {
     "tadaa/vimade",
@@ -595,12 +586,11 @@ return {
   },
 
   -- スクロールをスムーズに
-  {
-    "karb94/neoscroll.nvim",
-    enabled = false,
-    keys = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
-    opts = {},
-  },
+  -- {
+  --   "karb94/neoscroll.nvim",
+  --   keys = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+  --   opts = {},
+  -- },
 
   -- LSP の起動状況などを右下に表示
   {
