@@ -44,6 +44,19 @@ end, {
   end,
 })
 
+vim.api.nvim_create_user_command("DiagnosticStyleToggle", function()
+  local is_virtual_text = vim.diagnostic.config().virtual_text
+  if is_virtual_text then
+    vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
+    vim.notify("Diagnostic style: virtual text disabled", vim.log.levels.INFO)
+  else
+    vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
+    vim.notify("Diagnostic style: virtual text enabled", vim.log.levels.INFO)
+  end
+end, {
+  desc = "Toggle diagnostic style between virtual text and floating window",
+})
+
 -- vim.api.nvim_create_user_command("Backup", function(opts)
 --   local subCommand = opts.fargs[1]
 --

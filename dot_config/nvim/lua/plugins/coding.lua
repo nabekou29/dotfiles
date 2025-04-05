@@ -449,11 +449,14 @@ return {
             command = "biome",
             args = {
               "check",
-              "--apply",
+              "--fix",
               "--stdin-file-path",
               "$FILENAME",
             },
             condition = function(utils)
+              if lc.get("formatter", "biome", "enabled") ~= nil then
+                return lc.get("formatter", "biome", "enabled")
+              end
               return utils.root_has_file({ "biome.json", "biome.jsonc" })
             end,
           }),
