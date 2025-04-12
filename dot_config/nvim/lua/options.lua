@@ -26,6 +26,7 @@ vim.opt.hidden = true -- バッファを保存しないでも切り替えれる�
 vim.opt.termguicolors = true
 vim.opt.pumblend = 15 -- ポップアップメニューの透過度
 vim.opt.winblend = 15 -- ウィンドウの透過度
+vim.opt.winborder = "rounded"
 
 vim.opt.timeout = true -- キーのマッピングに対するタイムアウト
 vim.opt.timeoutlen = 1000 -- マッピングのタイムアウトの時間 (規定値: 1000)
@@ -75,10 +76,6 @@ vim.fn.sign_define("DiagnosticSignInfo", {
 vim.fn.sign_define("DiagnosticSignHint", {
   text = "🔧",
   texthl = "DiagnosticSignHint",
-})
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
 })
 
 vim.diagnostic.config({
