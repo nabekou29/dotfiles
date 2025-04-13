@@ -1,3 +1,18 @@
+if vim.env.PROF then
+  -- example for lazy.nvim
+  -- change this to the correct path for your plugin manager
+  local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
+  vim.opt.rtp:append(snacks)
+  ---@diagnostic disable-next-line: missing-fields
+  require("snacks.profiler").startup({
+    startup = {
+      -- event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
+      -- event = "UIEnter",
+      event = "VeryLazy",
+    },
+  })
+end
+
 -- https://github.com/willelz/nvim-lua-guide-ja/blob/master/README.ja.md
 vim.loader.enable()
 

@@ -201,46 +201,30 @@ return {
 
   { "willothy/wezterm.nvim", opts = {} },
 
-  {
-    "alexghergh/nvim-tmux-navigation",
-    enabled = function()
-      return vim.fn.exists("$TMUX") == 1
-    end,
-    keys = { "<C-h>", "<C-j>", "<C-k>", "<C-l>" },
-    opts = {
-      disable_when_zoomed = true,
-      keybindings = {
-        left = "<C-h>",
-        down = "<C-j>",
-        up = "<C-k>",
-        right = "<C-l>",
-      },
-    },
-  },
-  {
-    "https://github.com/swaits/zellij-nav.nvim",
-    -- enabled = false,
-    enabled = function()
-      return vim.fn.exists("$ZELLIJ") == 1
-    end,
-    event = "VeryLazy",
-    keys = {
-      { "<c-h>", "<cmd>ZellijNavigateLeft<cr>", { esc = "navigate left or tab" } },
-      { "<c-j>", "<cmd>ZellijNavigateDown<cr>", { esc = "navigate down" } },
-      { "<c-k>", "<cmd>ZellijNavigateUp<cr>", { esc = "navigate up" } },
-      { "<c-l>", "<cmd>ZellijNavigateRight<cr>", { esc = "navigate right or tab" } },
-    },
-    opts = {},
-    init = function()
-      vim.api.nvim_create_autocmd({ "FocusLost", "VimLeave" }, {
-        pattern = "*",
-        command = "silent! !zellij action switch-mode normal || true",
-      })
-      vim.api.nvim_create_autocmd({ "FocusGained", "VimEnter" }, {
-        pattern = "*",
-        -- nvim から nvim に切り替えたときにも正常に動作するように、sleep を入れている
-        command = "silent! !sleep 0.01 && zellij action switch-mode locked || true",
-      })
-    end,
-  },
+  -- {
+  --   "https://github.com/swaits/zellij-nav.nvim",
+  --   enabled = false,
+  --   -- enabled = function()
+  --   --   return vim.fn.exists("$ZELLIJ") == 1
+  --   -- end,
+  --   event = "VeryLazy",
+  --   keys = {
+  --     { "<c-h>", "<cmd>ZellijNavigateLeft<cr>", { esc = "navigate left or tab" } },
+  --     { "<c-j>", "<cmd>ZellijNavigateDown<cr>", { esc = "navigate down" } },
+  --     { "<c-k>", "<cmd>ZellijNavigateUp<cr>", { esc = "navigate up" } },
+  --     { "<c-l>", "<cmd>ZellijNavigateRight<cr>", { esc = "navigate right or tab" } },
+  --   },
+  --   opts = {},
+  --   init = function()
+  --     vim.api.nvim_create_autocmd({ "FocusLost", "VimLeave" }, {
+  --       pattern = "*",
+  --       command = "silent! !zellij action switch-mode normal || true",
+  --     })
+  --     vim.api.nvim_create_autocmd({ "FocusGained", "VimEnter" }, {
+  --       pattern = "*",
+  --       -- nvim から nvim に切り替えたときにも正常に動作するように、sleep を入れている
+  --       command = "silent! !sleep 0.01 && zellij action switch-mode locked || true",
+  --     })
+  --   end,
+  -- },
 }

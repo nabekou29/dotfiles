@@ -1,33 +1,4 @@
 return {
-  {
-    "folke/noice.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    opts = {
-      lsp = {
-        progress = { enabled = false },
-        hover = { enabled = false },
-      },
-      presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
-        command_palette = true, -- position the cmdline and popupmenu together
-        long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = false, -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = false, -- add a border to hover docs and signature help
-      },
-    },
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
-    },
-  },
-
-  -- vim.ui.input を telescope などで置き換える
-  {
-    "stevearc/dressing.nvim",
-    event = { "ModeChanged" },
-  },
-
   -- CSV 用のビューア
   {
     "hat0uma/csvview.nvim",
@@ -83,54 +54,6 @@ return {
 
       local Default = require("vimade.recipe.default").Default
       return Default({ animate = true })
-    end,
-  },
-
-  -- 起動時の画面
-  {
-    "folke/drop.nvim",
-    enabled = false,
-    event = { "VeryLazy" },
-    opts = {
-      screensaver = 3 * 60 * 1000,
-    },
-  },
-  {
-    "goolord/alpha-nvim",
-    event = { "VimEnter" },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      local Ascii = require("ascii_art")
-
-      local alpha = require("alpha")
-      local dashboard = require("alpha.themes.dashboard")
-
-      -- Header
-      local hl_group_name = "AlphaHeader"
-      dashboard.section.header.val = Ascii.miku
-      dashboard.section.header.opts.hl = hl_group_name
-      vim.cmd("hi " .. hl_group_name .. " guifg=#21F9C9")
-      -- vim.cmd("hi " .. hl_group_name .. " guifg=#53912F")
-
-      -- Menu
-      dashboard.section.buttons.val = {
-        dashboard.button("e", "  New file", "<Cme>ene <BAR> startinsert <CR>"),
-        dashboard.button("f", "󰈞  Find file", function()
-          require("telescope").extensions.smart_open.smart_open({ cwd_only = true })
-        end),
-        dashboard.button("g", "  Grep word", "<Cmd>Telescope egrepify<CR>"),
-        dashboard.button("q", "  Quit", "<Cmd>qa<CR>"),
-      }
-      -- Set footer
-      local function footer()
-        local total_plugins = #vim.tbl_keys(require("lazy").plugins())
-        local version = vim.version()
-        local version_info = "   v" .. version.major .. "." .. version.minor .. "." .. version.patch
-        return "⚡" .. total_plugins .. " plugins" .. version_info
-      end
-      dashboard.section.footer.val = footer()
-
-      alpha.setup(dashboard.config)
     end,
   },
 
@@ -259,10 +182,10 @@ return {
             reveal = { "close" },
           },
           close_command = function(bufnum)
-            require("close_buffers").delete({ type = bufnum })
+            Snacks.bufdelete.delete(bufnum)
           end,
           middle_mouse_command = function(bufnum)
-            require("close_buffers").delete({ type = bufnum })
+            Snacks.bufdelete.delete(bufnum)
           end,
           show_duplicate_prefix = false,
           duplicates_across_groups = false,
@@ -294,10 +217,7 @@ return {
                 name = " Test",
                 highlight = { sp = "#1994E3" },
                 matcher = function(buf)
-                  return buf.name:match("%.test")
-                    or buf.name:match("%.spec")
-                    or buf.name:match("_test%.")
-                    or buf.name:match("_spec%.")
+                  return buf.name:match("%.test") or buf.name:match("%.spec") or buf.name:match("_test%.") or buf.name:match("_spec%.")
                 end,
                 auto_close = false,
               },
@@ -427,19 +347,6 @@ return {
     },
   },
 
-  -- バッファを閉じる操作の拡張
-  {
-    "kazhala/close-buffers.nvim",
-    event = { "VeryLazy" },
-    keys = {
-      { "<C-w>d", "<Cmd>BDelete! this<CR>" },
-      { "<leader>w", "<Cmd>BDelete! this<CR>" },
-      { "<leader>W", "<Cmd>BDelete! this<CR>" },
-      { "<C-w>D", "<Cmd>BDelete other<CR>" },
-    },
-    opts = {},
-  },
-
   -- ステータスバー
   {
     "nvim-lualine/lualine.nvim",
@@ -488,6 +395,7 @@ return {
       }
     end,
   },
+
   -- モードをわかりやすく
   {
     "mvllow/modes.nvim",
@@ -512,30 +420,6 @@ return {
   {
     "kevinhwang91/nvim-bqf",
     event = { "VeryLazy" },
-  },
-
-  -- 関数やオブジェクトのまとまりをわかりやすいように
-  {
-    "shellRaining/hlchunk.nvim",
-    event = { "VeryLazy" },
-    opts = {
-      chunk = {
-        enable = true,
-        exclude_filetypes = {
-          yaml = true,
-          markdown = true,
-        },
-        use_treesitter = true,
-        style = { { fg = "#208aca" }, { fg = "#9f1b2e" } },
-        chars = {
-          horizontal_line = "─",
-          vertical_line = "│",
-          left_top = "╭",
-          left_bottom = "╰",
-          right_arrow = "»",
-        },
-      },
-    },
   },
 
   {
@@ -584,13 +468,6 @@ return {
       }
     end,
   },
-
-  -- スクロールをスムーズに
-  -- {
-  --   "karb94/neoscroll.nvim",
-  --   keys = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
-  --   opts = {},
-  -- },
 
   -- LSP の起動状況などを右下に表示
   {

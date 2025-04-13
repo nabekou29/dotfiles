@@ -12,7 +12,7 @@ config.scrollback_lines = 35000
 
 --- UI ---
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
-config.color_scheme = "Hardcore"
+config.color_scheme = "Iceberg (Gogh)"
 config.colors = {
   tab_bar = {
     inactive_tab_edge = "none",
@@ -20,7 +20,7 @@ config.colors = {
 }
 
 config.font = wezterm.font("Liga HackGen35Nerd")
-config.font_size = 18.0
+config.font_size = 16.0
 config.line_height = 1.15
 
 config.window_background_opacity = 0.92
@@ -53,7 +53,7 @@ local function ActivatePaneVimSeamless(dir)
     -- neovim の場合は何もしない
     local p_name = pane:get_foreground_process_name()
     if p_name:find("neovim") or p_name:find("nvim") or p_name:find("vim") or p_name:find("chezmoi") then
-      return window:perform_action(act.SendKey({ key = dir_map[dir], mods = "CTRL|SHIFT" }), pane)
+      return window:perform_action(act.SendKey({ key = dir_map[dir], mods = "CTRL" }), pane)
     end
 
     window:perform_action(act.ActivatePaneDirection(dir), pane)
@@ -61,37 +61,28 @@ local function ActivatePaneVimSeamless(dir)
 end
 
 config.disable_default_key_bindings = true
-config.leader = { key = "a", mods = "ALT", timeout_milliseconds = 1000 }
+config.leader = { key = "\\", mods = "ALT", timeout_milliseconds = 1000 }
 
 config.keys = {
   -- General
-  {
-    key = "c",
-    mods = "CMD",
-    action = act.CopyTo("ClipboardAndPrimarySelection"),
-  },
+  { key = "c", mods = "CMD", action = act.CopyTo("ClipboardAndPrimarySelection") },
   { key = "v", mods = "CMD", action = act.PasteFrom("Clipboard") },
   { key = "=", mods = "CMD", action = act.IncreaseFontSize },
   { key = "-", mods = "CMD", action = act.DecreaseFontSize },
   { key = "f", mods = "CMD", action = act.Search({ Regex = "" }) },
   --- Tab ---
-  { key = "t", mods = "CMD", action = act.SpawnTab("CurrentPaneDomain") },
+  { key = "n", mods = "ALT", action = act.SpawnTab("CurrentPaneDomain") },
   { key = "{", mods = "SHIFT|ALT", action = act.MoveTabRelative(-1) },
   { key = "}", mods = "SHIFT|ALT", action = act.MoveTabRelative(1) },
   -- Window
   { key = "t", mods = "CMD|SHIFT", action = act.SpawnWindow },
   -- Move to tab
-  { key = "LeftArrow", mods = "CMD", action = act.ActivateTabRelative(-1) },
-  { key = "RightArrow", mods = "CMD", action = act.ActivateTabRelative(1) },
   -- vim like
-  { key = "h", mods = "CMD", action = act.ActivateTabRelative(-1) },
-  { key = "l", mods = "CMD", action = act.ActivateTabRelative(1) },
+  { key = "h", mods = "SHIFT|ALT", action = act.ActivateTabRelative(-1) },
+  { key = "l", mods = "SHIFT|ALT", action = act.ActivateTabRelative(1) },
   -- close tab
-  {
-    key = "w",
-    mods = "CMD",
-    action = act.CloseCurrentPane({ confirm = true }),
-  },
+  { key = "w", mods = "CMD", action = act.CloseCurrentPane({ confirm = true }) },
+  { key = "w", mods = "SHIFT|ALT", action = act.CloseCurrentPane({ confirm = true }) },
   {
     key = "r",
     mods = "CMD|SHIFT",
@@ -116,39 +107,16 @@ config.keys = {
   --- Pane ---
   -- 分割
   {
-    key = "d",
-    mods = "CMD",
-    action = act.SplitHorizontal({
-      domain = "CurrentPaneDomain",
-    }),
+    key = "v",
+    mods = "ALT",
+    action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
   },
   {
-    key = "d",
-    mods = "CMD|SHIFT",
+    key = "s",
+    mods = "ALT",
     action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
   },
   -- 移動
-  {
-    key = "LeftArrow",
-    mods = "CMD|ALT",
-    action = act.ActivatePaneDirection("Left"),
-  },
-  {
-    key = "RightArrow",
-    mods = "CMD|ALT",
-    action = act.ActivatePaneDirection("Right"),
-  },
-  {
-    key = "UpArrow",
-    mods = "CMD|ALT",
-    action = act.ActivatePaneDirection("Up"),
-  },
-  {
-    key = "DownArrow",
-    mods = "CMD|ALT",
-    action = act.ActivatePaneDirection("Down"),
-  },
-  -- vim like
   { key = "h", mods = "CMD|ALT", action = act.ActivatePaneDirection("Left") },
   { key = "j", mods = "CMD|ALT", action = act.ActivatePaneDirection("Down") },
   { key = "k", mods = "CMD|ALT", action = act.ActivatePaneDirection("Up") },
@@ -157,15 +125,15 @@ config.keys = {
     mods = "CMD|ALT",
     action = act.ActivatePaneDirection("Right"),
   },
-  { key = "h", mods = "CTRL|SHIFT", action = ActivatePaneVimSeamless("Left") },
-  { key = "l", mods = "CTRL|SHIFT", action = ActivatePaneVimSeamless("Right") },
-  { key = "j", mods = "CTRL|SHIFT", action = ActivatePaneVimSeamless("Down") },
-  { key = "k", mods = "CTRL|SHIFT", action = ActivatePaneVimSeamless("Up") },
+  { key = "h", mods = "CTRL", action = ActivatePaneVimSeamless("Left") },
+  { key = "l", mods = "CTRL", action = ActivatePaneVimSeamless("Right") },
+  { key = "j", mods = "CTRL", action = ActivatePaneVimSeamless("Down") },
+  { key = "k", mods = "CTRL", action = ActivatePaneVimSeamless("Up") },
   -- サイズ調整
-  { key = "a", mods = "CMD|ALT", action = act.AdjustPaneSize({ "Left", 5 }) },
-  { key = "s", mods = "CMD|ALT", action = act.AdjustPaneSize({ "Down", 5 }) },
-  { key = "d", mods = "CMD|ALT", action = act.AdjustPaneSize({ "Up", 5 }) },
-  { key = "f", mods = "CMD|ALT", action = act.AdjustPaneSize({ "Right", 5 }) },
+  { key = "a", mods = "ALT", action = act.AdjustPaneSize({ "Left", 5 }) },
+  { key = "s", mods = "ALT", action = act.AdjustPaneSize({ "Down", 5 }) },
+  { key = "d", mods = "ALT", action = act.AdjustPaneSize({ "Up", 5 }) },
+  { key = "f", mods = "ALT", action = act.AdjustPaneSize({ "Right", 5 }) },
   --
   -- 場所替え
   -- { key = 'b', mods = 'CTRL', action = act.RotatePanes 'CounterClockwise' },
@@ -176,34 +144,23 @@ config.keys = {
     action = act.PaneSelect({ mode = "SwapWithActive" }),
   },
   -- 最大化
-  {
-    key = "Enter",
-    mods = "CMD|ALT",
-    action = act.TogglePaneZoomState,
-  },
-  {
-    key = "Enter",
-    mods = "CTRL|SHIFT",
-    action = act.TogglePaneZoomState,
-  },
+  { key = "Enter", mods = "SHIFT|ALT", action = act.TogglePaneZoomState },
+  { key = "Enter", mods = "CTRL|SHIFT", action = act.TogglePaneZoomState },
 
   -- copy mode
-  {
-    key = "x",
-    mods = "CTRL|SHIFT",
-    action = act.ActivateCopyMode,
-  },
-  --Rebind OPT-Left, OPT-Right as ALT-b, ALT-f respectively to match Terminal.app behavior
-  {
-    key = "LeftArrow",
-    mods = "ALT",
-    action = act.SendKey({ key = "b", mods = "ALT" }),
-  },
-  {
-    key = "RightArrow",
-    mods = "ALT",
-    action = act.SendKey({ key = "f", mods = "ALT" }),
-  },
+  { key = "x", mods = "ALT", action = act.ActivateCopyMode },
+
+  -- --Rebind OPT-Left, OPT-Right as ALT-b, ALT-f respectively to match Terminal.app behavior
+  -- {
+  --   key = "LeftArrow",
+  --   mods = "ALT",
+  --   action = act.SendKey({ key = "b", mods = "ALT" }),
+  -- },
+  -- {
+  --   key = "RightArrow",
+  --   mods = "ALT",
+  --   action = act.SendKey({ key = "f", mods = "ALT" }),
+  -- },
   {
     key = "o",
     mods = "CMD",
@@ -227,6 +184,11 @@ config.keys = {
 
       window:set_config_overrides(overrides)
     end),
+  },
+  {
+    mods = "ALT|SHIFT",
+    key = "s",
+    action = act.ShowLauncherArgs({ flags = "WORKSPACES", title = "Select workspace" }),
   },
 }
 

@@ -1,11 +1,32 @@
 -- Key Binding (Pluginは除く)
 local set = vim.keymap.set
 
-if vim.fn.exists("$ZELLIJ") ~= 1 then
+if vim.fn.exists("$WEZTERM_PANE") == 1 then
+  local directions = { h = "Left", j = "Down", k = "Up", l = "Right" }
+
+  local move_nvim_win_or_wezterm_pane = function(hjkl)
+    -- 現在のウィンドウIDを取得
+    local oldwin = vim.api.nvim_get_current_win()
+
+    -- ウィンドウ移動を試す
+    vim.cmd.wincmd(hjkl)
+    -- 現在ウィンドウに変化がなければWeztermのPane移動を試す
+    if oldwin == vim.api.nvim_get_current_win() then
+      require("wezterm").switch_pane.direction(directions[hjkl])
+    end
+  end
+
+  for k, _ in pairs(directions) do
+    vim.keymap.set("n", "<C-" .. k .. ">", function()
+      move_nvim_win_or_wezterm_pane(k)
+    end)
+  end
+elseif vim.fn.exists("$ZELLIJ") ~= 1 then
   set("n", "<C-h>", "<cmd>wincmd h<CR>")
   set("n", "<C-l>", "<cmd>wincmd l<CR>")
   set("n", "<C-j>", "<cmd>wincmd j<CR>")
   set("n", "<C-k>", "<cmd>wincmd k<CR>")
+  -- $WEZTERM_PANE が設定されている場合はWeztermのPane移動を試す
 end
 
 -- Emacs
