@@ -1,6 +1,7 @@
 ___ignorefiles
 
 .mise.local.toml
+mise.local.toml
 .node-version
 .python-version
 .lua-version
