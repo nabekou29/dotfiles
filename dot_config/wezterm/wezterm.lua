@@ -19,9 +19,10 @@ config.colors = {
   },
 }
 
-config.font = wezterm.font("Liga HackGen35Nerd")
+-- config.font = wezterm.font("Liga HackGen35Nerd")
+config.font = wezterm.font("HackGen35 Console NF")
 config.font_size = 16.0
-config.line_height = 1.15
+-- config.line_height = 1.15
 
 config.window_background_opacity = 0.92
 config.inactive_pane_hsb = { saturation = 0.95, brightness = 0.3 }
@@ -106,34 +107,22 @@ config.keys = {
   },
   --- Pane ---
   -- 分割
-  {
-    key = "v",
-    mods = "ALT",
-    action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-  },
-  {
-    key = "s",
-    mods = "ALT",
-    action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
-  },
+  { key = "v", mods = "ALT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+  { key = "s", mods = "ALT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
   -- 移動
   { key = "h", mods = "CMD|ALT", action = act.ActivatePaneDirection("Left") },
   { key = "j", mods = "CMD|ALT", action = act.ActivatePaneDirection("Down") },
   { key = "k", mods = "CMD|ALT", action = act.ActivatePaneDirection("Up") },
-  {
-    key = "l",
-    mods = "CMD|ALT",
-    action = act.ActivatePaneDirection("Right"),
-  },
+  { key = "l", mods = "CMD|ALT", action = act.ActivatePaneDirection("Right") },
   { key = "h", mods = "CTRL", action = ActivatePaneVimSeamless("Left") },
   { key = "l", mods = "CTRL", action = ActivatePaneVimSeamless("Right") },
   { key = "j", mods = "CTRL", action = ActivatePaneVimSeamless("Down") },
   { key = "k", mods = "CTRL", action = ActivatePaneVimSeamless("Up") },
   -- サイズ調整
-  { key = "a", mods = "ALT", action = act.AdjustPaneSize({ "Left", 5 }) },
-  { key = "s", mods = "ALT", action = act.AdjustPaneSize({ "Down", 5 }) },
-  { key = "d", mods = "ALT", action = act.AdjustPaneSize({ "Up", 5 }) },
-  { key = "f", mods = "ALT", action = act.AdjustPaneSize({ "Right", 5 }) },
+  { key = "a", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Left", 5 }) },
+  { key = "s", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Down", 5 }) },
+  { key = "d", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Up", 5 }) },
+  { key = "f", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Right", 5 }) },
   --
   -- 場所替え
   -- { key = 'b', mods = 'CTRL', action = act.RotatePanes 'CounterClockwise' },

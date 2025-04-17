@@ -90,7 +90,7 @@ vim.api.nvim_create_autocmd("FileType", {
 set("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>")
 set("n", "gn", "<Cmd>lua vim.lsp.buf.rename()<CR>")
 -- set("n", "gr", "<Cmd>lua vim.lsp.buf.references()<CR>") -- → Telescope
-set("n", "ga", "<Cmd>lua vim.lsp.buf.code_action()<CR>") -- → actions-preview.nvim
+-- set("n", "ga", "<Cmd>lua vim.lsp.buf.code_action()<CR>") -- → actions-preview.nvim
 set("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>")
 set({ "n", "i" }, "<C-k>", "<Cmd>lua vim.lsp.buf.signature_help()<CR>")
 set("n", "]g", "<Cmd>lua vim.diagnostic.goto_next()<CR>")
