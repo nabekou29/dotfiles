@@ -431,11 +431,12 @@ return {
   {
     "aznhe21/actions-preview.nvim",
     keys = {
-      -- { "ga", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
+      { "ga", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
       { "gA", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
     },
     opts = {},
   },
+
   -- ホバーを綺麗に
   {
     "Fildo7525/pretty_hover",
@@ -605,8 +606,8 @@ return {
     },
     ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
     keys = {
-      { "<leader>il", ":I18nSetLang<CR>", desc = "Set language" },
-      { "<leader>ie", ":I18nEditTranslation<CR>", desc = "Edit translation" },
+      { "<leader>il", "<Cmd>I18nSetLang<CR>", desc = "Set language" },
+      { "<leader>ie", "<Cmd>I18nEditTranslation<CR>", desc = "Edit translation" },
     },
     opts = {
       primary_language = { "ja" },
