@@ -1,13 +1,13 @@
-local cond = function(plugin)
+local enabled = function(name)
   local enabled_colorscheme = "kanagawa.nvim"
-  return plugin.name == enabled_colorscheme
+  return name == enabled_colorscheme
 end
 
 return {
   {
     "rebelot/kanagawa.nvim",
     lazy = false,
-    cond = cond,
+    enabled = enabled("kanagawa.nvim"),
     priority = 1000,
     opts = {
       transparent = true,
@@ -20,7 +20,7 @@ return {
   {
     "thesimonho/kanagawa-paper.nvim",
     lazy = false,
-    cond = cond,
+    enabled = enabled("kanagawa-paper.nvim"),
     priority = 1000,
     opts = {
       transparent = true,
@@ -44,7 +44,7 @@ return {
   {
     "EdenEast/nightfox.nvim",
     lazy = false,
-    cond = cond,
+    enabled = enabled("nightfox.nvim"),
     priority = 1000,
     opts = {
       options = {
@@ -60,7 +60,7 @@ return {
   {
     "folke/tokyonight.nvim",
     lazy = false,
-    cond = cond,
+    enabled = enabled("tokyonight.nvim"),
     priority = 1000,
     opts = {
       style = "night",
@@ -75,7 +75,7 @@ return {
     "neanias/everforest-nvim",
     name = "everforest",
     lazy = false,
-    cond = cond,
+    enabled = enabled("everforest"),
     priority = 1000,
     opts = {
       background = "hard",
@@ -92,7 +92,7 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,
-    cond = cond,
+    enabled = enabled("catppuccin"),
     priority = 1000,
     opts = {
       transparent_background = true,

@@ -85,23 +85,26 @@ return {
       { "<leader>oo", "<CMD>ObsidianToday<CR>" },
       { "<leader>on", "<CMD>ObsidianNew<CR>" },
       { "<leader>oO", "<CMD>ObsidianOpen<CR>" },
-      { "<leader>of", "<CMD>ObsidianQuickSwitch<CR>" },
+      -- { "<leader>of", "<CMD>ObsidianQuickSwitch<CR>" },
       { "<leader>or", "<CMD>ObsidianRename<CR>" },
-      { "<leader>os", "<CMD>ObsidianSearch<CR>" },
-      { "<leader>og", "<CMD>ObsidianSearch<CR>" },
+      -- { "<leader>os", "<CMD>ObsidianSearch<CR>" },
+      -- { "<leader>og", "<CMD>ObsidianSearch<CR>" },
       {
         "<leader>oe",
         function()
-          local obsidian = require("obsidian")
-          local client = obsidian.get_client()
-          local current_path = vim.fn.expand("%:p")
-          -- 現在のバッファが Obsidian のファイルであれば、そのファイルの親ディレクトリを開く
-          if current_path:match(vim.fs.normalize(constants.path.obsidian_docs)) then
-            local parent_path = vim.fs.dirname(current_path)
-            vim.cmd("e " .. parent_path)
-          else
-            vim.cmd("e " .. client:vault_root().filename)
-          end
+          Snacks.explorer({ cwd = require("obsidian").get_client():vault_root().filename })
+        end,
+      },
+      {
+        "<leader>of",
+        function()
+          Snacks.picker.files({ cwd = require("obsidian").get_client():vault_root().filename })
+        end,
+      },
+      {
+        "<leader>og",
+        function()
+          Snacks.picker.grep({ cwd = require("obsidian").get_client():vault_root().filename })
         end,
       },
     },

@@ -30,6 +30,12 @@ require("lazy").setup({
   -- },
   defaults = {
     lazy = true,
+    cond = function(plugin)
+      if vim.g.vscode then
+        return plugin.vscode == true
+      end
+      return true
+    end,
   },
   performance = {},
   change_detection = {

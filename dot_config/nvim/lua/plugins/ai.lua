@@ -26,6 +26,7 @@ return {
           dismiss = "<C-]>",
         },
       },
+      copilot_model = "gpt-4o-copilot",
     },
   },
   {
@@ -83,9 +84,9 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
-    init = function()
-      vim.cmd([[cab cc CodeCompanion]])
-    end,
+    keys = {
+      { "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", desc = "CodeCompanion Chat" },
+    },
     opts = {
       strategies = {
         chat = {

@@ -125,6 +125,7 @@ return {
   -- <C-a>, <C-x> の拡張
   {
     "monaqa/dial.nvim",
+    vscode = true,
     keys = {
       -- stylua: ignore start
       { "<C-a>",  function() require("dial.map").manipulate("increment", "normal") end,  mode = "n" },
