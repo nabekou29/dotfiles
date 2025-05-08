@@ -164,34 +164,33 @@ return {
         },
       }
 
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          if lc.get("lsp", server_name, "enabled") == false then
-            return
-          end
-
-          require("lspconfig")[server_name].setup({
-            capabilities = capabilities,
-            settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server_name, "settings") or {}),
-            on_attach = function(client, bufnr)
-              -- フォーマットを無効化
-              if client.server_capabilities.documentFormattingProvider then
-                client.server_capabilities.documentFormattingProvider = false
-              end
-              if client.server_capabilities.documentRangeFormattingProvider then
-                client.server_capabilities.documentRangeFormattingProvider = false
-              end
-              if on_attach[server_name] then
-                on_attach[server_name](client, bufnr)
-              end
-            end,
-            filetypes = lc.get("lsp", server_name, "filetypes"),
-            init_options = init_options[server_name],
-          })
-        end,
-      })
+      for _, server in pairs(require("mason-lspconfig").get_installed_servers()) do
+        if lc.get("lsp", server, "enabled") == false then
+          return
+        end
+        vim.lsp.enable(server)
+        vim.lsp.config(server, {
+          capabilities = capabilities,
+          settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server, "settings") or {}),
+          on_attach = function(client, bufnr)
+            -- フォーマットを無効化
+            if client.server_capabilities.documentFormattingProvider then
+              client.server_capabilities.documentFormattingProvider = false
+            end
+            if client.server_capabilities.documentRangeFormattingProvider then
+              client.server_capabilities.documentRangeFormattingProvider = false
+            end
+            if on_attach[server] then
+              on_attach[server](client, bufnr)
+            end
+          end,
+          filetypes = lc.get("lsp", server, "filetypes"),
+          init_options = init_options[server],
+        })
+      end
 
       require("mason-lspconfig").setup({
+        automatic_enable = false,
         automatic_installation = true,
         ensure_installed = {
           "elmls",
