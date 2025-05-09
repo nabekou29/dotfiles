@@ -9,6 +9,7 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       "mikavilpas/blink-ripgrep.nvim",
+      "saghen/blink.compat",
     },
     opts = {
       keymap = {
@@ -50,7 +51,7 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        default = { "lsp", "path", "snippets", "markdown", "ripgrep" },
+        default = { "obsidian_tags", "obsidian", "obsidian_new", "lsp", "path", "snippets", "markdown", "ripgrep" },
         per_filetype = {
           codecompanion = { "codecompanion" },
         },
@@ -67,6 +68,18 @@ return {
             name = "RenderMarkdown",
             module = "render-markdown.integ.blink",
             fallbacks = { "lsp" },
+          },
+          obsidian = {
+            name = "obsidian",
+            module = "blink.compat.source",
+          },
+          obsidian_new = {
+            name = "obsidian_new",
+            module = "blink.compat.source",
+          },
+          obsidian_tags = {
+            name = "obsidian_tags",
+            module = "blink.compat.source",
           },
         },
       },
@@ -164,33 +177,10 @@ return {
         },
       }
 
-      for _, server in pairs(require("mason-lspconfig").get_installed_servers()) do
-        if lc.get("lsp", server, "enabled") == false then
-          return
-        end
-        vim.lsp.enable(server)
-        vim.lsp.config(server, {
-          capabilities = capabilities,
-          settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server, "settings") or {}),
-          on_attach = function(client, bufnr)
-            -- フォーマットを無効化
-            if client.server_capabilities.documentFormattingProvider then
-              client.server_capabilities.documentFormattingProvider = false
-            end
-            if client.server_capabilities.documentRangeFormattingProvider then
-              client.server_capabilities.documentRangeFormattingProvider = false
-            end
-            if on_attach[server] then
-              on_attach[server](client, bufnr)
-            end
-          end,
-          filetypes = lc.get("lsp", server, "filetypes"),
-          init_options = init_options[server],
-        })
-      end
-
       require("mason-lspconfig").setup({
-        automatic_enable = false,
+        automatic_enable = {
+          exclude = { "denols", "biome" },
+        },
         automatic_installation = true,
         ensure_installed = {
           "elmls",
@@ -233,8 +223,30 @@ return {
             end,
           },
         }
+      for _, server in pairs(require("mason-lspconfig").get_installed_servers()) do
+        if lc.get("lsp", server, "enabled") == false then
+          return
+        end
+        -- vim.lsp.enable(server)
+        vim.lsp.config(server, {
+          capabilities = capabilities,
+          settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server, "settings") or {}),
+          on_attach = function(client, bufnr)
+            -- フォーマットを無効化
+            if client.server_capabilities.documentFormattingProvider then
+              client.server_capabilities.documentFormattingProvider = false
+            end
+            if client.server_capabilities.documentRangeFormattingProvider then
+              client.server_capabilities.documentRangeFormattingProvider = false
+            end
+            if on_attach[server] then
+              on_attach[server](client, bufnr)
+            end
+          end,
+          filetypes = lc.get("lsp", server, "filetypes"),
+          init_options = init_options[server],
+        })
       end
-      lspconfig.js_in_ls.setup({})
       vim.lsp.set_log_level("info")
     end,
   },
@@ -546,9 +558,8 @@ return {
   -- TODO など
   {
     "folke/todo-comments.nvim",
-    event = { "VeryLazy" },
     dependencies = { "nvim-lua/plenary.nvim" },
-    keys = { "<leader>ft", "<Cmd>TodoTelescope<CR>" },
+    keys = { "<leader>ft" },
     opts = {},
   },
   -- エラー

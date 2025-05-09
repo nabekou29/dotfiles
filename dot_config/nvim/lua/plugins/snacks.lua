@@ -107,6 +107,7 @@ return {
       { "<leader>fg", function() Snacks.picker.grep() end,             desc = "Grep" },
       { "<leader>fb", function() Snacks.picker.buffers() end,          desc = "Buffers" },
       { "<leader>fh", function() Snacks.picker.help() end,             desc = "Help" },
+      { "<leader>ft", function() Snacks.picker.todo_comments() end,    desc = "Todo Comments" },
       { "<leader>:",  function() Snacks.picker.command_history() end,  desc = "Command History" },
 
       -- Terminal (akinsho/toggleterm.nvim)
