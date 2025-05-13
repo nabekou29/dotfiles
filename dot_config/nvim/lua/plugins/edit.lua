@@ -182,6 +182,12 @@ return {
             word = false,
             cyclic = true,
           }),
+          -- Markdown のチェックボックス
+          augend.constant.new({
+            elements = { "[ ]", "[x]" },
+            word = false,
+            cyclic = true,
+          }),
         },
         typescript = {
           propertyAccessor,

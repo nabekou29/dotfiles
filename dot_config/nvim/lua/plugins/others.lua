@@ -144,7 +144,7 @@ return {
         substitutions = {},
       },
       daily_notes = {
-        folder = "daily",
+        folder = "10_daily",
         date_format = "%Y/%m/%Y-%m-%d",
         -- alias_format = "%Y年%m月%d日",
         default_tags = { "daily-notes" },

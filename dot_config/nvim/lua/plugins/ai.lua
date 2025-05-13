@@ -1,5 +1,4 @@
 return {
-
   -- Copilot
   {
     "zbirenbaum/copilot.lua",
@@ -122,5 +121,16 @@ return {
       ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
       provider = "claude",
     },
+  },
+
+  {
+    "greggh/claude-code.nvim",
+    keys = {
+      "<C-,>",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for git operations
+    },
+    opts = {},
   },
 }

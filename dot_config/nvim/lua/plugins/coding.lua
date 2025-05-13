@@ -104,6 +104,7 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    tag = "v1.32.0",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       { "williamboman/mason.nvim" },
@@ -176,6 +177,32 @@ return {
           camelCase = false,
         },
       }
+      require("mason-lspconfig").setup_handlers({
+        function(server_name)
+          if lc.get("lsp", server_name, "enabled") == false then
+            return
+          end
+
+          require("lspconfig")[server_name].setup({
+            capabilities = capabilities,
+            settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server_name, "settings") or {}),
+            on_attach = function(client, bufnr)
+              -- フォーマットを無効化
+              if client.server_capabilities.documentFormattingProvider then
+                client.server_capabilities.documentFormattingProvider = false
+              end
+              if client.server_capabilities.documentRangeFormattingProvider then
+                client.server_capabilities.documentRangeFormattingProvider = false
+              end
+              if on_attach[server_name] then
+                on_attach[server_name](client, bufnr)
+              end
+            end,
+            filetypes = lc.get("lsp", server_name, "filetypes"),
+            init_options = init_options[server_name],
+          })
+        end,
+      })
 
       require("mason-lspconfig").setup({
         automatic_enable = {
@@ -223,30 +250,32 @@ return {
             end,
           },
         }
-      for _, server in pairs(require("mason-lspconfig").get_installed_servers()) do
-        if lc.get("lsp", server, "enabled") == false then
-          return
-        end
-        -- vim.lsp.enable(server)
-        vim.lsp.config(server, {
-          capabilities = capabilities,
-          settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server, "settings") or {}),
-          on_attach = function(client, bufnr)
-            -- フォーマットを無効化
-            if client.server_capabilities.documentFormattingProvider then
-              client.server_capabilities.documentFormattingProvider = false
-            end
-            if client.server_capabilities.documentRangeFormattingProvider then
-              client.server_capabilities.documentRangeFormattingProvider = false
-            end
-            if on_attach[server] then
-              on_attach[server](client, bufnr)
-            end
-          end,
-          filetypes = lc.get("lsp", server, "filetypes"),
-          init_options = init_options[server],
-        })
       end
+      -- for _, server in pairs(require("mason-lspconfig").get_installed_servers()) do
+      --   if lc.get("lsp", server, "enabled") == false then
+      --     return
+      --   end
+      --   -- vim.lsp.enable(server)
+      --   vim.lsp.config(server, {
+      --     capabilities = capabilities,
+      --     settings = vim.tbl_deep_extend("force", settings, lc.get("lsp", server, "settings") or {}),
+      --     on_attach = function(client, bufnr)
+      --       -- フォーマットを無効化
+      --       if client.server_capabilities.documentFormattingProvider then
+      --         client.server_capabilities.documentFormattingProvider = false
+      --       end
+      --       if client.server_capabilities.documentRangeFormattingProvider then
+      --         client.server_capabilities.documentRangeFormattingProvider = false
+      --       end
+      --       if on_attach[server] then
+      --         on_attach[server](client, bufnr)
+      --       end
+      --     end,
+      --     filetypes = lc.get("lsp", server, "filetypes"),
+      --     init_options = init_options[server],
+      --   })
+      -- end
+
       vim.lsp.set_log_level("info")
     end,
   },
@@ -288,18 +317,18 @@ return {
             end,
             config = cspell_config,
           }),
-          -- cspell.code_actions.with({
-          --   env = {
-          --     FORCE_COLOR = "0",
-          --   },
-          --   condition = function(utils)
-          --     if lc.get("lsp", "cspell", "enabled") ~= nil then
-          --       return lc.get("lsp", "cspell", "enabled")
-          --     end
-          --     return true
-          --   end,
-          --   config = cspell_config,
-          -- }),
+          cspell.code_actions.with({
+            env = {
+              FORCE_COLOR = "0",
+            },
+            condition = function(utils)
+              if lc.get("lsp", "cspell", "enabled") ~= nil then
+                return lc.get("lsp", "cspell", "enabled")
+              end
+              return true
+            end,
+            config = cspell_config,
+          }),
           null_ls.builtins.diagnostics.actionlint,
           null_ls.builtins.diagnostics.markdownlint.with({
             root_dir = require("null-ls.utils").root_pattern(".markdownlint.json"),
@@ -608,7 +637,7 @@ return {
   -- i18n
   {
     "nabekou29/js-i18n.nvim",
-    enabled = false,
+    -- enabled = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
@@ -621,6 +650,7 @@ return {
     },
     opts = {
       primary_language = { "ja" },
+      respect_gitignore = false,
       virt_text = {
         max_width = 48,
       },
