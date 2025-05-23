@@ -104,6 +104,7 @@ return {
       -- stylua: ignore start
       -- Fuzzy finder (nvim-telescope/telescope.nvim)
       { "<leader>ff", function() Snacks.picker.smart() end,            desc = "Smart Find Files" },
+      { "<leader>fr", function() Snacks.picker.recent() end,           desc = "Recent Files" },
       { "<leader>fg", function() Snacks.picker.grep() end,             desc = "Grep" },
       { "<leader>fb", function() Snacks.picker.buffers() end,          desc = "Buffers" },
       { "<leader>fh", function() Snacks.picker.help() end,             desc = "Help" },

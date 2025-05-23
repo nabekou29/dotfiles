@@ -206,11 +206,15 @@ return {
 
       require("mason-lspconfig").setup({
         automatic_enable = {
-          exclude = { "denols", "biome" },
+          exclude = {
+            "denols",
+            -- "biome"
+          },
         },
         automatic_installation = true,
         ensure_installed = {
           "elmls",
+          "biome",
           "html",
           "jsonls",
           "rust_analyzer",
