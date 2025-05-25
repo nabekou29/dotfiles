@@ -1,5 +1,3 @@
-local lc = require("local_config")
-
 return {
   -- CMP
   {
@@ -94,7 +92,7 @@ return {
         "css_variables",
         -- "cssmodules_ls",
         "cspell_lsp",
-        -- "denols",
+        "denols",
         -- "elmls",
         "eslint",
         -- "gopls",
