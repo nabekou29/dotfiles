@@ -2,7 +2,7 @@ local constants = require("constants")
 
 return {
   -- キーバインドの確認
-  { "folke/which-key.nvim", cmd = { "WhichKey" } },
+  -- { "folke/which-key.nvim", cmd = { "WhichKey" } },
 
   -- 日本語のヘルプ
   {

@@ -1,5 +1,7 @@
 # export WORDCHARS='*?_-.//[]~=&;!#$%^(){}<>'
 export XDG_CONFIG_HOME="$HOME/.config"
+export VISUAL="vim"
+
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 export ZELLIJ_CONFIG_DIR="$HOME/.config/zellij"
 
@@ -14,4 +16,7 @@ export OPENAI_API_KEY={{ (onepasswordDetailsFields "openai-api-key").credential.
 export FIGMA_API_KEY={{ (onepasswordDetailsFields "figma-api-key").credential.value}}
 
 # Docker
-export DOCKER_HOST="unix:/.docker/run/docker.sock"
+# export DOCKER_HOST="unix:/.docker/run/docker.sock"
+
+# Claude Code
+export CLAUDE_CONFIG_DIR="$HOME/.config/claude"

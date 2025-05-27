@@ -146,7 +146,6 @@ return {
       provider = "claude",
     },
   },
-
   {
     "greggh/claude-code.nvim",
     keys = {
@@ -155,6 +154,11 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim", -- Required for git operations
     },
-    opts = {},
+    opts = {
+      window = {
+        split_ratio = 0.4,
+        position = "vertical botright", -- Position of the window: "botright", "topleft", "vertical", "rightbelow vsplit", etc.
+      },
+    },
   },
 }
