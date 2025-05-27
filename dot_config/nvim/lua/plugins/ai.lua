@@ -53,7 +53,33 @@ return {
     opts = {},
   },
   {
+    "greggh/claude-code.nvim",
+    cmd = {
+      "ClaudeCode",
+      "ClaudeCodeContinue",
+      "ClaudeCodeResume",
+      "ClaudeCodeVerbose",
+    },
+    keys = {
+      "<C-,>",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for git operations
+    },
+    opts = {
+      window = {
+        split_ratio = 0.4,
+        position = "vertical botright", -- Position of the window: "botright", "topleft", "vertical", "rightbelow vsplit", etc.
+      },
+      git = {
+        use_git_root = false, -- Set CWD to git root when opening Claude Code (if in git project)
+      },
+    },
+  },
+
+  {
     "CopilotC-Nvim/CopilotChat.nvim",
+    enabled = false,
     cmd = function()
       local cmd = {
         "CopilotChat",
@@ -102,6 +128,7 @@ return {
 
   {
     "olimorris/codecompanion.nvim",
+    enabled = false,
     event = { "VeryLazy" },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -132,6 +159,7 @@ return {
 
   {
     "yetone/avante.nvim",
+    enabled = false,
     event = { "VeryLazy" },
     version = false,
     build = "make",
@@ -142,23 +170,7 @@ return {
       "zbirenbaum/copilot.lua",
     },
     opts = {
-      ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
       provider = "claude",
-    },
-  },
-  {
-    "greggh/claude-code.nvim",
-    keys = {
-      "<C-,>",
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- Required for git operations
-    },
-    opts = {
-      window = {
-        split_ratio = 0.4,
-        position = "vertical botright", -- Position of the window: "botright", "topleft", "vertical", "rightbelow vsplit", etc.
-      },
     },
   },
 }
