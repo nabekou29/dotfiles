@@ -1,10 +1,27 @@
 [tools]
-go = "1.22.4"
-python = "3.12.4"
-node = "23.9.0"
-ruby = "3.3.5"
-deno = "latest"
-watchexec = "latest"
+# Language
+"npm:typescript" = "5.8.3"
+deno = "2.3.3"
+go = "1.24.3"
+lua-language-server = "3.14.0"
+node = "24.1.0"
+python = "3.13.3"
+ruby = "3.4.4"
+
+"npm:@biomejs/biome" = "2.0.0-beta.5"
+"npm:@fsouza/prettierd" = "0.26.1"
+"npm:@tailwindcss/language-server" = "0.14.19"
+"npm:@vlabo/cspell-lsp" = "1.1.2"
+"npm:css-variables-language-server" = "2.7.0"
+"npm:eslint_d" = "14.3.0"
+"npm:stylelint-lsp" = "2.0.1"
+"npm:typescript-language-server" = "4.3.4"
+"npm:vscode-langservers-extracted" = "4.10.0" # html,css,json,eslint,
+stylua = "2.1.0"
+
+# CLI tools (主に Homebrew で入れられないもの)
+"npm:@anthropic-ai/claude-code" = "latest"
+"npm:zenn-cli" = "latest"
 
 [settings]
 experimental = true

@@ -23,14 +23,19 @@ const tapCmdAndOptToKanaEisuu = k.rule('⌘/⌥ to かな英数').manipulators([
 ]);
 
 k.writeToProfile('Default', [
-  k.rule('CapsLock to Ctrl').manipulators([k.map('caps_lock').to('left_control')]),
+  k
+    .rule('CapsLock to Ctrl')
+    .manipulators([k.map('caps_lock').to('left_control')]),
 
   tapCmdAndOptToKanaEisuu,
 
   // mac 内蔵キーボード向け設定 (特に JIS 配列を US として扱う場合)
   k
     .rule('かな英数 to ⌥', ifBultin)
-    .manipulators([k.map('japanese_eisuu').to('left_option'), k.map('japanese_kana').to('right_option')]),
+    .manipulators([
+      k.map('japanese_eisuu').to('left_option'),
+      k.map('japanese_kana').to('right_option'),
+    ]),
   k.rule('>⌥ + ?', ifBultin).manipulators([
     k.withMapper({
       escape: 'grave_accent_and_tilde',
@@ -38,6 +43,8 @@ k.writeToProfile('Default', [
       j: 'left_arrow',
       k: 'down_arrow',
       l: 'right_arrow',
-    } as const)((key, mapped) => k.map(key, ['right_option'], ['shift']).to(mapped)),
+    } as const)((key, mapped) =>
+      k.map(key, ['right_option'], ['shift']).to(mapped),
+    ),
   ]),
 ]);
