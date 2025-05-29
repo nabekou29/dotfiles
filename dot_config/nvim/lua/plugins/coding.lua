@@ -86,6 +86,16 @@ return {
     "neovim/nvim-lspconfig",
     lazy = false,
     init = function()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.general = {
+        positionEncodings = { "utf-16" },
+      }
+
+      vim.lsp.config("*", {
+        offset_encoding = "utf-16",
+        capabilities = capabilities,
+      })
+
       vim.lsp.enable({
         "biome",
         "cssls",

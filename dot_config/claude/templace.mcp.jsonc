@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+        // Deepwiki
+        // GitHub のリポジトリの詳細な情報
+        "deepwiki": {
+            "type": "sse",
+            "url": "https://mcp.deepwiki.com/sse"
+        }
+    }
+}

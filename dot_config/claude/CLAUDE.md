@@ -1,1 +1,1 @@
-- Always speak in Japanese.
+- **Always speak in Japanese.**
