@@ -14,9 +14,7 @@ export GH_NOTIFY_MARK_READ_KEY='ctrl-r'
 export ANTHROPIC_API_KEY={{ (onepasswordDetailsFields "claude-api-key").credential.value}}
 export OPENAI_API_KEY={{ (onepasswordDetailsFields "openai-api-key").credential.value}}
 export FIGMA_API_KEY={{ (onepasswordDetailsFields "figma-api-key").credential.value}}
-
-# Docker
-# export DOCKER_HOST="unix:/.docker/run/docker.sock"
+export GITHUB_PERSONAL_ACCESS_TOKEN={{ (onepasswordDetailsFields "GitHub Default Token").credential.value}}
 
 # Claude Code
 export CLAUDE_CONFIG_DIR="$HOME/.config/claude"
