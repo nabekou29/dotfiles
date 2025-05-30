@@ -105,7 +105,7 @@ return {
         "denols",
         -- "elmls",
         "eslint",
-        -- "gopls",
+        "gopls",
         "html",
         "jsonls",
         "lua_ls",
@@ -367,7 +367,7 @@ return {
   -- i18n
   {
     "nabekou29/js-i18n.nvim",
-    enabled = false,
+    enabled = true,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",

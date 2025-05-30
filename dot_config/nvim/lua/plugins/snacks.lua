@@ -1,7 +1,7 @@
 return {
   {
-    -- "folke/snacks.nvim",
-    "nabekou29/snacks.nvim",
+    "folke/snacks.nvim",
+    -- "nabekou29/snacks.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     priority = 1000,
     lazy = false,
@@ -60,6 +60,16 @@ return {
           easing = "linear",
           fps = 30,
         },
+        filter = function(buf)
+          if vim.g.snacks_scroll == false or vim.b[buf].snacks_scroll == false then
+            return false
+          end
+          if vim.bo[buf].buftype == "terminal" then
+            return false
+          end
+
+          return true
+        end,
       },
       statuscolumn = { enabled = false },
       words = { enabled = true },

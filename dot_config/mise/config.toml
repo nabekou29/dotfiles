@@ -8,6 +8,7 @@ node = "24.1.0"
 python = "3.13.3"
 ruby = "3.4.4"
 
+"go:golang.org/x/tools/gopls" = { version = "0.18.1" }
 "npm:@biomejs/biome" = "2.0.0-beta.5"
 "npm:@fsouza/prettierd" = "0.26.1"
 "npm:@tailwindcss/language-server" = "0.14.19"
