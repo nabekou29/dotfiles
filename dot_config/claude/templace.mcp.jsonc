@@ -1,10 +1,11 @@
+// Claude Desktop の場合は `$HOME/Library/Application\ Support/Claude/claude_desktop_config.json` を編集
 {
     "mcpServers": {
         // Deepwiki
         // GitHub のリポジトリのコードについて、AI に質問できる。
         "deepwiki": {
-            "type": "sse",
-            "url": "https://mcp.deepwiki.com/sse"
+            "command": "bunx",
+            "args": ["mcp-remote", "https://mcp.deepwiki.com/sse"]
         },
         // GitHub
         // GitHub のリポジトリの操作ができる。PRの作成や、Issue の管理など。
@@ -18,6 +19,17 @@
                 "GITHUB_PERSONAL_ACCESS_TOKEN",
                 "ghcr.io/github/github-mcp-server"
             ]
+        },
+        // Asana
+        "asana": {
+            "command": "npx",
+            "args": ["mcp-remote", "https://mcp.asana.com/sse"]
+        },
+        // Time
+        // 現在の時刻を取得する。
+        "time": {
+            "command": "uvx",
+            "args": ["mcp-server-time", "--local-timezone", "Asia/Tokyo"]
         }
     }
 }
