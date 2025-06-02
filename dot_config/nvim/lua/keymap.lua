@@ -103,3 +103,12 @@ set("n", "[g", "<Cmd>lua vim.diagnostic.goto_prev()<CR>")
 -- quickfix
 set("n", "]c", "<Cmd>cnext<CR>")
 set("n", "[c", "<Cmd>cprev<CR>")
+
+-- markdown のみの設定
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    -- <Alt-Enter> で <br> を挿入
+    vim.keymap.set("i", "<M-CR>", "<br>", { buffer = true, desc = "Insert <br>" })
+  end,
+})
