@@ -1,1 +1,3 @@
 - **Always speak in Japanese.**
+- When work is completed, execute `claude-notifier '[Brief description of what was completed in Japanese]'`.
+- When the user has a question, also send a notification using `claude-notifier '[Brief description of the question in Japanese]'`.

@@ -19,6 +19,7 @@ setopt hist_no_store # historyコマンドは履歴に登録しない
 setopt hist_reduce_blanks # 余分な空白は詰めて記録
 bindkey -e # emacsキーバインドを有効に
 bindkey "^[[Z" reverse-menu-complete  # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
+bindkey "^[[3~" delete-char # Deleteキーで文字を削除する
 setopt auto_cd # ディレクトリ名だけで移動
 
 # 色の設定
@@ -90,6 +91,17 @@ function ghq-fzf() {
 
 zle -N ghq-fzf
 bindkey "^g" ghq-fzf
+
+function claude-notifier() {
+  if [ -z "$1" ]; then
+    echo "Usage: claude-notify <message>"
+    return 1
+  fi
+
+  local message="${1//\[/\\[}"
+  terminal-notifier -message "$message" -title 'Claude Code' -sound default -contentImage 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png'
+  return 0
+}
 
 # tabtab source for packages
 # uninstall by removing these lines

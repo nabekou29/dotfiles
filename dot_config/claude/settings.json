@@ -1,6 +1,18 @@
 {
     "permissions": {
-        "allow": ["Bash(npm run lint)", "Bash(npm run test:*)"],
+        "allow": [
+            "Bash(ls:*)",
+            "Bash(rg:*)",
+            "Bash(find:*)",
+            "Bash(terminal-notifier:*)",
+            "Bash(claude-notifier:*)",
+            "Bash(npm run lint)",
+            "Bash(npm run test:*)",
+            "mcp__time__get_current_time",
+            "mcp__asana__asana_list_workspaces",
+            "mcp__asana__asana_typeahead_search",
+            "mcp__asana__asana_get_tasks"
+        ],
         "deny": ["Bash(curl:*)"]
     },
     "env": {
