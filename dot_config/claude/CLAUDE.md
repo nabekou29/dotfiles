@@ -1,3 +1,7 @@
 - **Always speak in Japanese.**
-- When work is completed, execute `claude-notifier '[Brief description of what was completed in Japanese]'`.
-- When the user has a question, also send a notification using `claude-notifier '[Brief description of the question in Japanese]'`.
+- **MUST send notification before any user interaction pause**: Execute `claude-notifier '[Brief description in Japanese]'` in these cases:
+  - When work is completed
+  - When asking the user a question
+  - When waiting for user input or instructions
+  - When encountering an error that requires user attention
+  - Before ending any response where further user action may be needed
