@@ -5,114 +5,121 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     priority = 1000,
     lazy = false,
-    ---@type snacks.Config
-    opts = {
-      bigfile = { enabled = true },
-      dashboard = { enabled = true },
-      explorer = {
-        enabled = true,
-        ---@type fun(a: snacks.picker.explorer.Node, b: snacks.picker.explorer.Node):boolean
-        sort = function(a, b) end,
-      },
-      image = {
-        formats = { "png", "jpg", "jpeg", "gif", "bmp", "webp", "tiff", "heic", "avif", "mp4", "mov", "avi", "mkv", "webm", "pdf", "svg" },
-      },
-      indent = {
-        enabled = true,
-        chunk = {
+    opts = function()
+      local scroll_filter_buftype = {
+        terminal = true,
+      }
+      local scroll_filter_filetype = {
+        scrollview_sign = true,
+        ["blink-cmp-menu"] = true,
+      }
+
+      ---@type snacks.Config
+      return {
+        bigfile = { enabled = true },
+        dashboard = { enabled = true },
+        explorer = {
           enabled = true,
-          only_current = true,
-          priority = 200,
-          char = {
-            corner_top = "╭",
-            corner_bottom = "╰",
-            horizontal = "─",
-            vertical = "│",
-            arrow = ">",
+          ---@type fun(a: snacks.picker.explorer.Node, b: snacks.picker.explorer.Node):boolean
+          sort = function(a, b) end,
+        },
+        image = {
+          formats = { "png", "jpg", "jpeg", "gif", "bmp", "webp", "tiff", "heic", "avif", "mp4", "mov", "avi", "mkv", "webm", "pdf", "svg" },
+        },
+        indent = {
+          enabled = true,
+          chunk = {
+            enabled = true,
+            only_current = true,
+            priority = 200,
+            char = {
+              corner_top = "╭",
+              corner_bottom = "╰",
+              horizontal = "─",
+              vertical = "│",
+              arrow = ">",
+            },
           },
         },
-      },
-      input = { enabled = true },
-      picker = {
-        enabled = true,
-        sources = {
-          explorer = {
-            layout = { layout = {
-              position = "left",
-              width = 0.2,
-            } },
+        input = { enabled = true },
+        picker = {
+          enabled = true,
+          sources = {
+            explorer = {
+              layout = { layout = {
+                position = "left",
+                width = 0.2,
+              } },
+            },
           },
         },
-      },
-      notifier = { enabled = true },
-      quickfile = { enabled = true },
-      scope = { enabled = true },
-      scroll = {
-        enabled = true,
-        animate = {
-          duration = { step = 20, total = 120 },
-          easing = "linear",
-          fps = 30,
-        },
-        animate_repeat = {
-          delay = 100,
-          duration = { step = 5, total = 40 },
-          easing = "linear",
-          fps = 30,
-        },
-        filter = function(buf)
-          if vim.g.snacks_scroll == false or vim.b[buf].snacks_scroll == false then
-            return false
-          end
-          if vim.bo[buf].buftype == "terminal" then
-            return false
-          end
-          if vim.bo[buf].filetype == "scrollview_sign" or vim.bo[buf].filetype == "blink-cmp-menu" then
-            return false
-          end
+        notifier = { enabled = true },
+        quickfile = { enabled = true },
+        scope = { enabled = true },
+        scroll = {
+          enabled = true,
+          animate = {
+            duration = { step = 20, total = 120 },
+            easing = "linear",
+            fps = 30,
+          },
+          animate_repeat = {
+            delay = 100,
+            duration = { step = 5, total = 40 },
+            easing = "linear",
+            fps = 30,
+          },
+          filter = function(buf)
+            if vim.g.snacks_scroll == false or vim.b[buf].snacks_scroll == false then
+              return false
+            end
+            if scroll_filter_buftype[vim.bo[buf].buftype] or scroll_filter_filetype[vim.bo[buf].filetype] then
+              return false
+            end
 
-          return true
-        end,
-      },
-      statuscolumn = { enabled = false },
-      words = { enabled = true },
-      lazygit = {
-        config = {
-          os = {
-            edit = 'nvr --servername "$NVIM" -l -s --remote {{filename}}',
-            editAtLine = 'nvr --servername "$NVIM" -l -s -c {{line}} --remote {{filename}}',
-            editAtLineAndWait = "nvim +{{line}} {{filename}}",
-            openDirInEditor = 'nvr --servername "$NVIM" -l -s --remote {{dir}}',
-            editInTerminal = false,
-          },
+            return true
+          end,
         },
-      },
-
-      styles = {
-        input = {
-          relative = "cursor",
-          row = -3,
-          col = 0,
-        },
-        terminal = {
-          relative = "editor",
-          position = "float",
-          border = "double",
-          backdrop = 60,
-          height = 0.9,
-          width = 0.9,
-          zindex = 50,
-        },
+        statuscolumn = { enabled = false },
+        words = { enabled = true },
         lazygit = {
-          relative = "editor",
-          border = "double",
+          config = {
+            os = {
+              edit = 'nvr --servername "$NVIM" -l -s --remote {{filename}}',
+              editAtLine = 'nvr --servername "$NVIM" -l -s -c {{line}} --remote {{filename}}',
+              editAtLineAndWait = "nvim +{{line}} {{filename}}",
+              openDirInEditor = 'nvr --servername "$NVIM" -l -s --remote {{dir}}',
+              editInTerminal = false,
+            },
+          },
         },
-        zen = {
-          relative = "editor",
-          zindex = 100,
+
+        styles = {
+          input = {
+            relative = "cursor",
+            row = -3,
+            col = 0,
+          },
+          terminal = {
+            relative = "editor",
+            position = "float",
+            border = "double",
+            backdrop = 60,
+            height = 0.9,
+            width = 0.9,
+            zindex = 50,
+          },
+          lazygit = {
+            relative = "editor",
+            border = "double",
+          },
+          zen = {
+            relative = "editor",
+            zindex = 100,
+          },
         },
-      },
-    },
+      }
+    end,
     keys = {
       -- stylua: ignore start
       -- Fuzzy finder (nvim-telescope/telescope.nvim)
