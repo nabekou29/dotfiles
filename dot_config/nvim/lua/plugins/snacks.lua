@@ -67,6 +67,9 @@ return {
           if vim.bo[buf].buftype == "terminal" then
             return false
           end
+          if vim.bo[buf].filetype == "scrollview_sign" or vim.bo[buf].filetype == "blink-cmp-menu" then
+            return false
+          end
 
           return true
         end,
