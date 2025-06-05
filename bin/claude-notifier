@@ -1,0 +1,10 @@
+#!usr/bin/env zsh
+
+if [ -z "$1" ]; then
+    echo "Usage: claude-notify <message>"
+    return 1
+fi
+
+local message="${1//\[/\\[}"
+terminal-notifier -message "$message" -title 'Claude Code' -sound default -contentImage 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png'
+return 0
