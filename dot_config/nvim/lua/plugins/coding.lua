@@ -109,7 +109,7 @@ return {
         "html",
         "jsonls",
         "lua_ls",
-        -- "rust_analyzer",
+        "rust_analyzer",
         "stylelint_lsp",
         -- "svelte",
         "tailwindcss",
@@ -152,6 +152,7 @@ return {
           javascriptreact = { "biome", "prettierd", "eslint_d" },
           typescript = { "biome", "prettierd", "eslint_d" },
           typescriptreact = { "biome", "prettierd", "eslint_d" },
+          rust = { "rustfmt" },
           markdown = { "prettierd" },
         },
         format_on_save = {
