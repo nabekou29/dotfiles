@@ -98,7 +98,7 @@ return {
       {
         "<leader>of",
         function()
-          Snacks.picker.files({ cwd = require("obsidian").get_client():vault_root().filename })
+          Snacks.picker.smart({ cwd = require("obsidian").get_client():vault_root().filename })
         end,
       },
       {
