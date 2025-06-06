@@ -117,17 +117,21 @@ return {
         -- "yamlls",
       })
     end,
+
+    vim.api.nvim_create_user_command("LspRestartAll", function()
+      for _, client in pairs(vim.lsp.get_clients()) do
+        if client.stop then
+          client:stop()
+        end
+      end
+      vim.cmd("edit")
+    end, {
+      desc = "Restart all LSP clients",
+    }),
   },
   {
     "stevearc/conform.nvim",
-    init = function()
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*",
-        callback = function(args)
-          require("conform").format({ bufnr = args.buf })
-        end,
-      })
-    end,
+    event = { "BufWritePre" },
     opts = function()
       --- 1度目の保存は import の削除などをしない弱い?フォーマットのみを実行し、2度目の保存でより強力なフォーマットを実行する
       --- @param weak conform.FormatterConfigOverride
@@ -155,10 +159,17 @@ return {
           rust = { "rustfmt" },
           markdown = { "prettierd" },
         },
-        format_on_save = {
-          timeout_ms = 2000,
+        default_format_opts = {
           lsp_format = "fallback",
+          timeout_ms = 500,
         },
+        format_on_save = function()
+          -- :w! で保存したときはフォーマットしない
+          if vim.v.cmdbang == 1 then
+            return nil
+          end
+          return {}
+        end,
         formatters = {
           biome = smart_formatter({
             args = { "format", "--stdin-file-path", "$FILENAME" },
