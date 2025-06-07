@@ -133,6 +133,7 @@ return {
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
     opts = function()
+      local util = require("conform.util")
       --- 1度目の保存は import の削除などをしない弱い?フォーマットのみを実行し、2度目の保存でより強力なフォーマットを実行する
       --- @param weak conform.FormatterConfigOverride
       --- @param strong conform.FormatterConfigOverride
@@ -193,6 +194,9 @@ return {
           }, {}, {
             require_cwd = true,
           }),
+          rustfmt = {
+            prepend_args = { "+nightly" },
+          },
         },
       }
     end,
