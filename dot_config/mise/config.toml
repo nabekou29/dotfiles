@@ -18,11 +18,12 @@ rust = "1.87.0"
 "npm:eslint_d" = "14.3.0"
 "npm:stylelint-lsp" = "2.0.1"
 "npm:typescript-language-server" = "4.3.4"
-"npm:vscode-langservers-extracted" = "4.10.0" # html,css,json,eslint,
+"npm:vscode-langservers-extracted" = "4.10.0"          # html,css,json,eslint,
 stylua = "2.1.0"
 
 # CLI tools (主に Homebrew で入れられないもの)
 "npm:@anthropic-ai/claude-code" = "latest"
+"npm:@taplo/cli" = "latest"
 "npm:zenn-cli" = "latest"
 "go:github.com/rhysd/vim-startuptime" = { version = "latest" }
 

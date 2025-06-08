@@ -424,22 +424,32 @@ return {
 
   {
     "nabekou29/pair-lens.nvim",
-    event = { "FocusLost" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
+    event = { "BufReadPre", "BufNewFile" },
+    init = function()
+      vim.api.nvim_set_hl(0, "PairLensVirtualText", { fg = "#3b5f6f" })
+      vim.api.nvim_set_hl(0, "PairLensVirtualTextNum", { fg = "#3b5f6f", bold = true })
+      vim.api.nvim_set_hl(0, "PairLensVirtualTextCode", { fg = "#3b5f6f", italic = true, underline = true })
+    end,
     opts = {
-      enabled = true,
       style = {
-        hl = "PairLens",
+        -- format = "󰶢 ({line_count}:{start_line}-{end_line}) {start_text}",
+        format = function(info)
+          local line_info = string.format("(%d:%d-%d) ", info.line_count, info.start_line, info.end_line)
+          local start_text = info.start_text
+          return {
+            { "󰶢 ", "PairLensVirtualText" },
+            { line_info, "PairLensVirtualTextNum" },
+            { start_text, "PairLensVirtualTextCode" },
+          }
+        end,
       },
       disable_filetypes = {},
-      min_lines = 12,
+      custom_queries = {},
+      min_lines = 8,
     },
-    config = function(_, opts)
-      vim.api.nvim_set_hl(0, "PairLens", { fg = "#3b5f6f" })
-      require("pair-lens").setup(opts)
-    end,
   },
 
   --- fold

@@ -159,6 +159,7 @@ return {
           typescriptreact = { "biome", "prettierd", "eslint_d" },
           rust = { "rustfmt" },
           markdown = { "prettierd" },
+          toml = { "taplo" },
         },
         default_format_opts = {
           lsp_format = "fallback",
@@ -316,15 +317,14 @@ return {
       },
     },
   },
+
+  -- `%` の拡張
   {
     "andymass/vim-matchup",
     event = { "VeryLazy" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
-    -- init = function()
-    --   vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    -- end,
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
