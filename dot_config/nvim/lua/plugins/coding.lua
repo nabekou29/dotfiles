@@ -114,7 +114,7 @@ return {
         -- "svelte",
         "tailwindcss",
         "ts_ls",
-        -- "yamlls",
+        "yamlls",
       })
     end,
 
