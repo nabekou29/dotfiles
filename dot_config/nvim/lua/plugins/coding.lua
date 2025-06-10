@@ -109,6 +109,7 @@ return {
         "html",
         "jsonls",
         "lua_ls",
+        "pyright",
         "rust_analyzer",
         "stylelint_lsp",
         -- "svelte",
@@ -158,6 +159,7 @@ return {
           typescript = { "biome", "prettierd", "eslint_d" },
           typescriptreact = { "biome", "prettierd", "eslint_d" },
           rust = { "rustfmt" },
+          python = { "ruff_format", "ruff_fix" },
           markdown = { "prettierd" },
           toml = { "taplo" },
         },
@@ -198,6 +200,11 @@ return {
           rustfmt = {
             prepend_args = { "+nightly" },
           },
+          ruff_fix = smart_formatter({}, {
+            condition = function()
+              return false
+            end,
+          }, {}),
         },
       }
     end,

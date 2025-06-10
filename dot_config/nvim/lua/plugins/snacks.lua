@@ -120,10 +120,16 @@ return {
         },
       }
     end,
-    keys = {
+    keys = function()
+      local smart_opts = {
+        matcher = {
+          cwd_bonus = true,
+        },
+      }
+      return {
       -- stylua: ignore start
       -- Fuzzy finder (nvim-telescope/telescope.nvim)
-      { "<leader>ff", function() Snacks.picker.smart() end,            desc = "Smart Find Files" },
+      { "<leader>ff", function() Snacks.picker.smart(smart_opts) end,  desc = "Smart Find Files" },
       { "<leader>fr", function() Snacks.picker.recent() end,           desc = "Recent Files" },
       { "<leader>fg", function() Snacks.picker.grep() end,             desc = "Grep" },
       { "<leader>fb", function() Snacks.picker.buffers() end,          desc = "Buffers" },
@@ -146,9 +152,9 @@ return {
       -- Words
       { "]]",         function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference",         mode = { "n", "t" } },
       { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference",         mode = { "n", "t" } },
-
-      -- stylua: ignore end
-    },
+        -- stylua: ignore end
+      }
+    end,
     config = function(_, opts)
       _G.Snacks = require("snacks")
 

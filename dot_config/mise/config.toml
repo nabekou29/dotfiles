@@ -16,10 +16,12 @@ rust = "1.87.0"
 "npm:@vlabo/cspell-lsp" = "1.1.2"
 "npm:css-variables-language-server" = "2.7.0"
 "npm:eslint_d" = "14.3.0"
+"npm:pyright" = "1.1.401"
 "npm:stylelint-lsp" = "2.0.1"
 "npm:typescript-language-server" = "4.3.4"
 "npm:vscode-langservers-extracted" = "4.10.0"          # html,css,json,eslint,
 "npm:yaml-language-server" = "1.18.0"
+ruff = "0.11.13"
 stylua = "2.1.0"
 
 # CLI tools (主に Homebrew で入れられないもの)
