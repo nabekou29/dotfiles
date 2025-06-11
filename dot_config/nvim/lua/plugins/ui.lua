@@ -448,7 +448,7 @@ return {
       },
       disable_filetypes = {},
       custom_queries = {},
-      min_lines = 8,
+      min_lines = 12,
     },
   },
 
