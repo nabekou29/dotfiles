@@ -27,10 +27,10 @@ return {
           formats = { "png", "jpg", "jpeg", "gif", "bmp", "webp", "tiff", "heic", "avif", "mp4", "mov", "avi", "mkv", "webm", "pdf", "svg" },
         },
         indent = {
-          enabled = true,
+          enabled = false,
           chunk = {
             enabled = true,
-            only_current = true,
+            only_current = false,
             priority = 200,
             char = {
               corner_top = "╭",
@@ -40,6 +40,9 @@ return {
               arrow = ">",
             },
           },
+          filter = function(buf)
+            return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""
+          end,
         },
         input = { enabled = true },
         picker = {
@@ -156,12 +159,15 @@ return {
       }
     end,
     config = function(_, opts)
-      _G.Snacks = require("snacks")
-
       ---@diagnostic disable-next-line: duplicate-set-field 上書き
       vim.print = function(...)
         Snacks.debug.inspect(...)
       end
+
+      -- 500ms 後に indent を有効化。起動直後はエラーになることがある。
+      vim.defer_fn(function()
+        Snacks.indent.enable()
+      end, 500)
 
       require("snacks").setup(opts)
     end,
