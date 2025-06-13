@@ -13,7 +13,7 @@
             "Bash(npm run lint:*)",
             "Bash(npm run test:*)",
             "Bash(rg:*)",
-            "Bash(terminal-notifier:*)",
+            "Bash(git reset)",
             "mcp__asana__asana_get_tasks",
             "mcp__asana__asana_list_workspaces",
             "mcp__asana__asana_typeahead_search",
@@ -29,4 +29,3 @@
     },
     "model": "sonnet"
 }
-
