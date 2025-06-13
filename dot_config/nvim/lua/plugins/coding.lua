@@ -114,6 +114,8 @@ return {
         "stylelint_lsp",
         -- "svelte",
         "tailwindcss",
+        "terraformls",
+        "tflint",
         "ts_ls",
         "yamlls",
       })
@@ -160,6 +162,7 @@ return {
           typescriptreact = { "biome", "prettierd", "eslint_d" },
           rust = { "rustfmt" },
           python = { "ruff_format", "ruff_fix" },
+          terraform = { "terraform_fmt" },
           markdown = { "prettierd" },
           toml = { "taplo" },
         },

@@ -20,16 +20,22 @@
                 "ghcr.io/github/github-mcp-server"
             ]
         },
-        // Asana
-        "asana": {
-            "command": "npx",
-            "args": ["mcp-remote", "https://mcp.asana.com/sse"]
-        },
         // Time
         // 現在の時刻を取得する。
         "time": {
             "command": "uvx",
             "args": ["mcp-server-time", "--local-timezone", "Asia/Tokyo"]
+        },
+        // Playwright
+        // ブラウザの操作。
+        "playwright": {
+            "command": "bunx",
+            "args": ["@playwright/mcp@latest"]
+        },
+        // Asana
+        "asana": {
+            "command": "bunx",
+            "args": ["mcp-remote", "https://mcp.asana.com/sse"]
         }
     }
 }

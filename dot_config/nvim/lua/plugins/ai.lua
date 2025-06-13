@@ -54,6 +54,7 @@ return {
   },
   {
     "greggh/claude-code.nvim",
+    enabled = false,
     cmd = {
       "ClaudeCode",
       "ClaudeCodeContinue",

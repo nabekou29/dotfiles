@@ -101,6 +101,7 @@ brew "sbt"
 brew "terraform-docs"
 brew "tfenv"
 brew "tflint"
+brew "hashicorp/tap/terraform-ls"
 
 ### ------- IDE/Editor --------
 brew "neovim"

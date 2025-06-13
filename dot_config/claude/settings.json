@@ -1,21 +1,32 @@
 {
+    "env": {
+        "EDITOR": "vim"
+    },
     "permissions": {
         "allow": [
-            "Bash(ls:*)",
-            "Bash(rg:*)",
-            "Bash(find:*)",
-            "Bash(terminal-notifier:*)",
             "Bash(claude-notifier:*)",
-            "Bash(npm run lint)",
+            "Bash(find:*)",
+            "Bash(gh pr diff:*)",
+            "Bash(git add:*)",
+            "Bash(git fetch:*)",
+            "Bash(ls:*)",
+            "Bash(npm run lint:*)",
             "Bash(npm run test:*)",
-            "mcp__time__get_current_time",
+            "Bash(rg:*)",
+            "Bash(terminal-notifier:*)",
+            "mcp__asana__asana_get_tasks",
             "mcp__asana__asana_list_workspaces",
             "mcp__asana__asana_typeahead_search",
-            "mcp__asana__asana_get_tasks"
+            "mcp__playwright__browser_click",
+            "mcp__playwright__browser_console_messages",
+            "mcp__playwright__browser_navigate",
+            "mcp__playwright__browser_snapshot",
+            "mcp__playwright__browser_type",
+            "mcp__playwright__browser_wait_for",
+            "mcp__time__get_current_time"
         ],
         "deny": ["Bash(curl:*)"]
     },
-    "env": {
-        "EDITOR": "vim"
-    }
+    "model": "sonnet"
 }
+
