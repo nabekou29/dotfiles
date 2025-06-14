@@ -7,6 +7,12 @@
             "command": "bunx",
             "args": ["mcp-remote", "https://mcp.deepwiki.com/sse"]
         },
+        // Context7
+        // プロンプトに use context7 と書くことで、最新ライブラリの情報を参照できる。
+        "Context7": {
+            "command": "bunx",
+            "args": ["-y", "@upstash/context7-mcp@latest"]
+        },
         // GitHub
         // GitHub のリポジトリの操作ができる。PRの作成や、Issue の管理など。
         "github": {
