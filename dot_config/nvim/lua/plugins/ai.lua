@@ -52,30 +52,39 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
   },
+
   {
-    "greggh/claude-code.nvim",
-    enabled = false,
-    cmd = {
-      "ClaudeCode",
-      "ClaudeCodeContinue",
-      "ClaudeCodeResume",
-      "ClaudeCodeVerbose",
-    },
+    -- "coder/claudecode.nvim",
+    "nabekou29/claudecode.nvim",
     keys = {
-      "<C-,>",
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- Required for git operations
+      { "<leader>a", nil, desc = "AI/Claude Code" },
+      -- { "<M-,>", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      -- { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      -- { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+      {
+        "<leader>as",
+        "<cmd>ClaudeCodeTreeAdd<cr>",
+        desc = "Add file",
+        ft = { "NvimTree", "neo-tree", "snacks_picker_list" },
+      },
     },
     opts = {
-      window = {
-        split_ratio = 0.4,
-        position = "vertical botright", -- Position of the window: "botright", "topleft", "vertical", "rightbelow vsplit", etc.
-      },
-      git = {
-        use_git_root = false, -- Set CWD to git root when opening Claude Code (if in git project)
+      terminal = {
+        split_side = "right",
+        split_width_percentage = 0.3,
+        -- provider = "auto", -- "auto" (default), "snacks", or "native"
+        auto_close = true, -- Auto-close terminal after command completion
       },
     },
+    config = function(_, opts)
+      require("claudecode").setup(opts)
+      vim.keymap.set({ "n", "t" }, "<M-,>", function()
+        vim.cmd("ClaudeCode")
+      end, { desc = "Toggle Claude Code" })
+    end,
   },
 
   {

@@ -160,6 +160,8 @@ return {
           javascriptreact = { "biome", "prettierd", "eslint_d" },
           typescript = { "biome", "prettierd", "eslint_d" },
           typescriptreact = { "biome", "prettierd", "eslint_d" },
+          css = { "biome", "prettierd", "stylelint" },
+          scss = { "biome", "prettierd", "stylelint" },
           rust = { "rustfmt" },
           python = { "ruff_format", "ruff_fix" },
           terraform = { "terraform_fmt" },
@@ -194,6 +196,13 @@ return {
             end,
           },
           eslint_d = smart_formatter({
+            condition = function()
+              return false
+            end,
+          }, {}, {
+            require_cwd = true,
+          }),
+          stylelint = smart_formatter({
             condition = function()
               return false
             end,

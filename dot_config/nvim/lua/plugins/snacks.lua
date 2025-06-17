@@ -20,8 +20,6 @@ return {
         dashboard = { enabled = true },
         explorer = {
           enabled = true,
-          ---@type fun(a: snacks.picker.explorer.Node, b: snacks.picker.explorer.Node):boolean
-          sort = function(a, b) end,
         },
         image = {
           formats = { "png", "jpg", "jpeg", "gif", "bmp", "webp", "tiff", "heic", "avif", "mp4", "mov", "avi", "mkv", "webm", "pdf", "svg" },
@@ -55,6 +53,23 @@ return {
               } },
             },
           },
+          formatters = {
+            file = {
+              filename_first = false, -- display filename before the file path
+              truncate = 80, -- truncate the file path to (roughly) this length
+              filename_only = false, -- only show the filename
+              icon_width = 2, -- width of the icon (in characters)
+              git_status_hl = true, -- use the git status highlight group for the filename
+            },
+          },
+          win = {
+            input = {
+              keys = {
+                ["<C-S-j>"] = { "history_forward", mode = { "i", "n" } },
+                ["<C-S-k>"] = { "history_back", mode = { "i", "n" } },
+              },
+            },
+          },
         },
         notifier = { enabled = true },
         quickfile = { enabled = true },
@@ -85,17 +100,8 @@ return {
         },
         statuscolumn = { enabled = false },
         words = { enabled = true },
-        lazygit = {
-          config = {
-            os = {
-              edit = 'nvr --servername "$NVIM" -l -s --remote {{filename}}',
-              editAtLine = 'nvr --servername "$NVIM" -l -s -c {{line}} --remote {{filename}}',
-              editAtLineAndWait = "nvim +{{line}} {{filename}}",
-              openDirInEditor = 'nvr --servername "$NVIM" -l -s --remote {{dir}}',
-              editInTerminal = false,
-            },
-          },
-        },
+        lazygit = { enabled = false },
+        terminal = { enabled = false },
 
         styles = {
           input = {
@@ -103,19 +109,19 @@ return {
             row = -3,
             col = 0,
           },
-          terminal = {
-            relative = "editor",
-            position = "float",
-            border = "double",
-            backdrop = 60,
-            height = 0.9,
-            width = 0.9,
-            zindex = 50,
-          },
-          lazygit = {
-            relative = "editor",
-            border = "double",
-          },
+          -- terminal = {
+          --   relative = "editor",
+          --   position = "float",
+          --   border = "double",
+          --   backdrop = 60,
+          --   height = 0.9,
+          --   width = 0.9,
+          --   zindex = 50,
+          -- },
+          -- lazygit = {
+          --   relative = "editor",
+          --   border = "double",
+          -- },
           zen = {
             relative = "editor",
             zindex = 100,
@@ -138,12 +144,8 @@ return {
       { "<leader>fb", function() Snacks.picker.buffers() end,          desc = "Buffers" },
       { "<leader>fh", function() Snacks.picker.help() end,             desc = "Help" },
       { "<leader>ft", function() Snacks.picker.todo_comments() end,    desc = "Todo Comments" },
+      { "<leader>fm", function() Snacks.picker.marks() end,             desc = "Marks" },
       { "<leader>:",  function() Snacks.picker.command_history() end,  desc = "Command History" },
-
-      -- Terminal (akinsho/toggleterm.nvim)
-      { "<M-t>",      function() Snacks.terminal() end,                desc = "Terminal",               mode = { "n", "t" } },
-      { "<leader>gd", function() Snacks.terminal('gh dash') end,       desc = "Terminal",               mode = { "n", } },
-      { "<C-g>",      function() Snacks.lazygit() end,                 desc = "Lazygit",                mode = { "n", "t" } },
 
       -- Delete buffer (kazhala/close-buffers.nvim)
       { "<leader>w",  function() Snacks.bufdelete.delete() end,        desc = "Delete buffer" },
