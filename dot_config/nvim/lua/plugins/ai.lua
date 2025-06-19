@@ -56,13 +56,8 @@ return {
   {
     -- "coder/claudecode.nvim",
     "nabekou29/claudecode.nvim",
+    event = { "FocusLost" },
     keys = {
-      { "<leader>a", nil, desc = "AI/Claude Code" },
-      -- { "<M-,>", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      -- { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      -- { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
       { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
       {
         "<leader>as",
@@ -73,10 +68,11 @@ return {
     },
     opts = {
       terminal = {
-        split_side = "right",
-        split_width_percentage = 0.3,
+        enabled = false,
+        -- split_side = "right",
+        -- split_width_percentage = 0.3,
         -- provider = "auto", -- "auto" (default), "snacks", or "native"
-        auto_close = true, -- Auto-close terminal after command completion
+        -- auto_close = true, -- Auto-close terminal after command completion
       },
     },
     config = function(_, opts)
@@ -85,38 +81,6 @@ return {
         vim.cmd("ClaudeCode")
       end, { desc = "Toggle Claude Code" })
     end,
-  },
-
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    enabled = false,
-    cmd = function()
-      local cmd = {
-        "CopilotChat",
-        "CopilotChatOpen",
-        "CopilotChatClose",
-        "CopilotChatToggle",
-        "CopilotChatStop",
-        "CopilotChatReset",
-        "CopilotChatSave",
-        "CopilotChatLoad",
-        "CopilotChatDebugInfo",
-        "CopilotChatModels",
-        "CopilotChatModel",
-      }
-      for k, _ in pairs(require("copilot_prompts")) do
-        table.insert(cmd, "CopilotChat" .. k)
-      end
-      return cmd
-    end,
-    dependencies = {
-      { "zbirenbaum/copilot.lua" },
-      { "nvim-lua/plenary.nvim" },
-    },
-    opts = {
-      show_help = "yes",
-      prompts = require("copilot_prompts"),
-    },
   },
 
   {

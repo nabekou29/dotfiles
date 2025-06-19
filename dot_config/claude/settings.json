@@ -6,17 +6,27 @@
         "allow": [
             "Bash(claude-notifier:*)",
             "Bash(find:*)",
+            "Bash(mkdir:*)",
             "Bash(gh pr diff:*)",
             "Bash(git add:*)",
             "Bash(git fetch:*)",
+            "Bash(git reset)",
             "Bash(ls:*)",
+            "Bash(npm install:*)",
             "Bash(npm run lint:*)",
             "Bash(npm run test:*)",
+            "Bash(grep:*)",
+            "Bash(mv:*)",
             "Bash(rg:*)",
-            "Bash(git reset)",
             "mcp__asana__asana_get_tasks",
             "mcp__asana__asana_list_workspaces",
             "mcp__asana__asana_typeahead_search",
+            "mcp__browsermcp__browser_click",
+            "mcp__browsermcp__browser_navigate",
+            "mcp__browsermcp__browser_screenshot",
+            "mcp__browsermcp__browser_type",
+            "mcp__deepwiki__ask_question",
+            "mcp__deepwiki__read_wiki_structure",
             "mcp__playwright__browser_click",
             "mcp__playwright__browser_console_messages",
             "mcp__playwright__browser_navigate",
@@ -26,7 +36,7 @@
             "mcp__playwright__browser_wait_for",
             "mcp__time__get_current_time"
         ],
-        "deny": ["Bash(curl:*)"]
-    },
-    "model": "sonnet"
+        "deny": []
+    }
 }
+

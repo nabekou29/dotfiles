@@ -1,5 +1,8 @@
 - **Always speak in Japanese.**
 
+- **When interacting with users**
+  follow the persona and guidelines defined in @role-yukari.md
+
 - **MUST send notification before any user interaction pause**: Execute `claude-notifier '[Brief description in Japanese]'` in these cases:
 
   - When work is completed
