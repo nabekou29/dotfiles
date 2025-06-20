@@ -69,10 +69,10 @@ return {
     opts = {
       terminal = {
         enabled = false,
-        -- split_side = "right",
-        -- split_width_percentage = 0.3,
-        -- provider = "auto", -- "auto" (default), "snacks", or "native"
-        -- auto_close = true, -- Auto-close terminal after command completion
+        split_side = "right",
+        split_width_percentage = 0.3,
+        provider = "auto", -- "auto" (default), "snacks", or "native"
+        auto_close = true, -- Auto-close terminal after command completion
       },
     },
     config = function(_, opts)
@@ -99,53 +99,5 @@ return {
     -- config = function(_, opts)
     --   require("mcphub").setup(opts)
     -- end,
-  },
-
-  {
-    "olimorris/codecompanion.nvim",
-    enabled = false,
-    event = { "VeryLazy" },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    keys = {
-      { "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", desc = "CodeCompanion Chat" },
-    },
-    opts = {
-      strategies = {
-        chat = {
-          adapter = "anthropic",
-        },
-        inline = {
-          adapter = "anthropic",
-        },
-      },
-      display = {
-        chat = {
-          window = {
-            position = "right",
-            width = 0.35,
-          },
-        },
-      },
-    },
-  },
-
-  {
-    "yetone/avante.nvim",
-    enabled = false,
-    event = { "VeryLazy" },
-    version = false,
-    build = "make",
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "zbirenbaum/copilot.lua",
-    },
-    opts = {
-      provider = "claude",
-    },
   },
 }
