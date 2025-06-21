@@ -18,11 +18,9 @@
             "Bash(grep:*)",
             "Bash(mv:*)",
             "Bash(rg:*)",
-            "mcp__asana__asana_get_tasks",
-            "mcp__asana__asana_list_workspaces",
-            "mcp__asana__asana_typeahead_search",
             "mcp__browsermcp__browser_click",
             "mcp__browsermcp__browser_navigate",
+            "mcp__browsermcp__browser_press_key",
             "mcp__browsermcp__browser_screenshot",
             "mcp__browsermcp__browser_type",
             "mcp__deepwiki__ask_question",
@@ -36,7 +34,28 @@
             "mcp__playwright__browser_wait_for",
             "mcp__time__get_current_time"
         ],
-        "deny": []
+        "deny": [
+            "Bash(curl:*)",
+            "Bash(git commit:*)",
+            "Bash(git push:*)",
+            "Bash(git rebase:*)",
+            "Bash(git reset:*)",
+            "Bash(mongod:*)",
+            "Bash(mysql:*)",
+            "Bash(nc:*)",
+            "Bash(npm remove:*)",
+            "Bash(npm uninstall:*)",
+            "Bash(psql:*)",
+            "Bash(rm -rf:*)",
+            "Bash(sudo:*)",
+            "Bash(wget:*)",
+            "Read(**/*key*)",
+            "Read(**/*token*)",
+            "Read(.env,*)",
+            "Read(id_ed25519)",
+            "Read(id_rsa)",
+            "Write(**/secrets/**)",
+            "Write(.env*)"
+        ]
     }
 }
-
