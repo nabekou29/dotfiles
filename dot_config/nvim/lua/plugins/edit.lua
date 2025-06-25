@@ -17,6 +17,20 @@ return {
     event = { "VeryLazy" },
   },
 
+  -- 行の移動
+  -- 自前で簡単なキーバインドを設定していたが、重かったのでやめた
+  -- set("n", "<M-S-j>", ":move .+1<CR>==", { desc = "Move line Down" })
+  -- set("x", "<M-S-j>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })
+  -- set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
+  {
+    "matze/vim-move",
+    init = function()
+      vim.g.move_key_modifier = "M-S"
+      vim.g.move_key_modifier_visualmode = "M-S"
+    end,
+    event = { "VeryLazy" },
+  },
+
   -- 括弧や引用符を自動で閉じる
   {
     "windwp/nvim-autopairs",
