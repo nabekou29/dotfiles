@@ -3,7 +3,7 @@
 import * as k from 'https://deno.land/x/karabinerts@1.30.3/deno.ts';
 
 // mac 内蔵キーボードかどうか
-const ifBultin = k.ifDevice({ is_built_in_keyboard: true });
+const ifBuiltin = k.ifDevice({ is_built_in_keyboard: true });
 
 // 単推しでかな英数を切り替える設定
 const tapCmdAndOptToKanaEisuu = k.rule('⌘/⌥ to かな英数').manipulators([
@@ -31,12 +31,12 @@ k.writeToProfile('Default', [
 
   // mac 内蔵キーボード向け設定 (特に JIS 配列を US として扱う場合)
   k
-    .rule('かな英数 to ⌥', ifBultin)
+    .rule('かな英数 to ⌥', ifBuiltin)
     .manipulators([
       k.map('japanese_eisuu').to('left_option'),
       k.map('japanese_kana').to('right_option'),
     ]),
-  k.rule('>⌥ + ?', ifBultin).manipulators([
+  k.rule('>⌥ + ?', ifBuiltin).manipulators([
     k.withMapper({
       escape: 'grave_accent_and_tilde',
       i: 'up_arrow',
