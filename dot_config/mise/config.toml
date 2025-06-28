@@ -26,6 +26,7 @@ stylua = "2.1.0"
 
 # CLI tools (主に Homebrew で入れられないもの)
 "npm:@anthropic-ai/claude-code" = "latest"
+"npm:@google/gemini-cli" = "latest"
 "npm:@taplo/cli" = "latest"
 "npm:zenn-cli" = "latest"
 "go:github.com/rhysd/vim-startuptime" = { version = "latest" }
