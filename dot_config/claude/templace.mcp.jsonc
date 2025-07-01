@@ -16,15 +16,11 @@
         // GitHub
         // GitHub のリポジトリの操作ができる。PRの作成や、Issue の管理など。
         "github": {
-            "command": "docker",
-            "args": [
-                "run",
-                "-i",
-                "--rm",
-                "-e",
-                "GITHUB_PERSONAL_ACCESS_TOKEN",
-                "ghcr.io/github/github-mcp-server"
-            ]
+            "type": "http",
+            "url": "https://api.githubcopilot.com/mcp/",
+            "headers": {
+                "Authorization": "Bearer {{github_token}}"
+            }
         },
         // Time
         // 現在の時刻を取得する。
@@ -42,6 +38,7 @@
             "command": "npx",
             "args": ["@browsermcp/mcp@latest"]
         },
+        /// Gemini CLI
         "gemini-cli-search": {
             "command": "deno",
             "args": [

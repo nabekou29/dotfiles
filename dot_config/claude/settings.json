@@ -26,6 +26,13 @@
             "mcp__browsermcp__browser_type",
             "mcp__deepwiki__ask_question",
             "mcp__deepwiki__read_wiki_structure",
+            "mcp__Figma__get_code",
+            "mcp__Figma__get_image",
+            "mcp__gemini-cli-search__search_web_with_gemini",
+            "mcp__github__get_pull_request",
+            "mcp__github__get_pull_request_comments",
+            "mcp__github__get_pull_request_diff",
+            "mcp__github__get_pull_request_files",
             "mcp__playwright__browser_click",
             "mcp__playwright__browser_console_messages",
             "mcp__playwright__browser_navigate",
@@ -33,8 +40,7 @@
             "mcp__playwright__browser_take_screenshot",
             "mcp__playwright__browser_type",
             "mcp__playwright__browser_wait_for",
-            "mcp__time__get_current_time",
-            "mcp__gemini-cli-search__search_web_with_gemini"
+            "mcp__time__get_current_time"
         ],
         "deny": [
             "Bash(curl:*)",
@@ -51,5 +57,31 @@
             "Write(**/secrets/**)",
             "Write(.env*)"
         ]
-    }
+    },
+    "hooks": {
+        "Notification": [
+            {
+                "matcher": "",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "jq -r '\"[\\(.title // \"Notice\")] \\(.message)\"' | xargs -I{} claude-notifier {}"
+                    }
+                ]
+            }
+        ],
+        "Stop": [
+            {
+                "matcher": "",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "claude-notifier 'プロセスが完了しました！'"
+                    }
+                ]
+            }
+        ]
+    },
+    "model": "opus"
 }
+

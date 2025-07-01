@@ -100,7 +100,7 @@ return {
         "biome",
         "cssls",
         "css_variables",
-        -- "cssmodules_ls",
+        "cssmodules_ls",
         "cspell_lsp",
         "denols",
         -- "elmls",
@@ -170,7 +170,7 @@ return {
         },
         default_format_opts = {
           lsp_format = "fallback",
-          timeout_ms = 3000,
+          timeout_ms = 5000,
         },
         format_on_save = function()
           -- :w! で保存したときはフォーマットしない
