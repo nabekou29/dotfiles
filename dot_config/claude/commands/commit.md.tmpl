@@ -114,6 +114,16 @@ fix(utils): truncate に負の値を渡すとエラーが発生する問題を�
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
+### User directive: `no-co`
+
+```
+fix(utils): truncate に負の値を渡すとエラーが発生する問題を修正
+
+- 負の値を渡すと `index out of range` エラーが発生していた
+- 負の値を渡すと空文字列を返すように修正
+- テストケースを追加
+````
+
 ### User directive: `en`
 
 ```

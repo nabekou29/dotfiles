@@ -21,15 +21,15 @@ if vim.fn.exists("$WEZTERM_PANE") == 1 then
   end
 
   for k, _ in pairs(directions) do
-    vim.keymap.set("n", "<C-" .. k .. ">", function()
+    vim.keymap.set("n", "<C-S-" .. k .. ">", function()
       move_nvim_win_or_wezterm_pane(k)
     end)
   end
 elseif vim.fn.exists("$ZELLIJ") ~= 1 then
-  set("n", "<C-h>", "<cmd>wincmd h<CR>")
-  set("n", "<C-l>", "<cmd>wincmd l<CR>")
-  set("n", "<C-j>", "<cmd>wincmd j<CR>")
-  set("n", "<C-k>", "<cmd>wincmd k<CR>")
+  set("n", "<C-S-h>", "<cmd>wincmd h<CR>")
+  set("n", "<C-S-l>", "<cmd>wincmd l<CR>")
+  set("n", "<C-S-j>", "<cmd>wincmd j<CR>")
+  set("n", "<C-S-k>", "<cmd>wincmd k<CR>")
   -- $WEZTERM_PANE が設定されている場合はWeztermのPane移動を試す
 end
 

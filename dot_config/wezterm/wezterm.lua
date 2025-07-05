@@ -54,7 +54,7 @@ local function ActivatePaneVimSeamless(dir)
     -- neovim の場合は何もしない
     local p_name = pane:get_foreground_process_name()
     if p_name:find("neovim") or p_name:find("nvim") or p_name:find("vim") or p_name:find("chezmoi") then
-      return window:perform_action(act.SendKey({ key = dir_map[dir], mods = "CTRL" }), pane)
+      return window:perform_action(act.SendKey({ key = dir_map[dir], mods = "SHIFT|CTRL" }), pane)
     end
 
     window:perform_action(act.ActivatePaneDirection(dir), pane)
@@ -88,7 +88,10 @@ config.keys = {
   {
     key = "r",
     mods = "CMD|SHIFT",
-    action = act.ReloadConfiguration,
+    action = wezterm.action_callback(function(window, _pane)
+      window:perform_action(act.ReloadConfiguration, _pane)
+      window:set_config_overrides({})
+    end),
   },
   { key = "r", mods = "CMD|ALT", action = act.ResetTerminal },
   {
@@ -115,10 +118,10 @@ config.keys = {
   { key = "j", mods = "CMD|ALT", action = act.ActivatePaneDirection("Down") },
   { key = "k", mods = "CMD|ALT", action = act.ActivatePaneDirection("Up") },
   { key = "l", mods = "CMD|ALT", action = act.ActivatePaneDirection("Right") },
-  { key = "h", mods = "CTRL", action = ActivatePaneVimSeamless("Left") },
-  { key = "l", mods = "CTRL", action = ActivatePaneVimSeamless("Right") },
-  { key = "j", mods = "CTRL", action = ActivatePaneVimSeamless("Down") },
-  { key = "k", mods = "CTRL", action = ActivatePaneVimSeamless("Up") },
+  { key = "h", mods = "SHIFT|CTRL", action = ActivatePaneVimSeamless("Left") },
+  { key = "l", mods = "SHIFT|CTRL", action = ActivatePaneVimSeamless("Right") },
+  { key = "j", mods = "SHIFT|CTRL", action = ActivatePaneVimSeamless("Down") },
+  { key = "k", mods = "SHIFT|CTRL", action = ActivatePaneVimSeamless("Up") },
   -- サイズ調整
   { key = "a", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Left", 5 }) },
   { key = "s", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Down", 5 }) },
