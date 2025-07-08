@@ -19,6 +19,7 @@ vim.loader.enable()
 require("options")
 require("filetype")
 require("lazyvim")
+require("local_config")
 require("keymap")
 require("command")
 

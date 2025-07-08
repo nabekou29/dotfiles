@@ -33,6 +33,8 @@
             "mcp__github__get_pull_request_comments",
             "mcp__github__get_pull_request_diff",
             "mcp__github__get_pull_request_files",
+            "mcp__github__get_issue",
+            "mcp__github__get_issue_comments",
             "mcp__notion__fetch",
             "mcp__notion__search",
             "mcp__playwright__browser_click",
@@ -88,4 +90,3 @@
     },
     "model": "opus"
 }
-

@@ -120,17 +120,6 @@ return {
         "yamlls",
       })
     end,
-
-    vim.api.nvim_create_user_command("LspRestartAll", function()
-      for _, client in pairs(vim.lsp.get_clients()) do
-        if client.stop then
-          client:stop()
-        end
-      end
-      vim.cmd("edit")
-    end, {
-      desc = "Restart all LSP clients",
-    }),
   },
   {
     "stevearc/conform.nvim",
@@ -160,6 +149,8 @@ return {
           javascriptreact = { "biome", "prettierd", "eslint_d" },
           typescript = { "biome", "prettierd", "eslint_d" },
           typescriptreact = { "biome", "prettierd", "eslint_d" },
+          json = { "biome", "prettierd", "eslint_d" },
+          jsonc = { "biome", "prettierd", "eslint_d" },
           css = { "biome", "prettierd", "stylelint" },
           scss = { "biome", "prettierd", "stylelint" },
           rust = { "rustfmt" },

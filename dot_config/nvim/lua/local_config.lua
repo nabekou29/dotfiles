@@ -1,51 +1,63 @@
-local M = {}
+--- プロジェクトの設定のハッシュを更新する関数
+local function update_project_config_hash(path)
+  local data_dir = vim.fn.stdpath("data")
+  local project_config_hashes_dir = data_dir .. "/project-config-hashes/"
 
-local default = {
-  lsp = {
-    biome = { enabled = nil },
-    ["css-lsp"] = { enabled = nil },
-    css_variables = { enabled = nil },
-    cssmodules_ls = { enabled = nil },
-    cspell = { enabled = nil },
-    denols = { enabled = false },
-    elmls = { enabled = nil },
-    eslint = { enabled = nil },
-    gopls = { enabled = nil },
-    html = { enabled = nil },
-    jsonls = { enabled = nil },
-    lua_ls = { enabled = nil },
-    rust_analyzer = { enabled = nil },
-    stylelint_lsp = { enabled = nil },
-    svelte = { enabled = nil },
-    tailwindcss = { enabled = nil },
-    terraformls = { enabled = nil },
-    tflint = { enabled = nil },
-    ts_ls = { enabled = nil },
-    yamlls = { enabled = nil, filetypes = { "yaml", "yml", "json", "jsonc" } },
-  },
-  formatter = {
-    prettier = { enabled = nil },
-  },
-}
+  local escaped_path = vim.fn.substitute(path, "/", "%", "g")
 
-function M.get(...)
-  local config = default
+  local hash_file_path = project_config_hashes_dir .. escaped_path
 
-  ---@diagnostic disable-next-line: undefined-field
-  local local_config = _G.local_config
-  if local_config then
-    config = vim.tbl_deep_extend("force", config, local_config)
+  -- ハッシュファイルの中身を計算
+  local handle = nil
+  if vim.fn.isdirectory(path) == 0 then
+    handle = io.popen('sha256sum "' .. path .. '" 2>/dev/null')
+  else
+    handle = io.popen('find "' .. path .. '" -type f -exec sha256sum {} + 2>/dev/null')
   end
 
-  local keys = {}
-  for _, key in ipairs({ ... }) do
-    -- "." で分割
-    for _, k in ipairs(vim.split(key, ".", { plain = true })) do
-      table.insert(keys, k)
-    end
+  if not handle then
+    return
   end
 
-  return vim.tbl_get(config, unpack(keys))
+  local hash = handle:read("*a")
+  handle:close()
+
+  -- 書き込み
+  local file = io.open(hash_file_path, "w")
+  if not file then
+    vim.fn.mkdir(project_config_hashes_dir, "p")
+    file = io.open(hash_file_path, "w")
+  end
+  if not file then
+    return
+  end
+
+  file:write(hash)
+  file:close()
+
+  return hash_file_path
 end
 
-return M
+--- プロジェクトの設定を読み込み、信頼できる場合はランタイムパスに追加する関数
+local function add_project_runtime()
+  local cwd = vim.fn.getcwd()
+  local project_nvim = cwd .. "/.nvim"
+
+  if vim.fn.isdirectory(project_nvim) ~= 1 then
+    return
+  end
+
+  local hash_file_path = update_project_config_hash(project_nvim)
+  if not hash_file_path then
+    return
+  end
+
+  local is_trusted = vim.secure.read(hash_file_path) ~= nil
+
+  if is_trusted then
+    vim.opt.rtp:prepend(project_nvim)
+    vim.opt.rtp:append(project_nvim .. "/after")
+  end
+end
+
+add_project_runtime()
