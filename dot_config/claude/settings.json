@@ -71,7 +71,7 @@
                 "hooks": [
                     {
                         "type": "command",
-                        "command": "jq -r '\"[\\(.title // \"Notice\")] \\(.message)\"' | xargs -I{} claude-notifier {}"
+                        "command": "jq -r '\"[\\(.title // \"Notice\")] \\(.message)\"' | xargs -I{} claude-notifier \"$(basename $PWD) {}\""
                     }
                 ]
             }
@@ -82,7 +82,7 @@
                 "hooks": [
                     {
                         "type": "command",
-                        "command": "claude-notifier 'プロセスが完了しました！'"
+                        "command": "claude-notifier \"$(basename $PWD) プロセスが完了しました！\""
                     }
                 ]
             }

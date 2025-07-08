@@ -286,7 +286,7 @@ return {
     event = { "VeryLazy" },
     opts = {
       hide = {
-        cursorline = true,
+        cursorline = false,
         focused_win = false,
         only_win = false,
       },

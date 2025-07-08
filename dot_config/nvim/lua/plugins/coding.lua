@@ -162,8 +162,10 @@ return {
         default_format_opts = {
           lsp_format = "fallback",
           timeout_ms = 5000,
+          async = true,
         },
-        format_on_save = function()
+        -- format_on_save = function()
+        format_after_save = function()
           -- :w! で保存したときはフォーマットしない
           if vim.v.cmdbang == 1 then
             return nil
