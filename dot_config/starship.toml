@@ -73,6 +73,7 @@ $python\
 $rust\
 $lua\
 $env_var\
+$gcloud\
 $custom\
 $cmd_duration\
 $line_break\
@@ -132,7 +133,7 @@ symbol = ""
 [gcloud]
 format = "[$symbol$active]($style) "
 style = "bold yellow"
-symbol = " " # \ue7b2
+symbol = " "                        # \ue7b2
 
 [git_branch]
 format = "[$symbol$branch]($style) "
