@@ -38,3 +38,8 @@
 	algorithm = histogram
 [alias]
   commit-with-prompt = !sh "$HOME/.config/git/commit_with_prompt.sh"
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
