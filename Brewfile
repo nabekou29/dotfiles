@@ -48,6 +48,8 @@ cask "wezterm@nightly"
 cask "font-fira-code-nerd-font"
 cask "font-hackgen"
 cask "font-hackgen-nerd"
+cask "font-monaspace"
+cask "font-moralerspace"
 
 ## ========= Utility ==========
 brew "laishulu/homebrew/macism"

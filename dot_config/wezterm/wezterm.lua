@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
+local fonts = require("fonts")
 
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.pl_right_hard_divider
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.pl_left_hard_divider
@@ -8,8 +9,8 @@ local config = wezterm.config_builder()
 
 config.term = "wezterm"
 config.use_ime = true
+config.macos_forward_to_ime_modifier_mask = "CTRL" -- IME に CTRL を渡す
 config.scrollback_lines = 35000
-
 --- UI ---
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
 config.color_scheme = "Iceberg (Gogh)"
@@ -17,12 +18,26 @@ config.colors = {
   tab_bar = {
     inactive_tab_edge = "none",
   },
+  compose_cursor = "#b8d099",
 }
 
--- config.font = wezterm.font("Liga HackGen35Nerd")
-config.font = wezterm.font("HackGen35 Console NF")
-config.font_size = 16.0
--- config.line_height = 1.15
+local font_info = fonts.font(
+  -- "Monaspace Neon Var"
+  -- "Monaspace Argon Var"
+  -- "Monaspace Xenon Var"
+  -- "Monaspace Radon Var"
+  -- "Monaspace Krypton Var"
+  -- "Moralerspace Neon"
+  "Moralerspace Radon"
+  -- "Moralerspace Krypton"
+  -- "HackGen35 Console NF"
+  -- "Fira Code"
+)
+
+config.font = font_info.font
+config.font_size = font_info.font_size
+config.line_height = font_info.line_height
+config.harfbuzz_features = font_info.harfbuzz_features
 
 config.window_background_opacity = 0.92
 config.inactive_pane_hsb = { saturation = 0.95, brightness = 0.3 }
