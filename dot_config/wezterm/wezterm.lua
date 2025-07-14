@@ -9,7 +9,7 @@ local config = wezterm.config_builder()
 
 config.term = "wezterm"
 config.use_ime = true
-config.macos_forward_to_ime_modifier_mask = "CTRL" -- IME に CTRL を渡す
+config.macos_forward_to_ime_modifier_mask = "SHIFT|CTRL" -- IME に SHIFT or CTRL を渡す。これがないと C-m とかのキーバインドが動かない。
 config.scrollback_lines = 35000
 --- UI ---
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
