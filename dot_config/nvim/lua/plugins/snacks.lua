@@ -1,7 +1,7 @@
 return {
   {
-    "folke/snacks.nvim",
-    -- "nabekou29/snacks.nvim",
+    -- "folke/snacks.nvim",
+    "nabekou29/snacks.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     priority = 1000,
     lazy = false,
@@ -51,6 +51,9 @@ return {
                 position = "left",
                 width = 0.2,
               } },
+            },
+            marks = {
+              exclude = "0123456789[]'\".",
             },
           },
           formatters = {

@@ -13,6 +13,7 @@ return {
       keymap = {
         preset = "enter",
         ["<Esc>"] = { "cancel", "fallback" },
+        ["<C-m>"] = { "accept", "fallback" },
       },
       cmdline = {
         keymap = {
@@ -36,13 +37,13 @@ return {
         ghost_text = {
           enabled = false,
         },
-        list = {
-          selection = {
-            preselect = function(ctx)
-              return ctx.mode ~= "cmdline"
-            end,
-          },
-        },
+        -- list = {
+        --   selection = {
+        --     preselect = function(ctx)
+        --       return ctx.mode ~= "cmdline"
+        --     end,
+        --   },
+        -- },
       },
       signature = { enabled = false },
       appearance = {
@@ -132,12 +133,13 @@ return {
       --- @param common conform.FormatterConfigOverride
       local smart_formatter = function(weak, strong, common)
         return function(bufnr)
-          local ok, modified = pcall(vim.api.nvim_get_option_value, "modified", { buf = bufnr })
-          if ok and not modified then
-            return vim.tbl_extend("force", common or {}, strong)
-          else
-            return vim.tbl_extend("force", common or {}, weak)
-          end
+          return vim.tbl_extend("force", common or {}, strong)
+          -- local ok, modified = pcall(vim.api.nvim_get_option_value, "modified", { buf = bufnr })
+          -- if ok and not modified then
+          --   return vim.tbl_extend("force", common or {}, strong)
+          -- else
+          --   return vim.tbl_extend("force", common or {}, weak)
+          -- end
         end
       end
 
