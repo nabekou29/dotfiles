@@ -27,3 +27,9 @@
   - 3. Apply it as a standard rule going forward
 
   This process allows us to continuously improve the project's rules.
+
+- Temporary markdown files should be saved in .claude/tmp/
+  - Example:
+    - `.claude/tmp/report-about-project-YYYY-MM-DD.md`
+    - `.claude/tmp/plan-for-xxx-component-YYYY-MM-DD.md`
+    - `.claude/tmp/migrate-tailwind-YYYY-MM-DD.sh`

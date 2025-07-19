@@ -12,6 +12,7 @@ alias 'icat'='chafa'
 alias 'head'='ghead'
 alias 'tail'='gtail'
 alias 'sed'='gsed'
+alias 'docker-compose'='docker compose'
 alias 'rmdsstore'='find . -name ".DS_Store" -type f -ls -delete'
 
 expand-alias-and-self-insert() {
