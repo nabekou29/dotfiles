@@ -10,6 +10,7 @@ local monaspace_harfbuzz_features = {
   "ss07=1", -- :: =: :=
   "ss08=1", -- ..= .-
   "ss09=1", -- <=> >> =<<
+  -- "ss10=1", -- #[] #() (動いてる気がしない) ||
   "cv01=4", -- 0
   "cv02=0", -- 1
   "cv10=1", -- l i
@@ -26,7 +27,7 @@ local function font(font_name)
   font_name = font_name or "Fira Code"
   local font = wezterm.font(font_name)
   local font_size = 14.0
-  local line_height = 1.15
+  local line_height = 1.1
   local harfbuzz_features = {}
 
   if font_name:match("Monaspace") or font_name:match("Moralerspace") then

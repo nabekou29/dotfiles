@@ -13,6 +13,11 @@
             "command": "bunx",
             "args": ["-y", "@upstash/context7-mcp@latest"]
         },
+        // grep
+        "grep": {
+            "type": "http",
+            "url": "https://mcp.grep.app"
+        },
         // GitHub
         // GitHub のリポジトリの操作ができる。PRの作成や、Issue の管理など。
         "github": {
