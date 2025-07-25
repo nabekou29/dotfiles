@@ -1,92 +1,92 @@
 {
-    "env": {
-        "EDITOR": "vim"
-    },
-    "permissions": {
-        "allow": [
-            "Bash(claude-notifier:*)",
-            "Bash(find:*)",
-            "Bash(mkdir:*)",
-            "Bash(gh pr diff:*)",
-            "Bash(gh pr view:*)",
-            "Bash(git add:*)",
-            "Bash(git fetch:*)",
-            "Bash(git reset)",
-            "Bash(ls:*)",
-            "Bash(npm install:*)",
-            "Bash(npm run lint:*)",
-            "Bash(npm run test:*)",
-            "Bash(grep:*)",
-            "Bash(mv:*)",
-            "Bash(rg:*)",
-            "mcp__browsermcp__browser_click",
-            "mcp__browsermcp__browser_navigate",
-            "mcp__browsermcp__browser_press_key",
-            "mcp__browsermcp__browser_screenshot",
-            "mcp__browsermcp__browser_type",
-            "mcp__deepwiki__ask_question",
-            "mcp__deepwiki__read_wiki_structure",
-            "mcp__Figma__get_code",
-            "mcp__Figma__get_image",
-            "mcp__gemini-cli-search__search_web_with_gemini",
-            "mcp__github__get_pull_request",
-            "mcp__github__get_pull_request_comments",
-            "mcp__github__get_pull_request_diff",
-            "mcp__github__get_pull_request_files",
-            "mcp__github__get_issue",
-            "mcp__github__get_issue_comments",
-            "mcp__notion__fetch",
-            "mcp__notion__search",
-            "mcp__playwright__browser_click",
-            "mcp__playwright__browser_console_messages",
-            "mcp__playwright__browser_navigate",
-            "mcp__playwright__browser_navigate_back",
-            "mcp__playwright__browser_snapshot",
-            "mcp__playwright__browser_tab_select",
-            "mcp__playwright__browser_take_screenshot",
-            "mcp__playwright__browser_type",
-            "mcp__playwright__browser_wait_for",
-            "mcp__time__get_current_time"
-        ],
-        "deny": [
-            "Bash(curl:*)",
-            "Bash(mongod:*)",
-            "Bash(mysql:*)",
-            "Bash(psql:*)",
-            "Bash(sudo:*)",
-            "Bash(wget:*)",
-            "Read(**/*key*)",
-            "Read(**/*token*)",
-            "Read(.env,*)",
-            "Read(id_ed25519)",
-            "Read(id_rsa)",
-            "Write(**/secrets/**)",
-            "Write(.env*)"
+  "env": {
+    "EDITOR": "vim"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(claude-notifier:*)",
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr view:*)",
+      "Bash(git add:*)",
+      "Bash(git fetch:*)",
+      "Bash(git reset)",
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run test:*)",
+      "Bash(grep:*)",
+      "Bash(mv:*)",
+      "Bash(rg:*)",
+      "mcp__browsermcp__browser_click",
+      "mcp__browsermcp__browser_navigate",
+      "mcp__browsermcp__browser_press_key",
+      "mcp__browsermcp__browser_screenshot",
+      "mcp__browsermcp__browser_type",
+      "mcp__deepwiki__ask_question",
+      "mcp__deepwiki__read_wiki_structure",
+      "mcp__Figma__get_code",
+      "mcp__Figma__get_image",
+      "mcp__gemini-cli-search__search_web_with_gemini",
+      "mcp__github__get_pull_request",
+      "mcp__github__get_pull_request_comments",
+      "mcp__github__get_pull_request_diff",
+      "mcp__github__get_pull_request_files",
+      "mcp__github__get_issue",
+      "mcp__github__get_issue_comments",
+      "mcp__notion__fetch",
+      "mcp__notion__search",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_navigate_back",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_tab_select",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_wait_for",
+      "mcp__time__get_current_time"
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Bash(mongod:*)",
+      "Bash(mysql:*)",
+      "Bash(psql:*)",
+      "Bash(sudo:*)",
+      "Bash(wget:*)",
+      "Read(**/*key*)",
+      "Read(**/*token*)",
+      "Read(.env,*)",
+      "Read(id_ed25519)",
+      "Read(id_rsa)",
+      "Write(**/secrets/**)",
+      "Write(.env*)"
+    ]
+  },
+  "model": "opus",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '\"[\\(.title // \"Notice\")] \\(.message)\"' | xargs -I{} claude-notifier \"$(basename $PWD) {}\""
+          }
         ]
-    },
-    "hooks": {
-        "Notification": [
-            {
-                "matcher": "",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "jq -r '\"[\\(.title // \"Notice\")] \\(.message)\"' | xargs -I{} claude-notifier \"$(basename $PWD) {}\""
-                    }
-                ]
-            }
-        ],
-        "Stop": [
-            {
-                "matcher": "",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "claude-notifier \"$(basename $PWD) プロセスが完了しました！\""
-                    }
-                ]
-            }
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-notifier \"$(basename $PWD) プロセスが完了しました！\""
+          }
         ]
-    },
-    "model": "opus"
+      }
+    ]
+  }
 }
