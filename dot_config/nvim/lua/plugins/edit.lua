@@ -68,15 +68,6 @@ return {
     opts = { use_default_keymaps = false, max_join_length = 256 },
   },
 
-  -- ダイナミックマクロ
-  {
-    "tani/dmacro.vim",
-    event = { "VeryLazy" },
-    keys = {
-      { "<C-q>", "<Plug>(dmacro-play-macro)", mode = { "i", "n" }, noremap = true },
-    },
-  },
-
   -- レジスタの編集
   {
     "tversteeg/registers.nvim",
