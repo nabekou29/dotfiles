@@ -19,7 +19,7 @@ return {
         bigfile = { enabled = true },
         dashboard = { enabled = true },
         explorer = {
-          enabled = true,
+          enabled = false,
         },
         image = {
           formats = { "png", "jpg", "jpeg", "gif", "bmp", "webp", "tiff", "heic", "avif", "mp4", "mov", "avi", "mkv", "webm", "pdf", "svg" },
@@ -78,7 +78,7 @@ return {
         quickfile = { enabled = true },
         scope = { enabled = true },
         scroll = {
-          enabled = true,
+          enabled = false,
           animate = {
             duration = { step = 20, total = 120 },
             easing = "linear",
@@ -155,7 +155,7 @@ return {
       { "<leader>W",  function() Snacks.bufdelete.other() end,         desc = "Delete other buffers" },
       { "<C-w>D",     function() Snacks.bufdelete.other() end,         desc = "Delete other buffers" },
 
-      { "<leader>e",  function() Snacks.explorer() end,                desc = "Explorer" },
+      -- { "<leader>e",  function() Snacks.explorer() end,                desc = "Explorer" },
 
       -- Words
       { "]]",         function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference",         mode = { "n", "t" } },

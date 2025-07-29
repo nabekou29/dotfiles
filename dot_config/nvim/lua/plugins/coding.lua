@@ -133,13 +133,13 @@ return {
       --- @param common conform.FormatterConfigOverride
       local smart_formatter = function(weak, strong, common)
         return function(bufnr)
-          return vim.tbl_extend("force", common or {}, strong)
-          -- local ok, modified = pcall(vim.api.nvim_get_option_value, "modified", { buf = bufnr })
-          -- if ok and not modified then
-          --   return vim.tbl_extend("force", common or {}, strong)
-          -- else
-          --   return vim.tbl_extend("force", common or {}, weak)
-          -- end
+          -- return vim.tbl_extend("force", common or {}, strong)
+          local ok, modified = pcall(vim.api.nvim_get_option_value, "modified", { buf = bufnr })
+          if ok and not modified then
+            return vim.tbl_extend("force", common or {}, strong)
+          else
+            return vim.tbl_extend("force", common or {}, weak)
+          end
         end
       end
 
@@ -166,8 +166,8 @@ return {
           timeout_ms = 5000,
           async = true,
         },
-        -- format_on_save = function()
-        format_after_save = function()
+        format_on_save = function()
+          -- format_after_save = function()
           -- :w! で保存したときはフォーマットしない
           if vim.v.cmdbang == 1 then
             return nil

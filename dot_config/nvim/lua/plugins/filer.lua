@@ -73,136 +73,126 @@ return {
     },
   },
 
-  -- {
-  --   "nvim-tree/nvim-tree.lua",
-  --   requires = { "kyazdani42/nvim-web-devicons" },
-  --   keys = {
-  --     { "<leader>e", "<Cmd>NvimTreeToggle<CR>" },
-  --     { "<leader>E", "<Cmd>NvimTreeFindFile<CR>" },
-  --     { "<C-1>", "<Cmd>NvimTreeFindFile<CR>" },
-  --   },
-  --   opts = function()
-  --     vim.api.nvim_set_hl(0, "@nvim-tree-decorator.test-file", { fg = "#6c6c6c" })
-  --
-  --     local grouping_regexps = {
-  --       "(.*)_",
-  --     }
-  --
-  --     local Decorator = require("nvim-tree.api").decorator.UserDecorator:extend()
-  --     function Decorator:new()
-  --       self.enabled = true
-  --       self.highlight_range = "all"
-  --     end
-  --
-  --     function Decorator:highlight_group(node)
-  --       local name = node.name
-  --       if
-  --         name:match("_test")
-  --         or name:match("%.test")
-  --         or name:match("_spec")
-  --         or name:match("%.spec")
-  --         or name:match("%.stories")
-  --       then
-  --         return "@nvim-tree-decorator.test-file"
-  --       end
-  --       return nil
-  --     end
-  --
-  --     return {
-  --       disable_netrw = true,
-  --       hijack_netrw = true,
-  --       respect_buf_cwd = true,
-  --       sync_root_with_cwd = true,
-  --       view = {
-  --         float = {
-  --           enable = true,
-  --           open_win_config = function()
-  --             local screen_w = vim.opt.columns:get()
-  --             local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
-  --             local window_w = screen_w * 0.5
-  --             local window_h = screen_h * 0.9
-  --             local window_w_int = math.floor(window_w)
-  --             local window_h_int = math.floor(window_h)
-  --             local center_x = (screen_w - window_w) / 2
-  --             local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
-  --             return {
-  --               border = "rounded",
-  --               relative = "editor",
-  --               row = center_y,
-  --               col = center_x,
-  --               width = window_w_int,
-  --               height = window_h_int,
-  --             }
-  --           end,
-  --         },
-  --         width = function()
-  --           return math.floor(vim.opt.columns:get() * 0.5)
-  --         end,
-  --       },
-  --       renderer = {
-  --         special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
-  --         decorators = {
-  --           "Git",
-  --           "Open",
-  --           "Hidden",
-  --           "Modified",
-  --           "Bookmark",
-  --           "Diagnostics",
-  --           Decorator,
-  --           "Copied",
-  --           "Cut",
-  --         },
-  --         group_empty = true,
-  --       },
-  --       sort = {
-  --         folders_first = true,
-  --         sorter = function(nodes)
-  --           -- _test や .test を削って比較する
-  --           local remove_test = function(name)
-  --             return name
-  --               :gsub("(.*)_test", "%1")
-  --               :gsub("(.*)%.test", "%1")
-  --               :gsub("(.*)_spec", "%1")
-  --               :gsub("(.*)%.spec", "%1")
-  --               :gsub("(.*)%.stories", "%1")
-  --           end
-  --           table.sort(nodes, function(a, b)
-  --             if a.type ~= b.type then
-  --               -- ディレクトリを先に表示
-  --               return a.type < b.type
-  --             end
-  --
-  --             local a_original_name = a.name
-  --             local b_original_name = b.name
-  --             local a_name = remove_test(a_original_name)
-  --             local b_name = remove_test(b_original_name)
-  --
-  --             if a_name == b_name then
-  --               return #a_original_name <= #b_original_name
-  --             else
-  --               return a_name <= b_name
-  --             end
-  --           end)
-  --         end,
-  --       },
-  --       actions = {
-  --         open_file = {
-  --           window_picker = {
-  --             picker = function()
-  --               local async = require("plenary.async")
-  --               local chowcho_run = async.wrap(require("chowcho").run, 1)
-  --               local win = nil
-  --               async.util.block_on(function()
-  --                 win = chowcho_run()
-  --               end)
-  --               return win
-  --             end,
-  --           },
-  --         },
-  --       },
-  --     }
-  --   end,
-  -- },
+  {
+    "nvim-tree/nvim-tree.lua",
+    enabled = true,
+    requires = { "kyazdani42/nvim-web-devicons" },
+    keys = {
+      { "<leader>e", "<Cmd>NvimTreeToggle<CR>" },
+      { "<leader>E", "<Cmd>NvimTreeFindFile<CR>" },
+      { "<C-1>", "<Cmd>NvimTreeFindFile<CR>" },
+    },
+    opts = function()
+      vim.api.nvim_set_hl(0, "@nvim-tree-decorator.test-file", { fg = "#6c6c6c" })
+
+      local grouping_regexps = {
+        "(.*)_",
+      }
+
+      local Decorator = require("nvim-tree.api").decorator.UserDecorator:extend()
+      function Decorator:new()
+        self.enabled = true
+        self.highlight_range = "all"
+      end
+
+      function Decorator:highlight_group(node)
+        local name = node.name
+        if name:match("_test") or name:match("%.test") or name:match("_spec") or name:match("%.spec") or name:match("%.stories") then
+          return "@nvim-tree-decorator.test-file"
+        end
+        return nil
+      end
+
+      return {
+        disable_netrw = true,
+        hijack_netrw = true,
+        respect_buf_cwd = true,
+        sync_root_with_cwd = true,
+        view = {
+          float = {
+            enable = true,
+            open_win_config = function()
+              local screen_w = vim.opt.columns:get()
+              local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+              local window_w = screen_w * 0.5
+              local window_h = screen_h * 0.9
+              local window_w_int = math.floor(window_w)
+              local window_h_int = math.floor(window_h)
+              local center_x = (screen_w - window_w) / 2
+              local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
+              return {
+                border = "rounded",
+                relative = "editor",
+                row = center_y,
+                col = center_x,
+                width = window_w_int,
+                height = window_h_int,
+              }
+            end,
+          },
+          width = function()
+            return math.floor(vim.opt.columns:get() * 0.5)
+          end,
+        },
+        renderer = {
+          special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+          decorators = {
+            "Git",
+            "Open",
+            "Hidden",
+            "Modified",
+            "Bookmark",
+            "Diagnostics",
+            Decorator,
+            "Copied",
+            "Cut",
+          },
+          group_empty = true,
+        },
+        sort = {
+          folders_first = true,
+          sorter = function(nodes)
+            -- _test や .test を削って比較する
+            local remove_test = function(name)
+              return name:gsub("(.*)_test", "%1"):gsub("(.*)%.test", "%1"):gsub("(.*)_spec", "%1"):gsub("(.*)%.spec", "%1"):gsub("(.*)%.stories", "%1")
+            end
+            table.sort(nodes, function(a, b)
+              if a.type ~= b.type then
+                -- ディレクトリを先に表示
+                return a.type < b.type
+              end
+
+              local a_original_name = a.name
+              local b_original_name = b.name
+              local a_name = remove_test(a_original_name)
+              local b_name = remove_test(b_original_name)
+
+              if a_name == b_name then
+                return #a_original_name <= #b_original_name
+              else
+                return a_name <= b_name
+              end
+            end)
+          end,
+        },
+        actions = {
+          open_file = {
+            window_picker = {
+              picker = function()
+                local async = require("plenary.async")
+                local chowcho_run = async.wrap(require("chowcho").run, 1)
+                local win = nil
+                async.util.block_on(function()
+                  win = chowcho_run()
+                end)
+                return win
+              end,
+            },
+          },
+        },
+      }
+    end,
+  },
 
   {
     "stevearc/oil.nvim",

@@ -1,5 +1,7 @@
 # Commit Changes
 
+**MUST USE the logical-committer agent.**
+
 Commit changes from HEAD by properly splitting them into logical commits.
 
 User directive: $ARGUMENTS
