@@ -21,6 +21,7 @@ require("filetype")
 require("lazyvim")
 require("local_config")
 require("keymap")
+require("abbr")
 require("command")
 
 vim.env.CURRENT_PROGPATH = vim.v.progpath

@@ -147,18 +147,18 @@ return {
       return {
         formatters_by_ft = {
           lua = { "stylua" },
-          javascript = { "biome", "prettierd", "eslint_d" },
-          javascriptreact = { "biome", "prettierd", "eslint_d" },
-          typescript = { "biome", "prettierd", "eslint_d" },
-          typescriptreact = { "biome", "prettierd", "eslint_d" },
-          json = { "biome", "prettierd", "eslint_d" },
-          jsonc = { "biome", "prettierd", "eslint_d" },
-          css = { "biome", "prettierd", "stylelint" },
-          scss = { "biome", "prettierd", "stylelint" },
+          javascript = { "biome", "prettier", "eslint_d" },
+          javascriptreact = { "biome", "prettier", "eslint_d" },
+          typescript = { "biome", "prettier", "eslint_d" },
+          typescriptreact = { "biome", "prettier", "eslint_d" },
+          json = { "biome", "prettier", "eslint_d" },
+          jsonc = { "biome", "prettier", "eslint_d" },
+          css = { "biome", "prettier", "stylelint" },
+          scss = { "biome", "prettier", "stylelint" },
           rust = { "rustfmt" },
           python = { "ruff_format", "ruff_fix" },
           terraform = { "terraform_fmt" },
-          markdown = { "prettierd" },
+          markdown = { "prettier" },
           toml = { "taplo" },
         },
         default_format_opts = {
@@ -182,8 +182,8 @@ return {
           }, {
             require_cwd = true,
           }),
-          prettierd = {
-            -- biome が有効な場合は prettierd を無効化する
+          prettier = {
+            -- biome が有効な場合は prettier を無効化する
             condition = function(_, ctx)
               local biome_available = require("conform").get_formatter_info("biome").available
               local formatters = require("conform").list_formatters_for_buffer(ctx.buf)
