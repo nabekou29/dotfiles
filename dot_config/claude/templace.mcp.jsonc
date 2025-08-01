@@ -13,6 +13,23 @@
             "command": "bunx",
             "args": ["-y", "@upstash/context7-mcp@latest"]
         },
+        // Serena
+        // claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant --project $(pwd)
+        "serena": {
+            "type": "stdio",
+            "command": "uvx",
+            "args": [
+                "--from",
+                "git+https://github.com/oraios/serena",
+                "serena",
+                "start-mcp-server",
+                "--context",
+                "ide-assistant",
+                "--project",
+                "/Users/kohei_watanabe/ghq/github.com/unipos/ninjakit/goodbye-unipos/app"
+            ],
+            "env": {}
+        },
         // grep
         "grep": {
             "type": "http",
