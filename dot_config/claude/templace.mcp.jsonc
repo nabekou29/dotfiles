@@ -26,7 +26,7 @@
                 "--context",
                 "ide-assistant",
                 "--project",
-                "/Users/kohei_watanabe/ghq/github.com/unipos/ninjakit/goodbye-unipos/app"
+                "$(pwd)"
             ],
             "env": {}
         },
@@ -43,6 +43,12 @@
             "headers": {
                 "Authorization": "Bearer {{github_token}}"
             }
+        },
+        // Figma
+        // Figma Desktop で MCP サーバーを起動しておく必要がある。
+        "Figma": {
+            "type": "sse",
+            "url": "http://127.0.0.1:3845/mcp"
         },
         // Time
         // 現在の時刻を取得する。
