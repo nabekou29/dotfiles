@@ -92,7 +92,8 @@ return {
       {
         "<leader>oe",
         function()
-          Snacks.explorer({ cwd = require("obsidian").get_client():vault_root().filename })
+          -- Snacks.explorer({ cwd = require("obsidian").get_client():vault_root().filename })
+          require("fyler").open({ cwd = require("obsidian").get_client():vault_root().filename })
         end,
       },
       {

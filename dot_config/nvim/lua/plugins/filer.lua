@@ -75,7 +75,7 @@ return {
 
   {
     "nvim-tree/nvim-tree.lua",
-    enabled = true,
+    enabled = false,
     requires = { "kyazdani42/nvim-web-devicons" },
     keys = {
       { "<leader>e", "<Cmd>NvimTreeToggle<CR>" },
@@ -192,6 +192,18 @@ return {
         },
       }
     end,
+  },
+
+  {
+    "A7Lavinraj/fyler.nvim",
+    event = { "VeryLazy" },
+    keys = {
+      { "<leader>e", "<Cmd>Fyler<CR>" },
+    },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      icon_provider = "nvim-web-devicons",
+    },
   },
 
   {

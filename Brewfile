@@ -130,7 +130,7 @@ cask "suspicious-package"
 
 ## ========= Others ==========
 brew "cmatrix"
-brew "neofetch"
+brew "fastfetch"
 brew "nyancat"
 brew "sl"
 

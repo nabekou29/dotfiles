@@ -21,3 +21,5 @@ cspell.json
 
 **/.claude/settings.local.json
 **/.claude/tmp/
+
+.serena
