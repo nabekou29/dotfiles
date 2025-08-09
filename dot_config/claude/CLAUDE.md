@@ -33,3 +33,5 @@
     - `.claude/tmp/report-about-project-YYYY-MM-DD.md`
     - `.claude/tmp/plan-for-xxx-component-YYYY-MM-DD.md`
     - `.claude/tmp/migrate-tailwind-YYYY-MM-DD.sh`
+  - Note
+    - Current date and time can be obtained using `time mcp`

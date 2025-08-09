@@ -1,7 +1,7 @@
 [tools]
 # Language
 "npm:typescript" = "5.9.2"
-deno = "2.4.2"
+deno = "2.4.3"
 go = "1.24.3"
 lua-language-server = "3.15.0"
 node = "24.4.1"
@@ -10,7 +10,7 @@ ruby = "3.4.4"
 rust = "1.88.0"
 
 "go:golang.org/x/tools/gopls" = "0.19.1"
-"npm:@biomejs/biome" = "2.1.3"
+"npm:@biomejs/biome" = "2.1.4"
 "npm:@fsouza/prettierd" = "0.26.1"
 "npm:@tailwindcss/language-server" = "0.14.26"
 "npm:@vlabo/cspell-lsp" = "1.1.5"
