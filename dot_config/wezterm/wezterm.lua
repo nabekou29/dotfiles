@@ -1,9 +1,7 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 local fonts = require("fonts")
-
-local SOLID_LEFT_ARROW = wezterm.nerdfonts.pl_right_hard_divider
-local SOLID_RIGHT_ARROW = wezterm.nerdfonts.pl_left_hard_divider
+local tabline = require("tabline")
 
 local config = wezterm.config_builder()
 
@@ -15,9 +13,6 @@ config.scrollback_lines = 35000
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
 config.color_scheme = "Iceberg (Gogh)"
 config.colors = {
-  tab_bar = {
-    inactive_tab_edge = "none",
-  },
   compose_cursor = "#b8d099",
 }
 
@@ -27,9 +22,9 @@ local font_info = fonts.font(
   -- "Monaspace Xenon Var"
   -- "Monaspace Radon Var"
   -- "Monaspace Krypton Var"
-  "Moralerspace Neon"
+  -- "Moralerspace Neon"
   -- "Moralerspace Radon"
-  -- "Moralerspace Krypton"
+  "Moralerspace Krypton"
   -- "HackGen35 Console NF"
   -- "Fira Code"
 )
@@ -45,15 +40,15 @@ config.adjust_window_size_when_changing_font_size = false
 config.macos_window_background_blur = 10
 
 config.window_decorations = "RESIZE"
-config.hide_tab_bar_if_only_one_tab = true
-config.show_tab_index_in_tab_bar = false
-config.show_new_tab_button_in_tab_bar = false
-config.show_close_tab_button_in_tabs = false
+config.window_padding = { left = 0, right = 0, top = 4, bottom = 0 }
 
 config.window_frame = {
   inactive_titlebar_bg = "#121212",
   active_titlebar_bg = "#121212",
 }
+
+-- タブラインのセットアップ
+tabline.setup_tabline(wezterm, config)
 
 --- Key Binding ---
 
@@ -214,54 +209,5 @@ config.mouse_bindings = {
     action = act.OpenLinkAtMouseCursor,
   },
 }
-
-wezterm.on("update-right-status", function(window, pane)
-  local cells = {}
-
-  local date = wezterm.strftime("%Y/%m/%d %H:%M")
-  table.insert(cells, date)
-
-  for _, b in ipairs(wezterm.battery_info()) do
-    table.insert(cells, string.format("%.0f%%", b.state_of_charge * 100))
-  end
-
-  local colors = {
-    "#3c1361",
-    "#52307c",
-    "#663a82",
-    "#7c5295",
-    "#b491c8",
-  }
-
-  local text_fg = "#c0c0c0"
-  local default_bg = "#121212"
-
-  local elements = {}
-  local num_cells = 0
-
-  local function push(text, is_last)
-    local cell_no = num_cells + 1
-    if cell_no == 1 then
-      table.insert(elements, { Foreground = { Color = colors[cell_no] } })
-      table.insert(elements, { Background = { Color = default_bg } })
-      table.insert(elements, { Text = SOLID_LEFT_ARROW })
-    end
-    table.insert(elements, { Foreground = { Color = text_fg } })
-    table.insert(elements, { Background = { Color = colors[cell_no] } })
-    table.insert(elements, { Text = " " .. text .. " " })
-    if not is_last then
-      table.insert(elements, { Foreground = { Color = colors[cell_no + 1] } })
-      table.insert(elements, { Text = SOLID_LEFT_ARROW })
-    end
-    num_cells = num_cells + 1
-  end
-
-  while #cells > 0 do
-    local cell = table.remove(cells, 1)
-    push(cell, #cells == 0)
-  end
-
-  window:set_right_status(wezterm.format(elements))
-end)
 
 return config
