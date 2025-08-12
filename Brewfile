@@ -53,7 +53,7 @@ cask "font-moralerspace"
 
 ## ========= Utility ==========
 brew "laishulu/homebrew/macism"
-brew "nowplaying-cli"
+brew "media-contro"
 cask "1password"
 cask "1password-cli"
 cask "alfred"
