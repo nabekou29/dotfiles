@@ -188,17 +188,10 @@ function M.setup_tabline(wezterm, config)
       local media_control = "/opt/homebrew/bin/media-control"
       local jq = "/opt/homebrew/bin/jq"
       local jq_format = [[
-      def truncate(n):
-        if length > n then .[0:(n-3)] + "..." else . end;
+      def truncate(n): if length > n then .[0:(n-3)] + "..." else . end;
 
       if .playing then
-        (
-          if ((.title + " - " + .artist) | length) > 30 then
-            " \(.title)"
-          else
-            " \(.title) - \(.artist)" 
-          end
-        ) | truncate(35)
+        " \(.title) - \(.artist)" | truncate(35)
       else
         "󰝛"
       end
