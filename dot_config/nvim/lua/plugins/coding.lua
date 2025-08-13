@@ -195,6 +195,11 @@ return {
               return false
             end,
           }, {}, {
+            cwd = util.root_file({
+              "eslint.config.js",
+              "eslint.config.cjs",
+              "eslint.config.mjs",
+            }),
             require_cwd = true,
           }),
           stylelint = smart_formatter({
