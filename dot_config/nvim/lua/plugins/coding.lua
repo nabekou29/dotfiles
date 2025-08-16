@@ -329,8 +329,8 @@ return {
     event = { "InsertEnter" },
     opts = {
       opts = {
-        enable_rename = false,
-        enable_close = true,
+        enable_rename = true,
+        enable_close = false,
         enable_close_on_slash = true,
         filetypes = { "html", "xml", "javascriptreact", "typescriptreact", "svelte", "vue" },
       },
