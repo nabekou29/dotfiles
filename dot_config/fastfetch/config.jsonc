@@ -1,0 +1,26 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json", // Optional: Provides IDE intelligence
+    "logo": {
+        /* Logo configuration */
+    },
+    "display": {
+        /* Display settings */
+    },
+    "modules": [
+        "separator",
+
+        "os",
+        "host",
+        "kernel",
+        "packages",
+        "shell",
+        "theme",
+        "terminal",
+        "terminalfont",
+        "cpu",
+
+        "separator",
+
+        "colors"
+    ]
+}
