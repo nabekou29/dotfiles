@@ -82,6 +82,8 @@ config.keys = {
   { key = "-", mods = "CMD", action = act.DecreaseFontSize },
   { key = "f", mods = "CMD", action = act.Search({ Regex = "" }) },
   { key = "n", mods = "CMD", action = act.SpawnWindow },
+  { key = "UpArrow", mods = "SHIFT", action = act.ScrollToPrompt(-1) },
+  { key = "DownArrow", mods = "SHIFT", action = act.ScrollToPrompt(1) },
   --- Tab ---
   { key = "n", mods = "SHIFT|ALT", action = act.SpawnTab("CurrentPaneDomain") },
   { key = "{", mods = "SHIFT|ALT", action = act.MoveTabRelative(-1) },
