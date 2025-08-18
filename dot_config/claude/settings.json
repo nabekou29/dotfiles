@@ -76,7 +76,7 @@
             "Write(.env*)"
         ]
     },
-    "model": "opusplan",
+    "model": "opus",
     "hooks": {
         "Notification": [
             {

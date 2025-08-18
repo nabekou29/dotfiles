@@ -1,5 +1,6 @@
 local abbr = {
   { "const", "cosnt", mode = "i" },
+  { "console", "conosle", mode = "i" },
 }
 
 for _, v in ipairs(abbr) do
