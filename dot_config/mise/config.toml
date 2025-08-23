@@ -7,7 +7,7 @@ lua-language-server = "3.15.0"
 node = "24.4.1"
 python = "3.13.3"
 ruby = "3.4.4"
-rust = "1.88.0"
+rust = "nightly"
 
 "go:golang.org/x/tools/gopls" = "0.19.1"
 "npm:@biomejs/biome" = "2.2.0"
