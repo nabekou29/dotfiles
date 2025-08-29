@@ -15,13 +15,13 @@ return {
         ["<Esc>"] = { "cancel", "fallback" },
         ["<C-m>"] = { "accept", "fallback" },
       },
-      cmdline = {
-        keymap = {
-          preset = "enter",
-          ["<Tab>"] = { "show", "select_next", "fallback" },
-          ["<S-Tab>"] = { "show", "select_prev", "fallback" },
-        },
-      },
+      -- cmdline = {
+      --   keymap = {
+      --     preset = "enter",
+      --     ["<Tab>"] = { "show", "select_next", "fallback" },
+      --     ["<S-Tab>"] = { "show", "select_prev", "fallback" },
+      --   },
+      -- },
       completion = {
         menu = {
           border = "rounded",
