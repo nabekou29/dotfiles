@@ -96,9 +96,11 @@ return {
         offset_encoding = "utf-16",
         capabilities = capabilities,
       })
+      vim.lsp.inline_completion.enable(true)
 
       vim.lsp.enable({
         "biome",
+        "copilot",
         "cssls",
         "css_variables",
         "cssmodules_ls",
