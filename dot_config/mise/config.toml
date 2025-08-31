@@ -1,7 +1,7 @@
 [tools]
 # Language
 "npm:typescript" = "5.9.2"
-deno = "2.4.3"
+deno = "2.4.5"
 go = "1.24.3"
 lua-language-server = "3.15.0"
 node = "24.4.1"
