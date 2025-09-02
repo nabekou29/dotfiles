@@ -2,7 +2,7 @@
 vim.opt.clipboard = "unnamedplus"
 
 vim.opt.number = true -- 行数表示
-vim.opt.signcolumn = "yes" -- サインカラムを常に表示（ガタつき防止）
+vim.opt.signcolumn = "no" -- サインカラム非表示
 vim.opt.expandtab = true -- タブでスペースを入力
 vim.opt.tabstop = 2 -- インデントのサイズ
 vim.opt.shiftwidth = 2 -- インデントのサイズ
@@ -61,45 +61,34 @@ if vim.fn.executable("rg") == 1 then
   vim.opt.grepformat = "%f:%l:%c:%m"
 end
 
-vim.fn.sign_define("DiagnosticSignWarn", {
-  text = "",
-  texthl = "DiagnosticSignWarn",
-})
-vim.fn.sign_define("DiagnosticSignError", {
-  text = "",
-  texthl = "DiagnosticSignError",
-})
-vim.fn.sign_define("DiagnosticSignInfo", {
-  text = "󰋽",
-  texthl = "DiagnosticSignInfo",
-})
-vim.fn.sign_define("DiagnosticSignHint", {
-  text = "🔧",
-  texthl = "DiagnosticSignHint",
-})
-
 vim.diagnostic.config({
   float = { border = "rounded" },
-  virtual_text = true,
-})
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   update_in_insert = false,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "󰋽",
+      [vim.diagnostic.severity.HINT] = "",
+    },
+  },
   virtual_text = {
-    prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応
+    prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応（もう大丈夫かも）
     suffix = "",
     format = function(diagnostic)
       local prefix = "?"
-      if diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
+      if diagnostic.severity == vim.diagnostic.severity.ERROR then
         prefix = ""
-      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Warning then
+      elseif diagnostic.severity == vim.diagnostic.severity.WARN then
         prefix = ""
-      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Information then
+      elseif diagnostic.severity == vim.diagnostic.severity.INFO then
         prefix = "󰋽"
-      elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Hint then
-        prefix = "🔧"
+      elseif diagnostic.severity == vim.diagnostic.severity.HINT then
+        prefix = ""
       end
-      return string.format("%s %s [%s: %s]", prefix, diagnostic.message, diagnostic.source, diagnostic.code)
+      local source = diagnostic.code and string.format("[%s: %s]", diagnostic.source, diagnostic.code) or string.format("[%s]", diagnostic.source)
+
+      return string.format("%s %s %s", prefix, diagnostic.message, source)
     end,
   },
 })

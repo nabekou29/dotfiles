@@ -92,6 +92,12 @@ set("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>")
 set("n", "]g", "<Cmd>lua vim.diagnostic.goto_next()<CR>")
 set("n", "[g", "<Cmd>lua vim.diagnostic.goto_prev()<CR>")
 set("i", "<c-l>", "<Cmd>lua vim.lsp.inline_completion.get()<cr>")
+set("i", "<M-n>", function()
+  vim.lsp.inline_completion.select()
+end)
+set("i", "<M-p>", function()
+  vim.lsp.inline_completion.select({ count = -1 * vim.v.count1 })
+end)
 
 -- quickfix
 set("n", "]c", "<Cmd>cnext<CR>")

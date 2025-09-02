@@ -471,10 +471,10 @@ return {
           vim.lsp.protocol.DiagnosticSeverity.Warning,
           vim.lsp.protocol.DiagnosticSeverity.Error,
         },
-        diagnostics_hint_symbol = "🔧",
-        diagnostics_info_symbol = "󰋽",
-        diagnostics_warn_symbol = "",
-        diagnostics_error_symbol = "",
+        diagnostics_hint_symbol = "",
+        diagnostics_info_symbol = "",
+        diagnostics_warn_symbol = "󰄾",
+        diagnostics_error_symbol = "󰶻",
       }
     end,
   },
@@ -488,17 +488,6 @@ return {
       vim.cmd([[ hi FidgetNormal guifg=#ccc guibg=#3777bd ]])
 
       require("fidget").setup({
-        progress = {
-          ignore = {
-            function(msg)
-              if msg.lsp_client.name == "null-ls" then
-                -- cspell がカーソル移動のたびに code_action を送ってくるので無視
-                return msg.title == "code_action"
-              end
-              return false
-            end,
-          },
-        },
         notification = {
           window = { normal_hl = "FidgetNormal", winblend = 80, border = "single" },
         },
