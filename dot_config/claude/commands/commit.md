@@ -15,7 +15,7 @@ User directive: $ARGUMENTS
 | ja      | Create commit messages in Japanese.               |
 | en      | Create commit messages in English.                |
 | short   | Create title-only commit messages without body.   |
-| no-co   | Do not include Co-authored-by in commit messages. |
+| co      | Include Co-authored-by in commit messages.        |
 | single  | Create a single commit without splitting changes. |
 | one     | Commit only one of the split changes.             |
 
@@ -32,7 +32,6 @@ User directive: $ARGUMENTS
 `git reset HEAD~1`
 
 3. Split and commit changes appropriately considering type and scope.
-
    - **type**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`
    - **scope**: Indicates the feature or area affected by the change. Examples: `utils`, `api`, `web`, `cli`, `user-settings`, `admin-page`
 
@@ -46,18 +45,15 @@ Default language is Japanese, but user directives take precedence.
 ### Subject Line Rules
 
 1. **Use imperative mood**
-
    - ✅ `fix: resolve memory leak`
    - ❌ `fix: resolved memory leak`
    - ❌ `fix: resolves memory leak`
 
 2. **Lowercase first letter after type**
-
    - ✅ `feat: add new parser`
    - ❌ `feat: Add new parser`
 
 3. **No period at the end**
-
    - ✅ `docs: update installation guide`
    - ❌ `docs: update installation guide.`
 
@@ -75,12 +71,10 @@ The body should explain:
 ### Commit Granularity
 
 1. **One commit, one purpose**
-
    - Don't mix feature additions with fixes
    - Don't include unrelated refactoring
 
 2. **Maintain atomicity**
-
    - Each commit should be self-contained
    - Project should build and pass tests after each commit
 
@@ -100,7 +94,7 @@ The body should explain:
 
 These are examples only. Adjust scope and messages according to the actual project.
 
-### User directive: `ja short no-co`
+### User directive: `ja short`
 
 ```
 fix(utils): truncate に負の値を渡すとエラーが発生する問題を修正
@@ -110,13 +104,9 @@ fix(utils): truncate に負の値を渡すとエラーが発生する問題を�
 
 ```
 fix(utils): truncate に負の値を渡すとエラーが発生する問題を修正
-
-🤖 Generated with [Claude Code](https://claude.ai/code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-### User directive: `no-co`
+### User directive: `co`
 
 ```
 fix(utils): truncate に負の値を渡すとエラーが発生する問題を修正
@@ -124,7 +114,11 @@ fix(utils): truncate に負の値を渡すとエラーが発生する問題を�
 - 負の値を渡すと `index out of range` エラーが発生していた
 - 負の値を渡すと空文字列を返すように修正
 - テストケースを追加
-````
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
 
 ### User directive: `en`
 
@@ -134,8 +128,4 @@ feat: add new user authentication flow
 - Implement new OAuth 2.0 authentication flow
 - Update user model to include OAuth tokens
 - Add tests for new authentication endpoints
-
-🤖 Generated with [Claude Code](https://claude.ai/code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
 ```
