@@ -51,9 +51,6 @@ return {
       },
       sources = {
         default = { "obsidian_tags", "obsidian", "obsidian_new", "lsp", "path", "snippets", "markdown", "ripgrep" },
-        per_filetype = {
-          codecompanion = { "codecompanion" },
-        },
         providers = {
           ripgrep = {
             module = "blink-ripgrep",
