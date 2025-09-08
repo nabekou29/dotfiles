@@ -6,4 +6,5 @@ README.md
 Brewfile
 karabiner/**/*
 
+_archives/**/*
 tmp_*
