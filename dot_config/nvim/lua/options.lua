@@ -63,15 +63,17 @@ end
 
 vim.diagnostic.config({
   float = { border = "rounded" },
+  severity_sort = true,
   update_in_insert = false,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = "",
-      [vim.diagnostic.severity.WARN] = "",
-      [vim.diagnostic.severity.INFO] = "󰋽",
-      [vim.diagnostic.severity.HINT] = "",
-    },
-  },
+  signs = false,
+  -- sign = {
+  --   text = {
+  --     [vim.diagnostic.severity.ERROR] = "",
+  --     [vim.diagnostic.severity.WARN] = "",
+  --     [vim.diagnostic.severity.INFO] = "󰋽",
+  --     [vim.diagnostic.severity.HINT] = "",
+  --   },
+  -- },
   virtual_text = {
     prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応（もう大丈夫かも）
     suffix = "",

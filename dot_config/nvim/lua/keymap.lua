@@ -100,8 +100,8 @@ set("i", "<M-p>", function()
 end)
 
 -- quickfix
-set("n", "]c", "<Cmd>cnext<CR>")
-set("n", "[c", "<Cmd>cprev<CR>")
+set("n", "]q", "<Cmd>cnext<CR>")
+set("n", "[q", "<Cmd>cprev<CR>")
 
 -- markdown のみの設定
 vim.api.nvim_create_autocmd("FileType", {

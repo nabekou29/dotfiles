@@ -2,7 +2,7 @@ return {
   -- 変更箇所の表示・blame の表示
   {
     "lewis6991/gitsigns.nvim",
-    event = { "FocusLost" },
+    event = { "VeryLazy" },
     keys = {
       {
         "<leader>gb",
@@ -11,13 +11,39 @@ return {
         end,
         desc = "Toggle Blame",
       },
+      {
+        "]c",
+        function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "]c", bang = true })
+          else
+            require("gitsigns").nav_hunk("next")
+          end
+        end,
+        mode = { "n" },
+      },
+      {
+        "[c",
+        function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "[c", bang = true })
+          else
+            require("gitsigns").nav_hunk("prev")
+          end
+        end,
+        mode = { "n" },
+      },
     },
     opts = {
-      current_line_blame = false,
+      signcolumn = false, -- Toggle with `:Gitsigns toggle_signs`
+      numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
+      linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+      word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+      current_line_blame = true,
       current_line_blame_opts = {
         virt_text = true,
         virt_text_pos = "eol",
-        delay = 800,
+        delay = 300,
         ignore_whitespace = false,
       },
     },
