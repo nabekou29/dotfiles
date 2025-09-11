@@ -15,13 +15,6 @@ return {
         ["<Esc>"] = { "cancel", "fallback" },
         ["<C-m>"] = { "accept", "fallback" },
       },
-      -- cmdline = {
-      --   keymap = {
-      --     preset = "enter",
-      --     ["<Tab>"] = { "show", "select_next", "fallback" },
-      --     ["<S-Tab>"] = { "show", "select_prev", "fallback" },
-      --   },
-      -- },
       completion = {
         menu = {
           border = "rounded",
@@ -37,13 +30,6 @@ return {
         ghost_text = {
           enabled = false,
         },
-        -- list = {
-        --   selection = {
-        --     preselect = function(ctx)
-        --       return ctx.mode ~= "cmdline"
-        --     end,
-        --   },
-        -- },
       },
       signature = { enabled = false },
       appearance = {
@@ -158,6 +144,7 @@ return {
           python = { "ruff_format", "ruff_fix" },
           terraform = { "terraform_fmt" },
           markdown = { "prettier" },
+          yaml = { "prettier" },
           toml = { "taplo" },
         },
         default_format_opts = {
@@ -220,24 +207,12 @@ return {
       }
     end,
   },
-  -- 定義のプレビュー表示
-  -- {
-  --   "rmagatti/goto-preview",
-  --   event = { "LspAttach" },
-  --   keys = {
-  --     { "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>" },
-  --     { "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>" },
-  --   },
-  --   opts = {
-  --     height = 20,
-  --   },
-  -- },
+
   -- コードアクションのプレビューを表示
   {
     "aznhe21/actions-preview.nvim",
     keys = {
       { "ga", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
-      { "gA", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
     },
     opts = {},
   },
@@ -339,7 +314,7 @@ return {
   -- `%` の拡張
   {
     "andymass/vim-matchup",
-    event = { "VeryLazy" },
+    event = { "BufReadPre" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -355,6 +330,7 @@ return {
     keys = { "<leader>ft" },
     opts = {},
   },
+
   -- エラー
   {
     "folke/trouble.nvim",
@@ -374,6 +350,7 @@ return {
       use_diagnostic_signs = true,
     },
   },
+
   -- 参照の数などを表示
   {
     "VidocqH/lsp-lens.nvim",
@@ -421,6 +398,7 @@ return {
       -- namespace_separator = ":",
     },
   },
+
   -- Typescript
   {
     "dmmulroy/ts-error-translator.nvim",
@@ -431,6 +409,7 @@ return {
     "marilari88/twoslash-queries.nvim",
     opts = {},
   },
+
   -- コメントアウト
   {
     "numToStr/Comment.nvim",
