@@ -36,7 +36,10 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        default = { "obsidian_tags", "obsidian", "obsidian_new", "lsp", "path", "snippets", "markdown", "ripgrep" },
+        default = { "lsp", "path", "snippets", "markdown", "ripgrep" },
+        per_filetype = {
+          markdown = { "obsidian_tags", "obsidian", "obsidian_new" },
+        },
         providers = {
           ripgrep = {
             module = "blink-ripgrep",
