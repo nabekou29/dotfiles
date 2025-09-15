@@ -211,6 +211,29 @@ return {
     end,
   },
 
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy",
+    priority = 1000,
+    opts = {
+      preset = "classic",
+      transparent_bg = true,
+      options = {
+        multilines = {
+          enabled = true,
+          always_show = true,
+        },
+      },
+      signs = {
+        arrow = " ",
+      },
+    },
+    config = function(_, opts)
+      require("tiny-inline-diagnostic").setup(opts)
+      vim.diagnostic.config({ virtual_text = false }) -- Disable default virtual text
+    end,
+  },
+
   -- コードアクションのプレビューを表示
   {
     "aznhe21/actions-preview.nvim",

@@ -55,8 +55,7 @@ return {
   },
 
   {
-    -- "coder/claudecode.nvim",
-    "nabekou29/claudecode.nvim",
+    "coder/claudecode.nvim",
     event = { "FocusLost" },
     keys = {
       { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
@@ -69,11 +68,12 @@ return {
     },
     opts = {
       terminal = {
-        enabled = false,
-        split_side = "right",
-        split_width_percentage = 0.3,
-        provider = "auto", -- "auto" (default), "snacks", or "native"
-        auto_close = true, -- Auto-close terminal after command completion
+        provider = "external",
+        provider_opts = {
+          external_terminal_cmd = function(_cmd)
+            return false
+          end,
+        },
       },
     },
     config = function(_, opts)
@@ -82,23 +82,5 @@ return {
         vim.cmd("ClaudeCode")
       end, { desc = "Toggle Claude Code" })
     end,
-  },
-
-  {
-    "ravitemer/mcphub.nvim",
-    enabled = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    cmd = "MCPHub",
-    build = "bundled_build.lua",
-    opts = {
-      port = 3888,
-      config = vim.fn.expand("~/.config/nvim/data/mcpServers.json"),
-      use_bundled_binary = true,
-    },
-    -- config = function(_, opts)
-    --   require("mcphub").setup(opts)
-    -- end,
   },
 }

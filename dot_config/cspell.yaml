@@ -1,1 +1,14 @@
-"words": ["autodocs", "bufnr", "cloudsql", "healthcheck", "nabekou", "newrelic", "nvim", "valibot"]
+"words":
+    [
+        "autodocs",
+        "bufnr",
+        "claudecode",
+        "cloudsql",
+        "healthcheck",
+        "keymap",
+        "nabekou",
+        "newrelic",
+        "nvim",
+        "valibot",
+        "wezterm",
+    ]
