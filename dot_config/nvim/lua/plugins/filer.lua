@@ -80,7 +80,6 @@ return {
     keys = {
       { "<leader>e", "<Cmd>NvimTreeToggle<CR>" },
       { "<leader>E", "<Cmd>NvimTreeFindFile<CR>" },
-      { "<C-1>", "<Cmd>NvimTreeFindFile<CR>" },
     },
     opts = function()
       vim.api.nvim_set_hl(0, "@nvim-tree-decorator.test-file", { fg = "#6c6c6c" })
@@ -209,7 +208,7 @@ return {
 
   {
     "stevearc/oil.nvim",
-    event = { "BufReadPre" },
+    lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
   },
