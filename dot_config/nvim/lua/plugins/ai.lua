@@ -1,57 +1,59 @@
 return {
   -- Copilot
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   enabled = false,
+  --   cmd = { "Copilot" },
+  --   event = { "InsertEnter" },
+  --   opts = {
+  --     filetypes = {
+  --       markdown = true,
+  --       yaml = true,
+  --       json = true,
+  --       jsonc = true,
+  --       gitcommit = true,
+  --     },
+  --     suggestion = {
+  --       enabled = true,
+  --       auto_trigger = true, -- false,
+  --       debounce = 75,
+  --       keymap = {
+  --         accept = "<M-CR>",
+  --         accept_word = "<C-l>",
+  --         accept_line = "<C-;>",
+  --         next = "<M-]>",
+  --         prev = "<M-[>",
+  --         dismiss = "<C-]>",
+  --       },
+  --     },
+  --     copilot_model = "gpt-4o-copilot",
+  --   },
+  -- },
+  --
   {
-    "zbirenbaum/copilot.lua",
-    enabled = false,
-    cmd = { "Copilot" },
-    event = { "InsertEnter" },
+    "folke/sidekick.nvim",
     opts = {
-      filetypes = {
-        markdown = true,
-        yaml = true,
-        json = true,
-        jsonc = true,
-        gitcommit = true,
-      },
-      suggestion = {
-        enabled = true,
-        auto_trigger = true, -- false,
-        debounce = 75,
-        keymap = {
-          accept = "<M-CR>",
-          accept_word = "<C-l>",
-          accept_line = "<C-;>",
-          next = "<M-]>",
-          prev = "<M-[>",
-          dismiss = "<C-]>",
+      -- add any options here
+      cli = {
+        mux = {
+          backend = "zellij",
+          enabled = true,
         },
       },
-      copilot_model = "gpt-4o-copilot",
     },
-  },
-  {
-    "Xuyuanp/nes.nvim",
-    event = { "InsertEnter" },
     keys = {
       {
-        "<A-i>",
+        "<c-l>",
         function()
-          require("nes").get_suggestion()
+          if not require("sidekick").nes_jump_or_apply() then
+            return "<c-l>"
+          end
         end,
-        mode = "i",
-        desc = "[Nes] get suggestion",
-      },
-      {
-        "<A-n>",
-        function()
-          require("nes").apply_suggestion(0, { jump = true, trigger = true })
-        end,
-        mode = "i",
-        desc = "[Nes] apply suggestion",
+        expr = true,
+        desc = "Goto/Apply Next Edit Suggestion",
+        mode = { "n", "v" },
       },
     },
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {},
   },
 
   {
