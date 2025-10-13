@@ -202,7 +202,14 @@ return {
     },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
-      icon_provider = "nvim-web-devicons",
+      icon_provider = "nvim_web_devicons",
+      win = {
+        border = "rounded",
+        kind = "float",
+        kind_presets = {},
+        buf_opts = {},
+        win_opts = {},
+      },
     },
   },
 
