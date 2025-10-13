@@ -54,6 +54,7 @@ cask "font-moralerspace"
 
 ## ========= Utility ==========
 brew "laishulu/homebrew/macism"
+brew "mac-mouse-fix"
 brew "media-contro"
 cask "1password"
 cask "1password-cli"

@@ -1,39 +1,8 @@
 return {
-  -- Copilot
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   enabled = false,
-  --   cmd = { "Copilot" },
-  --   event = { "InsertEnter" },
-  --   opts = {
-  --     filetypes = {
-  --       markdown = true,
-  --       yaml = true,
-  --       json = true,
-  --       jsonc = true,
-  --       gitcommit = true,
-  --     },
-  --     suggestion = {
-  --       enabled = true,
-  --       auto_trigger = true, -- false,
-  --       debounce = 75,
-  --       keymap = {
-  --         accept = "<M-CR>",
-  --         accept_word = "<C-l>",
-  --         accept_line = "<C-;>",
-  --         next = "<M-]>",
-  --         prev = "<M-[>",
-  --         dismiss = "<C-]>",
-  --       },
-  --     },
-  --     copilot_model = "gpt-4o-copilot",
-  --   },
-  -- },
-  --
   {
     "folke/sidekick.nvim",
+    event = { "VeryLazy" },
     opts = {
-      -- add any options here
       cli = {
         mux = {
           backend = "zellij",
