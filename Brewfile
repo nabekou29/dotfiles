@@ -92,6 +92,7 @@ brew "pre-commit"
 brew "trivy"
 cask "android-platform-tools"
 cask "android-studio"
+cask "figma"
 cask "google-cloud-sdk"
 
 ### ---------- Lang -----------

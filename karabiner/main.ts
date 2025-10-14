@@ -37,6 +37,13 @@ k.writeToProfile('Default', [
         .to('delete_or_backspace', ['left_command']),
     ]),
   k
+    .rule('⌥ + ^h to ⌥ + BS')
+    .manipulators([
+      k
+        .map('h', ['control', 'left_option'])
+        .to('delete_or_backspace', ['left_option']),
+    ]),
+  k
     .rule('^[ to ESC')
     .manipulators([k.map('open_bracket', ['control']).to('escape')]),
 
