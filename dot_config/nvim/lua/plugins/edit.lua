@@ -225,27 +225,14 @@ return {
   -- 移動
   {
     "smoka7/hop.nvim",
+    enabled = true,
     keys = function()
-      local hop_prefix = "<leader><leader>"
-
-      local function AC()
-        return require("hop.hint").HintDirection.AFTER_CURSOR
-      end
-      local function BC()
-        return require("hop.hint").HintDirection.BEFORE_CURSOR
-      end
-
+      local hop_prefix = "<C-f>"
       return {
-        -- stylua: ignore start
-        { "f", function() require("hop").hint_char1({ direction = AC(), current_line_only = true }) end },
-        { "F", function() require("hop").hint_char1({ direction = BC(), current_line_only = true }) end },
-        { "t", function() require("hop").hint_char1({ direction = AC(), current_line_only = true, hint_offset = -1 }) end },
-        { "T", function() require("hop").hint_char1({ direction = BC(), current_line_only = true, hint_offset = 1 }) end },
         { hop_prefix .. "f", "<Cmd>HopChar2<CR>" },
         { hop_prefix .. "w", "<Cmd>HopWord<CR>" },
         { hop_prefix .. "l", "<Cmd>HopLineStart<CR>" },
         { hop_prefix .. "/", "<Cmd>HopPattern<CR>" },
-        -- stylua: ignore end
       }
     end,
     opts = {},
@@ -255,12 +242,9 @@ return {
   {
     "chrisgrieser/nvim-spider",
     keys = {
-      { "e", "<Cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
-      { "b", "<Cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
-      { "w", "<Cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
-      { "E", "e", mode = { "n", "o", "x" }, noremap = true },
-      { "B", "b", mode = { "n", "o", "x" }, noremap = true },
-      { "W", "w", mode = { "n", "o", "x" }, noremap = true },
+      { "E", "<Cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+      { "B", "<Cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+      { "W", "<Cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
     },
     opts = {
       skipInsignificantPunctuation = true,
