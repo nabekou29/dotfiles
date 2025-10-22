@@ -26,6 +26,7 @@ k.writeToProfile('Default', [
   k
     .rule('CapsLock to Ctrl')
     .manipulators([k.map('caps_lock').to('left_control')]),
+
   k
     .rule('^h to BS')
     .manipulators([k.map('h', ['control']).to('delete_or_backspace')]),
@@ -43,6 +44,24 @@ k.writeToProfile('Default', [
         .map('h', ['control', 'left_option'])
         .to('delete_or_backspace', ['left_option']),
     ]),
+  k
+    .rule('^← to BS')
+    .manipulators([k.map('left_arrow', ['control']).to('delete_or_backspace')]),
+  k
+    .rule('⌘ + ^← to ⌘ + BS')
+    .manipulators([
+      k
+        .map('left_arrow', ['control', 'left_command'])
+        .to('delete_or_backspace', ['left_command']),
+    ]),
+  k
+    .rule('⌥ + ^← to ⌥ + BS')
+    .manipulators([
+      k
+        .map('left_arrow', ['control', 'left_option'])
+        .to('delete_or_backspace', ['left_option']),
+    ]),
+
   k
     .rule('^[ to ESC')
     .manipulators([k.map('open_bracket', ['control']).to('escape')]),

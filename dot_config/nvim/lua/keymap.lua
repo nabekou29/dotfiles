@@ -73,15 +73,14 @@ set({ "n", "i", "v" }, "<C-s>", "<cmd>if expand('%') != '' | write | endif<CR><E
 set("n", "*", [[*``]])
 set("n", "#", [[#``]])
 
--- <ESC><ESC> でハイライトを消す
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "*",
-  callback = function(event)
-    if event.file ~= "TelescopePrompt" and event.file ~= "DressingInput" then
-      vim.api.nvim_buf_set_keymap(event.buf, "n", "<ESC><ESC>", "<CMD>nohlsearch<CR>", {})
-    end
-  end,
-})
+-- ハイライトがある場合は <ESC> でハイライトを消す
+set("n", "<ESC>", function()
+  if vim.v.hlsearch == 1 and vim.fn.searchcount().total > 0 then
+    return "<CMD>nohlsearch<CR>"
+  else
+    return "<ESC>"
+  end
+end, { expr = true, desc = "Clear search highlight" })
 
 set("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>")
 set("n", "gn", "<Cmd>lua vim.lsp.buf.rename()<CR>")
