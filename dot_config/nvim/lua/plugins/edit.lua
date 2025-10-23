@@ -225,7 +225,6 @@ return {
   -- 移動
   {
     "smoka7/hop.nvim",
-    enabled = true,
     keys = function()
       local hop_prefix = "<C-f>"
       return {
@@ -236,6 +235,19 @@ return {
       }
     end,
     opts = {},
+  },
+
+  {
+    "mawkler/demicolon.nvim",
+    event = { "VeryLazy" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    opts = {
+      horizontal_motions = true,
+      repeat_motions = "stateless",
+    },
   },
 
   -- w,b,e でキャメルケースを考慮した移動
