@@ -18,7 +18,7 @@ const tapCmdAndOptToKanaEisuu = k.rule('⌘/⌥ to かな英数').manipulators([
       .to({ key_code: cmd, lazy: true })
       .toIfAlone({ key_code: lang })
       .description(`Tap ${cmd} alone to switch to ${lang}`)
-      .parameters({ 'basic.to_if_held_down_threshold_milliseconds': 100 }),
+      .parameters({ 'basic.to_if_held_down_threshold_milliseconds': 70 }),
   ),
 ]);
 
@@ -47,20 +47,20 @@ k.writeToProfile('Default', [
   k
     .rule('^← to BS')
     .manipulators([k.map('left_arrow', ['control']).to('delete_or_backspace')]),
-  k
-    .rule('⌘ + ^← to ⌘ + BS')
-    .manipulators([
-      k
-        .map('left_arrow', ['control', 'left_command'])
-        .to('delete_or_backspace', ['left_command']),
-    ]),
-  k
-    .rule('⌥ + ^← to ⌥ + BS')
-    .manipulators([
-      k
-        .map('left_arrow', ['control', 'left_option'])
-        .to('delete_or_backspace', ['left_option']),
-    ]),
+  // k
+  //   .rule('⌘ + ^← to ⌘ + BS')
+  //   .manipulators([
+  //     k
+  //       .map('left_arrow', ['control', 'left_command'])
+  //       .to('delete_or_backspace', ['left_command']),
+  //   ]),
+  // k
+  //   .rule('⌥ + ^← to ⌥ + BS')
+  //   .manipulators([
+  //     k
+  //       .map('left_arrow', ['control', 'left_option'])
+  //       .to('delete_or_backspace', ['left_option']),
+  //   ]),
 
   k
     .rule('^[ to ESC')
