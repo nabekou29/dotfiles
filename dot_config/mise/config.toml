@@ -30,7 +30,6 @@ stylua = "2.3.0"
 # CLI tools (主に Homebrew で入れられないもの)
 "cargo:https://github.com/itsjunetime/tdf.git" = "latest"
 "go:github.com/rhysd/vim-startuptime" = { version = "latest" }
-"npm:@anthropic-ai/claude-code" = "latest"
 "npm:@github/copilot" = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@taplo/cli" = "latest"
