@@ -3,10 +3,16 @@ return {
     "folke/sidekick.nvim",
     event = { "VeryLazy" },
     opts = {
+      enabled = function(buf)
+        if buf.path:lower():match("obsidian") then
+          return false
+        end
+        return true
+      end,
       cli = {
         mux = {
           backend = "zellij",
-          enabled = true,
+          enabled = false,
         },
       },
     },

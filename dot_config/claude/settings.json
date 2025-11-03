@@ -104,6 +104,10 @@
         "type": "command",
         "command": "bun x ccusage statusline"
     },
+    "enabledPlugins": {
+        "code-review@claude-code-plugins": true,
+        "example-skills@anthropic-agent-skills": true
+    },
     "alwaysThinkingEnabled": true,
     "feedbackSurveyState": {
         "lastShownTime": 1754280246185

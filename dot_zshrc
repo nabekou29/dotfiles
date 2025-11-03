@@ -72,6 +72,12 @@ _evalcache starship init zsh
 
 [ -f ~/.config/zsh/fzf.zsh ] && source ~/.config/zsh/fzf.zsh
 
+# Neovim があれば、VISUAL と EDITOR を設定
+if command -v nvim >/dev/null 2>&1; then
+  export VISUAL=nvim
+  export EDITOR="$VISUAL"
+fi
+
 # Java
 export JAVA_HOME=`/usr/libexec/java_home`
 export PATH="$JAVA_HOME/bin:$PATH"
