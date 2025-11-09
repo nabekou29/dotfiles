@@ -185,7 +185,7 @@ function M.setup_tabline(wezterm, config)
     -- Music
     local music_info = ""
     pcall(function()
-      local media_control = "/opt/homebrew/bin/media-control"
+      local media_control = "media-control"
       local jq = "/opt/homebrew/bin/jq"
       local jq_format = [[
       def truncate(n): if length > n then .[0:(n-3)] + "..." else . end;

@@ -190,6 +190,43 @@ config.keys = {
       window:set_config_overrides(overrides)
     end),
   },
+
+  {
+    key = "q",
+    mods = "OPT",
+    action = wezterm.action_callback(function(window, pane)
+      local target_pane_id = tostring(pane:pane_id())
+
+      -- Try to resume existing editor pane
+      local success, stdout, stderr = wezterm.run_child_process({
+        "/bin/zsh",
+        "-lc",
+        string.format("bunx --silent editprompt --resume --mux wezterm --target-pane %s", target_pane_id),
+      })
+
+      -- If resume failed, create new editor pane
+      if not success then
+        window:perform_action(
+          act.SplitPane({
+            direction = "Down",
+            size = { Cells = 10 },
+            command = {
+              args = {
+                "/bin/zsh",
+                "-lc",
+                string.format(
+                  "bunx --silent editprompt --editor nvim --always-copy --mux wezterm --target-pane %s",
+                  target_pane_id
+                ),
+              },
+            },
+          }),
+          pane
+        )
+      end
+    end),
+  },
+
   {
     mods = "ALT|SHIFT",
     key = "s",

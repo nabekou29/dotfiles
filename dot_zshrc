@@ -1,7 +1,6 @@
 # check initilize speed: `time zsh -i -c exit`
 # zmodload zsh/zprof
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
 PATH=$HOME/bin:$PATH
 
 eval "$(sheldon source)"
