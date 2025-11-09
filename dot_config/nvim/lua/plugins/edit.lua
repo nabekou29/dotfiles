@@ -271,8 +271,9 @@ return {
 
   -- Undo の履歴をツリー表示
   {
-    "mbbill/undotree",
-    event = { "VeryLazy" },
+    "XXiaoA/atone.nvim",
+    cmd = "Atone",
+    opts = {},
   },
 
   -- `jj` でノーマルモードに戻る（入力の遅延回避）

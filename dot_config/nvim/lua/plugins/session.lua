@@ -10,6 +10,7 @@ return {
     end,
     opts = {},
   },
+
   -- セッションの自動保存・復元
   {
     "rmagatti/auto-session",
@@ -21,7 +22,7 @@ return {
       },
       log_level = "error",
       auto_session_suppress_dirs = { "~/", "~/Downloads" },
-      silent_restore = false,
+      silent_restore = true,
       pre_save_cmds = {
         function()
           vim.cmd([[ScopeSaveState]])
