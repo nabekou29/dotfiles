@@ -200,15 +200,40 @@ return {
     keys = {
       { "<leader>e", "<Cmd>Fyler<CR>" },
     },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-mini/mini.icons" },
     opts = {
-      icon_provider = "nvim_web_devicons",
-      win = {
-        border = "rounded",
-        kind = "float",
-        kind_presets = {},
-        buf_opts = {},
-        win_opts = {},
+      views = {
+        finder = {
+          close_on_select = true,
+          confirm_simple = false,
+          default_explorer = false,
+          delete_to_trash = false,
+          git_status = {
+            enabled = true,
+            symbols = {
+              Untracked = "?",
+              Added = "+",
+              Modified = "*",
+              Deleted = "x",
+              Renamed = ">",
+              Copied = "~",
+              Conflict = "!",
+              Ignored = "#",
+            },
+          },
+          mappings_opts = {
+            nowait = false,
+            noremap = true,
+            silent = true,
+          },
+          follow_current_file = true,
+          watcher = {
+            enabled = false,
+          },
+          win = {
+            kind = "float",
+          },
+        },
       },
     },
   },
