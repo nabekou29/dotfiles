@@ -201,7 +201,7 @@ config.keys = {
       local success, stdout, stderr = wezterm.run_child_process({
         "/bin/zsh",
         "-lc",
-        string.format("bunx --silent editprompt --resume --mux wezterm --target-pane %s", target_pane_id),
+        string.format("bunx --silent editprompt@latest --resume --mux wezterm --target-pane %s", target_pane_id),
       })
 
       -- If resume failed, create new editor pane
@@ -215,7 +215,7 @@ config.keys = {
                 "/bin/zsh",
                 "-lc",
                 string.format(
-                  "bunx --silent editprompt --editor nvim --always-copy --mux wezterm --target-pane %s",
+                  "bunx --silent editprompt@latest --editor nvim --always-copy --mux wezterm --target-pane %s",
                   target_pane_id
                 ),
               },
