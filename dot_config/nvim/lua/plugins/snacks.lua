@@ -1,8 +1,7 @@
 return {
   {
     "folke/snacks.nvim",
-    -- "nabekou29/snacks.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-mini/mini.icons" },
     priority = 1000,
     lazy = false,
     opts = function()

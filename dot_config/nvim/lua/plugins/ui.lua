@@ -1,4 +1,7 @@
 return {
+  -- icon
+  { "nvim-mini/mini.icons", opts = {} },
+
   -- CSV 用のビューア
   {
     "hat0uma/csvview.nvim",
