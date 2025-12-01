@@ -155,8 +155,8 @@ return {
           timeout_ms = 5000,
           async = true,
         },
-        format_on_save = function()
-          -- format_after_save = function()
+        -- format_on_save = function()
+        format_after_save = function()
           -- :w! で保存したときはフォーマットしない
           if vim.v.cmdbang == 1 then
             return nil
@@ -249,33 +249,24 @@ return {
     event = { "LspAttach" },
     opts = {},
   },
+
+  --- フローティングウィンドウで定義をプレビュー
   {
-    "nvimdev/lspsaga.nvim",
-    cmd = { "Lspsaga" },
-    event = { "LspAttach" },
-    dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      { "nvim-treesitter/nvim-treesitter" },
-    },
+    "WilliamHsieh/overlook.nvim",
     keys = {
-      { "gh", "<Cmd>Lspsaga finder<CR>", silent = true },
-      -- { "K", "<Cmd>Lspsaga hover_doc<CR>", silent = true },
-      -- { "gr", "<Cmd>Lspsaga finder ref<CR>", silent = true },
-      { "gp", "<Cmd>Lspsaga peek_definition<CR>", silent = true },
-      { "gd", "<Cmd>Lspsaga goto_definition<CR>", silent = true },
-      -- { "gn", "<Cmd>Lspsaga rename<CR>", silent = true },
-      { "gN", "<Cmd>Lspsaga rename ++project<CR>", silent = true },
-      -- { "ga", "<Cmd>Lspsaga code_action<CR>", silent = true },
-      -- { "g[", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", silent = true },
-      -- { "g]", "<Cmd>Lspsaga diagnostic_jump_next<CR>", silent = true },
-    },
-    opts = {
-      symbol_in_winbar = {
-        enable = false,
-        folder_level = 0,
+      {
+        "gp",
+        function()
+          require("overlook.api").peek_definition()
+        end,
       },
     },
+    init = function()
+      vim.go.signcolumn = "no"
+    end,
+    opts = {},
   },
+
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
@@ -347,34 +338,6 @@ return {
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
-  },
-
-  -- TODO など
-  {
-    "folke/todo-comments.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    keys = { "<leader>ft" },
-    opts = {},
-  },
-
-  -- エラー
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    cmd = { "Trouble", "TroubleClose" },
-    keys = function()
-      local prefix = "<leader>x"
-
-      return {
-        { prefix .. "x", "<Cmd>Trouble diagnostics toggle filetype.buf=0<CR>" },
-        { prefix .. "X", "<Cmd>Trouble diagnostics toggle<CR>" },
-        { prefix .. "l", "<Cmd>Trouble loclist toggle<CR>" },
-        { prefix .. "q", "<Cmd>Trouble quickfix toggle<CR>" },
-      }
-    end,
-    opts = {
-      use_diagnostic_signs = true,
-    },
   },
 
   -- 参照の数などを表示

@@ -5,7 +5,6 @@ return {
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
       "tkmpypy/chowcho.nvim",
       "adelarsq/image_preview.nvim",
@@ -76,7 +75,6 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     enabled = false,
-    requires = { "kyazdani42/nvim-web-devicons" },
     keys = {
       { "<leader>e", "<Cmd>NvimTreeToggle<CR>" },
       { "<leader>E", "<Cmd>NvimTreeFindFile<CR>" },

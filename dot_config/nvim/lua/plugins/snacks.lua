@@ -145,8 +145,7 @@ return {
       { "<leader>fg", function() Snacks.picker.grep() end,             desc = "Grep" },
       { "<leader>fb", function() Snacks.picker.buffers() end,          desc = "Buffers" },
       { "<leader>fh", function() Snacks.picker.help() end,             desc = "Help" },
-      { "<leader>ft", function() Snacks.picker.todo_comments() end,    desc = "Todo Comments" },
-      { "<leader>fm", function() Snacks.picker.marks() end,             desc = "Marks" },
+      { "<leader>fm", function() Snacks.picker.marks() end,            desc = "Marks" },
       { "<leader>:",  function() Snacks.picker.command_history() end,  desc = "Command History" },
 
       -- Delete buffer (kazhala/close-buffers.nvim)
@@ -154,11 +153,19 @@ return {
       { "<leader>W",  function() Snacks.bufdelete.other() end,         desc = "Delete other buffers" },
       { "<C-w>D",     function() Snacks.bufdelete.other() end,         desc = "Delete other buffers" },
 
-      -- { "<leader>e",  function() Snacks.explorer() end,                desc = "Explorer" },
+      -- LSP
+      { "gd",         function() Snacks.picker.lsp_declarations() end, desc = "Go to Definition",       mode = { "n", "t" } },
+      { "gD",         function() Snacks.picker.lsp_definitions() end,  desc = "Go to Declaration",      mode = { "n", "t" } },
+      { "gr",         function() Snacks.picker.lsp_references() end,   desc = "Go to References",       mode = { "n", "t" } },
+      { "gh",         function() Snacks.picker.lsp_references() end,   desc = "Go to References",       mode = { "n", "t" } },
+      { "<leader>fs", function() Snacks.picker.lsp_symbols() end,      desc = "LSP Symbols" },
 
       -- Words
       { "]]",         function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference",         mode = { "n", "t" } },
       { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference",         mode = { "n", "t" } },
+
+      -- Zen
+      { "<leader>z",  function() Snacks.zen() end,                     desc = "Zen Mode" },
         -- stylua: ignore end
       }
     end,

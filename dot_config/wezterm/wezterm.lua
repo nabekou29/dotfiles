@@ -23,6 +23,7 @@ local font_info = fonts.font(
   -- "Monaspace Radon Var"
   -- "Monaspace Krypton Var"
   -- "Moralerspace Neon"
+  -- "Moralerspace Argon"
   -- "Moralerspace Radon"
   "Moralerspace Krypton"
   -- "HackGen35 Console NF"

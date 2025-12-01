@@ -1,6 +1,13 @@
 return {
   -- icon
-  { "nvim-mini/mini.icons", opts = {} },
+  {
+    "nvim-mini/mini.icons",
+    opts = {},
+    config = function(_, opts)
+      require("mini.icons").setup(opts)
+      require("mini.icons").mock_nvim_web_devicons()
+    end,
+  },
 
   -- CSV 用のビューア
   {
@@ -21,7 +28,7 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown", "Avante", "codecompanion" },
-    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
       file_types = { "markdown", "Avante", "codecompanion" },
     },
@@ -113,7 +120,6 @@ return {
   {
     "akinsho/bufferline.nvim",
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
       "kazhala/close-buffers.nvim",
     },
     -- event = { "VeryLazy" },
@@ -286,20 +292,57 @@ return {
   -- ファイルの状態を表示
   {
     "b0o/incline.nvim",
+    dependencies = { "nvim-mini/mini.icons" },
     event = { "VeryLazy" },
     opts = {
       hide = {
-        cursorline = false,
+        cursorline = "smart",
         focused_win = false,
         only_win = false,
       },
       render = function(props)
-        local devicons = require("nvim-web-devicons")
-        local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+        local MiniIcons = require("mini.icons")
+        local bufname = vim.api.nvim_buf_get_name(props.buf)
+        local filename = vim.fn.fnamemodify(bufname, ":t")
         if filename == "" then
           filename = "[No Name]"
         end
-        local ft_icon, ft_color = devicons.get_icon_color(filename)
+        local ft_icon, ft_hl = MiniIcons.get("file", filename)
+
+        -- 親ディレクトリを表示するパターン（Lua pattern）
+        local show_parent_patterns = {
+          "^index%..+", -- index.ts, index.d.ts など
+          "^init%.[^.]+$", -- init.ts, init.lua など
+          "^page%.[^.]+$", -- Next.js: page.tsx
+          "^layout%.[^.]+$", -- Next.js: layout.tsx
+          "^route%.[^.]+$", -- Next.js: route.ts
+          "^loading%.[^.]+$", -- Next.js: loading.tsx
+          "^error%.[^.]+$", -- Next.js: error.tsx
+          "^not%-found%.[^.]+$", -- Next.js: not-found.tsx
+          "^template%.[^.]+$", -- Next.js: template.tsx
+          "^default%.[^.]+$", -- Next.js: default.tsx
+          "^middleware%.[^.]+$", -- Next.js: middleware.ts
+          "^package%.json$", -- package.json
+          "^tsconfig%.json$", -- tsconfig.json
+          ".*%.config%.[^.]+$", -- *.config.ts, *.config.js など
+        }
+
+        local function should_show_parent(name)
+          for _, pattern in ipairs(show_parent_patterns) do
+            if name:match(pattern) then
+              return true
+            end
+          end
+          return false
+        end
+
+        local display_name = filename
+        if should_show_parent(filename) then
+          local parent = vim.fn.fnamemodify(bufname, ":h:t")
+          if parent and parent ~= "" and parent ~= "." then
+            display_name = parent .. "/" .. filename
+          end
+        end
 
         local function get_git_diff()
           local icons = { removed = " ", changed = " ", added = " " }
@@ -339,9 +382,9 @@ return {
         return {
           { get_diagnostic_label() },
           { get_git_diff() },
-          { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" },
+          { ft_icon .. " ", group = ft_hl },
           {
-            filename .. " ",
+            display_name .. " ",
             gui = vim.bo[props.buf].modified and "bold,italic" or "bold",
             guifg = vim.bo[props.buf].modified and "#ffbc94" or "#FFFFFF",
           },
@@ -354,7 +397,6 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = { "VeryLazy" },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = function()
       return {
         options = {
@@ -383,14 +425,7 @@ return {
           lualine_y = { "progress" },
           lualine_z = { "location" },
         },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { { "filename", path = 1 } },
-          lualine_x = { "location" },
-          lualine_y = {},
-          lualine_z = {},
-        },
+        inactive_sections = {},
         tabline = {},
         winbar = {},
         inactive_winbar = {},
@@ -501,12 +536,5 @@ return {
         },
       })
     end,
-  },
-  {
-    "shortcuts/no-neck-pain.nvim",
-    event = { "VeryLazy" },
-    opts = {
-      width = 160,
-    },
   },
 }
