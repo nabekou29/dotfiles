@@ -16,10 +16,18 @@ setopt append_history # 履歴を追加 (毎回 .zsh_history を作るのでは�
 setopt inc_append_history # 履歴をインクリメンタルに追加
 setopt hist_no_store # historyコマンドは履歴に登録しない
 setopt hist_reduce_blanks # 余分な空白は詰めて記録
+setopt auto_cd # ディレクトリ名だけで移動
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
 bindkey -e # emacsキーバインドを有効に
 bindkey "^[[Z" reverse-menu-complete  # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
 bindkey "^[[3~" delete-char # Deleteキーで文字を削除する
-setopt auto_cd # ディレクトリ名だけで移動
+bindkey ";3C" forward-word
+bindkey ";3D" backward-word
+bindkey "^[q" push-line
+bindkey "^[e" edit-command-line
 
 # 色の設定
 export LSCOLORS=Exfxcxdxbxegedabagacad

@@ -263,6 +263,20 @@ return {
     },
     init = function()
       vim.go.signcolumn = "no"
+
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        group = vim.api.nvim_create_augroup("overlook_enter_mapping", { clear = true }),
+        pattern = "*",
+        callback = function()
+          vim.schedule(function()
+            if vim.w.is_overlook_popup then
+              vim.keymap.set("n", "O", function()
+                require("overlook.api").open_in_original_window()
+              end, { buffer = true, desc = "Overlook: Open in original window" })
+            end
+          end)
+        end,
+      })
     end,
     opts = {},
   },
