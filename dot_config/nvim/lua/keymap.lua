@@ -82,7 +82,7 @@ set("n", "<ESC>", function()
   end
 end, { expr = true, desc = "Clear search highlight" })
 
-set("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>")
+-- set("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>") -- → Snacks
 set("n", "gn", "<Cmd>lua vim.lsp.buf.rename()<CR>")
 -- set("n", "gr", "<Cmd>lua vim.lsp.buf.references()<CR>") -- → Telescope
 -- set("n", "ga", "<Cmd>lua vim.lsp.buf.code_action()<CR>") -- → actions-preview.nvim

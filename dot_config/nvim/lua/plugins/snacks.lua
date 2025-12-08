@@ -154,15 +154,15 @@ return {
       { "<C-w>D",     function() Snacks.bufdelete.other() end,         desc = "Delete other buffers" },
 
       -- LSP
-      { "gd",         function() Snacks.picker.lsp_declarations() end, desc = "Go to Definition",       mode = { "n", "t" } },
-      { "gD",         function() Snacks.picker.lsp_definitions() end,  desc = "Go to Declaration",      mode = { "n", "t" } },
-      { "gr",         function() Snacks.picker.lsp_references() end,   desc = "Go to References",       mode = { "n", "t" } },
-      { "gh",         function() Snacks.picker.lsp_references() end,   desc = "Go to References",       mode = { "n", "t" } },
+      { "gd",         function() Snacks.picker.lsp_definitions() end,  desc = "Go to Definition" },
+      { "gD",         function() Snacks.picker.lsp_declarations() end, desc = "Go to Declaration" },
+      { "gr",         function() Snacks.picker.lsp_references() end,   desc = "Go to References" },
+      { "gh",         function() Snacks.picker.lsp_references() end,   desc = "Go to References" },
       { "<leader>fs", function() Snacks.picker.lsp_symbols() end,      desc = "LSP Symbols" },
 
       -- Words
-      { "]]",         function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference",         mode = { "n", "t" } },
-      { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference",         mode = { "n", "t" } },
+      { "]]",         function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference" },
+      { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference" },
 
       -- Zen
       { "<leader>z",  function() Snacks.zen() end,                     desc = "Zen Mode" },

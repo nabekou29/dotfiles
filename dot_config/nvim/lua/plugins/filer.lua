@@ -196,7 +196,7 @@ return {
     enabled = true,
     event = { "VeryLazy" },
     keys = {
-      { "<leader>e", "<Cmd>Fyler<CR>" },
+      { "<leader>e", "<Cmd>Fyler dir=.<CR>" },
     },
     dependencies = { "nvim-mini/mini.icons" },
     opts = {
