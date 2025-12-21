@@ -200,6 +200,10 @@ return {
     },
     dependencies = { "nvim-mini/mini.icons" },
     opts = {
+      integrations = {
+        icon = "mini_icons",
+        winpick = { provider = "builtin", opts = {} },
+      },
       views = {
         finder = {
           close_on_select = true,
