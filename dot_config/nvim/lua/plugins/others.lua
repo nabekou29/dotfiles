@@ -85,18 +85,11 @@ return {
       { "<leader>oo", "<CMD>ObsidianToday<CR>" },
       { "<leader>on", "<CMD>ObsidianNew<CR>" },
       { "<leader>oO", "<CMD>ObsidianOpen<CR>" },
-      -- { "<leader>of", "<CMD>ObsidianQuickSwitch<CR>" },
       { "<leader>or", "<CMD>ObsidianRename<CR>" },
-      -- { "<leader>os", "<CMD>ObsidianSearch<CR>" },
-      -- { "<leader>og", "<CMD>ObsidianSearch<CR>" },
       {
         "<leader>oe",
         function()
-          Snacks.explorer({ cwd = require("obsidian").get_client():vault_root().filename })
-          -- require("fyler").open({ cwd = require("obsidian").get_client():vault_root().filename })
-          -- require("nvim-tree.api").tree.open({
-          --   path = require("obsidian").get_client():vault_root().filename,
-          -- })
+          require("fyler").open({ dir = require("obsidian").get_client():vault_root().filename })
         end,
       },
       {
