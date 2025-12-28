@@ -103,7 +103,9 @@
     },
     "enabledPlugins": {
         "code-review@claude-code-plugins": true,
-        "example-skills@anthropic-agent-skills": true
+        "example-skills@anthropic-agent-skills": true,
+        "agent-sdk-dev@claude-code-plugins": true,
+        "rust-analyzer-lsp@claude-plugins-official": true
     },
     "alwaysThinkingEnabled": true,
     "feedbackSurveyState": {
