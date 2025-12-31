@@ -1,0 +1,115 @@
+# Alacritty Configuration
+# Based on WezTerm settings
+
+[general]
+live_config_reload = true
+
+[window]
+decorations = "Buttonless"
+opacity = 0.92
+blur = true
+option_as_alt = "Both"
+
+[window.padding]
+x = 0
+y = 4
+
+[scrolling]
+history = 35000
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "Moralerspace Krypton"
+style = "Regular"
+
+[font.bold]
+family = "Moralerspace Krypton"
+style = "Bold"
+
+[font.italic]
+family = "Moralerspace Krypton"
+style = "Italic"
+
+[font.bold_italic]
+family = "Moralerspace Krypton"
+style = "Bold Italic"
+
+# Iceberg color scheme
+[colors.primary]
+background = "#161821"
+foreground = "#c6c8d1"
+
+[colors.cursor]
+text = "#161821"
+cursor = "#c6c8d1"
+
+[colors.selection]
+text = "#161821"
+background = "#6b7089"
+
+[colors.normal]
+black = "#161821"
+red = "#e27878"
+green = "#b4be82"
+yellow = "#e2a478"
+blue = "#84a0c6"
+magenta = "#a093c7"
+cyan = "#89b8c2"
+white = "#c6c8d1"
+
+[colors.bright]
+black = "#6b7089"
+red = "#e98989"
+green = "#c0ca8e"
+yellow = "#e9b189"
+blue = "#91acd1"
+magenta = "#ada0d3"
+cyan = "#95c4ce"
+white = "#d2d4de"
+
+[cursor.style]
+shape = "Block"
+blinking = "Off"
+
+[selection]
+save_to_clipboard = true
+
+[mouse]
+hide_when_typing = true
+
+[[keyboard.bindings]]
+key = "="
+mods = "Command"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "-"
+mods = "Command"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "0"
+mods = "Command"
+action = "ResetFontSize"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Command"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Command"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Command"
+action = "SearchForward"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Command"
+action = "SpawnNewInstance"
