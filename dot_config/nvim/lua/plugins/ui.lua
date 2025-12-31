@@ -304,6 +304,13 @@ return {
         local MiniIcons = require("mini.icons")
         local bufname = vim.api.nvim_buf_get_name(props.buf)
         local filename = vim.fn.fnamemodify(bufname, ":t")
+
+        -- UUIDパターン（8-4-4-4-12形式）を含むファイルは非表示
+        local uuid_pattern = "%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x"
+        if filename:match(uuid_pattern) then
+          return {}
+        end
+
         if filename == "" then
           filename = "[No Name]"
         end
