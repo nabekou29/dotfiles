@@ -26,6 +26,7 @@ rust = "nightly"
 "npm:yaml-language-server" = "1.19.2"
 ruff = "0.14.9"
 stylua = "2.3.1"
+shfmt = "latest"
 
 # CLI tools (主に Homebrew で入れられないもの)
 "cargo:https://github.com/itsjunetime/tdf.git" = "latest"

@@ -10,20 +10,20 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt hist_ignore_all_dups # 重複するコマンド行は古い方を削除
-setopt hist_ignore_dups # 直前と同じコマンドラインはヒストリに追加しない
-setopt share_history # コマンド履歴ファイルを共有する
-setopt append_history # 履歴を追加 (毎回 .zsh_history を作るのではなく)
-setopt inc_append_history # 履歴をインクリメンタルに追加
-setopt hist_no_store # historyコマンドは履歴に登録しない
-setopt hist_reduce_blanks # 余分な空白は詰めて記録
-setopt auto_cd # ディレクトリ名だけで移動
+setopt hist_ignore_dups     # 直前と同じコマンドラインはヒストリに追加しない
+setopt share_history        # コマンド履歴ファイルを共有する
+setopt append_history       # 履歴を追加 (毎回 .zsh_history を作るのではなく)
+setopt inc_append_history   # 履歴をインクリメンタルに追加
+setopt hist_no_store        # historyコマンドは履歴に登録しない
+setopt hist_reduce_blanks   # 余分な空白は詰めて記録
+setopt auto_cd              # ディレクトリ名だけで移動
 
 autoload -Uz edit-command-line
 zle -N edit-command-line
 
-bindkey -e # emacsキーバインドを有効に
-bindkey "^[[Z" reverse-menu-complete  # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
-bindkey "^[[3~" delete-char # Deleteキーで文字を削除する
+bindkey -e                           # emacsキーバインドを有効に
+bindkey "^[[Z" reverse-menu-complete # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
+bindkey "^[[3~" delete-char          # Deleteキーで文字を削除する
 bindkey ";3C" forward-word
 bindkey ";3D" backward-word
 bindkey "^[q" push-line
@@ -43,16 +43,14 @@ zstyle ':completion:*:default' menu select=1 # 補完候補のカーソル選択
 _prompt_executing=""
 function __prompt_precmd() {
     local ret="$?"
-    if test "$_prompt_executing" != "0"
-    then
-      _PROMPT_SAVE_PS1="$PS1"
-      _PROMPT_SAVE_PS2="$PS2"
-      PS1=$'%{\e]133;P;k=i\a%}'$PS1$'%{\e]133;B\a\e]122;> \a%}'
-      PS2=$'%{\e]133;P;k=s\a%}'$PS2$'%{\e]133;B\a%}'
+    if test "$_prompt_executing" != "0"; then
+        _PROMPT_SAVE_PS1="$PS1"
+        _PROMPT_SAVE_PS2="$PS2"
+        PS1=$'%{\e]133;P;k=i\a%}'$PS1$'%{\e]133;B\a\e]122;> \a%}'
+        PS2=$'%{\e]133;P;k=s\a%}'$PS2$'%{\e]133;B\a%}'
     fi
-    if test "$_prompt_executing" != ""
-    then
-       printf "\033]133;D;%s;aid=%s\007" "$ret" "$$"
+    if test "$_prompt_executing" != ""; then
+        printf "\033]133;D;%s;aid=%s\007" "$ret" "$$"
     fi
     printf "\033]133;A;cl=m;aid=%s\007" "$$"
     _prompt_executing=0
@@ -67,26 +65,34 @@ preexec_functions+=(__prompt_preexec)
 precmd_functions+=(__prompt_precmd)
 
 if type brew &>/dev/null; then
-  FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
-  FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}
+    FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
+    FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}
 
-  autoload -Uz compinit
-  compinit
+    autoload -Uz compinit
+    _zcompdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/.zcompdump-${HOST}-${ZSH_VERSION}"
+    mkdir -p "${_zcompdump:h}"
+
+    setopt extendedglob
+    if [[ -n "${_zcompdump}"(#qN.mh+24) ]]; then
+        compinit -d "${_zcompdump}"
+    else
+        compinit -C -d "${_zcompdump}"
+    fi
 fi
 
-eval "$(mise activate zsh)" # mise は _evalcache 使うと npm で入れてるツールとかが動かなくなる
+_evalcache mise activate zsh
 _evalcache starship init zsh
 
 [ -f ~/.config/zsh/fzf.zsh ] && source ~/.config/zsh/fzf.zsh
 
 # Neovim があれば、VISUAL と EDITOR を設定
 if command -v nvim >/dev/null 2>&1; then
-  export VISUAL=nvim
-  export EDITOR="$VISUAL"
+    export VISUAL=nvim
+    export EDITOR="$VISUAL"
 fi
 
 # Java
-export JAVA_HOME=`/usr/libexec/java_home`
+export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH="$JAVA_HOME/bin:$PATH"
 
 # Go
@@ -109,7 +115,7 @@ export PATH="$HOME/.deno/bin:$PATH"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
-[ -f ~/.config/zsh/completion-for-pnpm.zsh ] || pnpm completion zsh > ~/.config/zsh/completion-for-pnpm.zsh
+[ -f ~/.config/zsh/completion-for-pnpm.zsh ] || pnpm completion zsh >~/.config/zsh/completion-for-pnpm.zsh
 source ~/.config/zsh/completion-for-pnpm.zsh
 
 # alias
@@ -119,14 +125,14 @@ source ~/.config/zsh/completion-for-pnpm.zsh
 zsh-defer _evalcache zoxide init zsh
 
 function ghq-fzf() {
-  local selected_dir=$(ghq list | fzf --query="$LBUFFER")
+    local selected_dir=$(ghq list | fzf --query="$LBUFFER")
 
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd $(ghq root)/${selected_dir}"
-    zle accept-line
-  fi
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd $(ghq root)/${selected_dir}"
+        zle accept-line
+    fi
 
-  zle reset-prompt
+    zle reset-prompt
 }
 
 zle -N ghq-fzf
@@ -142,7 +148,7 @@ if [ -d ~/.terminfo ]; then
     # export TERM=ghostty
 fi
 
-if [ -f ~/.zshrc.local ] ; then
+if [ -f ~/.zshrc.local ]; then
     source ~/.zshrc.local
 fi
 
