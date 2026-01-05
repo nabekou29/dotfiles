@@ -2,7 +2,7 @@ local constants = require("constants")
 
 return {
   -- キーバインドの確認
-  { "folke/which-key.nvim", enabled = false, cmd = { "WhichKey" } },
+  { "folke/which-key.nvim", cmd = { "WhichKey" } },
 
   -- 日本語のヘルプ
   {
@@ -31,9 +31,7 @@ return {
     cmd = { "OpenByHttpServerStart", "OpenByHttpServerStop" },
     event = { "FocusLost" },
     opts = {
-      enabled = function()
-        return #vim.fs.find("package.json", {}) > 0
-      end,
+      auto_start = false,
     },
   },
 

@@ -27,10 +27,10 @@ return {
   -- Markdown
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "Avante", "codecompanion" },
+    ft = { "markdown" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
-      file_types = { "markdown", "Avante", "codecompanion" },
+      file_types = { "markdown" },
     },
     init = function()
       -- Override highlight groups
