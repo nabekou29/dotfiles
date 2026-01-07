@@ -95,6 +95,13 @@ vim.diagnostic.config({
   },
 })
 
+-- Yank した場所をハイライト
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 200 })
+  end,
+})
+
 -- Open Cheetsheet
 
 vim.cmd([[
