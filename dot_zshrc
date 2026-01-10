@@ -80,7 +80,7 @@ if type brew &>/dev/null; then
     fi
 fi
 
-_evalcache mise activate zsh
+eval "$(mise activate zsh)" # mise は _evalcache 使うと npm で入れてるツールとかが動かなくなる
 _evalcache starship init zsh
 
 [ -f ~/.config/zsh/fzf.zsh ] && source ~/.config/zsh/fzf.zsh

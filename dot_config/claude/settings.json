@@ -106,7 +106,8 @@
         "example-skills@anthropic-agent-skills": true,
         "agent-sdk-dev@claude-code-plugins": true,
         "rust-analyzer-lsp@claude-plugins-official": true,
-        "lua-lsp@claude-plugins-official": true
+        "lua-lsp@claude-plugins-official": true,
+        "typescript-lsp@claude-plugins-official": true
     },
     "alwaysThinkingEnabled": true,
     "feedbackSurveyState": {
