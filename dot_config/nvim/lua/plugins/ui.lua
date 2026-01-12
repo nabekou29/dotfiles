@@ -62,8 +62,18 @@ return {
       vim.cmd([[let vimade.basebg='#001040']])
       vim.cmd([[let vimade.fadelevel=0.66]])
 
-      local Default = require("vimade.recipe.default").Default
-      return Default({ animate = true })
+      return {
+        recipe = { "default", { animate = true } },
+        blocklist = {
+          default = {
+            buf_opts = {
+              ft = {
+                "toggleterm",
+              },
+            },
+          },
+        },
+      }
     end,
   },
 

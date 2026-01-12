@@ -68,7 +68,6 @@
             "Bash(psql:*)",
             "Bash(sudo:*)",
             "Bash(wget:*)",
-            "Read(**/*key*)",
             "Read(**/*token*)",
             "Read(.env,*)",
             "Read(id_ed25519)",
@@ -107,8 +106,12 @@
         "agent-sdk-dev@claude-code-plugins": true,
         "rust-analyzer-lsp@claude-plugins-official": true,
         "lua-lsp@claude-plugins-official": true,
-        "typescript-lsp@claude-plugins-official": true
+        "typescript-lsp@claude-plugins-official": true,
+        "context7@claude-plugins-official": true,
+        "playwright@claude-plugins-official": true,
+        "code-simplifier@claude-plugins-official": true
     },
+    "language": "日本語",
     "alwaysThinkingEnabled": true,
     "feedbackSurveyState": {
         "lastShownTime": 1754280246185

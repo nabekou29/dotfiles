@@ -21,7 +21,7 @@ if vim.fn.exists("$WEZTERM_PANE") == 1 then
   end
 
   for k, _ in pairs(directions) do
-    vim.keymap.set("n", "<C-S-" .. k .. ">", function()
+    vim.keymap.set({ "n", "x", "t" }, "<C-S-" .. k .. ">", function()
       move_nvim_win_or_wezterm_pane(k)
     end)
   end
