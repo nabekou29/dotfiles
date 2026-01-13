@@ -107,3 +107,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.cmd([[
   command! Cheatsheet edit ~/.config/nvim/cheetsheet.md
 ]])
+
+-- For ovim
+if vim.env.OVIM_SESSION_ID then
+  vim.opt.laststatus = 0
+end

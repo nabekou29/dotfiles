@@ -414,6 +414,9 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = { "VeryLazy" },
+    cond = function()
+      return not vim.env.OVIM_SESSION_ID
+    end,
     opts = function()
       return {
         options = {

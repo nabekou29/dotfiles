@@ -37,6 +37,7 @@ shfmt = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@taplo/cli" = "latest"
 "npm:zenn-cli" = "latest"
+"npm:agent-browser" = "latest"
 watchexec = "latest"
 
 [settings]

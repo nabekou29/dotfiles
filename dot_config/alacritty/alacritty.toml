@@ -6,8 +6,8 @@ live_config_reload = true
 
 [window]
 decorations = "Buttonless"
-opacity = 0.92
-blur = true
+opacity = 0.70
+blur = false
 option_as_alt = "Both"
 
 [window.padding]
