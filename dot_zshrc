@@ -24,10 +24,10 @@ zle -N edit-command-line
 bindkey -e                           # emacsキーバインドを有効に
 bindkey "^[[Z" reverse-menu-complete # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
 bindkey "^[[3~" delete-char          # Deleteキーで文字を削除する
-bindkey ";3C" forward-word
-bindkey ";3D" backward-word
-bindkey "^[q" push-line
-bindkey "^[e" edit-command-line
+bindkey "^[[1;3C" forward-word       # Option + 右矢印で単語単位でカーソル移動 (Option + f と同じ)
+bindkey "^[[1;3D" backward-word      # Option + 左矢印で単語単位でカーソル移動 (Option + b と同じ) 
+bindkey "^[q" push-line              # Option + Q で行をスタックに保存
+bindkey "^[e" edit-command-line      # Option + E でコマンドライン編集モードに入る
 
 # 色の設定
 export LSCOLORS=Exfxcxdxbxegedabagacad

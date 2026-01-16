@@ -85,6 +85,8 @@ config.keys = {
   { key = "n", mods = "CMD", action = act.SpawnWindow },
   { key = "UpArrow", mods = "SHIFT", action = act.ScrollToPrompt(-1) },
   { key = "DownArrow", mods = "SHIFT", action = act.ScrollToPrompt(1) },
+  { key = "k", mods = "ALT", action = act.ScrollToPrompt(-1) },
+  { key = "j", mods = "ALT", action = act.ScrollToPrompt(1) },
   --- Tab ---
   { key = "n", mods = "SHIFT|ALT", action = act.SpawnTab("CurrentPaneDomain") },
   { key = "{", mods = "SHIFT|ALT", action = act.MoveTabRelative(-1) },
