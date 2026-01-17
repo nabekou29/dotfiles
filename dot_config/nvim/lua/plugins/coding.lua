@@ -98,6 +98,7 @@ return {
         "html",
         "jsonls",
         "lua_ls",
+        "oxlint",
         "pyright",
         "rust_analyzer",
         "stylelint_lsp",
@@ -134,6 +135,7 @@ return {
       --- @type conform.setupOpts
       return {
         formatters_by_ft = {
+          astro = { "prettier" },
           lua = { "stylua" },
           javascript = { "biome", "prettier", "eslint_d" },
           javascriptreact = { "biome", "prettier", "eslint_d" },
