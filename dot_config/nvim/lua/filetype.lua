@@ -1,3 +1,8 @@
+-- Register the mdx filetype
+vim.filetype.add({ extension = { mdx = "mdx" } })
+-- Configure treesitter to use the markdown parser for mdx files
+vim.treesitter.language.register("markdown", "mdx")
+
 vim.filetype.add({
   -- フルパスを使って判定するので、`pattern`キー内に記述
   pattern = {

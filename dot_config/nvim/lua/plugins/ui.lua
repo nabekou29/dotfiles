@@ -341,6 +341,7 @@ return {
           "^middleware%.[^.]+$", -- Next.js: middleware.ts
           "^package%.json$", -- package.json
           "^tsconfig%.json$", -- tsconfig.json
+          "^config%.[^.]+$", -- config.ts, config.js など
           ".*%.config%.[^.]+$", -- *.config.ts, *.config.js など
         }
 

@@ -33,6 +33,7 @@ shfmt = "latest"
 "cargo:https://github.com/itsjunetime/tdf.git" = "latest"
 "cargo:https://github.com/skanehira/ghost.git" = "latest"
 "go:github.com/rhysd/vim-startuptime" = { version = "latest" }
+"go:github.com/satococoa/wtp/v2/cmd/wtp" = { version = "latest" }
 "npm:@github/copilot" = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@openai/codex" = "latest"
