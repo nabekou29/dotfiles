@@ -21,5 +21,6 @@ cspell.json
 
 **/.claude/settings.local.json
 **/.claude/tmp/
+.playwright-mcp
 
 .serena

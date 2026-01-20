@@ -139,22 +139,24 @@ zle -N ghq-fzf
 bindkey "^g" ghq-fzf
 
 
-# Option + F でファイル選択（プレビュー付き）
+# Option + P でファイル/ディレクトリ選択（プレビュー付き）
 fzf-file-widget-preview() {
-  LBUFFER+=$(find . -type f 2>/dev/null | fzf --preview '
-    case $(file --mime-type -b {}) in
-      image/*)
-        chafa --size="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}" {} 2>/dev/null || echo "[Image: {}]"
-        ;;
-      *)
-        bat --color=always --style=numbers --line-range=:500 {} 2>/dev/null || cat {}
-        ;;
-    esac
-  ' --preview-window 'right:50%')
+  local preview_cmd='
+    if [[ -d {} ]]; then
+      lsd --color=always --icon=always -la {}
+    elif [[ {} =~ \.(png|jpg|jpeg|gif|bmp|webp|svg|ico)$ ]]; then
+      chafa -s 80x24 {} 2>/dev/null || viu -w 80 {} 2>/dev/null || file {}
+    elif [[ {} =~ \.pdf$ ]]; then
+      pdftoppm -f 1 -l 1 -png {} 2>/dev/null | chafa -s 80x24 || file {}
+    else
+      bat --color=always --style=numbers --line-range=:500 {} 2>/dev/null || cat {}
+    fi
+  '
+  LBUFFER+=$(fd --hidden 2>/dev/null | fzf --preview "$preview_cmd" --preview-window 'right:50%:wrap')
   zle redisplay
 }
 zle -N fzf-file-widget-preview
-bindkey '^[f' fzf-file-widget-preview
+bindkey '^[p' fzf-file-widget-preview
 
 # tabtab source for packages
 # uninstall by removing these lines
