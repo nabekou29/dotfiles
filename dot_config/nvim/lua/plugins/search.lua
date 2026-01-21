@@ -19,11 +19,13 @@ return {
   -- ローマ字検索
   {
     "lambdalisue/kensaku.vim",
+    enabled = false,
     event = { "CmdlineEnter" },
     dependencies = { "vim-denops/denops.vim" },
   },
   {
     "lambdalisue/kensaku-search.vim",
+    enabled = false,
     dependencies = { "lambdalisue/kensaku.vim" },
     keys = {
       { "<CR>", "<Plug>(kensaku-search-replace)<CR>", mode = "c" },
