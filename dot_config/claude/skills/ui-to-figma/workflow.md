@@ -44,7 +44,14 @@
 
 [scripts/extract-ui.js](scripts/extract-ui.js) を `evaluate_script` で実行。
 
-**重要**: セレクタで指定された要素のみから構造とスタイル情報を取得（親要素は取得しない）
+**重要**:
+- セレクタで指定された要素のみから構造とスタイル情報を取得（親要素は取得しない）
+- スクリプトは **Figma 形式に変換済みの値** を返す:
+  - 色: `{ r: 0.122, g: 0.145, b: 0.149, a: 0.65 }` (0-1 範囲)
+  - サイズ/パディング/マージン: 数値 (`20` など、px なし)
+  - layoutMode: `"VERTICAL"` / `"HORIZONTAL"` / `"NONE"`
+  - alignment: `"MIN"` / `"MAX"` / `"CENTER"` / `"SPACE_BETWEEN"`
+- **取得した値をそのまま Figma API に渡せる**（変換不要）
 
 ## 4. Figma フレーム作成順序
 

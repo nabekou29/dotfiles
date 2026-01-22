@@ -66,15 +66,29 @@ fill_form / click でログイン（必要な場合）
 
 [scripts/extract-ui.js](scripts/extract-ui.js) を evaluate_script で実行。
 
+**スクリプトは Figma 形式に変換済みの値を返す**:
+- 色: `{ r: 0.122, g: 0.145, b: 0.149 }` (0-1 範囲、変換不要)
+- サイズ: 数値 (`20` など、px なし)
+- レイアウト: `"VERTICAL"` / `"HORIZONTAL"` など
+
 ### 3. Figma フレーム作成
 
+**スクリプトの出力値をそのまま使用**（変換せず直接渡す）:
+
 ```javascript
-// コンテナ作成
+// スクリプト出力の styles をそのまま使用
 create_frame({
   name: "ComponentName",
-  layoutMode: "VERTICAL",
-  fillColor: { r: 1, g: 1, b: 1 },
-  // ...
+  layoutMode: styles.layoutMode,           // "VERTICAL" など
+  fillColor: styles.backgroundColor,       // { r, g, b } など
+  paddingTop: styles.paddingTop,           // 20 など
+  itemSpacing: styles.gap,                 // 8 など
+})
+
+create_text({
+  fontSize: styles.fontSize,               // 15 など
+  fontWeight: styles.fontWeight,           // 600 など
+  fontColor: styles.color,                 // { r, g, b, a } など
 })
 
 // 子要素を追加
