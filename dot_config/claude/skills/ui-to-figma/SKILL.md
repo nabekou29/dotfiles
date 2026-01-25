@@ -1,14 +1,6 @@
 ---
 name: ui-to-figma
-description: |
-  Web UI を Figma デザインデータに変換する。
-
-  使用タイミング:
-  - 「UIをFigmaに変換」「FigmaでUIを再現」「WebページをFigmaデータ化」
-  - URL とセレクタを指定して Figma コンポーネントを作成
-  - 既存 UI を Figma デザインシステムに取り込む
-
-  必要な MCP: chrome-devtools, TalkToFigma
+description: Web UI を Figma デザインデータに変換する。URL とセレクタを指定して Figma コンポーネントを作成。必要な MCP: chrome-devtools, TalkToFigma
 ---
 
 # UI to Figma Converter
