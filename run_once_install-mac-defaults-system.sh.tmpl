@@ -48,7 +48,6 @@ defaults write com.apple.dock tilesize -int 16
 defaults write com.apple.dock autohide-time-modifier -float 0.1
 defaults write com.apple.dock autohide-delay -float 0.1
 
-
 ### ショートカット
 # (無効) Dock を自動的に表示/非表示のオン/オフ
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 52 "<dict><key>enabled</key><false/></dict>"
@@ -58,6 +57,10 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 "<dic
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 "<dict><key>enabled</key><false/></dict>"
 # (無効) Spotlight
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/></dict>"
+# いい感じ変換 → F12 (for "azooKey")
+defaults write NSGlobalDomain NSUserKeyEquivalents -dict-add "いい感じ変換" "\UF70F"
+# いい感じ変換（無効/バックエンドなし）→ F12 (for "azooKey")
+defaults write NSGlobalDomain NSUserKeyEquivalents -dict-add "いい感じ変換（無効/バックエンドなし）" "\UF70F"
 
 VALUE="<dict><key>enabled_context_menu</key><false/><key>enabled_services_menu</key><false/><key>presentation_modes</key><dict><key>ContextMenu</key><false/><key>ServicesMenu</key><false/></dict></dict>"
 

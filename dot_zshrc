@@ -91,6 +91,24 @@ if command -v nvim >/dev/null 2>&1; then
     export EDITOR="$VISUAL"
 fi
 
+# starship
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/config.toml"
+# プロンプトの切り替え
+starship-prompt() {
+    local prompt_command="$1"
+    if [ "$prompt_command" = "default" ]; then
+        export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/config.toml"
+    elif [ "$prompt_command" = "minimal" ]; then
+        export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/config-minimal.toml"
+    fi
+}
+_starship-prompt() {
+    local -a options
+    options=('default:通常のプロンプト' 'minimal:シンプルなプロンプト')
+    _describe 'prompt' options
+}
+compdef _starship-prompt starship-prompt
+
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH="$JAVA_HOME/bin:$PATH"
