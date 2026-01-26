@@ -106,36 +106,79 @@ create_text({
 | flex-direction: column | VERTICAL         |
 | flex-direction: row    | HORIZONTAL       |
 
-### 重要: Auto Layout フレーム作成時の初期化
+### 重要: フレーム作成時の初期化（リセット徹底）
 
-スタイルを設定する前に、必ず以下の値をリセットしてから設定すること:
+**フレーム作成時は必ずすべての padding と itemSpacing を 0 にリセットすること。**
+Figma はデフォルトで padding: 10 などが入ることがあるため、明示的に 0 を指定する。
 
 ```javascript
-// フレーム作成時にデフォルト値をリセット
+// フレーム作成時にすべてリセット（必須）
 create_frame({
   name: "フレーム名",
+  x: 0, y: 0,
+  width: 312, height: 100,
   layoutMode: "VERTICAL",
-  itemSpacing: 0,      // gap をリセット
-  paddingTop: 0,       // padding をリセット
+  // 必ず 0 を指定してリセット
+  itemSpacing: 0,
+  paddingTop: 0,
   paddingRight: 0,
   paddingBottom: 0,
   paddingLeft: 0
   // fillColor, strokeColor は指定しなければデフォルトで透明
 })
 
-// その後、必要なスタイルを設定
-set_item_spacing({ nodeId: "ID", itemSpacing: 8 })  // 実際の gap
-set_padding({ nodeId: "ID", paddingTop: 16, ... })  // 実際の padding
-set_fill_color({ nodeId: "ID", r: 1, g: 1, b: 1 })  // 実際の fill
+// 作成直後に sizing を設定（必須）
+set_layout_sizing({ nodeId: "ID", layoutSizingHorizontal: "FILL", layoutSizingVertical: "HUG" })
+
+// 必要なスタイルがあれば追加で設定
+set_item_spacing({ nodeId: "ID", itemSpacing: 8 })  // 実際の gap がある場合のみ
+set_padding({ nodeId: "ID", paddingTop: 16, ... })  // 実際の padding がある場合のみ
 ```
 
-## Sizing ルール（fill 優先）
+**NG パターン（デフォルト値が残る）:**
 
-- 親が auto layout の子要素: `layoutSizingHorizontal: FILL`
-- 高さは内容に応じる: `layoutSizingVertical: HUG`
-- 固定サイズが必要な場合のみ: `FIXED`
+```javascript
+// ❌ padding を省略すると意図しない値が入る可能性
+create_frame({
+  name: "フレーム名",
+  layoutMode: "VERTICAL"
+})
+```
 
-**注意**: `create_frame` 時に FILL は設定できない。作成後に `set_layout_sizing` で設定。
+## Sizing ルール（FILL/HUG がデフォルト）
+
+**基本方針: 横幅は FILL、縦幅は HUG をデフォルトとする。**
+
+これにより：
+- 横幅が親に追従し、レスポンシブになる
+- 縦幅がコンテンツに応じて自動調整され、テキストがはみ出さない
+
+| 要素タイプ | layoutSizingHorizontal | layoutSizingVertical |
+| ---------- | ---------------------- | -------------------- |
+| 通常のフレーム | FILL | HUG |
+| 画像プレースホルダー | FILL | FIXED |
+| 固定幅が必要な場合 | FIXED | HUG |
+| **折り返しテキスト（複数行）** | **FILL** | HUG |
+| 単一行テキスト（タイトル等） | HUG | HUG |
+
+**必須**: `create_frame` / `create_text` 直後に `set_layout_sizing` を呼ぶこと。
+
+```javascript
+// フレーム作成直後に必ず sizing を設定
+create_frame({ ... })
+set_layout_sizing({
+  nodeId: "ID",
+  layoutSizingHorizontal: "FILL",  // 横幅は FILL（デフォルト）
+  layoutSizingVertical: "HUG"      // 縦幅は HUG（デフォルト）
+})
+
+// テキスト作成直後も sizing を設定（折り返しが必要な場合）
+create_text({ name: "Description", ... })
+set_layout_sizing({
+  nodeId: "DescriptionのID",
+  layoutSizingHorizontal: "FILL",  // 親幅に合わせて折り返し
+  layoutSizingVertical: "HUG"
+})
 
 ## Margin の再現
 
@@ -190,11 +233,28 @@ create_text({
 })
 ```
 
-### テキスト折り返し
+### テキスト折り返し（重要）
 
-テキストの幅を制限して折り返しを有効化:
+**複数行になりうるテキスト（説明文など）は必ず FILL を設定する。**
+
+Figma のテキストはデフォルトで「AUTO WIDTH」（固定幅）のため、明示的に FILL を設定しないと折り返しが効かない。
 
 ```javascript
+// ✅ 推奨: FILL で親幅に追従させる
+create_text({
+  name: "Description",
+  parentId: "TextContainerのID",
+  text: "複数行になる可能性のあるテキスト...",
+  fontSize: 15,
+  fontWeight: 400
+})
+set_layout_sizing({
+  nodeId: "DescriptionのID",
+  layoutSizingHorizontal: "FILL",  // これで親幅に合わせて折り返し
+  layoutSizingVertical: "HUG"
+})
+
+// ⚠️ 代替: resize_node で固定幅を指定（非推奨）
 resize_node({
   nodeId: "テキストノードID",
   width: 260,  // 親フレームの幅に合わせる
@@ -202,36 +262,69 @@ resize_node({
 })
 ```
 
+**判断基準:**
+- 説明文、本文、複数行コメント → FILL（折り返し）
+- タイトル、ラベル、ボタン文字 → HUG（単一行）
+
 ## 実装例
 
 ```javascript
-// 1. コンテナ作成
+// 1. コンテナ作成（すべての padding/itemSpacing を 0 でリセット）
 create_frame({
   x: 0, y: 0, width: 312, height: 326,
   name: "Card",
   layoutMode: "VERTICAL",
+  itemSpacing: 0,
+  paddingTop: 0,
+  paddingRight: 0,
+  paddingBottom: 0,
+  paddingLeft: 0,
   fillColor: { r: 1, g: 1, b: 1 },
   strokeColor: { r: 0.122, g: 0.145, b: 0.149, a: 0.1 },
   strokeWeight: 1
 })
 set_corner_radius({ nodeId: "ID", radius: 4 })
 
-// 2. 画像プレースホルダー
+// 2. 画像プレースホルダー（FILL/FIXED）
 create_frame({
   name: "ImagePlaceholder",
   parentId: "コンテナID",
-  width: 312, height: 160,
-  layoutMode: "HORIZONTAL",
+  x: 0, y: 0, width: 312, height: 160,
+  layoutMode: "VERTICAL",
+  itemSpacing: 0,
+  paddingTop: 0,
+  paddingRight: 0,
+  paddingBottom: 0,
+  paddingLeft: 0,
   fillColor: { r: 0.91, g: 0.918, b: 0.918 }
 })
 set_layout_sizing({ nodeId: "ID", layoutSizingHorizontal: "FILL", layoutSizingVertical: "FIXED" })
 
-// 3. Body フレーム（padding付き）
+// 3. Body フレーム（FILL/HUG、必要な padding のみ設定）
 create_frame({
   name: "Body",
   parentId: "コンテナID",
+  x: 0, y: 0, width: 312, height: 100,
   layoutMode: "VERTICAL",
-  paddingTop: 16, paddingRight: 16, paddingBottom: 16, paddingLeft: 16
+  itemSpacing: 0,
+  paddingTop: 16,
+  paddingRight: 16,
+  paddingBottom: 16,
+  paddingLeft: 16
+})
+set_layout_sizing({ nodeId: "ID", layoutSizingHorizontal: "FILL", layoutSizingVertical: "HUG" })
+
+// 4. テキストコンテナ（FILL/HUG）
+create_frame({
+  name: "TextContainer",
+  parentId: "BodyのID",
+  x: 0, y: 0, width: 280, height: 50,
+  layoutMode: "VERTICAL",
+  itemSpacing: 8,  // 実際の gap
+  paddingTop: 0,
+  paddingRight: 0,
+  paddingBottom: 0,
+  paddingLeft: 0
 })
 set_layout_sizing({ nodeId: "ID", layoutSizingHorizontal: "FILL", layoutSizingVertical: "HUG" })
 ```
