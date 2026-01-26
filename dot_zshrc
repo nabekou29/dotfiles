@@ -142,6 +142,9 @@ source ~/.config/zsh/completion-for-pnpm.zsh
 # zoxide
 zsh-defer _evalcache zoxide init zsh
 
+# git-wt
+zsh-defer _evalcache git-wt --init zsh
+
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
