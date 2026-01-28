@@ -25,6 +25,7 @@ rust = "nightly"
 "npm:typescript-language-server" = "5.1.3"
 "npm:vscode-langservers-extracted" = "4.10.0"     # html,css,json,eslint,
 "npm:yaml-language-server" = "1.19.2"
+golangci-lint = "2.8.0"
 ruff = "0.14.9"
 stylua = "2.3.1"
 shfmt = "latest"
@@ -32,15 +33,16 @@ shfmt = "latest"
 # CLI tools (主に Homebrew で入れられないもの)
 "cargo:https://github.com/itsjunetime/tdf.git" = "latest"
 "cargo:https://github.com/skanehira/ghost.git" = "latest"
+"go:github.com/k1LoW/git-wt" = { version = "latest" }
+"go:github.com/nametake/golangci-lint-langserver" = { version = "latest" }
 "go:github.com/rhysd/vim-startuptime" = { version = "latest" }
 "go:github.com/satococoa/wtp/v2/cmd/wtp" = { version = "latest" }
-"go:github.com/k1LoW/git-wt" = { version = "latest" }
 "npm:@github/copilot" = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@taplo/cli" = "latest"
-"npm:zenn-cli" = "latest"
 "npm:agent-browser" = "latest"
+"npm:zenn-cli" = "latest"
 watchexec = "latest"
 
 [settings]
