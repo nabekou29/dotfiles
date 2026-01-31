@@ -262,6 +262,19 @@ return {
     opts = {
       showMissingFiles = false,
       mappings = {
+        -- go
+        {
+          pattern = "/(.*)/(.*)/([a-zA-Z-_]*).go$",
+          target = {
+            { target = "/%1/%2/%3_test.go", context = "test" },
+          },
+        },
+        {
+          pattern = "/(.*)/(.*)/([a-zA-Z-_]*)._test.go$",
+          target = {
+            { target = "/%1/%2/%3.go", context = "impl" },
+          },
+        },
         -- js, ts
         {
           pattern = "/(.*)/(.*)/([a-zA-Z-_]*).*.([jt]sx?)$",
