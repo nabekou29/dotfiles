@@ -95,6 +95,7 @@ return {
         -- "elmls",
         "eslint",
         "gopls",
+        "golangci_lint_ls",
         "html",
         "jsonls",
         "lua_ls",
@@ -383,24 +384,19 @@ return {
   -- i18n
   {
     "nabekou29/js-i18n.nvim",
-    enabled = true,
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-lua/plenary.nvim",
-      "neovim/nvim-lspconfig",
-    },
     ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
     keys = {
       { "<leader>il", "<Cmd>I18nSetLang<CR>", desc = "Set language" },
       { "<leader>ie", "<Cmd>I18nEditTranslation<CR>", desc = "Edit translation" },
     },
     opts = {
-      primary_language = { "ja" },
-      respect_gitignore = false,
       virt_text = {
         max_width = 48,
+        conceal = true,
       },
-      -- namespace_separator = ":",
+      server = {
+        primary_languages = { "ja" },
+      },
     },
   },
 
