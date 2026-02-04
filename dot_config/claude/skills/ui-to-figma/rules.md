@@ -108,8 +108,9 @@ create_text({
 
 ### 重要: フレーム作成時の初期化（リセット徹底）
 
-**フレーム作成時は必ずすべての padding と itemSpacing を 0 にリセットすること。**
-Figma はデフォルトで padding: 10 などが入ることがあるため、明示的に 0 を指定する。
+**フレーム作成時は必ず以下をリセットすること:**
+- すべての padding と itemSpacing を 0 に（Figma はデフォルトで padding: 10 などが入るため）
+- **背景色を必ず透明にリセット**（fillColor を省略すると白になるため、作成後に `set_fill_color` で `a: 0` を設定）
 
 ```javascript
 // フレーム作成時にすべてリセット（必須）
@@ -124,8 +125,10 @@ create_frame({
   paddingRight: 0,
   paddingBottom: 0,
   paddingLeft: 0
-  // fillColor, strokeColor は指定しなければデフォルトで透明
 })
+
+// 作成直後に背景を透明にリセット（必須）
+set_fill_color({ nodeId: "ID", r: 0, g: 0, b: 0, a: 0 })
 
 // 作成直後に sizing を設定（必須）
 set_layout_sizing({ nodeId: "ID", layoutSizingHorizontal: "FILL", layoutSizingVertical: "HUG" })
@@ -224,47 +227,54 @@ create_text({
 
 ## テキスト要素
 
-```javascript
-create_text({
-  text: "テキスト内容",
-  fontSize: 15,
-  fontWeight: 600,  // Semi Bold
-  fontColor: { r: 0.122, g: 0.145, b: 0.149, a: 1 }
-})
-```
+### 重要: テキスト作成時は必ず resize_node で幅を設定
 
-### テキスト折り返し（重要）
+**テキストノードは `set_layout_sizing` に対応していない。**
 
-**複数行になりうるテキスト（説明文など）は必ず FILL を設定する。**
-
-Figma のテキストはデフォルトで「AUTO WIDTH」（固定幅）のため、明示的に FILL を設定しないと折り返しが効かない。
+折り返しを有効にするには `create_text` 直後に `resize_node` で幅を設定する。
 
 ```javascript
-// ✅ 推奨: FILL で親幅に追従させる
+// ✅ 必須: create_text 直後に resize_node で幅を設定
 create_text({
-  name: "Description",
-  parentId: "TextContainerのID",
+  name: "Title",
+  parentId: "親ID",
   text: "複数行になる可能性のあるテキスト...",
-  fontSize: 15,
-  fontWeight: 400
+  fontSize: 24,
+  fontWeight: 600
 })
-set_layout_sizing({
-  nodeId: "DescriptionのID",
-  layoutSizingHorizontal: "FILL",  // これで親幅に合わせて折り返し
-  layoutSizingVertical: "HUG"
-})
-
-// ⚠️ 代替: resize_node で固定幅を指定（非推奨）
 resize_node({
-  nodeId: "テキストノードID",
-  width: 260,  // 親フレームの幅に合わせる
-  height: 40   // 行数 × lineHeight
+  nodeId: "作成されたID",
+  width: 632,   // 親の内側幅（親幅 - padding左右）
+  height: 70    // 推定行数 × lineHeight
 })
 ```
 
-**判断基準:**
-- 説明文、本文、複数行コメント → FILL（折り返し）
-- タイトル、ラベル、ボタン文字 → HUG（単一行）
+### 幅の計算
+
+```
+テキスト幅 = 親フレーム幅 - paddingLeft - paddingRight
+```
+
+### 高さの目安
+
+| タイプ | fontSize | height 目安 |
+|--------|----------|-------------|
+| 見出し（2行） | 24 | 70 |
+| 見出し（1行） | 20 | 30 |
+| 本文（3行） | 15 | 80 |
+| 本文（2行） | 15 | 52 |
+| ラベル | 13-14 | 25 |
+
+### NG パターン
+
+```javascript
+// ❌ resize_node なし → 折り返されず途切れる
+create_text({ text: "長いテキスト..." })
+
+// ❌ set_layout_sizing はテキストに使えない
+set_layout_sizing({ nodeId: "TextID", layoutSizingHorizontal: "FILL" })
+// → Error: "Node type TEXT does not support layout sizing"
+```
 
 ## 実装例
 

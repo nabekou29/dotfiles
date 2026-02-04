@@ -4,8 +4,8 @@
         // Deepwiki
         // GitHub のリポジトリのコードについて、AI に質問できる。
         "deepwiki": {
-            "command": "bunx",
-            "args": ["mcp-remote", "https://mcp.deepwiki.com/sse"]
+            "type": "http",
+            "url": "https://mcp.deepwiki.com/mcp"
         },
         // Context7
         // プロンプトに use context7 と書くことで、最新ライブラリの情報を参照できる。

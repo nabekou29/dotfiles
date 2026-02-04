@@ -37,6 +37,7 @@ Web UI を Figma デザインデータに変換する。
 2. **要素特定**: セレクタ指定 or DevTools で選択
 3. **UI 情報取得**: evaluate_script でスタイル取得
 4. **Figma 作成**: フレーム階層を作成
+5. **確認**: スクリーンショット撮影 → 崩れチェック → 修正
 
 詳細は以下を参照:
 - [ワークフロー詳細](workflow.md)
@@ -94,4 +95,5 @@ set_layout_sizing({ layoutSizingHorizontal: "FILL" })
 - [ ] **選択範囲の確認（外側は作らない）**
 - [ ] コンテナから子要素まで階層的にフレーム作成
 - [ ] 全フレームに適切な layoutSizing 設定
-- [ ] 完成後 set_focus で確認
+- [ ] テキストノードは `resize_node` で幅を設定（折り返し有効化）
+- [ ] **【必須】スクリーンショット確認** → `export_node_as_image` で撮影し崩れをチェック
