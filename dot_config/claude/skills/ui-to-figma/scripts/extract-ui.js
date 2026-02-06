@@ -218,10 +218,20 @@ function getElementInfo(el, depth = 0) {
     }
   }
 
+  // img タグの場合に src と objectFit を取得
+  let imgSrc = null;
+  let objectFit = null;
+  if (el.tagName === "IMG") {
+    imgSrc = el.src;
+    objectFit = window.getComputedStyle(el).objectFit;
+  }
+
   const info = {
     tagName: el.tagName,
     className: (el.className.toString().split(" ")[0] || "").substring(0, 50),
     textContent,
+    imgSrc,
+    objectFit,
     // 実際の描画サイズ（getBoundingClientRect から）
     actualWidth: Math.round(rect.width),
     actualHeight: Math.round(rect.height),

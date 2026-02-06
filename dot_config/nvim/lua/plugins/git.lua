@@ -55,6 +55,7 @@ return {
       { "<leader>gp", "<cmd>GhBlameCurrentLine<cr>", desc = "GitHub Blame Current Line" },
     },
   },
+
   -- diff の表示
   {
     "sindrets/diffview.nvim",
@@ -68,6 +69,7 @@ return {
     },
     opts = {},
   },
+
   -- conflict
   {
     "akinsho/git-conflict.nvim",

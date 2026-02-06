@@ -95,5 +95,6 @@ set_layout_sizing({ layoutSizingHorizontal: "FILL" })
 - [ ] **選択範囲の確認（外側は作らない）**
 - [ ] コンテナから子要素まで階層的にフレーム作成
 - [ ] 全フレームに適切な layoutSizing 設定
+- [ ] 画像要素は `create_image_rectangle` で再現（プレースホルダーではなく実画像）
 - [ ] テキストノードは `resize_node` で幅を設定（折り返し有効化）
 - [ ] **【必須】スクリーンショット確認** → `export_node_as_image` で撮影し崩れをチェック

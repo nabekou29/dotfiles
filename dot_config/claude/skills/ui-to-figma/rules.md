@@ -110,7 +110,7 @@ create_text({
 
 **フレーム作成時は必ず以下をリセットすること:**
 - すべての padding と itemSpacing を 0 に（Figma はデフォルトで padding: 10 などが入るため）
-- **背景色を必ず透明にリセット**（fillColor を省略すると白になるため、作成後に `set_fill_color` で `a: 0` を設定）
+- **背景色**: `noFill: true` を指定して透明にする（fillColor を省略すると白になる）
 
 ```javascript
 // フレーム作成時にすべてリセット（必須）
@@ -119,6 +119,7 @@ create_frame({
   x: 0, y: 0,
   width: 312, height: 100,
   layoutMode: "VERTICAL",
+  noFill: true,  // 背景を透明に（set_fill_color 不要）
   // 必ず 0 を指定してリセット
   itemSpacing: 0,
   paddingTop: 0,
@@ -127,15 +128,23 @@ create_frame({
   paddingLeft: 0
 })
 
-// 作成直後に背景を透明にリセット（必須）
-set_fill_color({ nodeId: "ID", r: 0, g: 0, b: 0, a: 0 })
-
 // 作成直後に sizing を設定（必須）
 set_layout_sizing({ nodeId: "ID", layoutSizingHorizontal: "FILL", layoutSizingVertical: "HUG" })
 
 // 必要なスタイルがあれば追加で設定
 set_item_spacing({ nodeId: "ID", itemSpacing: 8 })  // 実際の gap がある場合のみ
 set_padding({ nodeId: "ID", paddingTop: 16, ... })  // 実際の padding がある場合のみ
+```
+
+**背景色が必要な場合は `fillColor` を指定**（`noFill` は省略）:
+
+```javascript
+create_frame({
+  name: "Card",
+  layoutMode: "VERTICAL",
+  fillColor: { r: 1, g: 1, b: 1 },  // 白背景
+  // ...
+})
 ```
 
 **NG パターン（デフォルト値が残る）:**
@@ -159,7 +168,7 @@ create_frame({
 | 要素タイプ | layoutSizingHorizontal | layoutSizingVertical |
 | ---------- | ---------------------- | -------------------- |
 | 通常のフレーム | FILL | HUG |
-| 画像プレースホルダー | FILL | FIXED |
+| 画像（create_image_rectangle） | FILL | FIXED |
 | 固定幅が必要な場合 | FIXED | HUG |
 | **折り返しテキスト（複数行）** | **FILL** | HUG |
 | 単一行テキスト（タイトル等） | HUG | HUG |
@@ -224,6 +233,51 @@ create_text({
   text: "テキスト"
 })
 ```
+
+## 画像要素
+
+### img タグの変換
+
+Web の `<img>` タグは `create_image_rectangle` で再現する:
+
+- `src` 属性 → `imageUrl` パラメータ
+- 要素の幅・高さ → `width`, `height`
+- `object-fit` → `scaleMode`（マッピング表参照）
+
+```javascript
+// extract-ui.js の出力を使用
+create_image_rectangle({
+  name: "ProductImage",
+  parentId: "親ID",
+  x: 0, y: 0,
+  width: info.actualWidth,
+  height: info.actualHeight,
+  imageUrl: info.imgSrc,
+  scaleMode: "FILL"  // object-fit に応じて変更
+})
+set_layout_sizing({ nodeId: "ID", layoutSizingHorizontal: "FILL", layoutSizingVertical: "FIXED" })
+```
+
+### 既存ノードへの画像設定
+
+フレームや矩形に後から画像を設定する場合は `set_image_fill` を使用:
+
+```javascript
+set_image_fill({
+  nodeId: "フレームID",
+  imageUrl: "https://example.com/image.png",
+  scaleMode: "FILL"
+})
+```
+
+### object-fit → scaleMode マッピング
+
+| CSS object-fit | Figma scaleMode |
+|----------------|-----------------|
+| cover          | FILL            |
+| contain        | FIT             |
+| fill           | FILL            |
+| none           | CROP            |
 
 ## テキスト要素
 
@@ -295,18 +349,13 @@ create_frame({
 })
 set_corner_radius({ nodeId: "ID", radius: 4 })
 
-// 2. 画像プレースホルダー（FILL/FIXED）
-create_frame({
-  name: "ImagePlaceholder",
+// 2. 画像（FILL/FIXED）
+create_image_rectangle({
+  name: "CardImage",
   parentId: "コンテナID",
   x: 0, y: 0, width: 312, height: 160,
-  layoutMode: "VERTICAL",
-  itemSpacing: 0,
-  paddingTop: 0,
-  paddingRight: 0,
-  paddingBottom: 0,
-  paddingLeft: 0,
-  fillColor: { r: 0.91, g: 0.918, b: 0.918 }
+  imageUrl: imgSrc,  // extract-ui.js から取得した src
+  scaleMode: "FILL"
 })
 set_layout_sizing({ nodeId: "ID", layoutSizingHorizontal: "FILL", layoutSizingVertical: "FIXED" })
 
@@ -316,6 +365,7 @@ create_frame({
   parentId: "コンテナID",
   x: 0, y: 0, width: 312, height: 100,
   layoutMode: "VERTICAL",
+  noFill: true,
   itemSpacing: 0,
   paddingTop: 16,
   paddingRight: 16,
@@ -330,6 +380,7 @@ create_frame({
   parentId: "BodyのID",
   x: 0, y: 0, width: 280, height: 50,
   layoutMode: "VERTICAL",
+  noFill: true,
   itemSpacing: 8,  // 実際の gap
   paddingTop: 0,
   paddingRight: 0,

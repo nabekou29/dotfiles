@@ -117,6 +117,27 @@ set_fill_color({
 })
 ```
 
+### 画像
+
+```javascript
+// 既存ノードに画像を設定（imageUrl または imagePath のどちらか必須）
+set_image_fill({
+  nodeId: "ID",
+  imageUrl: "https://example.com/image.png",  // HTTP/HTTPS URL
+  imagePath: "/path/to/local/image.png",       // ローカルファイルパス
+  scaleMode: "FILL"  // FILL, FIT, CROP, TILE（デフォルト: FILL）
+})
+
+// 画像付き矩形を新規作成
+create_image_rectangle({
+  x: 0, y: 0, width: 300, height: 200,
+  imageUrl: "https://example.com/image.png",
+  name: "ImageName",       // オプション（デフォルト: "Image"）
+  parentId: "親ID",        // オプション
+  scaleMode: "FILL"        // FILL, FIT, CROP, TILE
+})
+```
+
 ## chrome-devtools API リファレンス
 
 ### ページ操作

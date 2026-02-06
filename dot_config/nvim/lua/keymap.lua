@@ -68,6 +68,7 @@ set("n", "<leader>.", "@:")
 
 -- 保存 (無名のファイルの場合は単にESC)
 set({ "n", "i", "v" }, "<C-s>", "<cmd>if expand('%') != '' | write | endif<CR><ESC>", { desc = "Save and ESC" })
+set({ "n", "i", "v" }, "<C-S-s>", "<cmd>if expand('%') != '' | write! | endif<CR><ESC>", { desc = "Save and ESC (Force)" })
 
 -- *, # でカーソルの位置を保持
 set("n", "*", [[*``]])
