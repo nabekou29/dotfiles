@@ -1,3 +1,19 @@
+function confirm_and_pick_win(picker, item)
+  picker:close()
+  if not item then
+    return
+  end
+  require("chowcho").run(function(window)
+    vim.api.nvim_set_current_win(window)
+    if item.file then
+      vim.cmd("edit " .. vim.fn.fnameescape(item.file))
+    end
+    if item.pos then
+      vim.api.nvim_win_set_cursor(window, { item.pos[1], item.pos[2] })
+    end
+  end)
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -44,6 +60,9 @@ return {
         input = { enabled = true },
         picker = {
           enabled = true,
+          actions = {
+            pick_win = confirm_and_pick_win,
+          },
           sources = {
             explorer = {
               layout = { layout = {
@@ -69,6 +88,11 @@ return {
               keys = {
                 ["<C-S-j>"] = { "history_forward", mode = { "i", "n" } },
                 ["<C-S-k>"] = { "history_back", mode = { "i", "n" } },
+              },
+              list = {
+                keys = {
+                  ["<S-CR>"] = "pick_win",
+                },
               },
             },
           },
@@ -137,35 +161,59 @@ return {
           cwd_bonus = true,
         },
       }
+
+      function confirm_and_pick_win(picker, item)
+        picker:close()
+        if not item then
+          return
+        end
+        require("chowcho").run(function(window)
+          vim.api.nvim_set_current_win(window)
+          if item.file then
+            vim.cmd("edit " .. vim.fn.fnameescape(item.file))
+          end
+          if item.pos then
+            vim.api.nvim_win_set_cursor(window, { item.pos[1], item.pos[2] })
+          end
+        end)
+      end
+
+      with_pick_win = { confirm = confirm_and_pick_win }
+
       return {
       -- stylua: ignore start
       -- Fuzzy finder (nvim-telescope/telescope.nvim)
-      { "<leader>ff", function() Snacks.picker.smart(smart_opts) end,  desc = "Smart Find Files" },
-      { "<leader>fr", function() Snacks.picker.recent() end,           desc = "Recent Files" },
-      { "<leader>fg", function() Snacks.picker.grep() end,             desc = "Grep" },
-      { "<leader>fb", function() Snacks.picker.buffers() end,          desc = "Buffers" },
-      { "<leader>fh", function() Snacks.picker.help() end,             desc = "Help" },
-      { "<leader>fm", function() Snacks.picker.marks() end,            desc = "Marks" },
-      { "<leader>:",  function() Snacks.picker.command_history() end,  desc = "Command History" },
+      { "<leader>ff", function() Snacks.picker.smart(smart_opts) end,                  desc = "Smart Find Files" },
+      { "<leader>fr", function() Snacks.picker.recent() end,                           desc = "Recent Files" },
+      { "<leader>fg", function() Snacks.picker.grep() end,                             desc = "Grep" },
+      { "<leader>fb", function() Snacks.picker.buffers() end,                          desc = "Buffers" },
+      { "<leader>fh", function() Snacks.picker.help() end,                             desc = "Help" },
+      { "<leader>fm", function() Snacks.picker.marks() end,                            desc = "Marks" },
+      { "<leader>:",  function() Snacks.picker.command_history() end,                  desc = "Command History" },
 
       -- Delete buffer (kazhala/close-buffers.nvim)
-      { "<leader>w",  function() Snacks.bufdelete.delete() end,        desc = "Delete buffer" },
-      { "<leader>W",  function() Snacks.bufdelete.other() end,         desc = "Delete other buffers" },
-      { "<C-w>D",     function() Snacks.bufdelete.other() end,         desc = "Delete other buffers" },
+      { "<leader>w",  function() Snacks.bufdelete.delete() end,                        desc = "Delete buffer" },
+      { "<leader>W",  function() Snacks.bufdelete.other() end,                         desc = "Delete other buffers" },
+      { "<C-w>D",     function() Snacks.bufdelete.other() end,                         desc = "Delete other buffers" },
 
       -- LSP
-      { "gd",         function() Snacks.picker.lsp_definitions() end,  desc = "Go to Definition" },
-      -- { "gD",         function() Snacks.picker.lsp_declarations() end, desc = "Go to Declaration" },
-      { "gr",         function() Snacks.picker.lsp_references() end,   desc = "Go to References" },
-      { "gh",         function() Snacks.picker.lsp_references() end,   desc = "Go to References" },
-      { "<leader>fs", function() Snacks.picker.lsp_symbols() end,      desc = "LSP Symbols" },
+      { "gd",         function() Snacks.picker.lsp_definitions() end,                  desc = "Go to Definition" },
+      { "gD",         function() Snacks.picker.lsp_declarations() end,                 desc = "Go to Declaration" },
+      { "gr",         function() Snacks.picker.lsp_references() end,                   desc = "Go to References" },
+      { "gh",         function() Snacks.picker.lsp_references() end,                   desc = "Go to References" },
+      { "gm",         function() Snacks.picker.lsp_implementations() end,              desc = "Go to Implementation" },
+      { "<leader>fs", function() Snacks.picker.lsp_symbols() end,                      desc = "LSP Symbols" },
+      { "<C-w>gd",    function() Snacks.picker.lsp_definitions(with_pick_win) end,     desc = "Go to Definition (pick window)" },
+      { "<C-w>gr",    function() Snacks.picker.lsp_references(with_pick_win) end,      desc = "Go to References (pick window)" },
+      { "<C-w>gh",    function() Snacks.picker.lsp_references(with_pick_win) end,      desc = "Go to References (pick window)" },
+      { "<C-w>gm",    function() Snacks.picker.lsp_implementations(with_pick_win) end, desc = "Go to Implementation (pick window)" },
 
       -- Words
-      { "]]",         function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference" },
-      { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference" },
+      { "]]",         function() Snacks.words.jump(vim.v.count1) end,                  desc = "Next Reference" },
+      { "[[",         function() Snacks.words.jump(-vim.v.count1) end,                 desc = "Prev Reference" },
 
       -- Zen
-      { "<leader>z",  function() Snacks.zen() end,                     desc = "Zen Mode" },
+      { "<leader>z",  function() Snacks.zen() end,                                     desc = "Zen Mode" },
         -- stylua: ignore end
       }
     end,

@@ -150,6 +150,7 @@ return {
           python = { "ruff_format", "ruff_fix" },
           terraform = { "terraform_fmt" },
           markdown = { "prettier" },
+          mdx = { "prettier" },
           yaml = { "prettier" },
           toml = { "taplo" },
         },
@@ -217,6 +218,15 @@ return {
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy",
+    keys = {
+      {
+        "<leader>d",
+        function()
+          require("tiny-inline-diagnostic").toggle()
+        end,
+        desc = "Toggle Inline Diagnostics",
+      },
+    },
     priority = 1000,
     opts = {
       preset = "classic",
@@ -392,7 +402,6 @@ return {
     opts = {
       virt_text = {
         max_width = 48,
-        conceal = true,
       },
       server = {
         primary_languages = { "ja" },

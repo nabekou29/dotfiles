@@ -58,8 +58,7 @@
       "mcp__serena__search_for_pattern",
       "mcp__serena__think_about_collected_information",
       "mcp__serena__think_about_whether_you_are_done",
-      "mcp__serena__write_memory",
-      "mcp__time__get_current_time"
+      "mcp__serena__write_memory"
     ],
     "deny": [
       "Bash(curl:*)",
@@ -104,7 +103,6 @@
     "code-review@claude-code-plugins": true,
     "code-simplifier@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
-    "example-skills@anthropic-agent-skills": true,
     "figma@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
