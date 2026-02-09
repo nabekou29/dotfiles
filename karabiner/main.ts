@@ -5,7 +5,7 @@ import * as k from 'https://deno.land/x/karabinerts@1.30.3/deno.ts';
 // mac 内蔵キーボードかどうか
 const ifBuiltin = k.ifDevice({ is_built_in_keyboard: true });
 
-// 単推しでかな英数を切り替える設定
+// 単押しでかな英数を切り替える設定
 const tapCmdAndOptToKanaEisuu = k.rule('⌘/⌥ to かな英数').manipulators([
   k.withMapper({
     left_command: 'japanese_eisuu',
@@ -47,20 +47,6 @@ k.writeToProfile('Default', [
   k
     .rule('^← to BS')
     .manipulators([k.map('left_arrow', ['control']).to('delete_or_backspace')]),
-  // k
-  //   .rule('⌘ + ^← to ⌘ + BS')
-  //   .manipulators([
-  //     k
-  //       .map('left_arrow', ['control', 'left_command'])
-  //       .to('delete_or_backspace', ['left_command']),
-  //   ]),
-  // k
-  //   .rule('⌥ + ^← to ⌥ + BS')
-  //   .manipulators([
-  //     k
-  //       .map('left_arrow', ['control', 'left_option'])
-  //       .to('delete_or_backspace', ['left_option']),
-  //   ]),
 
   k
     .rule('^[ to ESC')

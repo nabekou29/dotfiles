@@ -101,7 +101,7 @@ return {
         quickfile = { enabled = true },
         scope = { enabled = true },
         scroll = {
-          enabled = false,
+          enabled = true,
           animate = {
             duration = { step = 20, total = 120 },
             easing = "linear",

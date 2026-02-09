@@ -34,6 +34,7 @@ shfmt = "latest"
 "cargo:https://github.com/itsjunetime/tdf.git" = "latest"
 "cargo:https://github.com/skanehira/ghost.git" = "latest"
 "cargo:https://github.com/ushironoko/octorus.git" = "latest"
+"cargo:https://github.com/davidbeesley/claude-chill.git" = "latest"
 "go:github.com/k1LoW/git-wt" = { version = "latest" }
 "go:github.com/nametake/golangci-lint-langserver" = { version = "latest" }
 "go:github.com/rhysd/vim-startuptime" = { version = "latest" }
