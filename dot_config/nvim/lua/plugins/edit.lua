@@ -60,9 +60,9 @@ return {
   {
     "Wansmer/treesj",
     keys = {
-      { "<leader>jt", "<Cmd>TSJToggle<CR>" },
-      { "<leader>js", "<Cmd>TSJSplit<CR>" },
-      { "<leader>jj", "<Cmd>TSJJoin<CR>" },
+      { "<leader>jt", "<Cmd>TSJToggle<CR>", desc = "Toggle split/join" },
+      { "<leader>js", "<Cmd>TSJSplit<CR>", desc = "Split to multiple lines" },
+      { "<leader>jj", "<Cmd>TSJJoin<CR>", desc = "Join to single line" },
     },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = { use_default_keymaps = false, max_join_length = 256 },
@@ -73,8 +73,8 @@ return {
     "tversteeg/registers.nvim",
     cmd = "Registers",
     keys = {
-      { '"', mode = { "n", "v" } },
-      { "<C-r>", mode = "i" },
+      { '"', mode = { "n", "v" }, desc = "Show registers" },
+      { "<C-r>", mode = "i", desc = "Insert from register" },
     },
     opts = function()
       local registers = require("registers")
@@ -133,14 +133,14 @@ return {
     vscode = true,
     keys = {
       -- stylua: ignore start
-      { "<C-a>",  function() require("dial.map").manipulate("increment", "normal") end,  mode = "n" },
-      { "<C-x>",  function() require("dial.map").manipulate("decrement", "normal") end,  mode = "n" },
-      { "g<C-a>", function() require("dial.map").manipulate("increment", "gnormal") end, mode = "n" },
-      { "g<C-x>", function() require("dial.map").manipulate("decrement", "gnormal") end, mode = "n" },
-      { "<C-a>",  function() require("dial.map").manipulate("increment", "visual") end,  mode = "v" },
-      { "<C-x>",  function() require("dial.map").manipulate("decrement", "visual") end,  mode = "v" },
-      { "g<C-a>", function() require("dial.map").manipulate("increment", "gvisual") end, mode = "v" },
-      { "g<C-x>", function() require("dial.map").manipulate("decrement", "gvisual") end, mode = "v" },
+      { "<C-a>",  function() require("dial.map").manipulate("increment", "normal") end,  mode = "n", desc = "Increment" },
+      { "<C-x>",  function() require("dial.map").manipulate("decrement", "normal") end,  mode = "n", desc = "Decrement" },
+      { "g<C-a>", function() require("dial.map").manipulate("increment", "gnormal") end, mode = "n", desc = "Increment (sequential)" },
+      { "g<C-x>", function() require("dial.map").manipulate("decrement", "gnormal") end, mode = "n", desc = "Decrement (sequential)" },
+      { "<C-a>",  function() require("dial.map").manipulate("increment", "visual") end,  mode = "v", desc = "Increment" },
+      { "<C-x>",  function() require("dial.map").manipulate("decrement", "visual") end,  mode = "v", desc = "Decrement" },
+      { "g<C-a>", function() require("dial.map").manipulate("increment", "gvisual") end, mode = "v", desc = "Increment (sequential)" },
+      { "g<C-x>", function() require("dial.map").manipulate("decrement", "gvisual") end, mode = "v", desc = "Decrement (sequential)" },
       -- stylua: ignore end
     },
     config = function()
@@ -228,10 +228,10 @@ return {
     keys = function()
       local hop_prefix = "<C-f>"
       return {
-        { hop_prefix .. "f", "<Cmd>HopChar2<CR>" },
-        { hop_prefix .. "w", "<Cmd>HopWord<CR>" },
-        { hop_prefix .. "l", "<Cmd>HopLineStart<CR>" },
-        { hop_prefix .. "/", "<Cmd>HopPattern<CR>" },
+        { hop_prefix .. "f", "<Cmd>HopChar2<CR>", desc = "Hop to 2-char match" },
+        { hop_prefix .. "w", "<Cmd>HopWord<CR>", desc = "Hop to word" },
+        { hop_prefix .. "l", "<Cmd>HopLineStart<CR>", desc = "Hop to line start" },
+        { hop_prefix .. "/", "<Cmd>HopPattern<CR>", desc = "Hop to pattern" },
       }
     end,
     opts = {},
@@ -254,9 +254,9 @@ return {
   {
     "chrisgrieser/nvim-spider",
     keys = {
-      { "E", "<Cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
-      { "B", "<Cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
-      { "W", "<Cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+      { "E", "<Cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" }, desc = "Spider: Move to end of word" },
+      { "B", "<Cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" }, desc = "Spider: Move to previous word" },
+      { "W", "<Cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" }, desc = "Spider: Move to next word" },
     },
     opts = {
       skipInsignificantPunctuation = true,

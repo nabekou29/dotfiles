@@ -81,7 +81,7 @@ return {
   {
     "tkmpypy/chowcho.nvim",
     keys = {
-      { "<C-w>w", "<Cmd>Chowcho<CR>" },
+      { "<C-w>w", "<Cmd>Chowcho<CR>", desc = "Pick window" },
       {
         "<C-w>q",
         function()
@@ -137,10 +137,10 @@ return {
     },
     -- event = { "VeryLazy" },
     keys = {
-      { "<M-[>", "<Cmd>BufferLineCyclePrev<CR>" },
-      { "<M-]>", "<Cmd>BufferLineCycleNext<CR>" },
-      { "<C-M-[>", "<Cmd>BufferLineMovePrev<CR>" },
-      { "<C-M-]>", "<Cmd>BufferLineMoveNext<CR>" },
+      { "<M-[>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer" },
+      { "<M-]>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
+      { "<C-M-[>", "<Cmd>BufferLineMovePrev<CR>", desc = "Move buffer left" },
+      { "<C-M-]>", "<Cmd>BufferLineMoveNext<CR>", desc = "Move buffer right" },
       {
         "<leader>bg",
         function()

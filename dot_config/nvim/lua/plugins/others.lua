@@ -2,7 +2,18 @@ local constants = require("constants")
 
 return {
   -- キーバインドの確認
-  { "folke/which-key.nvim", cmd = { "WhichKey" } },
+  {
+    "folke/which-key.nvim",
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  },
 
   -- 日本語のヘルプ
   {
@@ -69,9 +80,6 @@ return {
     end,
   },
 
-  -- WakaTime
-  { "wakatime/vim-wakatime", lazy = false, enabled = false },
-
   -- Obsidian
   {
     "epwalsh/obsidian.nvim",
@@ -80,27 +88,30 @@ return {
       "nvim-lua/plenary.nvim",
     },
     keys = {
-      { "<leader>oo", "<CMD>ObsidianToday<CR>" },
-      { "<leader>on", "<CMD>ObsidianNew<CR>" },
-      { "<leader>oO", "<CMD>ObsidianOpen<CR>" },
-      { "<leader>or", "<CMD>ObsidianRename<CR>" },
+      { "<leader>oo", "<CMD>ObsidianToday<CR>", desc = "Obsidian: Open today's note" },
+      { "<leader>on", "<CMD>ObsidianNew<CR>", desc = "Obsidian: New note" },
+      { "<leader>oO", "<CMD>ObsidianOpen<CR>", desc = "Obsidian: Open in app" },
+      { "<leader>or", "<CMD>ObsidianRename<CR>", desc = "Obsidian: Rename note" },
       {
         "<leader>oe",
         function()
           require("fyler").open({ dir = require("obsidian").get_client():vault_root().filename })
         end,
+        desc = "Obsidian: Open vault in file explorer",
       },
       {
         "<leader>of",
         function()
           Snacks.picker.smart({ cwd = require("obsidian").get_client():vault_root().filename })
         end,
+        desc = "Obsidian: Find files in vault",
       },
       {
         "<leader>og",
         function()
           Snacks.picker.grep({ cwd = require("obsidian").get_client():vault_root().filename })
         end,
+        desc = "Obsidian: Grep in vault",
       },
     },
     cmd = {
@@ -183,31 +194,4 @@ return {
   },
 
   { "willothy/wezterm.nvim", opts = {} },
-
-  -- {
-  --   "https://github.com/swaits/zellij-nav.nvim",
-  --   enabled = false,
-  --   -- enabled = function()
-  --   --   return vim.fn.exists("$ZELLIJ") == 1
-  --   -- end,
-  --   event = "VeryLazy",
-  --   keys = {
-  --     { "<c-h>", "<cmd>ZellijNavigateLeft<cr>", { esc = "navigate left or tab" } },
-  --     { "<c-j>", "<cmd>ZellijNavigateDown<cr>", { esc = "navigate down" } },
-  --     { "<c-k>", "<cmd>ZellijNavigateUp<cr>", { esc = "navigate up" } },
-  --     { "<c-l>", "<cmd>ZellijNavigateRight<cr>", { esc = "navigate right or tab" } },
-  --   },
-  --   opts = {},
-  --   init = function()
-  --     vim.api.nvim_create_autocmd({ "FocusLost", "VimLeave" }, {
-  --       pattern = "*",
-  --       command = "silent! !zellij action switch-mode normal || true",
-  --     })
-  --     vim.api.nvim_create_autocmd({ "FocusGained", "VimEnter" }, {
-  --       pattern = "*",
-  --       -- nvim から nvim に切り替えたときにも正常に動作するように、sleep を入れている
-  --       command = "silent! !sleep 0.01 && zellij action switch-mode locked || true",
-  --     })
-  --   end,
-  -- },
 }
