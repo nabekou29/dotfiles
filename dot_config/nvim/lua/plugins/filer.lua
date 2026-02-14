@@ -10,7 +10,11 @@ return {
     opts = {
       integrations = {
         icon = "mini_icons",
-        winpick = { provider = "builtin", opts = {} },
+        winpick = function(_win_filter, onsubmit, _opts)
+          require("chowcho").run(function(window)
+            onsubmit(window)
+          end)
+        end,
       },
       views = {
         finder = {

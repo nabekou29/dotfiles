@@ -104,6 +104,7 @@ return {
         }
         local exclude_ft = {
           ["neo-tree"] = true,
+          ["fyler"] = true,
           ["snacks_picker_input"] = true,
           ["snacks_picker_list"] = true,
           ["snacks_picker_preview"] = true,
