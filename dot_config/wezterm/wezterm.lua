@@ -197,6 +197,8 @@ config.keys = {
     key = "s",
     action = act.ShowLauncherArgs({ flags = "WORKSPACES", title = "Select workspace" }),
   },
+  { key = "j", mods = "ALT|SHIFT", action = act.SwitchWorkspaceRelative(1) },
+  { key = "k", mods = "ALT|SHIFT", action = act.SwitchWorkspaceRelative(-1) },
 }
 
 --- Mouse Binding ---

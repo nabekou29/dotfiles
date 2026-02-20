@@ -117,10 +117,12 @@ $gcloud\
 $custom\
 $cmd_duration\
 $line_break\
-$time\
+${custom.pushed_line}\
 $status\
 $shell\
 $character"""
+
+right_format = """$time"""
 
 command_timeout = 2_000
 
@@ -173,6 +175,7 @@ symbol = ""
 [gcloud]
 format = "[$symbol$active]($style) "
 style = "bold yellow"
+detect_env_vars = ["SHOW_GCLOUD"]
 symbol = " "                        # \ue7b2
 
 [git_branch]
@@ -261,7 +264,17 @@ symbol = " "
 [shlvl]
 symbol = " "
 
+[time]
+disabled = false
+format = "[$time](dimmed)"
+time_format = "%H:%M:%S"
+
 [swift]
 format = "[$symbol($version)]($style) "
 version_format = "v${major}.${minor}"
 symbol = "ﯣ "
+
+[custom.pushed_line]
+command = 'echo "$_PUSHED_LINE"'
+when = '[ -n "$_PUSHED_LINE" ]'
+format = "[⏎ $output](dimmed yellow)\n"

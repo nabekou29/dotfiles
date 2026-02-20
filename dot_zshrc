@@ -22,12 +22,29 @@ setopt auto_cd              # ディレクトリ名だけで移動
 autoload -Uz edit-command-line
 zle -N edit-command-line
 
+# push-line: 退避したコマンドをプロンプトに表示する
+_push-line-with-display() {
+  export _PUSHED_LINE="$BUFFER"
+  zle push-line
+  zle reset-prompt
+}
+zle -N _push-line-with-display
+
+_push-line-restore() {
+  if [[ -n "$_PUSHED_LINE" ]]; then
+    unset _PUSHED_LINE
+    zle reset-prompt
+  fi
+}
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget line-init _push-line-restore
+
 bindkey -e                           # emacsキーバインドを有効に
 bindkey "^[[Z" reverse-menu-complete # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
 bindkey "^[[3~" delete-char          # Deleteキーで文字を削除する
 bindkey "^[[1;3C" forward-word       # Option + 右矢印で単語単位でカーソル移動 (Option + f と同じ)
 bindkey "^[[1;3D" backward-word      # Option + 左矢印で単語単位でカーソル移動 (Option + b と同じ) 
-bindkey "^[q" push-line              # Option + Q で行をスタックに保存
+bindkey "^[q" _push-line-with-display # Option + Q で行をスタックに保存（プロンプトに表示）
 bindkey "^[e" edit-command-line      # Option + E でコマンドライン編集モードに入る
 
 # 色の設定

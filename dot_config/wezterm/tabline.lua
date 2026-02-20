@@ -113,15 +113,44 @@ function M.setup_tabline(wezterm, config)
     local workspace_bg = "#5c76ae"
     local workspace_fg = "#15161e"
 
-    window:set_left_status(wezterm.format({
+    -- Git branch (左ステータス用)
+    local left_git_branch = ""
+    local left_cwd_for_git = pane:get_current_working_dir()
+    if left_cwd_for_git then
+      local ok_branch, branch_out =
+        wezterm.run_child_process({ "git", "-C", left_cwd_for_git.file_path, "rev-parse", "--abbrev-ref", "HEAD" })
+      if ok_branch then
+        left_git_branch = branch_out:gsub("%s+", "")
+      end
+    end
+
+    local left_git_bg = "#2d4a5e"
+    local left_git_fg = "#89b8c2"
+
+    local left_elements = {
       { Background = { Color = workspace_bg } },
       { Foreground = { Color = workspace_fg } },
       { Attribute = { Intensity = "Bold" } },
       { Text = "  " .. workspace .. " " },
-      { Background = { Color = "#15161e" } },
-      { Foreground = { Color = workspace_bg } },
-      { Text = SOLID_RIGHT_ARROW },
-    }))
+    }
+
+    if left_git_branch ~= "" then
+      table.insert(left_elements, { Background = { Color = left_git_bg } })
+      table.insert(left_elements, { Foreground = { Color = workspace_bg } })
+      table.insert(left_elements, { Text = SOLID_RIGHT_ARROW })
+      table.insert(left_elements, { Background = { Color = left_git_bg } })
+      table.insert(left_elements, { Foreground = { Color = left_git_fg } })
+      table.insert(left_elements, { Text = "  " .. left_git_branch .. " " })
+      table.insert(left_elements, { Background = { Color = "#15161e" } })
+      table.insert(left_elements, { Foreground = { Color = left_git_bg } })
+      table.insert(left_elements, { Text = SOLID_RIGHT_ARROW })
+    else
+      table.insert(left_elements, { Background = { Color = "#15161e" } })
+      table.insert(left_elements, { Foreground = { Color = workspace_bg } })
+      table.insert(left_elements, { Text = SOLID_RIGHT_ARROW })
+    end
+
+    window:set_left_status(wezterm.format(left_elements))
 
     local segments = {}
     local colors = {
