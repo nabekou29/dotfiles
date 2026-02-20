@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nabekou29/trev/prototype/config.schema.json
+
+display:
+    show_hidden: true
+    show_ignored: true
+    show_preview: true
+    show_root: true
+
+file_operations:
+    delete_mode: custom_trash
+
+preview:
+    max_lines: 1000
+    max_bytes: 10485760
+    # cache_size: 100
+    commands:
+        - name: ls
+          command: lsd
+          args: ["-la", "--color=always"]
+          directories: true
+        - command: dust
+          args: ["-r"]
+          directories: true
+
+keybindings:
+    disable_default: false
+    universal:
+        disable_default: false
+    daemon:
+        file:
+            bindings:
+                - key: "<S-CR>"
+                  notify: open_file_pick

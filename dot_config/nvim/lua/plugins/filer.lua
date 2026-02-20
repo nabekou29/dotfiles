@@ -1,7 +1,41 @@
 return {
   {
+    dir = "/Users/kohei_watanabe/ghq/github.com/nabekou29/trev/nvim-plugin",
+    event = { "VeryLazy" },
+    config = function()
+      require("trev").setup({
+        width = 40,
+        auto_reveal = true,
+        action = "edit", -- edit / split / vsplit / tabedit
+        handlers = {
+          -- external_command 通知のハンドラー
+          -- find_files = function() require("telescope.builtin").find_files() end,
+
+          -- カスタム通知ハンドラー
+          open_file_pick = function(params)
+            local trev = require("trev")
+            local path = params.path
+            if not path then
+              return
+            end
+            trev.close_float()
+            require("chowcho").run(function(window)
+              vim.api.nvim_set_current_win(window)
+              vim.cmd("edit " .. vim.fn.fnameescape(path))
+            end)
+          end,
+        },
+      })
+    end,
+    keys = {
+      { "<leader>e", "<cmd>TrevToggle float<cr>", desc = "Trev float picker" },
+      { "<leader>E", "<cmd>TrevToggle<cr>", desc = "Toggle trev" },
+    },
+  },
+
+  {
     "A7Lavinraj/fyler.nvim",
-    enabled = true,
+    enabled = false,
     event = { "VeryLazy" },
     keys = {
       { "<leader>e", "<Cmd>Fyler<CR>", desc = "Open file explorer" },
