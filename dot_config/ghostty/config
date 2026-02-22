@@ -2,7 +2,7 @@ term = ghostty
 macos-option-as-alt = true
 shell-integration = zsh
 
-theme = iceberg-dark
+theme = Iceberg Dark
 
 background-opacity = 0.93
 background-blur-radius = 10
