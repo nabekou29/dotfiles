@@ -69,6 +69,7 @@ return {
             buf_opts = {
               ft = {
                 "toggleterm",
+                "trev",
               },
             },
           },
