@@ -4,6 +4,7 @@ return {
     event = { "VeryLazy" },
     config = function()
       require("trev").setup({
+        adapter = "toggleterm",
         width = 40,
         auto_reveal = true,
         action = "edit", -- edit / split / vsplit / tabedit

@@ -3,7 +3,7 @@
 sort:
     order: smart # name | size | mtime | type | extension
     direction: asc # asc | desc
-    directories_first: true
+    directories_first: false
 
 display:
     show_hidden: false
@@ -17,16 +17,23 @@ display:
     column_options:
         modified_at:
             format: relative # relative | absolute
-            mode: recursive_max # os_mtime | recursive_max
+            mode: os_mtime # os_mtime | recursive_max
+    file_styles:
+        - pattern: "README*"
+          style:
+              bold: true
+        - pattern: ["*_test.*", "*_spec.*", "*.test.*", "*.spec.*"]
+          style:
+              fg: "#909090"
 
 preview:
     max_lines: 1000
     max_bytes: 10485760 # 10 MB
     cache_size: 50
     command_timeout: 3 # seconds
-    split: 50 # Tree/preview split % (wide layout)
-    narrow_split: 60 # Tree/preview split % (narrow layout)
-    narrow_threshold: 80 # Width threshold for narrow layout (columns)
+    split_ratio: 50 # Tree/preview split % (wide layout)
+    narrow_split_ratio: 60 # Tree/preview split % (narrow layout)
+    narrow_width: 80 # Width threshold for narrow layout (columns)
     commands:
         - name: ls
           command: lsd
@@ -46,7 +53,7 @@ preview:
           args: ["--color=always", "--style=plain", "--language=markdown"]
           priority: low
 
-file_operations:
+file_op:
     delete_mode: custom_trash
     undo_stack_size: 100
 
@@ -61,62 +68,16 @@ watcher:
 git:
     enabled: true
 
-menus:
-    copy:
-        title: Copy to clipboard
-        items:
-            - key: r
-              label: Relative path
-              action: file_op.copy.relative_path
-            - key: p
-              label: Absolute path
-              action: file_op.copy.absolute_path
-            - key: n
-              label: File name
-              action: file_op.copy.file_name
-            - key: s
-              label: Stem
-              action: file_op.copy.stem
-            - key: d
-              label: Parent directory
-              action: file_op.copy.parent_dir
-    tools:
-        title: Tools
-        items:
-            - key: g
-              label: Git status
-              run: "git -C {root} status"
-            - key: l
-              label: Git log
-              run: "git -C {root} log --oneline -20"
-            - key: b
-              label: Git blame
-              run: "git -C {root} blame {path}"
-            - key: o
-              label: Open in Finder
-              run: "open {dir}"
-              background: true
-
 keybindings:
     disable_default: false
     universal:
         disable_default: false
         bindings:
-            - key: c
-              menu: copy
-            - key: m
-              menu: tools
+            - key: "<M-d>"
+              action: tree.sort.toggle_directories_first
 
     daemon:
         file:
             bindings:
                 - key: "<S-CR>"
                   notify: open_file_pick
-
-#
-# preview:
-#     max_lines: 1000
-#     max_bytes: 10485760
-#     # cache_size: 100
-#     # commands:
-#

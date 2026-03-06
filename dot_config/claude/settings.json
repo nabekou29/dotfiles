@@ -6,7 +6,6 @@
   },
   "permissions": {
     "allow": [
-      "Bash(claude-notifier:*)",
       "Bash(find:*)",
       "Bash(gh pr diff:*)",
       "Bash(gh pr view:*)",
@@ -58,7 +57,49 @@
       "mcp__serena__search_for_pattern",
       "mcp__serena__think_about_collected_information",
       "mcp__serena__think_about_whether_you_are_done",
-      "mcp__serena__write_memory"
+      "mcp__serena__write_memory",
+      "Bash(git:*)",
+      "Bash(gh api:*)",
+      "Bash(gh pr checkout:*)",
+      "Bash(gh pr comment:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx jest:*)",
+      "Bash(npm run:*)",
+      "Bash(npm view:*)",
+      "Bash(pnpm tsc:*)",
+      "Bash(pnpm test:*)",
+      "Bash(cat:*)",
+      "Bash(wc:*)",
+      "Bash(adb logcat:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:registry.npmjs.org)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:shopify.github.io)",
+      "WebFetch(domain:react-native-community.github.io)",
+      "WebFetch(domain:docs.swmansion.com)",
+      "mcp__figma-desktop__get_design_context",
+      "mcp__figma-desktop__get_screenshot",
+      "mcp__plugin_figma_figma__get_design_context",
+      "mcp__plugin_figma_figma__get_screenshot",
+      "mcp__plugin_figma_figma-desktop__get_design_context",
+      "mcp__Context7__resolve-library-id",
+      "mcp__Context7__get-library-docs",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__plugin_playwright_playwright__browser_run_code",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__plugin_playwright_playwright__browser_fill_form",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_press_key",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "mcp__plugin_playwright_playwright__browser_tabs",
+      "Bash(xcrun simctl:*)"
     ],
     "deny": [
       "Bash(curl:*)",
@@ -72,27 +113,29 @@
       "Read(id_rsa)",
       "Write(**/secrets/**)",
       "Write(.env*)"
-    ]
+    ],
+    "defaultMode": "default"
   },
+  "model": "opus",
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_CONFIG_DIR/validate-bash.sh"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '\"[\\(.title // \"Notice\")] \\(.message)\"' | xargs -I{} claude-notifier \"$(basename $PWD) {}\""
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "claude-notifier \"$(basename $PWD) プロセスが完了しました！\""
+            "command": "$CLAUDE_CONFIG_DIR/notification.sh"
           }
         ]
       }
@@ -115,5 +158,6 @@
   "autoUpdatesChannel": "latest",
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
-  }
+  },
+  "effortLevel": "high"
 }

@@ -137,16 +137,16 @@ return {
       --- @type conform.setupOpts
       return {
         formatters_by_ft = {
-          astro = { "prettier" },
+          astro = { "oxfmt", "prettier" },
           lua = { "stylua" },
-          javascript = { "biome", "prettier", "eslint_d" },
-          javascriptreact = { "biome", "prettier", "eslint_d" },
-          typescript = { "biome", "prettier", "eslint_d" },
-          typescriptreact = { "biome", "prettier", "eslint_d" },
-          json = { "biome", "prettier", "eslint_d" },
-          jsonc = { "biome", "prettier", "eslint_d" },
-          css = { "biome", "prettier", "stylelint" },
-          scss = { "biome", "prettier", "stylelint" },
+          javascript = { "oxfmt", "biome", "prettier", "eslint_d" },
+          javascriptreact = { "oxfmt", "biome", "prettier", "eslint_d" },
+          typescript = { "oxfmt", "biome", "prettier", "eslint_d" },
+          typescriptreact = { "oxfmt", "biome", "prettier", "eslint_d" },
+          json = { "oxfmt", "biome", "prettier", "eslint_d" },
+          jsonc = { "oxfmt", "biome", "prettier", "eslint_d" },
+          css = { "oxfmt", "biome", "prettier", "stylelint" },
+          scss = { "oxfmt", "biome", "prettier", "stylelint" },
           rust = { "rustfmt" },
           python = { "ruff_format", "ruff_fix" },
           terraform = { "terraform_fmt" },
@@ -169,6 +169,13 @@ return {
           return {}
         end,
         formatters = {
+          oxfmt = smart_formatter({
+            args = { "format", "$FILENAME" },
+          }, {
+            args = { "format", "$FILENAME" },
+          }, {
+            require_cwd = true,
+          }),
           biome = smart_formatter({
             args = { "format", "--stdin-file-path", "$FILENAME" },
           }, {
@@ -177,11 +184,12 @@ return {
             require_cwd = true,
           }),
           prettier = {
-            -- biome が有効な場合は prettier を無効化する
+            -- oxfmt or biome が有効な場合は prettier を無効化する
             condition = function(_, ctx)
               local biome_available = require("conform").get_formatter_info("biome").available
+              local oxfmt_available = require("conform").get_formatter_info("oxfmt").available
               local formatters = require("conform").list_formatters_for_buffer(ctx.buf)
-              return not (biome_available and vim.tbl_contains(formatters, "biome"))
+              return not ((biome_available and vim.tbl_contains(formatters, "biome")) or (oxfmt_available and vim.tbl_contains(formatters, "oxfmt")))
             end,
           },
           eslint_d = smart_formatter({

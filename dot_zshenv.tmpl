@@ -19,3 +19,6 @@ export GITHUB_PERSONAL_ACCESS_TOKEN={{ (onepasswordDetailsFields "GitHub Default
 
 # Claude Code
 export CLAUDE_CONFIG_DIR="$HOME/.config/claude"
+
+export CC_PUSHOVER_API_KEY={{ (onepasswordDetailsFields "pushover-cc").credential.value}}
+export CC_PUSHOVER_USER_KEY={{ (onepasswordDetailsFields "pushover-cc").username.value}}
