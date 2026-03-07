@@ -4,6 +4,20 @@
 input=$(cat)
 
 MESSAGE=$(echo "$input" | jq -r '.message')
+CWD=$(echo "$input" | jq -r '.cwd // ""')
+
+# Build title with repo/worktree name
+if git -C "$CWD" rev-parse --is-inside-work-tree &>/dev/null; then
+  REPO_NAME=$(git -C "$CWD" remote get-url origin 2>/dev/null | perl -pe 's/.*\///; s/\.git//')
+  WORKTREE_NAME=$(basename "$(git -C "$CWD" rev-parse --show-toplevel)")
+  if [[ -n "$REPO_NAME" && "$REPO_NAME" != "$WORKTREE_NAME" ]]; then
+    TITLE="Claude Code: ${REPO_NAME} (${WORKTREE_NAME})"
+  else
+    TITLE="Claude Code: ${WORKTREE_NAME}"
+  fi
+else
+  TITLE="Claude Code: $(basename "$CWD")"
+fi
 
 case "$MESSAGE" in
   'Claude is waiting for your input')
@@ -23,7 +37,7 @@ esac
 
 # Desktop notification
 ESCAPED_MSG="${NOTIFY_MSG//\[/\\[}"
-terminal-notifier -message "$ESCAPED_MSG" -title 'Claude Code' -sound default -contentImage 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png'
+terminal-notifier -message "$ESCAPED_MSG" -title "$TITLE" -sound default -contentImage 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png'
 
 # Pushover notification
 curl -s \
@@ -31,5 +45,5 @@ curl -s \
     --form-string "user=${CC_PUSHOVER_USER_KEY}" \
     --form-string "message=${NOTIFY_MSG}" \
     --form-string "device=iphone" \
-    --form-string "title=Claude Code" \
+    --form-string "title=${TITLE}" \
     https://api.pushover.net/1/messages.json

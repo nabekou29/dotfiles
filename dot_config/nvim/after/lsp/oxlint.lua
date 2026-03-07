@@ -1,6 +1,6 @@
 --- @type vim.lsp.Config
 return {
-  cmd = { "oxlint", "--lsp" },
+  cmd = { "pnpm", "oxlint", "--lsp" },
   filetypes = {
     "astro",
     "javascript",
@@ -10,4 +10,10 @@ return {
     "typescriptreact",
     "vue",
   },
+  settings = {
+    options = {
+      typeAware = true,
+    },
+  },
+  root_markers = { ".git" },
 }
