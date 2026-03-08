@@ -24,7 +24,8 @@ zle -N edit-command-line
 
 # push-line: 退避したコマンドをプロンプトに表示する
 _push-line-with-display() {
-  export _PUSHED_LINE="$BUFFER"
+  _PUSHED_LINE="$BUFFER"
+  PS1="%F{yellow}⏎ ${BUFFER//\%/%%}%f"$'\n'"$PS1"
   zle push-line
   zle reset-prompt
 }
@@ -33,7 +34,6 @@ zle -N _push-line-with-display
 _push-line-restore() {
   if [[ -n "$_PUSHED_LINE" ]]; then
     unset _PUSHED_LINE
-    zle reset-prompt
   fi
 }
 autoload -Uz add-zle-hook-widget
@@ -99,7 +99,7 @@ if type brew &>/dev/null; then
 fi
 
 eval "$(mise activate zsh)" # mise は _evalcache 使うと npm で入れてるツールとかが動かなくなる
-_evalcache starship init zsh
+eval "$(oh-my-posh init zsh --config "$XDG_CONFIG_HOME/oh-my-posh/config.omp.toml")"
 
 [ -f ~/.config/zsh/fzf.zsh ] && source ~/.config/zsh/fzf.zsh
 
@@ -109,23 +109,20 @@ if command -v nvim >/dev/null 2>&1; then
     export EDITOR="$VISUAL"
 fi
 
-# starship
-export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/config.toml"
 # プロンプトの切り替え
-starship-prompt() {
-    local prompt_command="$1"
-    if [ "$prompt_command" = "default" ]; then
-        export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/config.toml"
-    elif [ "$prompt_command" = "minimal" ]; then
-        export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/config-minimal.toml"
-    fi
+omp-prompt() {
+    local config_dir="$XDG_CONFIG_HOME/oh-my-posh"
+    case "$1" in
+        minimal) eval "$(oh-my-posh init zsh --config "$config_dir/config-minimal.omp.toml")" ;;
+        *)       eval "$(oh-my-posh init zsh --config "$config_dir/config.omp.toml")" ;;
+    esac
 }
-_starship-prompt() {
+_omp-prompt() {
     local -a options
     options=('default:通常のプロンプト' 'minimal:シンプルなプロンプト')
     _describe 'prompt' options
 }
-compdef _starship-prompt starship-prompt
+compdef _omp-prompt omp-prompt
 
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home)

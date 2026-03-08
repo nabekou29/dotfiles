@@ -1,0 +1,127 @@
+"$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
+version = 4
+final_space = true
+async = true
+shell_integration = true
+
+# ── 1行目: dir / git / 言語 / gcloud / cmd_duration ──
+[[blocks]]
+type = "prompt"
+alignment = "left"
+newline = true
+
+  [[blocks.segments]]
+  type = "path"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#15161e"
+  background = "#5c76ae"
+  template = " \uf07c {{ .Path }} "
+  [blocks.segments.options]
+  style = "letter"
+  max_depth = 3
+
+  [[blocks.segments]]
+  type = "git"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#89b8c2"
+  background = "#2d4a5e"
+  template = " \uf418 {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }} "
+  [blocks.segments.options]
+  fetch_status = true
+  branch_max_length = 32
+
+  [[blocks.segments]]
+  type = "deno"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#3c82f6"
+  background = "#263156"
+  template = " \U0001f995{{ .Major }}.{{ .Minor }} "
+
+  [[blocks.segments]]
+  type = "go"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#7fd5ea"
+  background = "#263156"
+  template = " \ue627 {{ .Major }}.{{ .Minor }} "
+
+  [[blocks.segments]]
+  type = "node"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#6ca35e"
+  background = "#263156"
+  template = " \ue718 {{ .Major }}.{{ .Minor }} "
+
+  [[blocks.segments]]
+  type = "python"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#ffd43b"
+  background = "#263156"
+  template = " \ue73c {{ .Major }}.{{ .Minor }} "
+
+  [[blocks.segments]]
+  type = "rust"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#e27878"
+  background = "#263156"
+  template = " \ue7a8 {{ .Major }}.{{ .Minor }} "
+
+  [[blocks.segments]]
+  type = "lua"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#51a0cf"
+  background = "#263156"
+  template = " \ue620 {{ .Full }} "
+
+  [[blocks.segments]]
+  type = "gcp"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#e5e510"
+  background = "#263156"
+  template = '{{ if .Env.SHOW_GCLOUD }} \U000f1cb6 {{ .Project }} {{ end }}'
+
+  [[blocks.segments]]
+  type = "executiontime"
+  style = "powerline"
+  powerline_symbol = "\ue0b0"
+  foreground = "#c6c8d1"
+  background = "#374478"
+  template = " \uf252 {{ .FormattedMs }} "
+  [blocks.segments.options]
+  threshold = 5000
+
+# ── 2行目: プロンプト文字 ──
+[[blocks]]
+type = "prompt"
+alignment = "left"
+newline = true
+
+  [[blocks.segments]]
+  type = "status"
+  style = "plain"
+  foreground = "#b4be82"
+  foreground_templates = ["{{ if .Error }}#e27878{{ end }}"]
+  template = "{{ if eq .Code 0 }}>{{ else }}\u2717{{ end }} "
+  [blocks.segments.options]
+  always_enabled = true
+
+# ── 右プロンプト: 時刻 ──
+[[blocks]]
+type = "rprompt"
+overflow = "hide"
+
+  [[blocks.segments]]
+  type = "time"
+  style = "plain"
+  foreground = "#84a0c6"
+  template = "{{ .CurrentDate | date .Format }}"
+  [blocks.segments.options]
+  time_format = "15:04:05"

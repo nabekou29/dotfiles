@@ -20,22 +20,9 @@
       "Bash(npm run lint:*)",
       "Bash(npm run test:*)",
       "Bash(rg:*)",
-      "mcp__Figma__get_code",
-      "mcp__Figma__get_image",
-      "mcp__browsermcp__browser_click",
-      "mcp__browsermcp__browser_navigate",
-      "mcp__browsermcp__browser_press_key",
-      "mcp__browsermcp__browser_screenshot",
-      "mcp__browsermcp__browser_type",
       "mcp__deepwiki__ask_question",
       "mcp__deepwiki__read_wiki_structure",
       "mcp__gemini-cli-search__search_web_with_gemini",
-      "mcp__github__get_issue",
-      "mcp__github__get_issue_comments",
-      "mcp__github__get_pull_request",
-      "mcp__github__get_pull_request_comments",
-      "mcp__github__get_pull_request_diff",
-      "mcp__github__get_pull_request_files",
       "mcp__notion__fetch",
       "mcp__notion__search",
       "mcp__playwright__browser_click",
@@ -99,7 +86,16 @@
       "mcp__plugin_playwright_playwright__browser_navigate",
       "mcp__plugin_playwright_playwright__browser_evaluate",
       "mcp__plugin_playwright_playwright__browser_tabs",
-      "Bash(xcrun simctl:*)"
+      "WebFetch(domain:code.claude.com)",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs",
+      "mcp__grep__searchGitHub",
+      "Bash(fzf:*)",
+      "Bash(brew list:*)",
+      "Bash(qlmanage:*)",
+      "Bash(plutil:*)",
+      "Bash(gh search:*)",
+      "WebFetch(domain:eclecticlight.co)"
     ],
     "deny": [
       "Bash(curl:*)",
@@ -114,7 +110,8 @@
       "Write(**/secrets/**)",
       "Write(.env*)"
     ],
-    "defaultMode": "default"
+    "ask": [],
+    "defaultMode": "bypassPermissions"
   },
   "model": "opus",
   "hooks": {
@@ -156,6 +153,7 @@
   "language": "日本語",
   "alwaysThinkingEnabled": true,
   "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
   },
