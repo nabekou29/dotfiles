@@ -27,9 +27,10 @@ newline = true
   powerline_symbol = "\ue0b0"
   foreground = "#89b8c2"
   background = "#2d4a5e"
-  template = " \uf418 {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }} "
+  template = " \uf418 {{ .HEAD }}{{ if gt .Ahead 0 }} ↑{{ .Ahead }}{{ end }}{{ if gt .Behind 0 }} ↓{{ .Behind }}{{ end }}{{ if .Working.Changed }} \uf069 {{ .Working.String }}{{ end }}{{ if .Staging.Changed }} \uf51e {{ .Staging.String }}{{ end }} "
   [blocks.segments.options]
   fetch_status = true
+  branch_icon = ""
   branch_max_length = 32
 
   [[blocks.segments]]
@@ -38,7 +39,7 @@ newline = true
   powerline_symbol = "\ue0b0"
   foreground = "#3c82f6"
   background = "#263156"
-  template = " \U0001f995{{ .Major }}.{{ .Minor }} "
+  template = " \ue7c0 {{ .Major }}.{{ .Minor }}"
 
   [[blocks.segments]]
   type = "go"
@@ -46,7 +47,7 @@ newline = true
   powerline_symbol = "\ue0b0"
   foreground = "#7fd5ea"
   background = "#263156"
-  template = " \ue627 {{ .Major }}.{{ .Minor }} "
+  template = " \ue627 {{ .Major }}.{{ .Minor }}"
 
   [[blocks.segments]]
   type = "node"
@@ -54,7 +55,7 @@ newline = true
   powerline_symbol = "\ue0b0"
   foreground = "#6ca35e"
   background = "#263156"
-  template = " \ue718 {{ .Major }}.{{ .Minor }} "
+  template = " \ued0d {{ .Major }}.{{ .Minor }}"
 
   [[blocks.segments]]
   type = "python"
@@ -62,7 +63,7 @@ newline = true
   powerline_symbol = "\ue0b0"
   foreground = "#ffd43b"
   background = "#263156"
-  template = " \ue73c {{ .Major }}.{{ .Minor }} "
+  template = " \ue73c {{ .Major }}.{{ .Minor }}"
 
   [[blocks.segments]]
   type = "rust"
@@ -70,7 +71,7 @@ newline = true
   powerline_symbol = "\ue0b0"
   foreground = "#e27878"
   background = "#263156"
-  template = " \ue7a8 {{ .Major }}.{{ .Minor }} "
+  template = " \ue7a8 {{ .Major }}.{{ .Minor }}"
 
   [[blocks.segments]]
   type = "lua"
@@ -78,7 +79,7 @@ newline = true
   powerline_symbol = "\ue0b0"
   foreground = "#51a0cf"
   background = "#263156"
-  template = " \ue620 {{ .Full }} "
+  template = " \ue620 {{ .Full }}"
 
   [[blocks.segments]]
   type = "gcp"
@@ -86,7 +87,7 @@ newline = true
   powerline_symbol = "\ue0b0"
   foreground = "#e5e510"
   background = "#263156"
-  template = '{{ if .Env.SHOW_GCLOUD }} \U000f1cb6 {{ .Project }} {{ end }}'
+  template = "{{ if .Env.SHOW_GCLOUD }} \uf0c2 {{ .Project }} {{ end }}"
 
   [[blocks.segments]]
   type = "executiontime"
