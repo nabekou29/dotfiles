@@ -150,9 +150,9 @@ return {
           rust = { "rustfmt" },
           python = { "ruff_format", "ruff_fix" },
           terraform = { "terraform_fmt" },
-          markdown = { "prettier" },
-          mdx = { "prettier" },
-          yaml = { "prettier" },
+          markdown = { "oxfmt", "prettier" },
+          mdx = { "oxfmt", "prettier" },
+          yaml = { "oxfmt", "prettier" },
           toml = { "taplo" },
         },
         default_format_opts = {

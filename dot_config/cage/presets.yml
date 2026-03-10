@@ -5,9 +5,11 @@ presets:
             - "$XDG_CACHE_HOME" # ~/.cache
             - "$XDG_DATA_HOME" # ~/.local/share
             - "/private/tmp" # macos tmp directory
+            - "/private/var"
             - "/var/folders" # macos mktemp
             - "/Library/Caches" # macos app caches
             - "$HOME/Library/Caches" # macos app caches
+            - "$HOME/.cache"
 
     git-enabled:
         allow-git: true
@@ -16,6 +18,10 @@ presets:
         allow:
             - "$CLAUDE_CONFIG_DIR"
             - "$HOME/.npm"
+            - "$HOME/.pnpm"
+            - "/Library/pnpm"
+            - "$HOME/.local"
+        allow-keychain: true
 
 auto-presets:
     - command: claude

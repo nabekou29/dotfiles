@@ -1,0 +1,62 @@
+snippets:
+  - name: git
+    keyword: g
+    snippet: git
+
+  - name: chezmoi
+    keyword: cm
+    snippet: chezmoi
+
+  - name: lazygit
+    keyword: lg
+    snippet: lazygit
+
+  - name: claude
+    keyword: cl
+    snippet: claude
+
+  - name: pnpm
+    keyword: pn
+    snippet: pnpm
+
+  - name: lsd
+    keyword: ls
+    snippet: lsd
+
+  - name: lsd -a
+    keyword: la
+    snippet: lsd -a
+
+  - name: lsd -la
+    keyword: ll
+    snippet: lsd -la
+
+  - name: chafa
+    keyword: icat
+    snippet: chafa
+
+  - name: docker compose
+    keyword: docker-compose
+    snippet: docker compose
+
+  - name: remove .DS_Store
+    keyword: rmdsstore
+    snippet: find . -name ".DS_Store" -type f -ls -delete
+
+  - name: ghead
+    keyword: head
+    snippet: ghead
+    context:
+      global: true
+
+  - name: gtail
+    keyword: tail
+    snippet: gtail
+    context:
+      global: true
+
+  - name: gsed
+    keyword: sed
+    snippet: gsed
+    context:
+      global: true

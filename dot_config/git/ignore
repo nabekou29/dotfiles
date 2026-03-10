@@ -24,3 +24,5 @@ cspell.json
 .playwright-mcp
 
 .serena
+
+.pnpm-store

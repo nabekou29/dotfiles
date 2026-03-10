@@ -1,26 +1,116 @@
 # check initilize speed: `time zsh -i -c exit`
 # zmodload zsh/zprof
 
+# ── PATH ──────────────────────────────────────────────────────────────────────
 PATH=$HOME/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/mise/shims:$PATH"  # deno (zeno.zsh が参照)
+
+# ── Plugins (sheldon) ─────────────────────────────────────────────────────────
+export ZENO_DISABLE_EXECUTE_CACHE_COMMAND=1 # deno cache (500-2000ms) をスキップ。初回利用時に自動キャッシュされる
 
 eval "$(sheldon source)"
 
-# ヒストリー機能
+# ── Shell Options ─────────────────────────────────────────────────────────────
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt hist_ignore_all_dups # 重複するコマンド行は古い方を削除
-setopt hist_ignore_dups     # 直前と同じコマンドラインはヒストリに追加しない
-setopt share_history        # コマンド履歴ファイルを共有する
-setopt append_history       # 履歴を追加 (毎回 .zsh_history を作るのではなく)
-setopt inc_append_history   # 履歴をインクリメンタルに追加
-setopt hist_no_store        # historyコマンドは履歴に登録しない
-setopt hist_reduce_blanks   # 余分な空白は詰めて記録
-setopt auto_cd              # ディレクトリ名だけで移動
+setopt hist_ignore_all_dups
+setopt hist_ignore_dups
+setopt share_history
+setopt append_history
+setopt inc_append_history
+setopt hist_no_store
+setopt hist_reduce_blanks
+setopt auto_cd
 
-autoload -Uz edit-command-line
+# ── Completion ────────────────────────────────────────────────────────────────
+if type brew &>/dev/null; then
+    FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
+    FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}
+
+    autoload -Uz compinit
+    _zcompdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/.zcompdump-${HOST}-${ZSH_VERSION}"
+    mkdir -p "${_zcompdump:h}"
+
+    setopt extendedglob
+    if [[ -n "${_zcompdump}"(#qN.mh+24) ]]; then
+        compinit -d "${_zcompdump}"
+    else
+        compinit -C -d "${_zcompdump}"
+    fi
+fi
+
+export LSCOLORS=Exfxcxdxbxegedabagacad
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+export ZLS_COLORS=$LS_COLORS
+export CLICOLOR=true
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:default' menu select=1
+
+# ── Tools ─────────────────────────────────────────────────────────────────────
+eval "$(mise activate zsh)" # _evalcache 不可: npm で入れてるツールが動かなくなる
+eval "$(oh-my-posh init zsh --config "$XDG_CONFIG_HOME/oh-my-posh/config.omp.toml")"
+
+if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
+  PATH="${PATH:+${PATH}:}$(brew --prefix)/opt/fzf/bin"
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+    export VISUAL=nvim
+    export EDITOR="$VISUAL"
+fi
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH="$JAVA_HOME/bin:$PATH"
+
+export GOPATH=$HOME/go
+export GO111MODULE=on
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+[ -f ~/.config/zsh/completion-for-pnpm.zsh ] || pnpm completion zsh >~/.config/zsh/completion-for-pnpm.zsh
+source ~/.config/zsh/completion-for-pnpm.zsh
+
+zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+zsh-defer _evalcache zoxide init zsh
+zsh-defer _evalcache git-wt --init zsh
+
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+# ── Keybindings ───────────────────────────────────────────────────────────────
+bindkey -e
+bindkey "^[[Z"    reverse-menu-complete   # Shift-Tab
+bindkey "^[[3~"   delete-char             # Delete
+bindkey "^[[1;3C" forward-word            # Option + →
+bindkey "^[[1;3D" backward-word           # Option + ←
+bindkey "^[q"     _push-line-with-display # Option + Q
+bindkey "^[e"     edit-command-line       # Option + E
+bindkey "^[f"     fzf-file-widget-preview # Option + F
+bindkey "^g"      ghq-cd                  # Ctrl + G
+
+if [[ -n $ZENO_LOADED ]]; then
+  bindkey ' '    zeno-auto-snippet
+  bindkey '^m'   zeno-auto-snippet-and-accept-line
+  bindkey '^x '  zeno-insert-space
+  bindkey '^x^m' accept-line
+  bindkey '^i'   zeno-completion
+  bindkey '^r'   zeno-history-selection
+fi
+
+# ── ZLE Widgets ───────────────────────────────────────────────────────────────
+fpath+=("$HOME/.config/zsh/widgets")
+
+autoload -Uz edit-command-line ghq-cd fzf-file-widget-preview
 zle -N edit-command-line
+zle -N ghq-cd              # Ctrl + G: ghq リポジトリ選択
+zle -N fzf-file-widget-preview # Option + F: ファイル/ディレクトリ選択
 
 # push-line: 退避したコマンドをプロンプトに表示する
 _push-line-with-display() {
@@ -39,25 +129,8 @@ _push-line-restore() {
 autoload -Uz add-zle-hook-widget
 add-zle-hook-widget line-init _push-line-restore
 
-bindkey -e                           # emacsキーバインドを有効に
-bindkey "^[[Z" reverse-menu-complete # Shift-Tabで補完候補を逆順する("\e[Z"でも動作する)
-bindkey "^[[3~" delete-char          # Deleteキーで文字を削除する
-bindkey "^[[1;3C" forward-word       # Option + 右矢印で単語単位でカーソル移動 (Option + f と同じ)
-bindkey "^[[1;3D" backward-word      # Option + 左矢印で単語単位でカーソル移動 (Option + b と同じ) 
-bindkey "^[q" _push-line-with-display # Option + Q で行をスタックに保存（プロンプトに表示）
-bindkey "^[e" edit-command-line      # Option + E でコマンドライン編集モードに入る
-
-# 色の設定
-export LSCOLORS=Exfxcxdxbxegedabagacad
-# 補完時の色の設定
-export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-export ZLS_COLORS=$LS_COLORS
-export CLICOLOR=true
-# 補完候補に色を付ける
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:default' menu select=1 # 補完候補のカーソル選択を有効に
-
-# OSC 133
+# ── Terminal ──────────────────────────────────────────────────────────────────
+# OSC 133: シェル統合 (コマンド境界のマーキング)
 _prompt_executing=""
 function __prompt_precmd() {
     local ret="$?"
@@ -82,34 +155,11 @@ function __prompt_preexec() {
 preexec_functions+=(__prompt_preexec)
 precmd_functions+=(__prompt_precmd)
 
-if type brew &>/dev/null; then
-    FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
-    FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}
-
-    autoload -Uz compinit
-    _zcompdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/.zcompdump-${HOST}-${ZSH_VERSION}"
-    mkdir -p "${_zcompdump:h}"
-
-    setopt extendedglob
-    if [[ -n "${_zcompdump}"(#qN.mh+24) ]]; then
-        compinit -d "${_zcompdump}"
-    else
-        compinit -C -d "${_zcompdump}"
-    fi
+if [ -d ~/.terminfo ]; then
+    export TERM=wezterm
 fi
 
-eval "$(mise activate zsh)" # mise は _evalcache 使うと npm で入れてるツールとかが動かなくなる
-eval "$(oh-my-posh init zsh --config "$XDG_CONFIG_HOME/oh-my-posh/config.omp.toml")"
-
-[ -f ~/.config/zsh/fzf.zsh ] && source ~/.config/zsh/fzf.zsh
-
-# Neovim があれば、VISUAL と EDITOR を設定
-if command -v nvim >/dev/null 2>&1; then
-    export VISUAL=nvim
-    export EDITOR="$VISUAL"
-fi
-
-# プロンプトの切り替え
+# ── Prompt ────────────────────────────────────────────────────────────────────
 omp-prompt() {
     local config_dir="$XDG_CONFIG_HOME/oh-my-posh"
     case "$1" in
@@ -124,54 +174,7 @@ _omp-prompt() {
 }
 compdef _omp-prompt omp-prompt
 
-# Java
-export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH="$JAVA_HOME/bin:$PATH"
-
-# Go
-export GOPATH=$HOME/go
-export GO111MODULE=on
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
-
-# Rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
-# GCloud
-zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-
-# Deno
-export PATH="$HOME/.deno/bin:$PATH"
-
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-
-[ -f ~/.config/zsh/completion-for-pnpm.zsh ] || pnpm completion zsh >~/.config/zsh/completion-for-pnpm.zsh
-source ~/.config/zsh/completion-for-pnpm.zsh
-
-# alias
-[ -f ~/.config/zsh/alias.zsh ] && source ~/.config/zsh/alias.zsh
-
-# zoxide
-zsh-defer _evalcache zoxide init zsh
-
-# git-wt
-zsh-defer _evalcache git-wt --init zsh
-
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
-
-# terminfo
-if [ -d ~/.terminfo ]; then
-    export TERM=wezterm
-    # export TERM=ghostty
-fi
-
-if [ -f ~/.zshrc.local ]; then
-    source ~/.zshrc.local
-fi
+# ── Local ─────────────────────────────────────────────────────────────────────
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 # zprof

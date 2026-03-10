@@ -1,0 +1,19 @@
+#autoload
+
+emulate -L zsh
+local -a repos
+repos=( "${(f)^$(ghq list -p)}"(N-/) )
+[[ -n $HOME ]] && repos=( "${(@)repos//#$HOME/~}" )
+(( $#repos == 0 )) && return 1
+
+local dir
+dir=$(printf '%s\n' "${repos[@]}" | fzf \
+  --prompt='Project> ' \
+  --preview 'bat --color=always --style=plain $(eval echo {})/README.md 2>/dev/null || lsd --color=always --icon=always -la $(eval echo {})' \
+  --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up \
+  --no-multi)
+
+[[ -z $dir ]] && { zle reset-prompt; return 1; }
+BUFFER="cd ${dir// /\\ }"
+zle reset-prompt
+zle accept-line
