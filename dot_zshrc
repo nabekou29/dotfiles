@@ -96,8 +96,15 @@ bindkey "^[f"     fzf-file-widget-preview # Option + F
 bindkey "^g"      ghq-cd                  # Ctrl + G
 
 if [[ -n $ZENO_LOADED ]]; then
+  # zeno-auto-snippet-and-accept-line が POSTDISPLAY (autosuggestions) をクリアしないため、ラッパーで対処
+  _zeno-accept-line() {
+    unset POSTDISPLAY
+    zle zeno-auto-snippet-and-accept-line
+  }
+  zle -N _zeno-accept-line
+
   bindkey ' '    zeno-auto-snippet
-  bindkey '^m'   zeno-auto-snippet-and-accept-line
+  bindkey '^m'   _zeno-accept-line
   bindkey '^x '  zeno-insert-space
   bindkey '^x^m' accept-line
   bindkey '^i'   zeno-completion

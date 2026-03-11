@@ -9,7 +9,7 @@ display:
     show_hidden: false
     show_ignored: false
     show_preview: true
-    show_root_entry: true
+    show_root_entry: false
     columns: # Display order of metadata columns
         - git_status
         - size
@@ -31,7 +31,7 @@ preview:
     max_bytes: 10485760 # 10 MB
     cache_size: 50
     command_timeout: 3 # seconds
-    split_ratio: 50 # Tree/preview split % (wide layout)
+    split_ratio: 40 # Tree/preview split % (wide layout)
     narrow_split_ratio: 60 # Tree/preview split % (narrow layout)
     narrow_width: 80 # Width threshold for narrow layout (columns)
     commands:

@@ -1,161 +1,105 @@
 {
-  "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "cleanupPeriodDays": 90,
-  "env": {
-    "EDITOR": "nvim"
-  },
-  "permissions": {
-    "allow": [
-      "Bash(find:*)",
-      "Bash(gh pr diff:*)",
-      "Bash(gh pr view:*)",
-      "Bash(git add:*)",
-      "Bash(git fetch:*)",
-      "Bash(git reset)",
-      "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(mkdir:*)",
-      "Bash(mv:*)",
-      "Bash(npm install:*)",
-      "Bash(npm run lint:*)",
-      "Bash(npm run test:*)",
-      "Bash(rg:*)",
-      "mcp__deepwiki__ask_question",
-      "mcp__deepwiki__read_wiki_structure",
-      "mcp__gemini-cli-search__search_web_with_gemini",
-      "mcp__notion__fetch",
-      "mcp__notion__search",
-      "mcp__playwright__browser_click",
-      "mcp__playwright__browser_console_messages",
-      "mcp__playwright__browser_navigate",
-      "mcp__playwright__browser_navigate_back",
-      "mcp__playwright__browser_snapshot",
-      "mcp__playwright__browser_tab_select",
-      "mcp__playwright__browser_take_screenshot",
-      "mcp__playwright__browser_type",
-      "mcp__playwright__browser_wait_for",
-      "mcp__serena__check_onboarding_performed",
-      "mcp__serena__find_file",
-      "mcp__serena__find_symbol",
-      "mcp__serena__get_symbols_overview",
-      "mcp__serena__list_dir",
-      "mcp__serena__onboarding",
-      "mcp__serena__read_memory",
-      "mcp__serena__search_for_pattern",
-      "mcp__serena__think_about_collected_information",
-      "mcp__serena__think_about_whether_you_are_done",
-      "mcp__serena__write_memory",
-      "Bash(git:*)",
-      "Bash(gh api:*)",
-      "Bash(gh pr checkout:*)",
-      "Bash(gh pr comment:*)",
-      "Bash(npx eslint:*)",
-      "Bash(npx tsc:*)",
-      "Bash(npx jest:*)",
-      "Bash(npm run:*)",
-      "Bash(npm view:*)",
-      "Bash(pnpm tsc:*)",
-      "Bash(pnpm test:*)",
-      "Bash(cat:*)",
-      "Bash(wc:*)",
-      "Bash(adb logcat:*)",
-      "WebSearch",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:api.github.com)",
-      "WebFetch(domain:registry.npmjs.org)",
-      "WebFetch(domain:www.npmjs.com)",
-      "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:shopify.github.io)",
-      "WebFetch(domain:react-native-community.github.io)",
-      "WebFetch(domain:docs.swmansion.com)",
-      "mcp__figma-desktop__get_design_context",
-      "mcp__figma-desktop__get_screenshot",
-      "mcp__plugin_figma_figma__get_design_context",
-      "mcp__plugin_figma_figma__get_screenshot",
-      "mcp__plugin_figma_figma-desktop__get_design_context",
-      "mcp__Context7__resolve-library-id",
-      "mcp__Context7__get-library-docs",
-      "mcp__claude_ai_Notion__notion-fetch",
-      "mcp__claude_ai_Notion__notion-update-page",
-      "mcp__claude_ai_Notion__notion-search",
-      "mcp__plugin_playwright_playwright__browser_run_code",
-      "mcp__plugin_playwright_playwright__browser_snapshot",
-      "mcp__plugin_playwright_playwright__browser_fill_form",
-      "mcp__plugin_playwright_playwright__browser_click",
-      "mcp__plugin_playwright_playwright__browser_press_key",
-      "mcp__plugin_playwright_playwright__browser_navigate",
-      "mcp__plugin_playwright_playwright__browser_evaluate",
-      "mcp__plugin_playwright_playwright__browser_tabs",
-      "WebFetch(domain:code.claude.com)",
-      "mcp__plugin_context7_context7__resolve-library-id",
-      "mcp__plugin_context7_context7__query-docs",
-      "mcp__grep__searchGitHub",
-      "Bash(fzf:*)",
-      "Bash(brew list:*)",
-      "Bash(qlmanage:*)",
-      "Bash(plutil:*)",
-      "Bash(gh search:*)",
-      "WebFetch(domain:eclecticlight.co)"
-    ],
-    "deny": [
-      "Bash(curl:*)",
-      "Bash(mongod:*)",
-      "Bash(mysql:*)",
-      "Bash(psql:*)",
-      "Bash(sudo:*)",
-      "Bash(wget:*)",
-      "Read(.env,*)",
-      "Read(id_ed25519)",
-      "Read(id_rsa)",
-      "Write(**/secrets/**)",
-      "Write(.env*)"
-    ],
-    "ask": [],
-    "defaultMode": "bypassPermissions"
-  },
-  "model": "opus",
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_CONFIG_DIR/validate-bash.sh"
-          }
+    "$schema": "https://json.schemastore.org/claude-code-settings.json",
+    "cleanupPeriodDays": 90,
+    "env": {
+        "EDITOR": "nvim"
+    },
+    "permissions": {
+        "allow": [
+            "Bash(cat:*)",
+            "Bash(fzf:*)",
+            "Bash(gh api:*)",
+            "Bash(gh pr checkout:*)",
+            "Bash(gh pr comment:*)",
+            "Bash(gh pr diff:*)",
+            "Bash(gh pr view:*)",
+            "Bash(gh search:*)",
+            "Bash(git add:*)",
+            "Bash(git fetch:*)",
+            "Bash(git reset)",
+            "Bash(ls:*)",
+            "Bash(mkdir:*)",
+            "Bash(mv:*)",
+            "Bash(npm run:*)",
+            "Bash(npm view:*)",
+            "Bash(npx eslint:*)",
+            "Bash(npx jest:*)",
+            "Bash(npx tsc:*)",
+            "Bash(plutil:*)",
+            "Bash(pnpm test:*)",
+            "Bash(pnpm tsc:*)",
+            "Bash(qlmanage:*)",
+            "Bash(rg:*)",
+            "Bash(wc:*)",
+            "WebFetch(domain:eclecticlight.co)",
+            "WebSearch"
+        ],
+        "deny": [
+            "Bash(curl:*)",
+            "Bash(mongod:*)",
+            "Bash(mysql:*)",
+            "Bash(psql:*)",
+            "Bash(sudo:*)",
+            "Bash(wget:*)",
+            "Read(.env,*)",
+            "Read(id_ed25519)",
+            "Read(id_rsa)",
+            "Write(**/secrets/**)",
+            "Write(.env*)"
+        ],
+        "ask": [
+            "mcp__claude_ai_Notion__notion-update-page",
+            "mcp__claude_ai_Notion__notion-create-pages",
+            "mcp__claude_ai_Notion__notion-create-comment",
+            "mcp__claude_ai_Notion__notion-create-database",
+            "mcp__claude_ai_Notion__notion-duplicate-page",
+            "mcp__claude_ai_Notion__notion-move-pages",
+            "mcp__claude_ai_Notion__notion-update-data-source"
+        ],
+        "defaultMode": "bypassPermissions"
+    },
+    "model": "opus",
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Bash",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "$CLAUDE_CONFIG_DIR/validate-bash.sh"
+                    }
+                ]
+            }
+        ],
+        "Notification": [
+            {
+                "matcher": "",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "$CLAUDE_CONFIG_DIR/notification.sh"
+                    }
+                ]
+            }
         ]
-      }
-    ],
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_CONFIG_DIR/notification.sh"
-          }
-        ]
-      }
-    ]
-  },
-  "enabledPlugins": {
-    "agent-sdk-dev@claude-code-plugins": true,
-    "code-review@claude-code-plugins": true,
-    "code-simplifier@claude-plugins-official": true,
-    "context7@claude-plugins-official": true,
-    "figma@claude-plugins-official": true,
-    "lua-lsp@claude-plugins-official": true,
-    "playwright@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true
-  },
-  "language": "日本語",
-  "alwaysThinkingEnabled": true,
-  "autoUpdatesChannel": "latest",
-  "skipDangerousModePermissionPrompt": true,
-  "feedbackSurveyState": {
-    "lastShownTime": 1754280246185
-  },
-  "effortLevel": "high"
+    },
+    "enabledPlugins": {
+        "agent-sdk-dev@claude-code-plugins": true,
+        "code-review@claude-code-plugins": true,
+        "code-simplifier@claude-plugins-official": true,
+        "context7@claude-plugins-official": true,
+        "lua-lsp@claude-plugins-official": true,
+        "playwright@claude-plugins-official": true,
+        "rust-analyzer-lsp@claude-plugins-official": true,
+        "typescript-lsp@claude-plugins-official": true,
+        "gopls-lsp@claude-plugins-official": true
+    },
+    "language": "日本語",
+    "alwaysThinkingEnabled": true,
+    "effortLevel": "high",
+    "autoUpdatesChannel": "latest",
+    "skipDangerousModePermissionPrompt": true,
+    "feedbackSurveyState": {
+        "lastShownTime": 1754280246185
+    }
 }
