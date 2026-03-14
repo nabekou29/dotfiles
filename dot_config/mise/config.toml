@@ -36,6 +36,7 @@ stylua = "2.3.1"
 "cargo:https://github.com/itsjunetime/tdf.git" = "latest"
 "cargo:https://github.com/skanehira/ghost.git" = "latest"
 "cargo:https://github.com/ushironoko/octorus.git" = "latest"
+"github:ushironoko/abbrs" = "latest"
 "github:Warashi/cage" = "latest"
 "go:github.com/k1LoW/git-wt" = { version = "latest" }
 "go:github.com/nametake/golangci-lint-langserver" = { version = "latest" }

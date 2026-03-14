@@ -87,7 +87,7 @@ return {
       vim.lsp.enable({
         "biome",
         "copilot",
-        "cspell_lsp",
+        -- "cspell_lsp",
         "css_variables",
         "cssls",
         "cssmodules_ls",
@@ -403,6 +403,8 @@ return {
   -- i18n
   {
     "nabekou29/js-i18n.nvim",
+    enabled = true,
+    branch = "1_0",
     ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
     keys = {
       { "<leader>il", "<Cmd>I18nSetLang<CR>", desc = "Set language" },

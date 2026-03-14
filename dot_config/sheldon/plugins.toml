@@ -14,7 +14,6 @@ shell = "zsh"
 
 [templates]
 defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
-source-hooks = "{{ hooks?.pre | nl }}{% for file in files %}source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
 
 [plugins]
 
@@ -27,18 +26,8 @@ github = 'zsh-users/zsh-autosuggestions'
 apply = ['defer']
 
 [plugins.fast-syntax-highlighting]
-github = 'zdharma/fast-syntax-highlighting'
+github = 'zdharma-continuum/fast-syntax-highlighting'
 apply = ['defer']
-
-# zeno.zsh: deno -V (10-50ms) をスキップしつつソケットモードを有効化する
-# pre: ZENO_DISABLE_SOCK=1 で zeno.zsh 内の deno -V バージョンチェックをスキップ
-# post: ZENO_DISABLE_SOCK を解除して zeno-enable-sock を直接呼び出す
-[plugins.zeno]
-github = 'yuki-yano/zeno.zsh'
-apply = ['source-hooks']
-[plugins.zeno.hooks]
-pre = "export ZENO_DISABLE_SOCK=1"
-post = "unset ZENO_DISABLE_SOCK; zeno-enable-sock"
 
 [plugins.evalcache]
 github = 'mroth/evalcache'

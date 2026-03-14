@@ -4,11 +4,8 @@
 # ── PATH ──────────────────────────────────────────────────────────────────────
 PATH=$HOME/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.local/share/mise/shims:$PATH"  # deno (zeno.zsh が参照)
 
 # ── Plugins (sheldon) ─────────────────────────────────────────────────────────
-export ZENO_DISABLE_EXECUTE_CACHE_COMMAND=1 # deno cache (500-2000ms) をスキップ。初回利用時に自動キャッシュされる
-
 eval "$(sheldon source)"
 
 # ── Shell Options ─────────────────────────────────────────────────────────────
@@ -55,6 +52,7 @@ eval "$(oh-my-posh init zsh --config "$XDG_CONFIG_HOME/oh-my-posh/config.omp.tom
 if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
   PATH="${PATH:+${PATH}:}$(brew --prefix)/opt/fzf/bin"
 fi
+source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
 
 if command -v nvim >/dev/null 2>&1; then
     export VISUAL=nvim
@@ -95,21 +93,24 @@ bindkey "^[e"     edit-command-line       # Option + E
 bindkey "^[f"     fzf-file-widget-preview # Option + F
 bindkey "^g"      ghq-cd                  # Ctrl + G
 
-if [[ -n $ZENO_LOADED ]]; then
-  # zeno-auto-snippet-and-accept-line が POSTDISPLAY (autosuggestions) をクリアしないため、ラッパーで対処
-  _zeno-accept-line() {
-    unset POSTDISPLAY
-    zle zeno-auto-snippet-and-accept-line
-  }
-  zle -N _zeno-accept-line
+eval "$(abbrs init zsh)"
 
-  bindkey ' '    zeno-auto-snippet
-  bindkey '^m'   _zeno-accept-line
-  bindkey '^x '  zeno-insert-space
-  bindkey '^x^m' accept-line
-  bindkey '^i'   zeno-completion
-  bindkey '^r'   zeno-history-selection
-fi
+# abbrs: 展開後にスペースを自動挿入 + autosuggestions のゴーストテキストをクリア
+_abbrs-expand-space-and-insert() {
+  abbrs-expand-space
+  (( _ABBRS_CYCLING )) && return
+  [[ "${LBUFFER: -1}" == " " ]] || LBUFFER+=" "
+  unset POSTDISPLAY
+}
+zle -N _abbrs-expand-space-and-insert
+bindkey " " _abbrs-expand-space-and-insert
+
+_abbrs-expand-accept-and-clear() {
+  unset POSTDISPLAY
+  abbrs-expand-accept
+}
+zle -N _abbrs-expand-accept-and-clear
+bindkey "^M" _abbrs-expand-accept-and-clear
 
 # ── ZLE Widgets ───────────────────────────────────────────────────────────────
 fpath+=("$HOME/.config/zsh/widgets")

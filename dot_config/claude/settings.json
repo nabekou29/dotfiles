@@ -7,31 +7,14 @@
     "permissions": {
         "allow": [
             "Bash(cat:*)",
-            "Bash(fzf:*)",
-            "Bash(gh api:*)",
-            "Bash(gh pr checkout:*)",
-            "Bash(gh pr comment:*)",
             "Bash(gh pr diff:*)",
             "Bash(gh pr view:*)",
             "Bash(gh search:*)",
             "Bash(git add:*)",
-            "Bash(git fetch:*)",
-            "Bash(git reset)",
             "Bash(ls:*)",
             "Bash(mkdir:*)",
-            "Bash(mv:*)",
-            "Bash(npm run:*)",
-            "Bash(npm view:*)",
-            "Bash(npx eslint:*)",
-            "Bash(npx jest:*)",
-            "Bash(npx tsc:*)",
-            "Bash(plutil:*)",
-            "Bash(pnpm test:*)",
-            "Bash(pnpm tsc:*)",
-            "Bash(qlmanage:*)",
             "Bash(rg:*)",
             "Bash(wc:*)",
-            "WebFetch(domain:eclecticlight.co)",
             "WebSearch"
         ],
         "deny": [
@@ -58,7 +41,6 @@
         ],
         "defaultMode": "bypassPermissions"
     },
-    "model": "opus",
     "hooks": {
         "PreToolUse": [
             {
@@ -88,11 +70,11 @@
         "code-review@claude-code-plugins": true,
         "code-simplifier@claude-plugins-official": true,
         "context7@claude-plugins-official": true,
+        "gopls-lsp@claude-plugins-official": true,
         "lua-lsp@claude-plugins-official": true,
         "playwright@claude-plugins-official": true,
         "rust-analyzer-lsp@claude-plugins-official": true,
-        "typescript-lsp@claude-plugins-official": true,
-        "gopls-lsp@claude-plugins-official": true
+        "typescript-lsp@claude-plugins-official": true
     },
     "language": "日本語",
     "alwaysThinkingEnabled": true,
