@@ -1,92 +1,60 @@
 return {
   {
-    dir = "/Users/kohei_watanabe/ghq/github.com/nabekou29/trev/nvim-plugin",
-    event = { "VeryLazy" },
-    config = function()
-      require("trev").setup({
-        adapter = "toggleterm",
-        width = 40,
+    "nabekou29/trev.nvim",
+    keys = {
+      { "<leader>e", "<cmd>Trev float reveal<cr>", desc = "Toggle trev float" },
+      { "<leader>E", "<cmd>Trev reveal<cr>", desc = "Toggle trev panel" },
+    },
+    cmd = { "Trev" },
+    opts = function()
+      local trev = require("trev")
+      local actions = trev.actions
+
+      return {
+        -- trev_path = "trev",
+        width = 60,
+        float = { width = 0.9, height = 0.9 },
         auto_reveal = true,
-        action = "edit", -- edit / split / vsplit / tabedit
-        handlers = {
-          -- external_command 通知のハンドラー
-          -- find_files = function() require("telescope.builtin").find_files() end,
-
-          -- カスタム通知ハンドラー
-          open_file_pick = function(params)
-            local trev = require("trev")
-            local path = params.path
-            if not path then
-              return
-            end
-            trev.close_float()
-            require("chowcho").run(function(window)
-              vim.api.nvim_set_current_win(window)
-              vim.cmd("edit " .. vim.fn.fnameescape(path))
-            end)
-          end,
+        keybindings = {
+          ["<CR>"] = { actions.open(), actions.toggle_expand() },
+          ["<S-CR>"] = {
+            action = function(e)
+              require("trev").close()
+              require("chowcho").run(function(window)
+                vim.api.nvim_set_current_win(window)
+                if e.current_file then
+                  vim.cmd("edit " .. vim.fn.fnameescape(e.current_file))
+                end
+              end)
+            end,
+          },
+          q = actions.quit(),
+          s = {
+            description = "Open in split",
+            action = function(e)
+              require("trev").close()
+              vim.cmd("split " .. vim.fn.fnameescape(e.current_file))
+            end,
+          },
+          v = {
+            -- description = "Open in vsplit",
+            action = function(e)
+              require("trev").close()
+              vim.cmd("vsplit " .. vim.fn.fnameescape(e.current_file))
+            end,
+          },
+          Y = {
+            description = "Yank path",
+            context = { "universal" },
+            action = function(e)
+              vim.fn.setreg("+", e.current_file)
+              vim.notify("Copied: " .. e.current_file)
+            end,
+          },
         },
-      })
+      }
     end,
-    keys = {
-      { "<leader>e", "<cmd>TrevToggle float<cr>", desc = "Trev float picker" },
-      { "<leader>E", "<cmd>TrevToggle<cr>", desc = "Toggle trev" },
-    },
   },
-
-  {
-    "A7Lavinraj/fyler.nvim",
-    enabled = false,
-    event = { "VeryLazy" },
-    keys = {
-      { "<leader>e", "<Cmd>Fyler<CR>", desc = "Open file explorer" },
-    },
-    dependencies = { "nvim-mini/mini.icons" },
-    opts = {
-      integrations = {
-        icon = "mini_icons",
-        winpick = function(_win_filter, onsubmit, _opts)
-          require("chowcho").run(function(window)
-            onsubmit(window)
-          end)
-        end,
-      },
-      views = {
-        finder = {
-          close_on_select = true,
-          confirm_simple = false,
-          default_explorer = false,
-          delete_to_trash = false,
-          git_status = {
-            enabled = true,
-            symbols = {
-              Untracked = "?",
-              Added = "+",
-              Modified = "*",
-              Deleted = "x",
-              Renamed = ">",
-              Copied = "~",
-              Conflict = "!",
-              Ignored = "#",
-            },
-          },
-          mappings_opts = {
-            nowait = false,
-            noremap = true,
-            silent = true,
-          },
-          follow_current_file = true,
-          watcher = {
-            enabled = false,
-          },
-          win = {
-            kind = "float",
-          },
-        },
-      },
-    },
-  },
-
   {
     "stevearc/oil.nvim",
     lazy = false,

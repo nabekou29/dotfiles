@@ -93,6 +93,7 @@ bindkey "^[e"     edit-command-line       # Option + E
 bindkey "^[f"     fzf-file-widget-preview # Option + F
 bindkey "^g"      ghq-cd                  # Ctrl + G
 
+autoload -Uz add-zsh-hook
 eval "$(abbrs init zsh)"
 
 # abbrs: 展開後にスペースを自動挿入 + autosuggestions のゴーストテキストをクリア

@@ -40,8 +40,9 @@ keyword = "docker-compose"
 expansion = "docker compose"
 
 [[abbr]]
-keyword = "rmdsstore"
+keyword = "Rmdsstore"
 expansion = 'find . -name ".DS_Store" -type f -ls -delete'
+allow_conflict = true
 
 [[abbr]]
 keyword = "head"
@@ -59,4 +60,15 @@ allow_conflict = true
 keyword = "sed"
 expansion = "gsed"
 global = true
+allow_conflict = true
+
+[[abbr]]
+keyword = "co"
+expansion = "checkout"
+command = "git"
+
+[[abbr]]
+keyword = "cp"
+expansion = "cherry-pick"
+command = "git"
 allow_conflict = true

@@ -7,6 +7,7 @@ presets:
             - "/private/tmp" # macos tmp directory
             - "/private/var"
             - "/var/folders" # macos mktemp
+            - "/tmp"
             - "/dev"
             - "/Library/Caches" # macos app caches
             - "$HOME/Library/Caches" # macos app caches
