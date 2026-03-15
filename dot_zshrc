@@ -108,7 +108,7 @@ bindkey " " _abbrs-expand-space-and-insert
 
 _abbrs-expand-accept-and-clear() {
   unset POSTDISPLAY
-  abbrs-expand-accept
+  zle abbrs-expand-accept
 }
 zle -N _abbrs-expand-accept-and-clear
 bindkey "^M" _abbrs-expand-accept-and-clear

@@ -11,7 +11,7 @@ return {
       local actions = trev.actions
 
       return {
-        -- trev_path = "trev",
+        adapter = "tmux",
         width = 60,
         float = { width = 0.9, height = 0.9 },
         auto_reveal = true,
@@ -32,14 +32,12 @@ return {
           s = {
             description = "Open in split",
             action = function(e)
-              require("trev").close()
               vim.cmd("split " .. vim.fn.fnameescape(e.current_file))
             end,
           },
           v = {
-            -- description = "Open in vsplit",
+            description = "Open in vsplit",
             action = function(e)
-              require("trev").close()
               vim.cmd("vsplit " .. vim.fn.fnameescape(e.current_file))
             end,
           },
@@ -55,6 +53,7 @@ return {
       }
     end,
   },
+
   {
     "stevearc/oil.nvim",
     lazy = false,
