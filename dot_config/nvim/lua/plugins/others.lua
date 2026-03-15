@@ -95,7 +95,7 @@ return {
       {
         "<leader>oe",
         function()
-          require("fyler").open({ dir = require("obsidian").get_client():vault_root().filename })
+          require("trev").show({ dir = require("obsidian").get_client():vault_root().filename, position = "float" })
         end,
         desc = "Obsidian: Open vault in file explorer",
       },

@@ -11,6 +11,7 @@ presets:
             - "/dev"
             - "/Library/Caches" # macos app caches
             - "$HOME/Library/Caches" # macos app caches
+            - "$HOME/Library/Application Support/gcalcli/cache"
             - "$HOME/.cache"
 
     git-enabled:

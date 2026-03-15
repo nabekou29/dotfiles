@@ -11,7 +11,6 @@ return {
       local actions = trev.actions
 
       return {
-        adapter = "tmux",
         width = 60,
         float = { width = 0.9, height = 0.9 },
         auto_reveal = true,
@@ -19,36 +18,16 @@ return {
           ["<CR>"] = { actions.open(), actions.toggle_expand() },
           ["<S-CR>"] = {
             action = function(e)
-              require("trev").close()
               require("chowcho").run(function(window)
                 vim.api.nvim_set_current_win(window)
                 if e.current_file then
                   vim.cmd("edit " .. vim.fn.fnameescape(e.current_file))
                 end
               end)
+              require("trev").close()
             end,
           },
           q = actions.quit(),
-          s = {
-            description = "Open in split",
-            action = function(e)
-              vim.cmd("split " .. vim.fn.fnameescape(e.current_file))
-            end,
-          },
-          v = {
-            description = "Open in vsplit",
-            action = function(e)
-              vim.cmd("vsplit " .. vim.fn.fnameescape(e.current_file))
-            end,
-          },
-          Y = {
-            description = "Yank path",
-            context = { "universal" },
-            action = function(e)
-              vim.fn.setreg("+", e.current_file)
-              vim.notify("Copied: " .. e.current_file)
-            end,
-          },
         },
       }
     end,

@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage: pushover [OPTIONS] MESSAGE
+
+Send a Pushover notification.
+
+Options:
+  -t TITLE     Notification title
+  -d DEVICE    Target device (default: all devices)
+  -p PRIORITY  Priority: -2(lowest) -1 0(normal) 1(high) 2(emergency)
+  -s SOUND     Notification sound (e.g. pushover, bike, bugle, cosmic)
+  -u URL       Supplementary URL
+  -l URLTITLE  Title for the supplementary URL
+  -h           Show this help
+
+Environment variables:
+  PUSHOVER_API_KEY   Application API token (required)
+  PUSHOVER_USER_KEY  User key (required)
+
+Falls back to CC_PUSHOVER_API_KEY / CC_PUSHOVER_USER_KEY if the above are not set.
+USAGE
+  exit "${1:-0}"
+}
+
+api_key="${PUSHOVER_API_KEY:-${CC_PUSHOVER_API_KEY:-}}"
+user_key="${PUSHOVER_USER_KEY:-${CC_PUSHOVER_USER_KEY:-}}"
+
+title="" device="" priority="" sound="" url="" url_title=""
+
+while getopts "t:d:p:s:u:l:h" opt; do
+  case "$opt" in
+    t) title="$OPTARG" ;;
+    d) device="$OPTARG" ;;
+    p) priority="$OPTARG" ;;
+    s) sound="$OPTARG" ;;
+    u) url="$OPTARG" ;;
+    l) url_title="$OPTARG" ;;
+    h) usage 0 ;;
+    *) usage 1 >&2 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+message="${*}"
+
+if [[ -z "$message" ]]; then
+  echo "Error: MESSAGE is required" >&2
+  usage 1 >&2
+fi
+
+if [[ -z "$api_key" ]]; then
+  echo "Error: PUSHOVER_API_KEY (or CC_PUSHOVER_API_KEY) is not set" >&2
+  exit 1
+fi
+
+if [[ -z "$user_key" ]]; then
+  echo "Error: PUSHOVER_USER_KEY (or CC_PUSHOVER_USER_KEY) is not set" >&2
+  exit 1
+fi
+
+args=(
+  --form-string "token=${api_key}"
+  --form-string "user=${user_key}"
+  --form-string "message=${message}"
+)
+
+[[ -n "$title" ]]     && args+=(--form-string "title=${title}")
+[[ -n "$device" ]]    && args+=(--form-string "device=${device}")
+[[ -n "$priority" ]]  && args+=(--form-string "priority=${priority}")
+[[ -n "$sound" ]]     && args+=(--form-string "sound=${sound}")
+[[ -n "$url" ]]       && args+=(--form-string "url=${url}")
+[[ -n "$url_title" ]] && args+=(--form-string "url_title=${url_title}")
+
+# Emergency priority requires retry and expire parameters
+if [[ "$priority" == "2" ]]; then
+  args+=(--form-string "retry=60" --form-string "expire=3600")
+fi
+
+response=$(curl -s "${args[@]}" https://api.pushover.net/1/messages.json)
+
+if echo "$response" | grep -q '"status":1'; then
+  echo "Notification sent."
+else
+  echo "Failed: $response" >&2
+  exit 1
+fi
