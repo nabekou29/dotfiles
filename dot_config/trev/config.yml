@@ -68,6 +68,12 @@ watcher:
 git:
     enabled: true
 
+custom_actions:
+    lazygit:
+        description: "Open lazygit"
+        run: "lazygit"
+        run_mode: interactive
+
 keybindings:
     disable_default: false
     universal:
@@ -75,6 +81,8 @@ keybindings:
         bindings:
             - key: "<M-d>"
               action: tree.sort.toggle_directories_first
+            - key: "<C-g>"
+              action: custom.lazygit
 
     daemon:
         file:

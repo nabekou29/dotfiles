@@ -44,6 +44,7 @@ stylua = "2.3.1"
 "go:github.com/satococoa/wtp/v2/cmd/wtp" = { version = "latest" }
 "npm:@github/copilot" = "latest"
 "npm:@google/gemini-cli" = "latest"
+"npm:@googleworkspace/cli" = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@taplo/cli" = "latest"
 "npm:agent-browser" = "latest"
