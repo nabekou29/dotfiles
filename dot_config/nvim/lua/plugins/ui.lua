@@ -69,6 +69,7 @@ return {
             buf_opts = {
               ft = {
                 "toggleterm",
+                "snacks_terminal",
                 "trev",
               },
             },
@@ -447,7 +448,18 @@ return {
         sections = {
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { { "filename", path = 1 } },
+          lualine_c = {
+            {
+              "filename",
+              path = 1,
+              fmt = function(str)
+                if vim.bo.buftype == "terminal" then
+                  return str:match(".*:(%S+)")
+                end
+                return str
+              end,
+            },
+          },
           lualine_x = { "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" },
