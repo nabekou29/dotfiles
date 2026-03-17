@@ -169,13 +169,9 @@ return {
           return {}
         end,
         formatters = {
-          oxfmt = smart_formatter({
-            args = { "format", "$FILENAME" },
-          }, {
-            args = { "format", "$FILENAME" },
-          }, {
+          oxfmt = {
             require_cwd = true,
-          }),
+          },
           biome = smart_formatter({
             args = { "format", "--stdin-file-path", "$FILENAME" },
           }, {
