@@ -7,15 +7,18 @@ return {
     },
     cmd = { "Trev" },
     opts = function()
-      local trev = require("trev")
-      local actions = trev.actions
+      -- local trev = require("trev")
+      -- local actions = trev.actions
 
       return {
-        width = 60,
-        float = { width = 0.9, height = 0.9 },
-        auto_reveal = true,
+        adapter = "auto",
+        -- width = 60,
+        float = { width = 0.7, height = 0.7 },
+        auto_reveal = false,
+        neovim_preview = {
+          enabled = true,
+        },
         keybindings = {
-          ["<CR>"] = { actions.open(), actions.toggle_expand() },
           ["<S-CR>"] = {
             action = function(e)
               require("chowcho").run(function(window)
@@ -24,10 +27,8 @@ return {
                   vim.cmd("edit " .. vim.fn.fnameescape(e.current_file))
                 end
               end)
-              require("trev").close()
             end,
           },
-          q = actions.quit(),
         },
       }
     end,

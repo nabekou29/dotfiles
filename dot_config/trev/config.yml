@@ -10,6 +10,7 @@ display:
     show_ignored: false
     show_preview: true
     show_root_entry: false
+    modal_avoid_preview: false
     columns: # Display order of metadata columns
         - git_status
         - size

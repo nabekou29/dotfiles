@@ -35,7 +35,12 @@ if echo "$command" | grep -qE '\bsed\b'; then
 fi
 
 if echo "$command" | grep -qE '\bpush\b'; then
-  deny "Do not execute 'git push'. Please ask the user to execute it."
+  # Check if local branch is ahead of remote
+  if git status -sb 2>/dev/null | head -1 | grep -q '\[ahead'; then
+    deny "Do not execute 'git push'. Please ask the user to execute it."
+  else
+    deny "All commits are already pushed to remote. No need to push."
+  fi
 fi
 
 if echo "$command" | grep -qE '\bgit add (-A|--all|\.($|[ ;|&]))'; then
