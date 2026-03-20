@@ -26,6 +26,10 @@ display:
         - pattern: ["*_test.*", "*_spec.*", "*.test.*", "*.spec.*"]
           style:
               fg: "#909090"
+        - pattern: ["package-lock.json", "yarn.lock", "pnpm-lock.yaml"]
+          style:
+              fg: "#909090"
+              italic: true
 
 preview:
     max_lines: 1000

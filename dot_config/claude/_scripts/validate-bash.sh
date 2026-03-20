@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Validate specific Bash commands usage
 
 # Read JSON input from stdin

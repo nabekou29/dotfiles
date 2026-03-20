@@ -48,7 +48,18 @@
                 "hooks": [
                     {
                         "type": "command",
-                        "command": "$CLAUDE_CONFIG_DIR/validate-bash.sh"
+                        "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/validate-bash.sh"
+                    }
+                ]
+            }
+        ],
+        "PostToolUse": [
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/trev-reveal.sh"
                     }
                 ]
             }
@@ -59,7 +70,7 @@
                 "hooks": [
                     {
                         "type": "command",
-                        "command": "$CLAUDE_CONFIG_DIR/notification.sh"
+                        "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/notification.sh"
                     }
                 ]
             }
@@ -83,5 +94,10 @@
     "skipDangerousModePermissionPrompt": true,
     "feedbackSurveyState": {
         "lastShownTime": 1754280246185
+    },
+    "statusLine": {
+        "type": "command",
+        "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/statusline.sh",
+        "padding": 1
     }
 }

@@ -7,13 +7,12 @@ return {
     },
     cmd = { "Trev" },
     opts = function()
-      -- local trev = require("trev")
-      -- local actions = trev.actions
+      local trev = require("trev")
 
       return {
         adapter = "auto",
-        -- width = 60,
-        float = { width = 0.7, height = 0.7 },
+        width = 60,
+        -- float = { width = 0.7, height = 0.7 },
         auto_reveal = false,
         neovim_preview = {
           enabled = true,
@@ -21,6 +20,7 @@ return {
         keybindings = {
           ["<S-CR>"] = {
             action = function(e)
+              trev.close()
               require("chowcho").run(function(window)
                 vim.api.nvim_set_current_win(window)
                 if e.current_file then
