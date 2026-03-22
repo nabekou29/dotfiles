@@ -12,12 +12,12 @@ return {
       return {
         adapter = "auto",
         width = 60,
-        -- float = { width = 0.7, height = 0.7 },
-        auto_reveal = false,
+        auto_reveal = true,
         neovim_preview = {
           enabled = true,
         },
         keybindings = {
+          ["e"] = trev.actions.open(),
           ["<S-CR>"] = {
             action = function(e)
               trev.close()

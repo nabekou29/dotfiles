@@ -11,6 +11,10 @@ keyword = "lg"
 expansion = "lazygit"
 
 [[abbr]]
+keyword = "t"
+expansion = "trev"
+
+[[abbr]]
 keyword = "cl"
 expansion = "claude"
 

@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nabekou29/trev/prototype/config.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nabekou29/trev/main/config.schema.json
 
 sort:
     order: smart # name | size | mtime | type | extension
@@ -39,24 +39,23 @@ preview:
     split_ratio: 40 # Tree/preview split % (wide layout)
     narrow_split_ratio: 60 # Tree/preview split % (narrow layout)
     narrow_width: 80 # Width threshold for narrow layout (columns)
-    # commands:
-    #     - name: ls
-    #       command: lsd
-    #       args: ["-la", "--color=always"]
-    #       directories: true
-    #       priority: low
-    #     - command: dust
-    #       args: ["-r"]
-    #       directories: true
-    #       priority: low
-    #     - command: tree
-    #       args: ["-L", "10"]
-    #       directories: true
-    #       priority: low
-    #     - command: bat
-    #       extensions: [md, ts, tsx]
-    #       args: ["--color=always", "--style=plain", "--language=markdown"]
-    #       priority: low
+    providers:
+        - name: "ls"
+          target: directory # file | directory | all (default: file)
+          priority: low
+          command: lsd
+          args: ["-la", "--color=always"]
+        - name: "Markdown"
+          extensions: [md]
+          command: glow
+          env:
+              CLICOLOR_FORCE: "1"
+              COLORTERM: truecolor
+        - name: "Disk Usage"
+          target: directory # file | directory | all (default: file)
+          priority: low
+          command: dust
+          args: ["-r"]
 
 file_op:
     delete_mode: custom_trash
