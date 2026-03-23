@@ -129,11 +129,13 @@ fi
 
 # ===== Estimate visible width =====
 vis_model=$(( 2 + 1 + ${#model} ))               # icon(2col) + space + model name
-vis_ctx=$(( 2 + 1 + 10 + 1 + ${#pct_int} + 1 ))   # icon(2col) + space + bar(10) + space + pct + "%"
+vis_ctx=$(( 2 + 1 + 10 + 1 + ${#pct_int} + 1 ))  # icon(2col) + space + bar(10) + space + pct + "%"
 sep_w=3  # " │ "
 sections=2
 [[ -n "$sec_rate" ]] && (( sections++ ))
-total_w=$(( vis_model + vis_ctx + vis_rate + sep_w * (sections - 1) ))
+# Reserve space for Claude Code's right-side text (e.g. " current: 2.1.81 · latest: 2.1.81")
+right_reserved=40
+total_w=$(( vis_model + vis_ctx + vis_rate + sep_w * (sections - 1) + right_reserved ))
 
 cols=${COLUMNS:-$(tput cols </dev/tty 2>/dev/null)} 2>/dev/null
 cols=${cols:-80}

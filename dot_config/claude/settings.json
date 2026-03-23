@@ -1,103 +1,104 @@
 {
-    "$schema": "https://json.schemastore.org/claude-code-settings.json",
-    "cleanupPeriodDays": 90,
-    "env": {
-        "EDITOR": "nvim"
-    },
-    "permissions": {
-        "allow": [
-            "Bash(cat:*)",
-            "Bash(gh pr diff:*)",
-            "Bash(gh pr view:*)",
-            "Bash(gh search:*)",
-            "Bash(git add:*)",
-            "Bash(ls:*)",
-            "Bash(mkdir:*)",
-            "Bash(rg:*)",
-            "Bash(wc:*)",
-            "WebSearch"
-        ],
-        "deny": [
-            "Bash(curl:*)",
-            "Bash(mongod:*)",
-            "Bash(mysql:*)",
-            "Bash(psql:*)",
-            "Bash(sudo:*)",
-            "Bash(wget:*)",
-            "Read(.env,*)",
-            "Read(id_ed25519)",
-            "Read(id_rsa)",
-            "Write(**/secrets/**)",
-            "Write(.env*)"
-        ],
-        "ask": [
-            "mcp__claude_ai_Notion__notion-update-page",
-            "mcp__claude_ai_Notion__notion-create-pages",
-            "mcp__claude_ai_Notion__notion-create-comment",
-            "mcp__claude_ai_Notion__notion-create-database",
-            "mcp__claude_ai_Notion__notion-duplicate-page",
-            "mcp__claude_ai_Notion__notion-move-pages",
-            "mcp__claude_ai_Notion__notion-update-data-source"
-        ],
-        "defaultMode": "bypassPermissions"
-    },
-    "hooks": {
-        "PreToolUse": [
-            {
-                "matcher": "Bash",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/validate-bash.sh"
-                    }
-                ]
-            }
-        ],
-        "PostToolUse": [
-            {
-                "matcher": "Edit|Write",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/trev-reveal.sh"
-                    }
-                ]
-            }
-        ],
-        "Notification": [
-            {
-                "matcher": "",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/notification.sh"
-                    }
-                ]
-            }
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 90,
+  "env": {
+    "EDITOR": "nvim"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh search:*)",
+      "Bash(git add:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(rg:*)",
+      "Bash(wc:*)",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Bash(mongod:*)",
+      "Bash(mysql:*)",
+      "Bash(psql:*)",
+      "Bash(sudo:*)",
+      "Bash(wget:*)",
+      "Read(.env,*)",
+      "Read(id_ed25519)",
+      "Read(id_rsa)",
+      "Write(**/secrets/**)",
+      "Write(.env*)"
+    ],
+    "ask": [
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-create-pages",
+      "mcp__claude_ai_Notion__notion-create-comment",
+      "mcp__claude_ai_Notion__notion-create-database",
+      "mcp__claude_ai_Notion__notion-duplicate-page",
+      "mcp__claude_ai_Notion__notion-move-pages",
+      "mcp__claude_ai_Notion__notion-update-data-source"
+    ],
+    "defaultMode": "bypassPermissions"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/validate-bash.sh"
+          }
         ]
-    },
-    "enabledPlugins": {
-        "agent-sdk-dev@claude-code-plugins": true,
-        "code-review@claude-code-plugins": true,
-        "code-simplifier@claude-plugins-official": true,
-        "context7@claude-plugins-official": true,
-        "gopls-lsp@claude-plugins-official": true,
-        "lua-lsp@claude-plugins-official": true,
-        "playwright@claude-plugins-official": false,
-        "rust-analyzer-lsp@claude-plugins-official": true,
-        "typescript-lsp@claude-plugins-official": true
-    },
-    "language": "日本語",
-    "alwaysThinkingEnabled": true,
-    "effortLevel": "high",
-    "autoUpdatesChannel": "latest",
-    "skipDangerousModePermissionPrompt": true,
-    "feedbackSurveyState": {
-        "lastShownTime": 1754280246185
-    },
-    "statusLine": {
-        "type": "command",
-        "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/statusline.sh",
-        "padding": 1
-    }
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/trev-reveal.sh"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/notification.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/statusline.sh",
+    "padding": 1
+  },
+  "enabledPlugins": {
+    "agent-sdk-dev@claude-code-plugins": true,
+    "code-review@claude-code-plugins": true,
+    "code-simplifier@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "playwright@claude-plugins-official": false,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "language": "日本語",
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "autoUpdatesChannel": "latest",
+  "autoDreamEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754280246185
+  }
 }

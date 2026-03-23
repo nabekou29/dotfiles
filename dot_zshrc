@@ -1,3 +1,8 @@
+# ── Instant Prompt (must be at the very top) ─────────────────────────────────
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # check initilize speed: `time zsh -i -c exit`
 # zmodload zsh/zprof
 
@@ -47,7 +52,6 @@ zstyle ':completion:*:default' menu select=1
 
 # ── Tools ─────────────────────────────────────────────────────────────────────
 eval "$(mise activate zsh)" # _evalcache 不可: npm で入れてるツールが動かなくなる
-eval "$(oh-my-posh init zsh --config "$XDG_CONFIG_HOME/oh-my-posh/config.omp.toml")"
 
 if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
   PATH="${PATH:+${PATH}:}$(brew --prefix)/opt/fzf/bin"
@@ -168,20 +172,8 @@ if [ -d ~/.terminfo ]; then
     export TERM=wezterm
 fi
 
-# ── Prompt ────────────────────────────────────────────────────────────────────
-omp-prompt() {
-    local config_dir="$XDG_CONFIG_HOME/oh-my-posh"
-    case "$1" in
-        minimal) eval "$(oh-my-posh init zsh --config "$config_dir/config-minimal.omp.toml")" ;;
-        *)       eval "$(oh-my-posh init zsh --config "$config_dir/config.omp.toml")" ;;
-    esac
-}
-_omp-prompt() {
-    local -a options
-    options=('default:通常のプロンプト' 'minimal:シンプルなプロンプト')
-    _describe 'prompt' options
-}
-compdef _omp-prompt omp-prompt
+# ── Prompt (Powerlevel10k) ───────────────────────────────────────────────────
+[[ ! -f "$XDG_CONFIG_HOME/p10k/p10k.zsh" ]] || source "$XDG_CONFIG_HOME/p10k/p10k.zsh"
 
 # ── Local ─────────────────────────────────────────────────────────────────────
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
