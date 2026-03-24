@@ -48,6 +48,7 @@ vim.opt.backup = true
 vim.opt.backupdir = vim.fn.stdpath("data") .. "/backup//" -- // をつけるとパス構造が保持される
 
 vim.g.editorconfig = true
+vim.opt.exrc = true -- プロジェクトローカルの .nvim.lua を読み込む
 
 -- undo 永続化
 if vim.fn.has("persistent_undo") == 1 then
@@ -66,14 +67,6 @@ vim.diagnostic.config({
   severity_sort = true,
   update_in_insert = false,
   signs = false,
-  -- sign = {
-  --   text = {
-  --     [vim.diagnostic.severity.ERROR] = "",
-  --     [vim.diagnostic.severity.WARN] = "",
-  --     [vim.diagnostic.severity.INFO] = "󰋽",
-  --     [vim.diagnostic.severity.HINT] = "",
-  --   },
-  -- },
   virtual_text = {
     prefix = "", -- ドキュメント上は関数も可能となっていたがエラーになってしまったので format で対応（もう大丈夫かも）
     suffix = "",
@@ -95,18 +88,19 @@ vim.diagnostic.config({
   },
 })
 
+-- LSP document color を virtual text スタイルで表示
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    vim.lsp.document_color.enable(true, args.buf, { style = "virtual" })
+  end,
+})
+
 -- Yank した場所をハイライト
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank({ higroup = "IncSearch", timeout = 200 })
   end,
 })
-
--- Open Cheetsheet
-
-vim.cmd([[
-  command! Cheatsheet edit ~/.config/nvim/cheetsheet.md
-]])
 
 -- For ovim
 if vim.env.OVIM_SESSION_ID then

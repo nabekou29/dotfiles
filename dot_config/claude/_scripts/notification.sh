@@ -19,6 +19,16 @@ else
   TITLE="Claude Code: $(basename "$CWD")"
 fi
 
+# Build remote control URL from JWT session token
+REMOTE_URL=""
+if [[ -n "$CLAUDE_CODE_SESSION_ACCESS_TOKEN" ]]; then
+  payload=$(echo "$CLAUDE_CODE_SESSION_ACCESS_TOKEN" | cut -d. -f2 | tr '_-' '/+')
+  SESSION_ID=$(echo "${payload}==" | base64 -d 2>/dev/null | jq -r '.session_id // empty')
+  if [[ -n "$SESSION_ID" ]]; then
+    REMOTE_URL="https://claude.ai/code/${SESSION_ID/cse_/session_}"
+  fi
+fi
+
 case "$MESSAGE" in
   'Claude is waiting for your input')
     NOTIFY_MSG="入力を待っています"
@@ -40,10 +50,14 @@ ESCAPED_MSG="${NOTIFY_MSG//\[/\\[}"
 terminal-notifier -message "$ESCAPED_MSG" -title "$TITLE" -sound default -contentImage 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png'
 
 # Pushover notification
-curl -s \
-    --form-string "token=${CC_PUSHOVER_API_KEY}" \
-    --form-string "user=${CC_PUSHOVER_USER_KEY}" \
-    --form-string "message=${NOTIFY_MSG}" \
-    --form-string "device=iphone" \
-    --form-string "title=${TITLE}" \
-    https://api.pushover.net/1/messages.json
+PUSHOVER_ARGS=(
+    --form-string "token=${CC_PUSHOVER_API_KEY}"
+    --form-string "user=${CC_PUSHOVER_USER_KEY}"
+    --form-string "message=${NOTIFY_MSG}"
+    --form-string "device=iphone"
+    --form-string "title=${TITLE}"
+)
+if [[ -n "$REMOTE_URL" ]]; then
+    PUSHOVER_ARGS+=(--form-string "url=${REMOTE_URL}" --form-string "url_title=Open Remote Control")
+fi
+curl -s "${PUSHOVER_ARGS[@]}" https://api.pushover.net/1/messages.json

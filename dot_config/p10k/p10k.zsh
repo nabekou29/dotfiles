@@ -155,7 +155,7 @@
   typeset -g POWERLEVEL9K_GCLOUD_BACKGROUND=$lang_bg
   typeset -g POWERLEVEL9K_GCLOUD_FOREGROUND='#e5e510'
   # $SHOW_GCLOUD が設定されている場合のみ表示、プロジェクト ID のみ (メアド非表示)
-  typeset -g POWERLEVEL9K_GCLOUD_VISUAL_IDENTIFIER_EXPANSION='${${SHOW_GCLOUD:+\uF0C2}}'
+  typeset -g POWERLEVEL9K_GCLOUD_VISUAL_IDENTIFIER_EXPANSION=$'${${SHOW_GCLOUD:+\uF0C2}}'
   typeset -g POWERLEVEL9K_GCLOUD_CONTENT_EXPANSION='${${SHOW_GCLOUD:+$P9K_GCLOUD_PROJECT_ID}}'
 
   # ── command_execution_time ──────────────────────────────────────────────────

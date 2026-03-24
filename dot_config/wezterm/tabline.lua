@@ -113,17 +113,44 @@ function M.setup_tabline(wezterm, config)
     local workspace_bg = "#5c76ae"
     local workspace_fg = "#15161e"
 
-    -- Git branch (左ステータス用)
+    -- Git repo name & branch (左ステータス用)
+    local left_repo_label = ""
     local left_git_branch = ""
     local left_cwd_for_git = pane:get_current_working_dir()
     if left_cwd_for_git then
+      local cwd_path = left_cwd_for_git.file_path
+
+      -- リポジトリ名: remote origin URL から取得
+      local repo_name = ""
+      local ok_remote, remote_out = wezterm.run_child_process({ "git", "-C", cwd_path, "remote", "get-url", "origin" })
+      if ok_remote then
+        repo_name = remote_out:gsub("%s+$", ""):match("[^/]+$"):gsub("%.git$", "")
+      end
+
+      -- ワークツリー名: show-toplevel の basename
+      local worktree_name = ""
+      local ok_toplevel, toplevel_out =
+        wezterm.run_child_process({ "git", "-C", cwd_path, "rev-parse", "--show-toplevel" })
+      if ok_toplevel then
+        worktree_name = toplevel_out:gsub("%s+$", ""):match("[^/]+$") or ""
+      end
+
+      -- repo名とworktree名が異なれば両方表示
+      if repo_name ~= "" and repo_name ~= worktree_name then
+        left_repo_label = repo_name .. " (" .. worktree_name .. ")"
+      elseif worktree_name ~= "" then
+        left_repo_label = worktree_name
+      end
+
       local ok_branch, branch_out =
-        wezterm.run_child_process({ "git", "-C", left_cwd_for_git.file_path, "rev-parse", "--abbrev-ref", "HEAD" })
+        wezterm.run_child_process({ "git", "-C", cwd_path, "rev-parse", "--abbrev-ref", "HEAD" })
       if ok_branch then
         left_git_branch = branch_out:gsub("%s+", "")
       end
     end
 
+    local left_repo_bg = "#3d5a80"
+    local left_repo_fg = "#e0e0e0"
     local left_git_bg = "#2d4a5e"
     local left_git_fg = "#89b8c2"
 
@@ -134,9 +161,23 @@ function M.setup_tabline(wezterm, config)
       { Text = "  " .. workspace .. " " },
     }
 
+    -- 前のセグメントの背景色を追跡
+    local left_prev_bg = workspace_bg
+
+    if left_repo_label ~= "" then
+      table.insert(left_elements, { Background = { Color = left_repo_bg } })
+      table.insert(left_elements, { Foreground = { Color = left_prev_bg } })
+      table.insert(left_elements, { Text = SOLID_RIGHT_ARROW })
+      table.insert(left_elements, { Background = { Color = left_repo_bg } })
+      table.insert(left_elements, { Foreground = { Color = left_repo_fg } })
+      table.insert(left_elements, { Attribute = { Intensity = "Bold" } })
+      table.insert(left_elements, { Text = "  " .. left_repo_label .. " " })
+      left_prev_bg = left_repo_bg
+    end
+
     if left_git_branch ~= "" then
       table.insert(left_elements, { Background = { Color = left_git_bg } })
-      table.insert(left_elements, { Foreground = { Color = workspace_bg } })
+      table.insert(left_elements, { Foreground = { Color = left_prev_bg } })
       table.insert(left_elements, { Text = SOLID_RIGHT_ARROW })
       table.insert(left_elements, { Background = { Color = left_git_bg } })
       table.insert(left_elements, { Foreground = { Color = left_git_fg } })
@@ -146,7 +187,7 @@ function M.setup_tabline(wezterm, config)
       table.insert(left_elements, { Text = SOLID_RIGHT_ARROW })
     else
       table.insert(left_elements, { Background = { Color = "#15161e" } })
-      table.insert(left_elements, { Foreground = { Color = workspace_bg } })
+      table.insert(left_elements, { Foreground = { Color = left_prev_bg } })
       table.insert(left_elements, { Text = SOLID_RIGHT_ARROW })
     end
 

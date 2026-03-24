@@ -120,6 +120,7 @@ return {
   -- カラーハイライト
   {
     "brenoprata10/nvim-highlight-colors",
+    enabled = false,
     event = { "VeryLazy" },
     opts = {
       render = "virtual",
