@@ -23,12 +23,20 @@ return {
   -- set("x", "<M-S-j>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })
   -- set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
   {
-    "matze/vim-move",
-    init = function()
-      vim.g.move_key_modifier = "M-S"
-      vim.g.move_key_modifier_visualmode = "M-S"
-    end,
+    "echasnovski/mini.move",
     event = { "VeryLazy" },
+    opts = {
+      mappings = {
+        left = "H",
+        right = "L",
+        down = "J",
+        up = "K",
+        line_left = "",
+        line_right = "",
+        line_down = "",
+        line_up = "",
+      },
+    },
   },
 
   -- 括弧や引用符を自動で閉じる
