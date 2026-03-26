@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Commit changes by splitting into logical units with Conventional Commits format. Checks for false positive changes and auto-detects commit message language from git history.
+description: Commit changes by splitting into logical units. Defaults to Conventional Commits but adapts to the repo's existing format if consistently different. Auto-detects commit message language from git history.
 argument-hint: "[short] [co] [single] [one]"
 ---
 
@@ -55,27 +55,36 @@ Review the changes and verify that related documentation is up to date:
 
 **Update any stale documentation before proceeding.**
 
-### 5. Determine commit message language
+### 5. Determine commit message language and format
 
-Run `git log --oneline -20` and detect the dominant language used in recent commit messages. Use that language for the new commit messages. User directives take precedence.
+Run `git log --oneline -20` and analyze recent commit messages for:
+
+1. **Language**: Detect the dominant language. Use it for new commits. User directives take precedence.
+2. **Format**: Check whether commits consistently follow a non-Conventional format (e.g., no `type:` prefix, capitalized sentences, emoji prefixes, ticket-ID prefixes). If a clear, consistent pattern exists, adopt that format instead of Conventional Commits.
 
 ### 6. Split and commit
 
-Split changes into logical units by type and scope:
+Split changes into logical units by type and scope.
+
+If the repo uses Conventional Commits (or has no consistent alternative):
 - **type**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`
   - `refactor`: Use **only** when the change has zero effect on user-facing behavior (no API, CLI, UI, or output changes). If any external behavior changes, use `feat`, `fix`, or another appropriate type instead.
 - **scope**: The feature or area affected (e.g., `utils`, `api`, `web`, `cli`)
 
 ## Commit Message Format
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/).
+**Default**: Follow [Conventional Commits](https://www.conventionalcommits.org/), unless step 5 detected a different consistent format in the repo history.
 
-### Subject line
+### Subject line (Conventional Commits default)
 
 - Imperative mood: `fix: resolve memory leak` (not `resolved` / `resolves`)
 - Lowercase after type: `feat: add parser` (not `Add`)
 - No trailing period
 - Max 72 characters
+
+### Subject line (repo-specific format)
+
+If the repo uses a different consistent format, mirror its conventions for capitalization, prefixes, punctuation, and structure.
 
 ### Body
 

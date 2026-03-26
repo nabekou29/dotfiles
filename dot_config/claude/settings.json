@@ -90,7 +90,8 @@
     "lua-lsp@claude-plugins-official": true,
     "playwright@claude-plugins-official": false,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "slack@claude-plugins-official": true
   },
   "language": "日本語",
   "alwaysThinkingEnabled": true,

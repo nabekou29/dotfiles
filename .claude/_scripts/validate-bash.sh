@@ -28,4 +28,8 @@ if echo "$command" | grep -qE '(^|[;&|])\s*rm(dir)?\b'; then
   deny "Use 'chezmoi destroy -r <target>' instead of rm/rmdir. It removes the file from source, target, and state in one step."
 fi
 
+if echo "$command" | grep -qE '(^|[;&|])\s*chezmoi\s+apply\b'; then
+  deny "chezmoi apply requires 1Password authentication. Ask the user to run it themselves with: ! chezmoi apply"
+fi
+
 exit 0

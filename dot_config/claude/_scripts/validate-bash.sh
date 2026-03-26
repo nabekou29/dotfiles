@@ -34,13 +34,8 @@ if echo "$command" | grep -qE '\bsed\b'; then
   deny "Use of 'sed' is prohibited. Use 'perl' instead. Example: perl -pi -e 's/old/new/g' file.txt"
 fi
 
-if echo "$command" | grep -qE '\bpush\b'; then
-  # Check if local branch is ahead of remote
-  if git status -sb 2>/dev/null | head -1 | grep -q '\[ahead'; then
-    deny "Do not execute 'git push'. Please ask the user to execute it."
-  else
-    deny "All commits are already pushed to remote. No need to push."
-  fi
+if echo "$command" | grep -qE '\bgit\s+push\b.*(-f|--force|--force-with-lease)\b'; then
+  deny "Force push (--force / --force-with-lease) is prohibited. Ask the user to execute it if needed."
 fi
 
 if echo "$command" | grep -qE '\bgit add (-A|--all|\.($|[ ;|&]))'; then
