@@ -15,15 +15,6 @@ return {
     },
   },
 
-  -- 日本語のヘルプ
-  {
-    "vim-jp/vimdoc-ja",
-    event = { "VeryLazy" },
-    init = function()
-      vim.cmd([[ set helplang=ja,en ]])
-    end,
-  },
-
   -- IME
   {
     "keaising/im-select.nvim",
