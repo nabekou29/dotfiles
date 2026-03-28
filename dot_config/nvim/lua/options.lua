@@ -91,7 +91,7 @@ vim.diagnostic.config({
 -- LSP document color を virtual text スタイルで表示
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    vim.lsp.document_color.enable(true, args.buf, { style = "virtual" })
+    vim.lsp.document_color.enable(true, { bufnr = args.buf }, { style = "virtual" })
   end,
 })
 

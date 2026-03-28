@@ -41,3 +41,15 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[wt]
+	basedir = ../{gitroot}-wt
+	symlink = .claude/memory/
+	symlink = .claude/settings.local.json
+	symlink = .claude/tmp/
+	symlink = CLAUDE.local.md
+	copy = .env*
+	copy = .envrc
+	copy = .mise.local.toml
+	copy = mise.local.toml
+	hook = [ -f mise.toml ] || [ -f .mise.toml ] || [ -f mise.local.toml ] || [ -f .mise.local.toml ] && mise install
+	remover = trash

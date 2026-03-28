@@ -42,4 +42,8 @@ if echo "$command" | grep -qE '\bgit add (-A|--all|\.($|[ ;|&]))'; then
   deny "Do not git-add all files. Specify the file name(s) to add."
 fi
 
+if echo "$command" | grep -qE '\bgit\s+worktree\b'; then
+  deny "Use 'git wt' (git-wt) instead of 'git worktree'. Example: git wt <branch>"
+fi
+
 exit 0

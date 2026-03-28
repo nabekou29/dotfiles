@@ -320,7 +320,7 @@ return {
           additional_vim_regex_highlighting = false,
         },
         matchup = {
-          enable = true,
+          enable = false,
         },
         textobjects = {
           select = {
@@ -401,7 +401,7 @@ return {
     "nabekou29/js-i18n.nvim",
     enabled = true,
     branch = "1_0",
-    ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
+    ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "svelte" },
     keys = {
       { "<leader>il", "<Cmd>I18nSetLang<CR>", desc = "Set language" },
       { "<leader>ie", "<Cmd>I18nEditTranslation<CR>", desc = "Edit translation" },

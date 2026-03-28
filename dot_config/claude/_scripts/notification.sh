@@ -5,6 +5,7 @@ input=$(cat)
 
 MESSAGE=$(echo "$input" | jq -r '.message')
 CWD=$(echo "$input" | jq -r '.cwd // ""')
+TRANSCRIPT_PATH=$(echo "$input" | jq -r '.transcript_path // ""')
 
 # Build title with repo/worktree name
 if git -C "$CWD" rev-parse --is-inside-work-tree &>/dev/null; then
@@ -19,14 +20,11 @@ else
   TITLE="Claude Code: $(basename "$CWD")"
 fi
 
-# Build remote control URL from JWT session token
+# Extract remote control URL from the latest bridge_status entry in transcript
+# (resume/continue creates a new entry, so we need the last one)
 REMOTE_URL=""
-if [[ -n "$CLAUDE_CODE_SESSION_ACCESS_TOKEN" ]]; then
-  payload=$(echo "$CLAUDE_CODE_SESSION_ACCESS_TOKEN" | cut -d. -f2 | tr '_-' '/+')
-  SESSION_ID=$(echo "${payload}==" | base64 -d 2>/dev/null | jq -r '.session_id // empty')
-  if [[ -n "$SESSION_ID" ]]; then
-    REMOTE_URL="https://claude.ai/code/${SESSION_ID/cse_/session_}"
-  fi
+if [[ -n "$TRANSCRIPT_PATH" && -f "$TRANSCRIPT_PATH" ]]; then
+  REMOTE_URL=$(jq -sr '[.[] | select(.subtype == "bridge_status") | .url] | last' "$TRANSCRIPT_PATH")
 fi
 
 case "$MESSAGE" in
@@ -60,4 +58,4 @@ PUSHOVER_ARGS=(
 if [[ -n "$REMOTE_URL" ]]; then
     PUSHOVER_ARGS+=(--form-string "url=${REMOTE_URL}" --form-string "url_title=Open Remote Control")
 fi
-curl -s "${PUSHOVER_ARGS[@]}" https://api.pushover.net/1/messages.json
+curl -s "${PUSHOVER_ARGS[@]}" https://api.pushover.net/1/messages.json > /dev/null
