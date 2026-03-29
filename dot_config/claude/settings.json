@@ -51,6 +51,15 @@
             "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/validate-bash.sh"
           }
         ]
+      },
+      {
+        "matcher": "EnterWorktree|ExitWorktree",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/deny-builtin-worktree.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -97,9 +106,10 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
-  "autoDreamEnabled": true,
+  "autoDreamEnabled": false,
   "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
-  }
+  },
+  "autoMemoryEnabled": false
 }
