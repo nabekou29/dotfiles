@@ -20,6 +20,7 @@ cspell.json
 **/CLAUDE.local.md
 
 **/.claude/settings.local.json
+**/.claude/tmp
 **/.claude/tmp/
 .playwright-mcp
 
