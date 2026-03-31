@@ -3,7 +3,12 @@ return {
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
+    keys = {
+      { "ys", mode = "n" },
+      { "ds", mode = "n" },
+      { "cs", mode = "n" },
+      { "S", mode = "x" },
+    },
     config = function()
       require("nvim-surround").setup({
         -- Configuration here, or leave empty to use defaults
@@ -14,7 +19,9 @@ return {
   -- , や : などでいい感じに配置するやつ
   {
     "junegunn/vim-easy-align",
-    event = { "VeryLazy" },
+    keys = {
+      { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" }, desc = "Easy Align" },
+    },
   },
 
   -- 行の移動
@@ -24,7 +31,12 @@ return {
   -- set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
   {
     "echasnovski/mini.move",
-    event = { "VeryLazy" },
+    keys = {
+      { "H", mode = "x", desc = "Move selection left" },
+      { "L", mode = "x", desc = "Move selection right" },
+      { "J", mode = "x", desc = "Move selection down" },
+      { "K", mode = "x", desc = "Move selection up" },
+    },
     opts = {
       mappings = {
         left = "H",
@@ -61,7 +73,11 @@ return {
   {
     "mg979/vim-visual-multi",
     dependencies = { "kevinhwang91/nvim-hlslens" },
-    event = { "VeryLazy" },
+    keys = {
+      { "<C-n>", mode = { "n", "x" }, desc = "Visual Multi: Find Under" },
+      { "<C-Up>", mode = "n", desc = "Visual Multi: Add Cursor Up" },
+      { "<C-Down>", mode = "n", desc = "Visual Multi: Add Cursor Down" },
+    },
   },
 
   -- 配列などを一行にまとめたり複数行に展開したり
@@ -213,7 +229,7 @@ return {
   -- substitution の強化など
   {
     "tpope/vim-abolish",
-    event = { "VeryLazy" },
+    cmd = { "S", "Subvert", "Abolish" },
   },
 
   -- quickfix での置換
@@ -248,7 +264,14 @@ return {
 
   {
     "mawkler/demicolon.nvim",
-    event = { "VeryLazy" },
+    keys = {
+      { ";", mode = { "n", "x", "o" } },
+      { ",", mode = { "n", "x", "o" } },
+      { "f", mode = { "n", "x", "o" } },
+      { "F", mode = { "n", "x", "o" } },
+      { "t", mode = { "n", "x", "o" } },
+      { "T", mode = { "n", "x", "o" } },
+    },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-treesitter/nvim-treesitter-textobjects",

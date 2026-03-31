@@ -32,7 +32,19 @@ return {
       ---@type snacks.Config
       return {
         bigfile = { enabled = true },
-        dashboard = { enabled = true },
+        dashboard = {
+          enabled = true,
+          sections = {
+            { section = "header" },
+            {
+              section = "keys",
+              gap = 1,
+              padding = 1,
+            },
+            { section = "recent_files", indent = 2, padding = 1 },
+            { section = "startup" },
+          },
+        },
         explorer = {
           enabled = false,
         },

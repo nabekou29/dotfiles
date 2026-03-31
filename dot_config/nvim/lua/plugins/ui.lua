@@ -57,7 +57,7 @@ return {
   -- 非アクティブなタブを暗く表示
   {
     "tadaa/vimade",
-    event = { "VeryLazy" },
+    event = { "WinNew" },
     opts = function()
       vim.cmd([[let vimade.basebg='#001040']])
       vim.cmd([[let vimade.fadelevel=0.66]])
@@ -496,7 +496,7 @@ return {
   -- quick fix をいい感じに
   {
     "kevinhwang91/nvim-bqf",
-    event = { "VeryLazy" },
+    ft = "qf",
   },
 
   {
@@ -504,7 +504,7 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "VeryLazy" },
     init = function()
       vim.api.nvim_set_hl(0, "PairLensVirtualText", { fg = "#3b5f6f" })
       vim.api.nvim_set_hl(0, "PairLensVirtualTextNum", { fg = "#3b5f6f", bold = true })
@@ -559,7 +559,7 @@ return {
   -- LSP の起動状況などを右下に表示
   {
     "j-hui/fidget.nvim",
-    event = { "VeryLazy" },
+    event = { "LspAttach" },
     config = function()
       -- Highlight を定義
       vim.cmd([[ hi FidgetNormal guifg=#ccc guibg=#3777bd ]])

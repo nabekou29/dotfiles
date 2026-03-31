@@ -11,6 +11,7 @@ return {
     priority = 1000,
     opts = {
       transparent = true,
+      compile = true,
     },
     config = function(_, opts)
       require("kanagawa").setup(opts)

@@ -1,5 +1,5 @@
 ---
-name: pr
+name: default-pr
 description: Create a pull request. Follows PR templates if present. Validates checklist items via sub-agents before submitting.
 argument-hint: "[draft] [base=BRANCH]"
 disable-model-invocation: true

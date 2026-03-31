@@ -222,7 +222,7 @@ return {
 
   {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy",
+    event = "LspAttach",
     keys = {
       {
         "<leader>d",
@@ -368,7 +368,7 @@ return {
   -- `%` の拡張
   {
     "andymass/vim-matchup",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -438,7 +438,12 @@ return {
   {
     "numToStr/Comment.nvim",
     dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    event = { "VeryLazy" },
+    keys = {
+      { "gc", mode = { "n", "x" }, desc = "Comment: Line" },
+      { "gb", mode = { "n", "x" }, desc = "Comment: Block" },
+      { "gcc", mode = "n", desc = "Comment: Toggle line" },
+      { "gbc", mode = "n", desc = "Comment: Toggle block" },
+    },
     config = function()
       require("Comment").setup({
         pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
