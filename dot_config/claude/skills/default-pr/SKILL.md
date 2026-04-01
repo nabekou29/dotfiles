@@ -44,13 +44,21 @@ If there are no commits ahead of base, abort with a message.
 
 ### 3. Check for PR template
 
-Search for a PR template in this order:
+Run the following command to find PR templates:
 
-1. `.github/PULL_REQUEST_TEMPLATE.md`
-2. `.github/pull_request_template.md`
-3. `docs/pull_request_template.md`
-4. `PULL_REQUEST_TEMPLATE.md`
-5. `.github/PULL_REQUEST_TEMPLATE/*.md` (if multiple, let the user choose)
+```bash
+root=$(git rev-parse --show-toplevel)
+# Single templates
+find "$root" "$root/docs" "$root/.github" \
+  -maxdepth 1 -iname "pull_request_template.md" 2>/dev/null
+# Multiple templates directories
+find "$root/PULL_REQUEST_TEMPLATE" \
+     "$root/docs/PULL_REQUEST_TEMPLATE" \
+     "$root/.github/PULL_REQUEST_TEMPLATE" \
+  -maxdepth 1 -iname "*.md" 2>/dev/null
+```
+
+If multiple templates are found, select the most appropriate one based on the branch name, commit contents, and changed files. If the appropriate template cannot be determined, ask the user to choose.
 
 ### 4. Validate checklist (if template has one)
 
