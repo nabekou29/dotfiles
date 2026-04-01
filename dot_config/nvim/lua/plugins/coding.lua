@@ -302,12 +302,17 @@ return {
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",
     lazy = false,
     config = function()
-      require("nvim-treesitter").setup({
-        auto_install = true,
-        ensure_installed = { "all" },
+      require("nvim-treesitter").setup()
+      require("nvim-treesitter").install("all")
+
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
       })
     end,
   },
@@ -373,7 +378,7 @@ return {
   -- i18n
   {
     "nabekou29/js-i18n.nvim",
-    ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "svelte" },
+    ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "svelte", "vue" },
     keys = {
       { "<leader>il", "<Cmd>I18nSetLang<CR>", desc = "Set language" },
       { "<leader>ie", "<Cmd>I18nEditTranslation<CR>", desc = "Edit translation" },

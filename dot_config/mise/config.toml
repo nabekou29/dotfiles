@@ -51,6 +51,7 @@ stylua = "2.4.0"
 "npm:agent-browser" = "0.23.4"
 "npm:zenn-cli" = "0.4.7"
 watchexec = "2.5.0"
+tree-sitter = "0.26.8"
 
 [settings]
 experimental = true
