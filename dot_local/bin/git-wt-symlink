@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# git-wt-symlink — git-wt の wt.symlink を補完するスクリプト
+#
+# wt.symlink はトップレベルディレクトリのみ対応のため、
+# ネストされたパスやファイルはこのスクリプトで処理する。
+#
+# 使い方:
+#   git config --global --add wt.hook "git-wt-symlink"
+#
+# wt.symlink に登録されたパターンのうち、git-wt が処理できないもの
+# （ネストされたパス・トップレベルのファイル）を検出し、
+# メインワークツリーからシンボリンクを作成する。
+
+set -euo pipefail
+
+# メインワークツリーのパスを取得
+main_wt=$(git worktree list --porcelain | head -1 | sed 's/^worktree //')
+
+# メインワークツリー自体では何もしない
+current_wt=$(pwd -P)
+[[ "$current_wt" == "$main_wt" ]] && exit 0
+
+# wt.symlink パターンを読み取る（ローカル + グローバル）
+patterns=()
+while IFS= read -r pattern; do
+  [[ -n "$pattern" ]] && patterns+=("$pattern")
+done < <(git config --get-all wt.symlink 2>/dev/null)
+
+for pattern in "${patterns[@]}"; do
+  # 末尾の / を除去
+  target="${pattern%/}"
+
+  src="$main_wt/$target"
+
+  # ソースが存在しなければスキップ
+  [[ ! -e "$src" ]] && continue
+
+  # git-wt が処理済みのもの（トップレベルディレクトリ）はスキップ
+  if [[ "$target" != */* && -d "$src" ]]; then
+    continue
+  fi
+
+  # 親ディレクトリを作成
+  mkdir -p "$(dirname "$target")"
+
+  # 既存のファイル/ディレクトリがシンボリンクでなければ削除
+  if [[ -e "$target" && ! -L "$target" ]]; then
+    rm -rf "$target"
+  fi
+
+  # シンボリンク作成
+  ln -sfn "$src" "$target"
+  echo "git-wt-symlink: $target -> $src"
+done
