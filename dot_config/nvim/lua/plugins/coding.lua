@@ -92,7 +92,7 @@ return {
         "cssls",
         "cssmodules_ls",
         "denols",
-        -- "elmls",
+        "elmls",
         "eslint",
         "golangci_lint_ls",
         "gopls",
@@ -103,8 +103,8 @@ return {
         "pyright",
         "rust_analyzer",
         "stylelint_lsp",
-        -- "svelte",
-        "tailwindcss",
+        "svelte",
+        -- "tailwindcss",
         "terraformls",
         "tflint",
         "ts_ls",
@@ -303,42 +303,11 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    event = { "VeryLazy" },
-    dependencies = {
-      { "nvim-treesitter/nvim-treesitter-textobjects" },
-    },
+    lazy = false,
     config = function()
-      require("nvim-treesitter.configs").setup({
-        sync_install = false,
+      require("nvim-treesitter").setup({
         auto_install = true,
-        ensure_installed = {
-          "bash", "c", "cpp", "css", "diff", "go", "html", "javascript",
-          "json", "jsonc", "lua", "luadoc", "markdown", "markdown_inline",
-          "python", "query", "regex", "ruby", "rust", "toml", "tsx",
-          "typescript", "vim", "vimdoc", "yaml",
-        },
-        ignore_install = {},
-        modules = {},
-        highlight = {
-          enable = true,
-          disable = {},
-          additional_vim_regex_highlighting = false,
-        },
-        matchup = {
-          enable = false,
-        },
-        textobjects = {
-          select = {
-            enable = true,
-            keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-              ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-            },
-          },
-        },
+        ensure_installed = { "all" },
       })
     end,
   },
@@ -404,8 +373,6 @@ return {
   -- i18n
   {
     "nabekou29/js-i18n.nvim",
-    enabled = true,
-    branch = "1_0",
     ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "svelte" },
     keys = {
       { "<leader>il", "<Cmd>I18nSetLang<CR>", desc = "Set language" },
@@ -436,18 +403,8 @@ return {
 
   -- コメントアウト
   {
-    "numToStr/Comment.nvim",
-    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    keys = {
-      { "gc", mode = { "n", "x" }, desc = "Comment: Line" },
-      { "gb", mode = { "n", "x" }, desc = "Comment: Block" },
-      { "gcc", mode = "n", desc = "Comment: Toggle line" },
-      { "gbc", mode = "n", desc = "Comment: Toggle block" },
-    },
-    config = function()
-      require("Comment").setup({
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-      })
-    end,
+    "folke/ts-comments.nvim",
+    event = "BufReadPost",
+    opts = {},
   },
 }

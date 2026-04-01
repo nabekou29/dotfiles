@@ -25,10 +25,6 @@ return {
   },
 
   -- 行の移動
-  -- 自前で簡単なキーバインドを設定していたが、重かったのでやめた
-  -- set("n", "<M-S-j>", ":move .+1<CR>==", { desc = "Move line Down" })
-  -- set("x", "<M-S-j>", ":move '>+1<CR>gv=gv", { desc = "Move line Down" })
-  -- set("i", "<M-S-j>", "<Esc><Cmd>move .+1<CR>==gi", { desc = "Move line Down" })
   {
     "echasnovski/mini.move",
     keys = {
@@ -138,17 +134,6 @@ return {
       highlighter = {
         auto_enable = false,
       },
-    },
-  },
-
-  -- カラーハイライト
-  {
-    "brenoprata10/nvim-highlight-colors",
-    enabled = false,
-    event = { "VeryLazy" },
-    opts = {
-      render = "virtual",
-      exclude_filetypes = { "lazy" },
     },
   },
 
@@ -262,6 +247,7 @@ return {
     opts = {},
   },
 
+  -- `]g` や `]c` などを繰り返し可能にする
   {
     "mawkler/demicolon.nvim",
     keys = {
