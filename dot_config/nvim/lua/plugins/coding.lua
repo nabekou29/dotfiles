@@ -71,7 +71,7 @@ return {
   -- LSP
   {
     "neovim/nvim-lspconfig",
-    lazy = false,
+    event = "UIEnter",
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.general = {
@@ -104,13 +104,19 @@ return {
         "rust_analyzer",
         "stylelint_lsp",
         "svelte",
-        -- "tailwindcss",
+        "tailwindcss",
         "terraformls",
         "tflint",
         "ts_ls",
         "version_lsp",
         "yamlls",
       })
+
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) then
+          vim.api.nvim_exec_autocmds("FileType", { buffer = buf })
+        end
+      end
     end,
   },
   {
@@ -307,13 +313,9 @@ return {
     lazy = false,
     config = function()
       require("nvim-treesitter").setup()
-      require("nvim-treesitter").install("all")
-
-      vim.api.nvim_create_autocmd("FileType", {
-        callback = function()
-          pcall(vim.treesitter.start)
-        end,
-      })
+      vim.api.nvim_create_user_command("TSInstallAll", function()
+        require("nvim-treesitter").install("all")
+      end, {})
     end,
   },
   {

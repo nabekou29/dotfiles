@@ -13,14 +13,10 @@ if vim.env.PROF then
   })
 end
 
--- https://github.com/willelz/nvim-lua-guide-ja/blob/master/README.ja.md
-vim.loader.enable()
-
 require("options")
 require("filetype")
 require("lazyvim")
 require("keymap")
-require("abbr")
 require("command")
 
 vim.env.CURRENT_PROGPATH = vim.v.progpath
