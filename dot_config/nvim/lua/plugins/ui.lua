@@ -533,7 +533,16 @@ return {
   {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },
-    event = { "VeryLazy" },
+    keys = {
+      { "zc", desc = "Close fold" },
+      { "zo", desc = "Open fold" },
+      { "za", desc = "Toggle fold" },
+      { "zC", desc = "Close all folds under cursor" },
+      { "zO", desc = "Open all folds under cursor" },
+      { "zA", desc = "Toggle all folds under cursor" },
+      { "zM", desc = "Close all folds" },
+      { "zR", desc = "Open all folds" },
+    },
     opts = {},
   },
 

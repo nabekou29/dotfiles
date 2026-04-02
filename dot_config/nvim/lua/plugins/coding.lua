@@ -104,7 +104,7 @@ return {
         "rust_analyzer",
         "stylelint_lsp",
         "svelte",
-        "tailwindcss",
+        -- "tailwindcss",
         "terraformls",
         "tflint",
         "ts_ls",
@@ -313,6 +313,13 @@ return {
     lazy = false,
     config = function()
       require("nvim-treesitter").setup()
+
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
+      })
+
       vim.api.nvim_create_user_command("TSInstallAll", function()
         require("nvim-treesitter").install("all")
       end, {})
