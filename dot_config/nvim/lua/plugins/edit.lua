@@ -20,7 +20,7 @@ return {
   {
     "junegunn/vim-easy-align",
     keys = {
-      { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" }, desc = "Easy Align" },
+      { "<A-a>", "<Plug>(EasyAlign)", mode = { "n", "x" }, desc = "Easy Align" },
     },
   },
 
@@ -71,8 +71,8 @@ return {
     dependencies = { "kevinhwang91/nvim-hlslens" },
     keys = {
       { "<C-n>", mode = { "n", "x" }, desc = "Visual Multi: Find Under" },
-      { "<C-Up>", mode = "n", desc = "Visual Multi: Add Cursor Up" },
-      { "<C-Down>", mode = "n", desc = "Visual Multi: Add Cursor Down" },
+      { "<C-Up>", mode = { "n" }, desc = "Visual Multi: Add Cursor Up" },
+      { "<C-Down>", mode = { "n" }, desc = "Visual Multi: Add Cursor Down" },
     },
   },
 
