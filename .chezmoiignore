@@ -7,4 +7,5 @@ Brewfile
 karabiner/**/*
 
 _archives/**/*
+nix/**/*
 tmp_*

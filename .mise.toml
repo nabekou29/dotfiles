@@ -16,6 +16,17 @@
     description = "Reinstall Brewfile"
     run = "brew bundle --file=Brewfile"
 
+[tasks.darwin-switch]
+    description = "Apply nix-darwin configuration"
+    run = "sudo darwin-rebuild switch --flake ~/.local/share/chezmoi/nix/darwin#default"
+
+[tasks.darwin-update]
+    description = "Update and apply nix-darwin configuration"
+    run = """
+    nix flake update --flake ~/.local/share/chezmoi/nix/darwin
+    sudo darwin-rebuild switch --flake ~/.local/share/chezmoi/nix/darwin#default
+    """
+
 [tasks.karabiner-build]
     description = "Build Karabiner-Elements configuration"
     run = "deno run --allow-env --allow-read --allow-write main.ts"

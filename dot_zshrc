@@ -27,20 +27,22 @@ setopt hist_reduce_blanks
 setopt auto_cd
 
 # ── Completion ────────────────────────────────────────────────────────────────
-if type brew &>/dev/null; then
+# nix-darwin は /etc/zshenv で fpath を自動設定する
+# brew のみの環境向けフォールバック
+if [[ -z "${__ETC_ZSHENV_SOURCED-}" ]] && type brew &>/dev/null; then
+    FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:$FPATH
     FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
-    FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}
+fi
 
-    autoload -Uz compinit
-    _zcompdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/.zcompdump-${HOST}-${ZSH_VERSION}"
-    mkdir -p "${_zcompdump:h}"
+autoload -Uz compinit
+_zcompdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/.zcompdump-${HOST}-${ZSH_VERSION}"
+mkdir -p "${_zcompdump:h}"
 
-    setopt extendedglob
-    if [[ -n "${_zcompdump}"(#qN.mh+24) ]]; then
-        compinit -d "${_zcompdump}"
-    else
-        compinit -C -d "${_zcompdump}"
-    fi
+setopt extendedglob
+if [[ -n "${_zcompdump}"(#qN.mh+24) ]]; then
+    compinit -d "${_zcompdump}"
+else
+    compinit -C -d "${_zcompdump}"
 fi
 
 export LSCOLORS=Exfxcxdxbxegedabagacad
@@ -53,10 +55,13 @@ zstyle ':completion:*:default' menu select=1
 # ── Tools ─────────────────────────────────────────────────────────────────────
 eval "$(mise activate zsh)" # _evalcache 不可: npm で入れてるツールが動かなくなる
 
-if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}$(brew --prefix)/opt/fzf/bin"
-fi
-source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+{
+  local fzf_path="$(command -v fzf)"
+  if [[ -n "$fzf_path" ]]; then
+    local fzf_share="$(dirname "$(dirname "$(realpath "$fzf_path")")")/share/fzf"
+    [[ -f "$fzf_share/key-bindings.zsh" ]] && source "$fzf_share/key-bindings.zsh"
+  fi
+}
 
 if command -v nvim >/dev/null 2>&1; then
     export VISUAL=nvim
@@ -78,8 +83,10 @@ export PATH="$PNPM_HOME:$PATH"
 [ -f ~/.config/zsh/completion-for-pnpm.zsh ] || pnpm completion zsh >~/.config/zsh/completion-for-pnpm.zsh
 source ~/.config/zsh/completion-for-pnpm.zsh
 
-zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+if [[ -d "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk" ]]; then
+  zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+  zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+fi
 
 zsh-defer _evalcache zoxide init zsh
 zsh-defer _evalcache git-wt --init zsh
