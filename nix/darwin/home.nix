@@ -74,8 +74,12 @@
 
     ## ========== Linter / Formatter ==========
     actionlint
+    golangci-lint
     reviewdog
+    ruff
     shellcheck
+    shfmt
+    stylua
     swiftlint
 
     ## ========== Infrastructure ==========
@@ -92,10 +96,13 @@
     ## ========== Monitoring / Debug ==========
     fastfetch
     fzf-make
+    git-cliff
     glow
     hyperfine
     lnav
+    tree-sitter
     vhs
+    watchexec
 
     ## ========== iOS / Mobile ==========
     cocoapods
