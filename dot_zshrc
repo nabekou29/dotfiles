@@ -96,6 +96,7 @@ bindkey "^[q"     _push-line-with-display # Option + Q
 bindkey "^[e"     edit-command-line       # Option + E
 bindkey "^[f"     fzf-file-widget-preview # Option + F
 bindkey "^g"      ghq-cd                  # Ctrl + G
+bindkey "^[z"     zmx-session             # Alt + Z
 
 autoload -Uz add-zsh-hook
 eval "$(abbrs init zsh)"
@@ -120,10 +121,11 @@ bindkey "^M" _abbrs-expand-accept-and-clear
 # ── ZLE Widgets ───────────────────────────────────────────────────────────────
 fpath+=("$HOME/.config/zsh/widgets")
 
-autoload -Uz edit-command-line ghq-cd fzf-file-widget-preview
+autoload -Uz edit-command-line ghq-cd fzf-file-widget-preview zmx-session
 zle -N edit-command-line
 zle -N ghq-cd              # Ctrl + G: ghq リポジトリ選択
 zle -N fzf-file-widget-preview # Option + F: ファイル/ディレクトリ選択
+zle -N zmx-session         # Alt + Z: zmx セッション管理
 
 # push-line: 退避したコマンドをプロンプトに表示する
 _push-line-with-display() {

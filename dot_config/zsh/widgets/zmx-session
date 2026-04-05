@@ -1,0 +1,66 @@
+#autoload
+
+emulate -L zsh
+
+command -v zmx &>/dev/null || return 1
+
+local sessions
+sessions=$(zmx list --short 2>/dev/null)
+
+local header="Alt-N: new  Alt-D: kill  Enter: attach"
+
+local preview='
+  zmx list 2>/dev/null | while IFS=$'"'"'\t'"'"' read -r fields; do
+    name=""
+    for f in ${(s:\t:)fields}; do
+      [[ "$f" == name={} ]] && name={}
+    done
+    [[ -n "$name" ]] && break
+  done
+  zmx list 2>/dev/null | grep "name={}" | tr "\t" "\n" | sed "s/^/  /" | while read -r line; do
+    case "$line" in
+      *name=*)     printf "  Name:      %s\n" "${line#*=}" ;;
+      *pid=*)      printf "  PID:       %s\n" "${line#*=}" ;;
+      *clients=*)  printf "  Clients:   %s\n" "${line#*=}" ;;
+      *created=*)  printf "  Created:   %s\n" "$(date -r "${line#*=}" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "${line#*=}")" ;;
+      *start_dir=*) printf "  Directory: %s\n" "${line#*=}" ;;
+    esac
+  done
+'
+
+local action
+action=$(
+  {
+    [[ -n "$sessions" ]] && echo "$sessions"
+  } | fzf \
+    --prompt='zmx> ' \
+    --header="$header" \
+    --preview="$preview" \
+    --preview-window='right:40%:wrap' \
+    --expect='alt-n,alt-d' \
+    --no-multi
+)
+
+local key=$(head -1 <<< "$action")
+local selected=$(tail -1 <<< "$action")
+
+case "$key" in
+  alt-n)
+    BUFFER="zmx attach "
+    CURSOR=$#BUFFER
+    ;;
+  alt-d)
+    if [[ -n "$selected" ]]; then
+      BUFFER="ZMX_SESSION_PREFIX= zmx kill ${(q)selected}"
+      zle accept-line
+    fi
+    ;;
+  *)
+    if [[ -n "$selected" ]]; then
+      BUFFER="ZMX_SESSION_PREFIX= zmx attach ${(q)selected}"
+      zle accept-line
+    fi
+    ;;
+esac
+
+zle reset-prompt

@@ -2,6 +2,7 @@
 name: default-commit
 description: Commit changes by splitting into logical units. Defaults to Conventional Commits but adapts to the repo's existing format if consistently different. Auto-detects commit message language from git history.
 argument-hint: "[short] [co] [single] [one]"
+model: sonnet
 ---
 
 # Commit Changes

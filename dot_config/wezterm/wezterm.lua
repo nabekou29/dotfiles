@@ -187,6 +187,7 @@ config.keys = {
   { key = "j", mods = "ALT|SHIFT", action = workspace.actions.switch_next },
   { key = "k", mods = "ALT|SHIFT", action = workspace.actions.switch_prev },
   { key = "p", mods = "ALT|SHIFT", action = workspace.actions.switch_previous },
+  { key = "s", mods = "LEADER", action = workspace.actions.workspace_switcher },
   { key = "w", mods = "LEADER", action = workspace.actions.save },
   { key = "r", mods = "LEADER", action = workspace.actions.fuzzy_restore },
 }

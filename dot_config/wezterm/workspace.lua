@@ -9,7 +9,21 @@ local pending_restore = {}
 local pending_startup_confirm = false -- gui-startup でのみ true にする
 local resurrect -- setup() で初期化
 
-local ZOXIDE_PATH = "/opt/homebrew/bin/zoxide"
+local ZOXIDE_PATH = (function()
+  local candidates = {
+    "/etc/profiles/per-user/" .. (os.getenv("USER") or "") .. "/bin/zoxide",
+    "/opt/homebrew/bin/zoxide",
+    "/usr/local/bin/zoxide",
+  }
+  for _, p in ipairs(candidates) do
+    local f = io.open(p, "r")
+    if f then
+      f:close()
+      return p
+    end
+  end
+  return "zoxide"
+end)()
 local ZOXIDE_MAX_RESULTS = 50
 
 --- 現在のワークスペース状態を保存する
@@ -104,8 +118,8 @@ local function build_choices(window)
   end
 
   -- セクション 3: Zoxide ディレクトリ
-  local success, stdout = wezterm.run_child_process({ ZOXIDE_PATH, "query", "-ls" })
-  if success then
+  local ok, success, stdout = pcall(wezterm.run_child_process, { ZOXIDE_PATH, "query", "-ls" })
+  if ok and success then
     local home = os.getenv("HOME") or ""
     local count = 0
     for line in stdout:gmatch("[^\r\n]+") do

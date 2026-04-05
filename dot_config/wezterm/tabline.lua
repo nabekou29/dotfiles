@@ -108,6 +108,15 @@ function M.setup_tabline(wezterm, config)
 
   -- ステータスバーの設定
   wezterm.on("update-status", function(window, pane)
+    -- ワークスペースが2つ以上ある場合はタブバーを常に表示
+    local workspace_count = #wezterm.mux.get_workspace_names()
+    local overrides = window:get_config_overrides() or {}
+    local should_force_show = workspace_count >= 2
+    if overrides.hide_tab_bar_if_only_one_tab ~= (not should_force_show) then
+      overrides.hide_tab_bar_if_only_one_tab = not should_force_show
+      window:set_config_overrides(overrides)
+    end
+
     -- 左側のステータス（ワークスペース）
     local workspace = window:active_workspace()
     local workspace_bg = "#5c76ae"
