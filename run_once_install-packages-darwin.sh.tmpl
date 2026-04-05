@@ -1,24 +1,23 @@
 {{- if (eq .chezmoi.os "darwin") -}}
 #!/bin/bash
+set -euo pipefail
 
-echo "installing Homebrew ..."
-which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+# Homebrew (nix-darwin が管理するが、インストール自体は必要)
+if ! command -v brew &>/dev/null; then
+  echo "Installing Homebrew ..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
-eval "$(brew shellenv)"
+# Nix (Determinate Nix を前提)
+if ! command -v nix &>/dev/null; then
+  echo "Error: Nix is not installed. Install Determinate Nix first:"
+  echo "  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install"
+  exit 1
+fi
 
-echo "run brew doctor ..."
-which brew >/dev/null 2>&1 && brew doctor
-
-echo "run brew cleanup ..."
-brew cleanup
-
-echo "run brew update ..."
-brew update
-
-echo "run brew upgrade ..."
-brew upgrade
-
-echo "run brew install ..."
-brew bundle --file "$(chezmoi source-path)/Brewfile"
+# nix-darwin
+echo "Applying nix-darwin configuration ..."
+sudo darwin-rebuild switch --flake ~/.local/share/chezmoi/nix/darwin#default
 
 {{ end }}
