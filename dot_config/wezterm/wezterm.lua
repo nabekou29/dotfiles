@@ -2,6 +2,7 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 local fonts = require("fonts")
 local tabline = require("tabline")
+local workspace = require("workspace")
 
 local config = wezterm.config_builder()
 
@@ -156,21 +157,10 @@ config.keys = {
   -- copy mode
   { key = "x", mods = "ALT", action = act.ActivateCopyMode },
 
-  -- --Rebind OPT-Left, OPT-Right as ALT-b, ALT-f respectively to match Terminal.app behavior
-  -- {
-  --   key = "LeftArrow",
-  --   mods = "ALT",
-  --   action = act.SendKey({ key = "b", mods = "ALT" }),
-  -- },
-  -- {
-  --   key = "RightArrow",
-  --   mods = "ALT",
-  --   action = act.SendKey({ key = "f", mods = "ALT" }),
-  -- },
   {
     key = "o",
     mods = "CMD",
-    action = wezterm.action_callback(function(window, _pane)
+    action = wezterm.action_callback(function(window)
       local overrides = window:get_config_overrides() or {}
 
       local opacity_list = { 0.55, 0.8, 0.92, 1.00 }
@@ -192,14 +182,17 @@ config.keys = {
     end),
   },
 
-  {
-    mods = "ALT|SHIFT",
-    key = "s",
-    action = act.ShowLauncherArgs({ flags = "WORKSPACES", title = "Select workspace" }),
-  },
-  { key = "j", mods = "ALT|SHIFT", action = act.SwitchWorkspaceRelative(1) },
-  { key = "k", mods = "ALT|SHIFT", action = act.SwitchWorkspaceRelative(-1) },
+  --- Workspace ---
+  { key = "s", mods = "ALT|SHIFT", action = workspace.actions.workspace_switcher },
+  { key = "j", mods = "ALT|SHIFT", action = workspace.actions.switch_next },
+  { key = "k", mods = "ALT|SHIFT", action = workspace.actions.switch_prev },
+  { key = "p", mods = "ALT|SHIFT", action = workspace.actions.switch_previous },
+  { key = "w", mods = "LEADER", action = workspace.actions.save },
+  { key = "r", mods = "LEADER", action = workspace.actions.fuzzy_restore },
 }
+
+-- ワークスペースのプラグイン初期化・イベントハンドラ登録
+workspace.setup()
 
 --- Mouse Binding ---
 config.disable_default_mouse_bindings = false

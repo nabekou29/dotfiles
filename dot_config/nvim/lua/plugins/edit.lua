@@ -54,17 +54,6 @@ return {
     opts = {},
   },
 
-  -- 範囲選択
-  {
-    "terryma/vim-expand-region",
-    keys = {
-      { "<A-Up>", "<Plug>(expand_region_expand)", mode = { "n", "v" }, desc = "Expand region" },
-      { "<A-k>", "<Plug>(expand_region_expand)", mode = { "n", "v" }, desc = "Expand region" },
-      { "<A-Down>", "<Plug>(expand_region_shrint)", mode = { "n", "v" }, desc = "Shrint region" },
-      { "<A-j>", "<Plug>(expand_region_shrint)", mode = { "n", "v" }, desc = "Shrint region" },
-    },
-  },
-
   -- マルチカーソル
   {
     "mg979/vim-visual-multi",

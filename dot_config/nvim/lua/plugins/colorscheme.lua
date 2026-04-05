@@ -25,6 +25,7 @@ return {
     priority = 1000,
     opts = {
       transparent = true,
+      compile = true,
       styles = {
         comment = { italic = true },
         functions = { italic = true },
@@ -70,38 +71,6 @@ return {
     config = function(_, opts)
       require("tokyonight").setup(opts)
       vim.cmd("colorscheme tokyonight")
-    end,
-  },
-  {
-    "neanias/everforest-nvim",
-    name = "everforest",
-    lazy = false,
-    enabled = enabled("everforest"),
-    priority = 1000,
-    opts = {
-      background = "hard",
-      transparent_background_level = 2,
-      italics = true,
-    },
-    config = function(_, opts)
-      require("everforest").setup(opts)
-      vim.cmd("colorscheme everforest")
-    end,
-  },
-
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = false,
-    enabled = enabled("catppuccin"),
-    priority = 1000,
-    opts = {
-      transparent_background = true,
-      term_colors = true,
-    },
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd("colorscheme catppuccin")
     end,
   },
 }

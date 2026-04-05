@@ -398,8 +398,6 @@ return {
       },
       server = {
         primary_languages = { "ja" },
-        -- namespace_separator = ":",
-        -- default_namespace = "translation",
       },
     },
   },

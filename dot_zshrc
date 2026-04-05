@@ -178,4 +178,9 @@ fi
 # ── Local ─────────────────────────────────────────────────────────────────────
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
+
+if command -v zmx &> /dev/null; then
+  eval "$(zmx completions zsh)"
+fi
+
 # zprof

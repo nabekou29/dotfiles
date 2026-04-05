@@ -73,7 +73,9 @@ return {
   -- conflict
   {
     "akinsho/git-conflict.nvim",
-    event = "VeryLazy",
+    cmd = {
+      "GitConflictRefresh",
+    },
     opts = {},
   },
 }

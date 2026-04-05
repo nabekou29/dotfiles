@@ -83,6 +83,7 @@ set("n", "<ESC>", function()
   end
 end, { expr = true, desc = "Clear search highlight" })
 
+-- LSP
 set("n", "gn", "<Cmd>lua vim.lsp.buf.rename()<CR>", { desc = "LSP rename" })
 set("n", "]g", "<Cmd>lua vim.diagnostic.jump({count = 1})<CR>", { desc = "Next diagnostic" })
 set("n", "[g", "<Cmd>lua vim.diagnostic.jump({count = -1})<CR>", { desc = "Previous diagnostic" })
@@ -94,6 +95,11 @@ end, { desc = "Accept inline completion" })
 set("i", "<M-p>", function()
   vim.lsp.inline_completion.select({ count = -1 * vim.v.count1 })
 end, { desc = "Previous inline completion" })
+
+-- 範囲選択
+set("n", "<A-k>", "van", { remap = true, desc = "Expand selection (parent node)" })
+set("x", "<A-k>", "an", { remap = true, desc = "Expand selection (parent node)" })
+set("x", "<A-j>", "in", { remap = true, desc = "Shrink selection (child node)" })
 
 -- quickfix
 set("n", "]q", "<Cmd>cnext<CR>", { desc = "Next quickfix item" })

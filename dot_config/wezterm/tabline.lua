@@ -225,8 +225,11 @@ function M.setup_tabline(wezterm, config)
     -- Git branch
     local git_branch = ""
     local cwd_for_git = pane:get_current_working_dir()
-    local success, stdout =
-      wezterm.run_child_process({ "git", "-C", cwd_for_git.file_path, "rev-parse", "--abbrev-ref", "HEAD" })
+    local success, stdout
+    if cwd_for_git then
+      success, stdout =
+        wezterm.run_child_process({ "git", "-C", cwd_for_git.file_path, "rev-parse", "--abbrev-ref", "HEAD" })
+    end
     if success then
       git_branch = " " .. stdout:gsub("%s+", "")
     end
