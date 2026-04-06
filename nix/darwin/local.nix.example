@@ -1,0 +1,14 @@
+# PC 固有の設定 (git 管理外)
+# このファイルを local.nix にコピーして使う
+{ pkgs, ... }:
+
+{
+  # homebrew.casks = [
+  #   "steam"
+  #   "minecraft"
+  # ];
+
+  # homebrew.masApps = {
+  #   "LINE" = 539883307;
+  # };
+}
