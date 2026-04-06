@@ -1,3 +1,1 @@
-!.nvim.lua
-
-tmp_*
+nix/darwin/local.nix

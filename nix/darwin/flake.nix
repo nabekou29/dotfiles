@@ -17,6 +17,7 @@
     { nixpkgs, nix-darwin, home-manager, ... }:
     let
       user = "kohei_watanabe";
+      localConfig = ./local.nix;
     in
     {
       darwinConfigurations.default = nix-darwin.lib.darwinSystem {
@@ -24,6 +25,7 @@
         specialArgs = { inherit user; };
         modules = [
           ./configuration.nix
+          (if builtins.pathExists localConfig then localConfig else { })
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
