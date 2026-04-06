@@ -1,7 +1,7 @@
 ---
 name: worktree
 description: Create, list, switch, or delete git worktrees for parallel branch work. Use when the user wants to work on multiple branches simultaneously.
-argument-hint: "[<branch>] [-r <branch>] [--clean]"
+argument-hint: "[<branch>] [-d <branch>] [-D <branch>]"
 ---
 
 # Git Worktree Management
@@ -16,8 +16,8 @@ User directive: $ARGUMENTS
 | --------------- | -------------------- |
 | Create / switch | `git wt <branch>`    |
 | List            | `git wt`             |
-| Delete          | `git wt -r <branch>` |
-| Clean merged    | `git wt --clean`     |
+| Delete (safe)   | `git wt -d <branch>` |
+| Delete (force)  | `git wt -D <branch>` |
 
 ## Workflow
 

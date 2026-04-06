@@ -46,4 +46,14 @@ if echo "$command" | grep -qE '\bgit\s+worktree\b'; then
   deny "Use 'git wt' (git-wt) instead of 'git worktree'. Example: git wt <branch>"
 fi
 
+if echo "$command" | grep -qE '\bgit\s+wt\s+(prune|delete|remove|rm)\b'; then
+  deny "Unknown 'git wt' subcommand. Correct usage:
+  - Delete a worktree: git wt -d <branch>  (safe) / git wt -D <branch> (force)
+  - List worktrees:    git wt"
+fi
+
+if echo "$command" | grep -qE '\bgit\s+wt\b.*\s[^ ]*/[^ ]*'; then
+  deny "Branch name must NOT contain '/'. Use '-' instead (e.g., 'feat-login' not 'feat/login'). This avoids nested directory structures in the worktree base directory."
+fi
+
 exit 0
