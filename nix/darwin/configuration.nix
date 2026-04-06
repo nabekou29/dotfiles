@@ -7,21 +7,38 @@
   system.primaryUser = user;
   system.stateVersion = 6;
 
+  # Touch ID で sudo 認証
+  security.pam.services.sudo_local.touchIdAuth = true;
+
   # macOS defaults
   system.defaults = {
     NSGlobalDomain = {
       KeyRepeat = 2;
       InitialKeyRepeat = 25;
       ApplePressAndHoldEnabled = false;
+      AppleShowAllExtensions = true;
     };
 
     dock = {
       autohide = true;
       tilesize = 16;
+      mru-spaces = false;
     };
 
     finder = {
       ShowPathbar = true;
+      AppleShowAllExtensions = true;
+      FXEnableExtensionChangeWarning = false;
+      _FXShowPosixPathInTitle = true;
+    };
+
+    trackpad = {
+      Clicking = true;
+      TrackpadThreeFingerDrag = true;
+    };
+
+    LaunchServices = {
+      LSQuarantine = false;
     };
 
     screencapture = {
@@ -62,8 +79,8 @@
       NSGlobalDomain = {
         NSUserKeyEquivalents = {
           # いい感じ変換 → F12 (for azooKey)
-          "いい感じ変換" = "\\UF70F";
-          "いい感じ変換（無効/バックエンドなし）" = "\\UF70F";
+          "いい感じ変換" = builtins.fromJSON ''"\uF70F"'';
+          "いい感じ変換（無効/バックエンドなし）" = builtins.fromJSON ''"\uF70F"'';
         };
         # メニューバー間隔
         NSStatusItemSpacing = 8;
@@ -81,7 +98,7 @@
     onActivation = {
       autoUpdate = true;
       upgrade = true;
-      # cleanup = "zap"; # 宣言されていないパッケージを削除（慎重に有効化）
+      cleanup = "zap";
     };
 
     taps = [
@@ -89,6 +106,7 @@
       "1password/tap"
       "ngrok/ngrok"
       "neurosnap/tap"
+      "tonisives/tap"
     ];
 
     brews = [
@@ -99,6 +117,8 @@
 
     casks = [
       # Terminal
+      "alacritty"
+      "ghostty"
       "wezterm@nightly"
 
       # Fonts
@@ -113,6 +133,8 @@
       "1password-cli"
       "alfred"
       "alt-tab"
+      # "azookey" # beta 版を手動管理中
+      "deskflow"
       "deskpad"
       "google-japanese-ime"
       "karabiner-elements"
@@ -133,8 +155,9 @@
       "android-studio"
       "claude"
       "claude-code"
+      "docker-desktop"
       "figma"
-      "google-cloud-sdk"
+      "gcloud-cli"
 
       # IDE / Editor
       "visual-studio-code"
@@ -142,6 +165,7 @@
       # Other Apps
       "chatgpt"
       "ngrok"
+      "ovim"
 
       # Quick Look
       "apparency"
@@ -149,13 +173,14 @@
       "qlimagesize"
       "qlmarkdown"
       "qlstephen"
-      "qlvideo"
+      "quicklook-video"
       "quicklook-json"
       "quicklookase"
       "suspicious-package"
     ];
 
     masApps = {
+      "Amphetamine" = 937984704;
       "Display Menu" = 549083868;
       "Hidden Bar" = 1452453066;
       "Klack" = 6446206067;
