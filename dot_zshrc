@@ -68,8 +68,12 @@ if command -v nvim >/dev/null 2>&1; then
     export EDITOR="$VISUAL"
 fi
 
-export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH="$JAVA_HOME/bin:$PATH"
+# JAVA_HOME は nix-darwin (home.sessionVariables) で設定
+# Nix 未導入環境のフォールバック
+if [ -z "$JAVA_HOME" ] && /usr/libexec/java_home &>/dev/null; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
+  export PATH="$JAVA_HOME/bin:$PATH"
+fi
 
 export GOPATH=$HOME/go
 export GO111MODULE=on

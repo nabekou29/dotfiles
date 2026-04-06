@@ -62,6 +62,7 @@
     ast-grep
     bun
     cmake
+    temurin-bin-21
     direnv
     docker-client
     hugo
@@ -115,7 +116,9 @@
 
   home.file = { };
 
-  home.sessionVariables = { };
+  home.sessionVariables = {
+    JAVA_HOME = "${pkgs.temurin-bin-21}";
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
