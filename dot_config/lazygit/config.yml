@@ -27,6 +27,21 @@ customCommands:
   - command: "git push --no-verify -u"
     description: "Push non-verified changes"
     context: "global"
+  - key: "W"
+    context: "localBranches"
+    command: "git wt {{.SelectedLocalBranch.Name}}"
+    description: "Open/create worktree for branch (git wt)"
+    output: log
+  - key: "d"
+    context: "worktrees"
+    command: "git wt -d {{.SelectedWorktree.Branch}}"
+    description: "Delete worktree (safe, git wt -d)"
+    output: log
+  - key: "D"
+    context: "worktrees"
+    command: "git wt -D {{.SelectedWorktree.Branch}}"
+    description: "Force delete worktree (git wt -D)"
+    output: log
 # - key: "m"
 #   command: "gh pr merge {{.SelectedLocalBranch.Name}} -d {{index .PromptResponses 0}}"
 #   context: "localBranches"
@@ -50,3 +65,5 @@ keybinding:
     openRecentRepos: <disabled> # '<c-r>'
   files:
     commitChangesWithEditor: <disabled> # 'C'
+  worktrees:
+    remove: <disabled> # 'd' → git wt -d

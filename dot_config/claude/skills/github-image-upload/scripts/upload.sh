@@ -24,7 +24,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILL_DIR="$SCRIPT_DIR/.."
-STATE_FILE="$SKILL_DIR/.github-session.json"
+# GITHUB_SESSION_FILE 環境変数で上書き可能（playwright-cli のファイルアクセス制限がある場合に使用）
+STATE_FILE="${GITHUB_SESSION_FILE:-$SKILL_DIR/.github-session.json}"
 
 # --- 引数チェック ---
 
@@ -56,10 +57,10 @@ IMAGE_FILE="$(cd "$(dirname "$IMAGE_FILE")" && pwd)/$(basename "$IMAGE_FILE")"
 FILENAME="$(basename "$IMAGE_FILE")"
 
 # playwright-cli はプロジェクトルート配下のファイルのみ許可するため、
-# 外部ファイルはスキルの tmp/ に自動コピーする
+# 外部ファイルはプロジェクトルートの .playwright-cli/tmp/ に自動コピーする
 PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 if [[ "$IMAGE_FILE" != "$PROJECT_ROOT"/* ]]; then
-  TMP_DIR="$SKILL_DIR/tmp"
+  TMP_DIR="$PROJECT_ROOT/.playwright-cli/tmp"
   mkdir -p "$TMP_DIR"
   cp "$IMAGE_FILE" "$TMP_DIR/$FILENAME"
   IMAGE_FILE="$TMP_DIR/$FILENAME"
@@ -83,9 +84,9 @@ trap cleanup EXIT
 # --- ヘルパー: snapshot を取得し YAML ファイルパスを返す ---
 
 take_snapshot() {
-  local output
-  output="$(playwright-cli snapshot 2>/dev/null)" || true
-  echo "$output" | grep -oE '\.playwright-cli/page-[^ )]+\.yml' | head -1 || true
+  playwright-cli snapshot >/dev/null 2>&1 || true
+  # 最新の snapshot ファイルを返す
+  ls -t .playwright-cli/page-*.yml 2>/dev/null | head -1 || true
 }
 
 # --- ブラウザ起動 & セッション読み込み ---

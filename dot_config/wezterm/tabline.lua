@@ -162,16 +162,44 @@ function M.setup_tabline(wezterm, config)
     local left_repo_fg = "#e0e0e0"
     local left_git_bg = "#2d4a5e"
     local left_git_fg = "#89b8c2"
+    local zoom_bg = "#ff9e64"
+    local zoom_fg = "#15161e"
 
-    local left_elements = {
-      { Background = { Color = workspace_bg } },
-      { Foreground = { Color = workspace_fg } },
-      { Attribute = { Intensity = "Bold" } },
-      { Text = "  " .. workspace .. " " },
-    }
+    -- Zoom 状態の検出
+    local is_zoomed = false
+    local active_tab = window:active_tab()
+    if active_tab then
+      for _, p in ipairs(active_tab:panes_with_info()) do
+        if p.is_active and p.is_zoomed then
+          is_zoomed = true
+          break
+        end
+      end
+    end
 
-    -- 前のセグメントの背景色を追跡
-    local left_prev_bg = workspace_bg
+    local left_elements = {}
+    local left_prev_bg
+
+    -- Zoom segment (leftmost)
+    if is_zoomed then
+      table.insert(left_elements, { Background = { Color = zoom_bg } })
+      table.insert(left_elements, { Foreground = { Color = zoom_fg } })
+      table.insert(left_elements, { Attribute = { Intensity = "Bold" } })
+      table.insert(left_elements, { Text = "  ZOOM " })
+      left_prev_bg = zoom_bg
+    end
+
+    -- Workspace segment
+    if left_prev_bg then
+      table.insert(left_elements, { Background = { Color = workspace_bg } })
+      table.insert(left_elements, { Foreground = { Color = left_prev_bg } })
+      table.insert(left_elements, { Text = SOLID_RIGHT_ARROW })
+    end
+    table.insert(left_elements, { Background = { Color = workspace_bg } })
+    table.insert(left_elements, { Foreground = { Color = workspace_fg } })
+    table.insert(left_elements, { Attribute = { Intensity = "Bold" } })
+    table.insert(left_elements, { Text = "  " .. workspace .. " " })
+    left_prev_bg = workspace_bg
 
     if left_repo_label ~= "" then
       table.insert(left_elements, { Background = { Color = left_repo_bg } })

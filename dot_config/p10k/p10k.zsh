@@ -32,6 +32,7 @@
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     dir
     vcs
+    zmx_session           # custom segment
     deno_version          # custom segment
     go_version
     node_version
@@ -189,6 +190,13 @@
   typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M:%S}'
   typeset -g POWERLEVEL9K_TIME_UPDATE_ON_COMMAND=true
   typeset -g POWERLEVEL9K_TIME_VISUAL_IDENTIFIER_EXPANSION=
+
+  # ── Custom: zmx_session ─────────────────────────────────────────────────────
+  # zmx セッション内でのみ ZMX_SESSION が設定されるため、その値を表示する。
+  function prompt_zmx_session() {
+    [[ -n $ZMX_SESSION ]] || return
+    p10k segment -b '#1e2132' -f '#84a0c6' -i $'\uF489' -t "$ZMX_SESSION"
+  }
 
   # ── Custom: deno_version ────────────────────────────────────────────────────
   # p10k has no built-in deno segment, so we define a custom one.

@@ -31,8 +31,7 @@ case "$MESSAGE" in
   'Claude is waiting for your input')
     NOTIFY_MSG="入力を待っています"
     ;;
-  'Claude Code login successful')
-    # do nothing
+  'Claude Code login successful'|'')
     exit 0
     ;;
   'Claude needs your permission to use '*)
@@ -42,6 +41,8 @@ case "$MESSAGE" in
     NOTIFY_MSG="${MESSAGE}"
     ;;
 esac
+
+[[ -n "$CC_NOTIFICATION_DISABLED" ]] && exit 0
 
 # Desktop notification
 ESCAPED_MSG="${NOTIFY_MSG//\[/\\[}"

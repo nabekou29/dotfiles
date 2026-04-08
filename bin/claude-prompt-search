@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+# claude-prompt-search: Claude Code セッションログからプロンプトをfuzzy-search
+#
+# Usage:
+#   claude-prompt-search   # fzfで検索、選択したプロンプトをクリップボードにコピー
+#
+# 依存: fzf, python3, rg (ripgrep)
+
+set -euo pipefail
+
+PROJECTS_DIR="${HOME}/.config/claude/projects"
+
+if ! command -v fzf &>/dev/null; then
+    echo "Error: fzf is required. Install: brew install fzf" >&2
+    exit 1
+fi
+if ! command -v rg &>/dev/null; then
+    echo "Error: ripgrep is required. Install: brew install ripgrep" >&2
+    exit 1
+fi
+
+TMPDIR_PROMPTS=$(mktemp -d)
+trap 'rm -rf "$TMPDIR_PROMPTS"' EXIT
+
+# Python スクリプトをファイルに書き出し（ヒアドキュメントとパイプのstdin競合を回避）
+PYFILE="${TMPDIR_PROMPTS}/extract.py"
+cat > "$PYFILE" <<'PYEOF'
+import sys, json, os
+from datetime import datetime
+
+tmpdir = sys.argv[1]
+prompts = []
+
+for raw in sys.stdin.buffer:
+    raw = raw.rstrip(b'\n')
+    null = raw.find(b'\0')
+    if null == -1:
+        continue
+    filepath = raw[:null].decode('utf-8', errors='replace')
+    json_content = raw[null+1:]
+
+    project_dir = os.path.basename(os.path.dirname(filepath))
+    parts = project_dir.split('-')
+    if len(parts) > 3 and parts[0] == '' and parts[1] == 'Users':
+        short = '~/' + '/'.join(p for p in parts[3:] if p)
+    else:
+        short = project_dir
+
+    try:
+        obj = json.loads(json_content)
+        if (obj.get('type') == 'user'
+                and isinstance(obj.get('message'), dict)
+                and obj['message'].get('role') == 'user'
+                and isinstance(obj['message'].get('content'), str)):
+
+            content = obj['message']['content'].strip()
+            if not content:
+                continue
+
+            ts = obj.get('timestamp', '')
+            try:
+                dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+                ts_local = dt.astimezone().strftime('%Y-%m-%d %H:%M')
+            except Exception:
+                ts_local = ts[:16] if ts else '????-??-?? ??:??'
+
+            prompts.append((ts, ts_local, short, content))
+    except (json.JSONDecodeError, KeyError):
+        pass
+
+prompts.sort(key=lambda x: x[0], reverse=True)
+seen = set()
+idx = 0
+for ts, ts_local, project, content in prompts:
+    if content in seen:
+        continue
+    seen.add(content)
+
+    with open(os.path.join(tmpdir, str(idx)), 'w', encoding='utf-8') as f:
+        f.write(content)
+
+    first_line = content.split('\n')[0][:120]
+    print(f"{idx}│{ts_local}│{project[:50]}│{first_line}", flush=True)
+    idx += 1
+PYEOF
+
+SEL=$(
+    rg --with-filename --no-line-number --null \
+        -F '"type":"user"' --glob '*.jsonl' \
+        "$PROJECTS_DIR" 2>/dev/null \
+    | python3 "$PYFILE" "$TMPDIR_PROMPTS" \
+    | fzf \
+        --delimiter='│' \
+        --with-nth='2,3,4' \
+        --nth='2,3,4' \
+        --prompt='Claude Prompt> ' \
+        --height='80%' \
+        --layout=reverse \
+        --info=inline \
+        --preview="cat ${TMPDIR_PROMPTS}/{1}" \
+        --preview-window='right:60%:wrap' \
+        --header='ENTER: copy to clipboard' \
+        2>/dev/null || true
+)
+
+[[ -z "$SEL" ]] && exit 0
+
+IDX=$(echo "$SEL" | awk -F'│' '{print $1}')
+cat "${TMPDIR_PROMPTS}/${IDX}" | pbcopy
+echo "Copied to clipboard." >&2
