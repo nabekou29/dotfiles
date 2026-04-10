@@ -12,12 +12,12 @@ User directive: $ARGUMENTS
 
 ## Commands
 
-| Operation       | Command              |
-| --------------- | -------------------- |
-| Create / switch | `git wt <branch>`    |
-| List            | `git wt`             |
-| Delete (safe)   | `git wt -d <branch>` |
-| Delete (force)  | `git wt -D <branch>` |
+| Operation       | Command                           |
+| --------------- | --------------------------------- |
+| Create / switch | `git wt <branch> <base-branch>`   |
+| List            | `git wt`                          |
+| Delete (safe)   | `git wt -d <branch>`              |
+| Delete (force)  | `git wt -D <branch>`              |
 
 ## Workflow
 
@@ -25,7 +25,8 @@ User directive: $ARGUMENTS
 
 1. Ensure uncommitted changes are handled (commit, stash, or discard)
 2. Confirm the branch name with the user
-3. Branch name must NOT contain `/` — use `-` instead (e.g., `feat-login` not `feat/login`). This avoids nested directory structures in the worktree base directory.
+3. **Always specify the base branch explicitly** (e.g., `git wt feat-login main`). Never omit the base branch — ask the user if unclear.
+4. Branch name must NOT contain `/` — use `-` instead (e.g., `feat-login` not `feat/login`). This avoids nested directory structures in the worktree base directory.
 
 ### When deleting
 
