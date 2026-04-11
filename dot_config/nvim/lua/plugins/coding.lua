@@ -87,7 +87,7 @@ return {
       vim.lsp.enable({
         "biome",
         "copilot",
-        "cspell_lsp",
+        "codebook",
         "css_variables",
         "cssls",
         "cssmodules_ls",

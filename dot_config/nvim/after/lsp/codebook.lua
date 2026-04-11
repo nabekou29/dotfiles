@@ -2,7 +2,7 @@
 local disabled_filetypes = { "toggleterm" }
 
 return {
-  cmd = { "cspell-lsp", "--stdio" },
+  cmd = { "codebook-lsp", "serve" },
   root_dir = function(bufnr, on_dir)
     -- 特定のfiletypeでは無効化
     local filetype = vim.bo[bufnr].filetype
@@ -10,11 +10,11 @@ return {
       return
     end
     local bufname = vim.api.nvim_buf_get_name(bufnr)
-    -- .disabled-cspell が存在する場合は LSP を無効化
-    if vim.fs.find(".disabled-cspell", { path = bufname, upward = true })[1] then
+    -- .disabled-codebook が存在する場合は LSP を無効化
+    if vim.fs.find(".disabled-codebook", { path = bufname, upward = true })[1] then
       return
     end
-    local root = vim.fs.root(bufnr, { "cspell.json", "cspell.yaml", ".git" })
+    local root = vim.fs.root(bufnr, { "codebook.toml", ".codebook.toml", ".git" })
     if root then
       on_dir(root)
     end
