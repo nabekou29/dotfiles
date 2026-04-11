@@ -22,7 +22,7 @@
   typeset -g POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 
   # ── Instant Prompt ──────────────────────────────────────────────────────────
-  typeset -g POWERLEVEL9K_INSTANT_PROMPT=verbose
+  typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
   typeset -g POWERLEVEL9K_DISABLE_HOT_RELOAD=true
 
   # ── Segment Layout ──────────────────────────────────────────────────────────

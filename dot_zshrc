@@ -1,9 +1,12 @@
+POWERLEVEL9K_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/p10k/p10k.zsh"
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
 # ── Instant Prompt (must be at the very top) ─────────────────────────────────
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# check initilize speed: `time zsh -i -c exit`
+# check initialize speed: `time zsh -i -c exit`
 # zmodload zsh/zprof
 
 # ── PATH ──────────────────────────────────────────────────────────────────────
@@ -84,8 +87,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
-[ -f ~/.config/zsh/completion-for-pnpm.zsh ] || pnpm completion zsh >~/.config/zsh/completion-for-pnpm.zsh
-source ~/.config/zsh/completion-for-pnpm.zsh
+[[ -s ~/.config/zsh/completion-for-pnpm.zsh ]] || pnpm completion zsh >~/.config/zsh/completion-for-pnpm.zsh 2>/dev/null
+[[ -s ~/.config/zsh/completion-for-pnpm.zsh ]] && source ~/.config/zsh/completion-for-pnpm.zsh
 
 if [[ -d "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk" ]]; then
   zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
@@ -94,6 +97,10 @@ fi
 
 zsh-defer _evalcache zoxide init zsh
 zsh-defer _evalcache git-wt --init zsh
+
+if command -v zmx &> /dev/null; then
+  eval "$(zmx completions zsh)"
+fi
 
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
@@ -185,15 +192,13 @@ if [ -d ~/.terminfo ]; then
     export TERM=wezterm
 fi
 
-# ── Prompt (Powerlevel10k) ───────────────────────────────────────────────────
+# ── Prompt (Powerlevel10k) ────────────────────────────────────────────────────
 [[ ! -f "$XDG_CONFIG_HOME/p10k/p10k.zsh" ]] || source "$XDG_CONFIG_HOME/p10k/p10k.zsh"
+
+# ── direnv ────────────────────────────────────────────────────────────────────
+eval "$(direnv hook zsh)"
 
 # ── Local ─────────────────────────────────────────────────────────────────────
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
-
-if command -v zmx &> /dev/null; then
-  eval "$(zmx completions zsh)"
-fi
 
 # zprof
