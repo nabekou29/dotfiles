@@ -1,15 +1,15 @@
 set dotenv-load := false
 
-CHEZMOI_DIR := "~/.local/share/chezmoi"
+NIX_DIR := "$HOME/.local/share/chezmoi/nix"
 
 # Apply nix-darwin configuration
 darwin-switch:
-    sudo darwin-rebuild switch --flake '{{CHEZMOI_DIR}}/nix#default'
+    sudo darwin-rebuild switch --flake "{{NIX_DIR}}#default"
 
 # Update flake inputs and apply nix-darwin configuration
 darwin-update:
-    nix flake update --flake {{CHEZMOI_DIR}}/nix
-    sudo darwin-rebuild switch --flake '{{CHEZMOI_DIR}}/nix#default'
+    nix flake update --flake "{{NIX_DIR}}"
+    sudo darwin-rebuild switch --flake "{{NIX_DIR}}#default"
 
 # Build Karabiner-Elements configuration
 karabiner-build:
