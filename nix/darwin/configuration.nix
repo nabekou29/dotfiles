@@ -25,6 +25,11 @@
       autohide = true;
       tilesize = 16;
       mru-spaces = false;
+      # ホットコーナー（左下・右下 → Mission Control）
+      wvous-bl-corner = 1;
+      wvous-br-corner = 1;
+      wvous-bl-modifier = 0;
+      wvous-br-modifier = 0;
     };
 
     finder = {
