@@ -1,6 +1,6 @@
 set dotenv-load := false
 
-NIX_DIR := "$HOME/.local/share/chezmoi/nix"
+NIX_DIR := env_var('HOME') + "/.local/share/chezmoi/nix"
 
 # Apply nix-darwin configuration
 darwin-switch:
