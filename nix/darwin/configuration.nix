@@ -4,6 +4,8 @@
   # Determinate Nix が Nix デーモンを管理するため無効化
   nix.enable = false;
 
+  nixpkgs.config.allowUnfree = true;
+
   system.primaryUser = user;
   system.stateVersion = 6;
 
