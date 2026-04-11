@@ -23,6 +23,10 @@ keyword = "pn"
 expansion = "pnpm"
 
 [[abbr]]
+keyword = "fm"
+expansion = "fzf-make"
+
+[[abbr]]
 keyword = "ls"
 expansion = "lsd"
 allow_conflict = true
