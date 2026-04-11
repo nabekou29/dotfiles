@@ -10,7 +10,7 @@ mise.local.toml
 
 .snippets
 cspell.json
-.disabled-cspell
+.disabled-codebook
 
 .nvim.lua
 .nvim/

@@ -1,0 +1,6 @@
+dictionaries = ["en_us"]
+
+# 日本語（ひらがな・カタカナ・漢字）および非 ASCII 文字を無視
+ignore_patterns = [
+    '[^\x00-\x7F]+'
+]
