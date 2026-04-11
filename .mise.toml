@@ -1,13 +1,13 @@
 # https://mise.jdx.dev/configuration.html
 [tasks.darwin-switch]
     description = "Apply nix-darwin configuration"
-    run = "sudo darwin-rebuild switch --flake ~/.local/share/chezmoi/nix/darwin#default"
+    run = "sudo darwin-rebuild switch --flake ~/.local/share/chezmoi/nix#default"
 
 [tasks.darwin-update]
     description = "Update and apply nix-darwin configuration"
     run = """
-    nix flake update --flake ~/.local/share/chezmoi/nix/darwin
-    sudo darwin-rebuild switch --flake ~/.local/share/chezmoi/nix/darwin#default
+    nix flake update --flake ~/.local/share/chezmoi/nix
+    sudo darwin-rebuild switch --flake ~/.local/share/chezmoi/nix#default
     """
 
 [tasks.karabiner-build]
