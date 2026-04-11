@@ -118,6 +118,9 @@
     unison
     unison-fsmonitor
 
+    ## ========== Task Runner ==========
+    just
+
     ## ========== Monitoring / Debug ==========
     fastfetch
     fzf-make
