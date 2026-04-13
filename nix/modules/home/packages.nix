@@ -20,6 +20,7 @@
     sd
     timg
     tldr
+    trash-cli
     tree
     wget
     yazi
@@ -126,7 +127,9 @@
     fzf-make
     glow
     hyperfine
+    lazysql
     lnav
+    oxker
     tree-sitter
     vhs
     vim-startuptime

@@ -22,6 +22,7 @@
       "media-control"
       "neurosnap/tap/zmx"
       "tfenv"
+      "tonisives/tap/resterm"
     ];
 
     casks = [
