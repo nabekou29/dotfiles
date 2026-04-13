@@ -1,1 +1,2 @@
-nix/darwin/local.nix
+nix/local.nix
+nix/result
