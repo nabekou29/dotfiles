@@ -116,6 +116,7 @@
   "language": "日本語",
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
+  "advisorModel": "opus",
   "autoUpdatesChannel": "latest",
   "autoMemoryEnabled": false,
   "autoDreamEnabled": false,
