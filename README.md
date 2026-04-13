@@ -16,15 +16,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply nabekou29
 ```
 
-### 3. nix-darwin の初回セットアップ
-
-初回は `darwin-rebuild` / `just` がまだインストールされていないため、`nix run` でブートストラップする。
-
-```sh
-nix run nix-darwin -- switch --flake "$HOME/.local/share/chezmoi/nix#default"
-```
-
-### 4. 以降の更新
+### 3. 以降の更新
 
 `just` がインストールされた後は以下のコマンドで更新できる。
 
