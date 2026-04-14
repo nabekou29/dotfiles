@@ -129,7 +129,7 @@
     hyperfine
     lazysql
     lnav
-    oxker
+    # oxker  # nixpkgs のスナップショットテスト失敗でビルド不可（2026-04-14 時点）
     tree-sitter
     vhs
     vim-startuptime

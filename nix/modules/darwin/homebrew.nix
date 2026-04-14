@@ -22,7 +22,6 @@
       "media-control"
       "neurosnap/tap/zmx"
       "tfenv"
-      "tonisives/tap/resterm"
     ];
 
     casks = [
@@ -44,7 +43,7 @@
       "alfred"
       "alt-tab"
       # "azookey" # beta 版を手動管理中
-      "deskflow"
+      # "deskflow" # brew に存在しない
       "deskpad"
       "google-japanese-ime"
       "karabiner-elements"
