@@ -18,6 +18,6 @@ fi
 
 # nix-darwin
 echo "Applying nix-darwin configuration ..."
-nix run 'nix-darwin' -- switch --flake ~/.local/share/chezmoi/nix#default
+sudo nix run 'nix-darwin' -- switch --flake "$HOME/.local/share/chezmoi/nix#default"
 
 {{ end }}
