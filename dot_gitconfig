@@ -57,7 +57,8 @@
 	copy = mise.local.toml
 	copy = lefthook-local.yml
 	copy = .nvim.lua
+	copy = codebook.toml
 	hook = [ -f mise.toml ] || [ -f .mise.toml ] || [ -f mise.local.toml ] || [ -f .mise.local.toml ] && mise trust && mise install
-    hook = [ -f .envrc ] && direnv allow || true
+	hook = [ -f .envrc ] && direnv allow || true
 	hook = git-wt-symlink
 	remover = trash
