@@ -27,7 +27,7 @@
 
     trackpad = {
       Clicking = true;
-      TrackpadThreeFingerDrag = true;
+      TrackpadThreeFingerDrag = false;
     };
 
     LaunchServices = {
@@ -43,6 +43,9 @@
         FXDefaultSearchScope = "SCcf";
         NewWindowTarget = "PfDe";
         NewWindowTargetPath = "file:///Users/${user}/";
+      };
+      "com.apple.AppleMultitouchTrackpad" = {
+        TrackpadThreeFingerVertSwipeGesture = 2;
       };
       "com.apple.desktopservices" = {
         DSDontWriteNetworkStores = true;
