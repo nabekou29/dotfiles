@@ -70,6 +70,18 @@
           "61" = { enabled = false; };
           # (無効) Spotlight
           "64" = { enabled = false; };
+          # (無効) スクリーンショット: Cmd+Shift+3 (全画面をファイルに保存)
+          "28" = { enabled = false; };
+          # (無効) スクリーンショット: Ctrl+Cmd+Shift+3 (全画面をクリップボードへ)
+          "29" = { enabled = false; };
+          # (無効) スクリーンショット: Cmd+Shift+4 (選択範囲をファイルに保存)
+          "30" = { enabled = false; };
+          # (無効) スクリーンショット: Ctrl+Cmd+Shift+4 (選択範囲をクリップボードへ)
+          "31" = { enabled = false; };
+          # (無効) スクリーンショット: Cmd+Shift+5 (スクリーンショットオプション)
+          "184" = { enabled = false; };
+          # (無効) Finder 検索ウィンドウ: Cmd+Shift+Space
+          "65" = { enabled = false; };
         };
       };
       NSGlobalDomain = {
