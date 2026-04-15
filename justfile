@@ -4,12 +4,12 @@ NIX_DIR := env_var('HOME') + "/.local/share/chezmoi/nix"
 
 # Apply nix-darwin configuration
 darwin-switch:
-    sudo nix run 'nix-darwin' -- switch --flake "{{NIX_DIR}}#default"
+    HOME=/var/root sudo nix run 'nix-darwin' -- switch --flake "{{NIX_DIR}}#$(cat {{NIX_DIR}}/profile)"
 
 # Update flake inputs and apply nix-darwin configuration
 darwin-update:
     nix flake update --flake "{{NIX_DIR}}"
-    sudo nix run 'nix-darwin' -- switch --flake "{{NIX_DIR}}#default"
+    HOME=/var/root sudo nix run 'nix-darwin' -- switch --flake "{{NIX_DIR}}#$(cat {{NIX_DIR}}/profile)"
 
 # Build Karabiner-Elements configuration
 karabiner-build:
