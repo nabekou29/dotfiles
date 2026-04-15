@@ -22,7 +22,7 @@
         specialArgs = { inherit user; };
         modules = [
           ./configuration.nix
-          (let p = ./hosts/${profile}.nix;
+          (let p = ./hosts + "/${profile}.nix";
            in if builtins.pathExists p then p else { })
           home-manager.darwinModules.home-manager
           {
