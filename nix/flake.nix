@@ -17,15 +17,13 @@
     { nixpkgs, nix-darwin, home-manager, ... }:
     let
       user = "kohei_watanabe";
-      localConfig = ./local.nix;
-    in
-    {
-      darwinConfigurations.default = nix-darwin.lib.darwinSystem {
+      mkDarwinSystem = profile: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit user; };
         modules = [
           ./configuration.nix
-          (if builtins.pathExists localConfig then localConfig else { })
+          (let p = ./hosts/${profile}.nix;
+           in if builtins.pathExists p then p else { })
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -36,6 +34,12 @@
             users.users.${user}.home = "/Users/${user}";
           }
         ];
+      };
+    in
+    {
+      darwinConfigurations = {
+        work    = mkDarwinSystem "work";
+        private = mkDarwinSystem "private";
       };
     };
 }
