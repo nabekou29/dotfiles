@@ -6,7 +6,4 @@
     "gogcli"
   ];
 
-  homebrew.casks = [
-    "zoom"
-  ];
 }

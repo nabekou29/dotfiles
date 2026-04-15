@@ -77,6 +77,7 @@
       "chatgpt"
       "ngrok"
       "ovim"
+      "zoom"
 
       # Quick Look
       "apparency"
