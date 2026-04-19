@@ -4,4 +4,4 @@
 # hash: {{ include "karabiner/main.ts" | sha256sum }}
 
 cd {{ .chezmoi.sourceDir }}
-mise run karabiner-build
+just karabiner-build
