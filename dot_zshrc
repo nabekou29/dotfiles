@@ -1,3 +1,6 @@
+# check initialize speed: `time zsh -i -c exit`
+zmodload zsh/zprof
+
 POWERLEVEL9K_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/p10k/p10k.zsh"
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
@@ -5,9 +8,6 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-# check initialize speed: `time zsh -i -c exit`
-# zmodload zsh/zprof
 
 # ── PATH ──────────────────────────────────────────────────────────────────────
 PATH=$HOME/bin:$PATH
@@ -56,7 +56,7 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:default' menu select=1
 
 # ── Tools ─────────────────────────────────────────────────────────────────────
-eval "$(mise activate zsh)" # _evalcache 不可: npm で入れてるツールが動かなくなる
+zsh-defer -c 'eval "$(mise activate zsh)"'
 
 {
   local fzf_path="$(command -v fzf)"
@@ -117,7 +117,7 @@ bindkey "^g"      ghq-cd                  # Ctrl + G
 bindkey "^[z"     zmx-session             # Alt + Z
 
 autoload -Uz add-zsh-hook
-eval "$(abbrs init zsh)"
+zsh-defer -c 'eval "$(abbrs init zsh)"'
 
 # abbrs: 展開後にスペースを自動挿入 + autosuggestions のゴーストテキストをクリア
 _abbrs-expand-space-and-insert() {
@@ -201,4 +201,4 @@ eval "$(direnv hook zsh)"
 # ── Local ─────────────────────────────────────────────────────────────────────
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-# zprof
+zprof
