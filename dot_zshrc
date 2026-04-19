@@ -1,5 +1,5 @@
 # check initialize speed: `time zsh -i -c exit`
-zmodload zsh/zprof
+# zmodload zsh/zprof
 
 POWERLEVEL9K_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/p10k/p10k.zsh"
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
@@ -201,4 +201,4 @@ eval "$(direnv hook zsh)"
 # ── Local ─────────────────────────────────────────────────────────────────────
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-zprof
+# zprof
