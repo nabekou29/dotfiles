@@ -7,5 +7,4 @@
 
 ## CLI
 "cargo:https://github.com/skanehira/version-lsp.git" = "latest"
-"github:ushironoko/abbrs" = "0.2.10"
 "github:Warashi/cage" = "0.1.13"

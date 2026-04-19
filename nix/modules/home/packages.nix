@@ -1,5 +1,19 @@
 { pkgs, ... }:
 
+let
+  abbrs = pkgs.rustPlatform.buildRustPackage {
+    pname = "abbrs";
+    version = "0.2.10";
+    src = pkgs.fetchFromGitHub {
+      owner = "ushironoko";
+      repo = "abbrs";
+      rev = "v0.2.10";
+      hash = "sha256-YQ0pPYBK7fCEM0fAGiBHHo6/NacJfpgLNNCOuKEsaqs=";
+    };
+    cargoHash = "sha256-CRwwsXyFBSFuVw4Z00VQSSyNqZX8OTGD2nzwHJUO8lI=";
+  };
+in
+
 {
   home.packages = with pkgs; [
     ## ========== Common ==========
@@ -28,6 +42,7 @@
     zoxide
 
     ## ========== Terminal / Shell ==========
+    abbrs
     mas
     sheldon
     starship
