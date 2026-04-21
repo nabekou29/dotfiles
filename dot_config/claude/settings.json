@@ -104,7 +104,8 @@
     "typescript-lsp@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
     "codex@openai-codex": true,
-    "notion@claude-plugins-official": true
+    "notion@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
