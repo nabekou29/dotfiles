@@ -18,6 +18,7 @@ fi
 
 # nix-darwin
 echo "Applying nix-darwin configuration ..."
-sudo nix run 'nix-darwin' -- switch --flake "$HOME/.local/share/chezmoi/nix#default"
+NIX_DIR="$HOME/.local/share/chezmoi/nix"
+sudo nix run 'nix-darwin' -- switch --flake "$NIX_DIR#$(cat "$NIX_DIR/profile")"
 
 {{ end }}
