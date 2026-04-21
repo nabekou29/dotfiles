@@ -6,4 +6,6 @@
     "gogcli"
   ];
 
+  homebrew.casks = [
+  ];
 }
