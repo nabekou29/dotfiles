@@ -155,6 +155,7 @@ in
     codex
     gemini-cli
     github-copilot-cli
+    gws
     octorus
     playwright
     zenn-cli
