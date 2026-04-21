@@ -11,15 +11,19 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    trev = {
+      url = "github:nabekou29/trev";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { nixpkgs, nix-darwin, home-manager, ... }:
+    inputs@{ nixpkgs, nix-darwin, home-manager, ... }:
     let
       user = "kohei_watanabe";
       mkDarwinSystem = profile: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        specialArgs = { inherit user; };
+        specialArgs = { inherit user inputs; };
         modules = [
           ./configuration.nix
           (let p = ./hosts + "/${profile}.nix";
@@ -29,7 +33,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
-            home-manager.extraSpecialArgs = { inherit user; };
+            home-manager.extraSpecialArgs = { inherit user inputs; };
             home-manager.users.${user} = import ./home.nix;
             users.users.${user}.home = "/Users/${user}";
           }

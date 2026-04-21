@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 let
   abbrs = pkgs.rustPlatform.buildRustPackage {
@@ -43,6 +43,8 @@ let
         mainProgram = "herdr";
       };
     };
+
+  trev = inputs.trev.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 
 {
@@ -190,6 +192,7 @@ in
     herdr
     octorus
     playwright
+    trev
     zenn-cli
 
     ## ========== iOS / Mobile ==========
