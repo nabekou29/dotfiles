@@ -12,6 +12,37 @@ let
     };
     cargoHash = "sha256-CRwwsXyFBSFuVw4Z00VQSSyNqZX8OTGD2nzwHJUO8lI=";
   };
+
+  herdr =
+    let
+      version = "0.4.11";
+      sources = {
+        "aarch64-darwin" = {
+          url = "https://github.com/ogulcancelik/herdr/releases/download/v${version}/herdr-macos-aarch64";
+          hash = "sha256-/N2KQAnQof/cBD4PuUlSHpKzWo1/3RILYJXGRmp6/9A=";
+        };
+      };
+      source = sources.${pkgs.stdenv.hostPlatform.system}
+        or (throw "herdr: unsupported system ${pkgs.stdenv.hostPlatform.system}");
+    in
+    pkgs.stdenv.mkDerivation {
+      pname = "herdr";
+      inherit version;
+      src = pkgs.fetchurl source;
+      dontUnpack = true;
+      installPhase = ''
+        runHook preInstall
+        install -Dm755 $src $out/bin/herdr
+        runHook postInstall
+      '';
+      meta = {
+        description = "Supervise multiple coding agents in one terminal";
+        homepage = "https://github.com/ogulcancelik/herdr";
+        license = pkgs.lib.licenses.agpl3Only;
+        platforms = builtins.attrNames sources;
+        mainProgram = "herdr";
+      };
+    };
 in
 
 {
@@ -156,6 +187,7 @@ in
     gemini-cli
     github-copilot-cli
     gws
+    herdr
     octorus
     playwright
     zenn-cli
