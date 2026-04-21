@@ -38,7 +38,14 @@
       "mcp__claude_ai_Notion__notion-create-database",
       "mcp__claude_ai_Notion__notion-duplicate-page",
       "mcp__claude_ai_Notion__notion-move-pages",
-      "mcp__claude_ai_Notion__notion-update-data-source"
+      "mcp__claude_ai_Notion__notion-update-data-source",
+      "mcp__plugin_Notion_notion__notion-update-page",
+      "mcp__plugin_Notion_notion__notion-create-pages",
+      "mcp__plugin_Notion_notion__notion-create-comment",
+      "mcp__plugin_Notion_notion__notion-create-database",
+      "mcp__plugin_Notion_notion__notion-duplicate-page",
+      "mcp__plugin_Notion_notion__notion-move-pages",
+      "mcp__plugin_Notion_notion__notion-update-data-source"
     ],
     "defaultMode": "bypassPermissions"
   },
