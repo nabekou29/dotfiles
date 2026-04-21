@@ -124,17 +124,24 @@ _abbrs-expand-space-and-insert() {
   abbrs-expand-space
   (( _ABBRS_CYCLING )) && return
   [[ "${LBUFFER: -1}" == " " ]] || LBUFFER+=" "
-  unset POSTDISPLAY
+  (( $+widgets[autosuggest-clear] )) && zle autosuggest-clear
 }
 zle -N _abbrs-expand-space-and-insert
-bindkey " " _abbrs-expand-space-and-insert
 
 _abbrs-expand-accept-and-clear() {
-  unset POSTDISPLAY
+  (( $+widgets[autosuggest-clear] )) && zle autosuggest-clear
   zle abbrs-expand-accept
 }
 zle -N _abbrs-expand-accept-and-clear
-bindkey "^M" _abbrs-expand-accept-and-clear
+
+# zsh-autosuggestions の clear 対象に登録してラップしてもらう
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(_abbrs-expand-accept-and-clear _abbrs-expand-space-and-insert)
+
+# abbrs init が `bindkey "^M" abbrs-expand-accept` で上書きするため、その後で再度上書きする
+zsh-defer -c '
+  bindkey " " _abbrs-expand-space-and-insert
+  bindkey "^M" _abbrs-expand-accept-and-clear
+'
 
 # ── ZLE Widgets ───────────────────────────────────────────────────────────────
 fpath+=("$HOME/.config/zsh/widgets")
