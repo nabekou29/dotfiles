@@ -1,12 +1,17 @@
 term = ghostty
 macos-option-as-alt = true
 shell-integration = zsh
+shell-integration-features = ssh-env,ssh-terminfo
 
 theme = Iceberg Dark
 
 background-opacity = 0.93
-background-blur-radius = 10
+background-blur = 10
 resize-overlay = never
+
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = notify
+notify-on-command-finish-after = 10s
 
 font-family = Moralerspace Krypton
 font-size = 14
@@ -31,3 +36,18 @@ font-feature = -dlig
 macos-titlebar-style = hidden
 
 mouse-hide-while-typing = true
+
+keybind = clear
+keybind = super+shift+,=reload_config
+keybind = super+shift+p=toggle_command_palette
+keybind = ctrl+m=text:\r
+keybind = super+c=copy_to_clipboard:mixed
+keybind = super+v=paste_from_clipboard
+keybind = copy=copy_to_clipboard:mixed
+keybind = paste=paste_from_clipboard
+keybind = super+==increase_font_size:1
+keybind = super++=increase_font_size:1
+keybind = super+-=decrease_font_size:1
+keybind = super+0=reset_font_size
+keybind = super+w=close_surface
+keybind = super+shift+w=close_window
