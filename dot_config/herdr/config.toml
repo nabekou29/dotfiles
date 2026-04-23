@@ -1,0 +1,22 @@
+# herdr configuration
+# default config: herdr --default-config
+# docs:           https://github.com/ogulcancelik/herdr/blob/master/CONFIGURATION.md
+
+onboarding = false
+
+[theme]
+name = "tokyo-night"
+
+[ui.sound]
+enabled = true
+
+[ui.toast]
+enabled = true
+
+[keys]
+focus_pane_left = "alt+h"
+focus_pane_down = "alt+j"
+focus_pane_up = "alt+k"
+focus_pane_right = "alt+l"
+previous_tab = "alt+["
+next_tab = "alt+]"
