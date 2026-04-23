@@ -1,14 +1,16 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 local fonts = require("fonts")
-local tabline = require("tabline")
-local workspace = require("workspace")
 
 local config = wezterm.config_builder()
 
 config.term = "wezterm"
 config.use_ime = true
 config.macos_forward_to_ime_modifier_mask = "SHIFT|CTRL" -- IME に SHIFT or CTRL を渡す。これがないと C-m とかのキーバインドが動かない。
+-- Alt (Option) を TUI (herdr など) に Alt modifier として送る
+config.send_composed_key_when_left_alt_is_pressed = false
+config.send_composed_key_when_right_alt_is_pressed = false
+config.use_dead_keys = false
 config.scrollback_lines = 35000
 --- UI ---
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
@@ -37,7 +39,6 @@ config.line_height = font_info.line_height
 config.harfbuzz_features = font_info.harfbuzz_features
 
 config.window_background_opacity = 0.92
-config.inactive_pane_hsb = { saturation = 0.95, brightness = 0.3 }
 config.adjust_window_size_when_changing_font_size = false
 config.macos_window_background_blur = 10
 
@@ -49,32 +50,12 @@ config.window_frame = {
   active_titlebar_bg = "#121212",
 }
 
--- タブラインのセットアップ
-tabline.setup_tabline(wezterm, config)
+-- ペイン/タブ/ワークスペース管理は herdr に委ねるため、タブバーは非表示
+config.enable_tab_bar = false
 
 --- Key Binding ---
 
-local function ActivatePaneVimSeamless(dir)
-  local dir_map = {
-    Left = "h",
-    Down = "j",
-    Up = "k",
-    Right = "l",
-  }
-
-  return wezterm.action_callback(function(window, pane)
-    -- neovim の場合は何もしない
-    local p_name = pane:get_foreground_process_name()
-    if p_name:find("neovim") or p_name:find("nvim") or p_name:find("vim") or p_name:find("chezmoi") then
-      return window:perform_action(act.SendKey({ key = dir_map[dir], mods = "SHIFT|CTRL" }), pane)
-    end
-
-    window:perform_action(act.ActivatePaneDirection(dir), pane)
-  end)
-end
-
 config.disable_default_key_bindings = true
-config.leader = { key = "\\", mods = "ALT", timeout_milliseconds = 1000 }
 
 config.keys = {
   -- General
@@ -82,23 +63,13 @@ config.keys = {
   { key = "v", mods = "CMD", action = act.PasteFrom("Clipboard") },
   { key = "=", mods = "CMD", action = act.IncreaseFontSize },
   { key = "-", mods = "CMD", action = act.DecreaseFontSize },
-  { key = "f", mods = "CMD", action = act.Search({ Regex = "" }) },
   { key = "n", mods = "CMD", action = act.SpawnWindow },
   { key = "UpArrow", mods = "SHIFT", action = act.ScrollToPrompt(-1) },
   { key = "DownArrow", mods = "SHIFT", action = act.ScrollToPrompt(1) },
-  --- Tab ---
-  { key = "n", mods = "SHIFT|ALT", action = act.SpawnTab("CurrentPaneDomain") },
-  { key = "{", mods = "SHIFT|ALT", action = act.MoveTabRelative(-1) },
-  { key = "}", mods = "SHIFT|ALT", action = act.MoveTabRelative(1) },
   -- Window
   { key = "t", mods = "CMD|SHIFT", action = act.SpawnWindow },
-  -- Move to tab
-  -- vim like
-  { key = "h", mods = "SHIFT|ALT", action = act.ActivateTabRelative(-1) },
-  { key = "l", mods = "SHIFT|ALT", action = act.ActivateTabRelative(1) },
-  -- close tab
+  -- close
   { key = "w", mods = "CMD", action = act.CloseCurrentPane({ confirm = true }) },
-  { key = "w", mods = "SHIFT|ALT", action = act.CloseCurrentPane({ confirm = true }) },
   {
     key = "r",
     mods = "CMD|SHIFT",
@@ -123,36 +94,6 @@ config.keys = {
       )
     end),
   },
-  --- Pane ---
-  -- 分割
-  { key = "v", mods = "ALT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-  { key = "s", mods = "ALT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-  -- 移動
-  { key = "h", mods = "CMD|ALT", action = act.ActivatePaneDirection("Left") },
-  { key = "j", mods = "CMD|ALT", action = act.ActivatePaneDirection("Down") },
-  { key = "k", mods = "CMD|ALT", action = act.ActivatePaneDirection("Up") },
-  { key = "l", mods = "CMD|ALT", action = act.ActivatePaneDirection("Right") },
-  { key = "h", mods = "SHIFT|CTRL", action = ActivatePaneVimSeamless("Left") },
-  { key = "l", mods = "SHIFT|CTRL", action = ActivatePaneVimSeamless("Right") },
-  { key = "j", mods = "SHIFT|CTRL", action = ActivatePaneVimSeamless("Down") },
-  { key = "k", mods = "SHIFT|CTRL", action = ActivatePaneVimSeamless("Up") },
-  -- サイズ調整
-  { key = "a", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Left", 5 }) },
-  { key = "s", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Down", 5 }) },
-  { key = "d", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Up", 5 }) },
-  { key = "f", mods = "ALT|CTRL", action = act.AdjustPaneSize({ "Right", 5 }) },
-  --
-  -- 場所替え
-  -- { key = 'b', mods = 'CTRL', action = act.RotatePanes 'CounterClockwise' },
-  -- { key = 'n', mods = 'CTRL', action = act.RotatePanes 'Clockwise' },
-  {
-    key = "0",
-    mods = "CTRL",
-    action = act.PaneSelect({ mode = "SwapWithActive" }),
-  },
-  -- 最大化
-  { key = "Enter", mods = "SHIFT|ALT", action = act.TogglePaneZoomState },
-  { key = "Enter", mods = "CTRL|SHIFT", action = act.TogglePaneZoomState },
 
   -- copy mode
   { key = "x", mods = "ALT", action = act.ActivateCopyMode },
@@ -181,19 +122,7 @@ config.keys = {
       window:set_config_overrides(overrides)
     end),
   },
-
-  --- Workspace ---
-  { key = "s", mods = "ALT|SHIFT", action = workspace.actions.workspace_switcher },
-  { key = "j", mods = "ALT|SHIFT", action = workspace.actions.switch_next },
-  { key = "k", mods = "ALT|SHIFT", action = workspace.actions.switch_prev },
-  { key = "p", mods = "ALT|SHIFT", action = workspace.actions.switch_previous },
-  { key = "s", mods = "LEADER", action = workspace.actions.workspace_switcher },
-  { key = "w", mods = "LEADER", action = workspace.actions.save },
-  { key = "r", mods = "LEADER", action = workspace.actions.fuzzy_restore },
 }
-
--- ワークスペースのプラグイン初期化・イベントハンドラ登録
-workspace.setup()
 
 --- Mouse Binding ---
 config.disable_default_mouse_bindings = false
