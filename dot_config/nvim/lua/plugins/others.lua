@@ -184,5 +184,4 @@ return {
     opts = {},
   },
 
-  { "willothy/wezterm.nvim", opts = {} },
 }

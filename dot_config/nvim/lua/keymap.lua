@@ -5,33 +5,11 @@ if vim.g.vscode then
   return
 end
 
-if vim.fn.exists("$WEZTERM_PANE") == 1 then
-  local directions = { h = "Left", j = "Down", k = "Up", l = "Right" }
-
-  local move_nvim_win_or_wezterm_pane = function(hjkl)
-    -- 現在のウィンドウIDを取得
-    local oldwin = vim.api.nvim_get_current_win()
-
-    -- ウィンドウ移動を試す
-    vim.cmd.wincmd(hjkl)
-    -- 現在ウィンドウに変化がなければWeztermのPane移動を試す
-    if oldwin == vim.api.nvim_get_current_win() then
-      require("wezterm").switch_pane.direction(directions[hjkl])
-    end
-  end
-
-  for k, _ in pairs(directions) do
-    vim.keymap.set({ "n", "x", "t" }, "<C-S-" .. k .. ">", function()
-      move_nvim_win_or_wezterm_pane(k)
-    end, { desc = "Move to " .. directions[k] .. " pane (Wezterm)" })
-  end
-elseif vim.fn.exists("$ZELLIJ") ~= 1 then
-  set("n", "<C-S-h>", "<cmd>wincmd h<CR>", { desc = "Move to left window" })
-  set("n", "<C-S-l>", "<cmd>wincmd l<CR>", { desc = "Move to right window" })
-  set("n", "<C-S-j>", "<cmd>wincmd j<CR>", { desc = "Move to below window" })
-  set("n", "<C-S-k>", "<cmd>wincmd k<CR>", { desc = "Move to above window" })
-  -- $WEZTERM_PANE が設定されている場合はWeztermのPane移動を試す
-end
+-- ペイン分割/移動は herdr に任せるため、nvim 内のウィンドウ移動のみ
+set("n", "<C-S-h>", "<cmd>wincmd h<CR>", { desc = "Move to left window" })
+set("n", "<C-S-l>", "<cmd>wincmd l<CR>", { desc = "Move to right window" })
+set("n", "<C-S-j>", "<cmd>wincmd j<CR>", { desc = "Move to below window" })
+set("n", "<C-S-k>", "<cmd>wincmd k<CR>", { desc = "Move to above window" })
 
 -- Emacs
 set({ "i", "v" }, "<C-a>", "<HOME>", { desc = "Move to beginning of line" })
