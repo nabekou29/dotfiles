@@ -49,7 +49,7 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "opus",
+  "model": "sonnet",
   "hooks": {
     "PreToolUse": [
       {
@@ -67,6 +67,16 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/deny-builtin-worktree.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/herdr-agent-state.sh working",
+            "timeout": 10
           }
         ]
       }
@@ -89,6 +99,54 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/notification.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/herdr-agent-state.sh working",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/herdr-agent-state.sh idle",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/herdr-agent-state.sh blocked",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_CONFIG_DIR\"/_scripts/herdr-agent-state.sh release",
+            "timeout": 10
           }
         ]
       }
