@@ -26,6 +26,9 @@ PE_RIGHT=$'\uEE02'  # progress_empty_right
 ICON_MODEL=$'\U000F06A9'  # 󰚩 nf-md-robot
 ICON_CTX=$'\U000F035B'    # 󰍛 nf-md-memory
 ICON_RATE=$'\uF0E7'       #  nf-fa-bolt
+ICON_EFFORT_SLOW=$'\U000F0F86'    # 󰾆 nf-md-speedometer_slow
+ICON_EFFORT_MEDIUM=$'\U000F0F85'  # 󰾅 nf-md-speedometer_medium
+ICON_EFFORT_FULL=$'\U000F04C5'    # 󰓅 nf-md-speedometer
 
 SEP="${DIM} │ ${RESET}"
 
@@ -74,7 +77,30 @@ pct_int=${pct_int:-0}
 ctx_color=$(threshold_color "$pct_int")
 ctx_bar=$(build_progress_bar "$pct_int" 10)
 
-sec_model="${BOLD}${MAGENTA}${ICON_MODEL} ${model}${RESET}"
+# Effort level: settings.json is shared across sessions, so the latest in-session
+# /effort wins; fall back to settings.json only when no /effort was run this session.
+transcript=$(jval '.transcript_path')
+effort=""
+if [[ -n "$transcript" ]] && [[ -f "$transcript" ]]; then
+    # Anchor on "content":"<command-name>/effort… to avoid matching quoted text in assistant replies.
+    effort=$(perl -ne 'print "$1\n" if /"content":"<command-name>\/effort<\/command-name>.*?<command-args>([^<]*)<\/command-args>/' "$transcript" 2>/dev/null | tail -1)
+fi
+if [[ -z "$effort" ]]; then
+    settings_file="${CLAUDE_CONFIG_DIR:-$HOME/.config/claude}/settings.json"
+    [[ -f "$settings_file" ]] && effort=$(jq -r '.effortLevel // empty' "$settings_file" 2>/dev/null)
+fi
+effort=${effort:-auto}
+
+case "$effort" in
+    low)    effort_color="$CYAN";    effort_icon="$ICON_EFFORT_SLOW" ;;
+    medium) effort_color="$GREEN";   effort_icon="$ICON_EFFORT_MEDIUM" ;;
+    high)   effort_color="$YELLOW";  effort_icon="$ICON_EFFORT_FULL" ;;
+    xhigh)  effort_color="$MAGENTA"; effort_icon="$ICON_EFFORT_FULL" ;;
+    max)    effort_color="$RED";     effort_icon="$ICON_EFFORT_FULL" ;;
+    *)      effort_color="$DIM";     effort_icon="$ICON_EFFORT_MEDIUM" ;;
+esac
+
+sec_model="${BOLD}${MAGENTA}${ICON_MODEL} ${model}${RESET} ${effort_color}${effort_icon} ${effort}${RESET}"
 sec_ctx="${ctx_color}${ICON_CTX} ${ctx_bar} ${pct_int}%${RESET}"
 
 # Rate limits (Max plan, available after first API call)
@@ -128,7 +154,7 @@ if [[ -n "$rate_5h" ]] || [[ -n "$rate_7d" ]]; then
 fi
 
 # ===== Estimate visible width =====
-vis_model=$(( 2 + 1 + ${#model} ))               # icon(2col) + space + model name
+vis_model=$(( 2 + 1 + ${#model} + 1 + 2 + 1 + ${#effort} ))  # model icon + name + space + effort icon + name
 vis_ctx=$(( 2 + 1 + 10 + 1 + ${#pct_int} + 1 ))  # icon(2col) + space + bar(10) + space + pct + "%"
 sep_w=3  # " │ "
 sections=2
