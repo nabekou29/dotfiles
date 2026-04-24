@@ -49,7 +49,6 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "sonnet",
   "hooks": {
     "PreToolUse": [
       {
@@ -188,7 +187,11 @@
   "autoMemoryEnabled": false,
   "autoDreamEnabled": false,
   "skipDangerousModePermissionPrompt": true,
+  "verbose": true,
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
-  }
+  },
+  "model": "sonnet"
 }
