@@ -14,9 +14,5 @@ enabled = true
 enabled = true
 
 [keys]
-focus_pane_left = "alt+h"
-focus_pane_down = "alt+j"
-focus_pane_up = "alt+k"
-focus_pane_right = "alt+l"
 previous_tab = "alt+["
 next_tab = "alt+]"
