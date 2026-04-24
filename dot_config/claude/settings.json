@@ -49,6 +49,7 @@
     ],
     "defaultMode": "bypassPermissions"
   },
+  "model": "sonnet",
   "hooks": {
     "PreToolUse": [
       {
@@ -169,7 +170,8 @@
     "slack@claude-plugins-official": true,
     "codex@openai-codex": true,
     "notion@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true
+    "superpowers@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -181,7 +183,7 @@
   },
   "language": "日本語",
   "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
+  "effortLevel": "max",
   "advisorModel": "opus",
   "autoUpdatesChannel": "latest",
   "autoMemoryEnabled": false,
@@ -192,6 +194,5 @@
   "agentPushNotifEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
-  },
-  "model": "sonnet"
+  }
 }
