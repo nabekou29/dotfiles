@@ -68,6 +68,17 @@ return {
       "DiffviewRefresh",
       "DiffviewFileHistory",
     },
+    keys = {
+      -- stylua: ignore start
+      { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History (current)" },
+      { "<leader>gH", "<cmd>DiffviewFileHistory<cr>",   desc = "File History (repo)" },
+      { "<leader>dd", "<cmd>DiffviewOpen<cr>",          desc = "Diffview Open" },
+      { "<leader>dq", "<cmd>DiffviewClose<cr>",         desc = "Diffview Close" },
+      { "<leader>dt", "<cmd>DiffviewToggleFiles<cr>",   desc = "Diffview Toggle Files" },
+      { "<leader>df", "<cmd>DiffviewFocusFiles<cr>",    desc = "Diffview Focus Files" },
+      { "<leader>dr", "<cmd>DiffviewRefresh<cr>",       desc = "Diffview Refresh" },
+      -- stylua: ignore end
+    },
     opts = {},
   },
 
