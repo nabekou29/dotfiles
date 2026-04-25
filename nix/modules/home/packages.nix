@@ -13,36 +13,7 @@ let
     cargoHash = "sha256-CRwwsXyFBSFuVw4Z00VQSSyNqZX8OTGD2nzwHJUO8lI=";
   };
 
-  herdr =
-    let
-      version = "0.5.0";
-      sources = {
-        "aarch64-darwin" = {
-          url = "https://github.com/ogulcancelik/herdr/releases/download/v${version}/herdr-macos-aarch64";
-          hash = "sha256-+heK/29wFg4JarEqs15SpOMezm2OFJAi9X9xP2kKc+A=";
-        };
-      };
-      source = sources.${pkgs.stdenv.hostPlatform.system}
-        or (throw "herdr: unsupported system ${pkgs.stdenv.hostPlatform.system}");
-    in
-    pkgs.stdenv.mkDerivation {
-      pname = "herdr";
-      inherit version;
-      src = pkgs.fetchurl source;
-      dontUnpack = true;
-      installPhase = ''
-        runHook preInstall
-        install -Dm755 $src $out/bin/herdr
-        runHook postInstall
-      '';
-      meta = {
-        description = "Supervise multiple coding agents in one terminal";
-        homepage = "https://github.com/ogulcancelik/herdr";
-        license = pkgs.lib.licenses.agpl3Only;
-        platforms = builtins.attrNames sources;
-        mainProgram = "herdr";
-      };
-    };
+  herdr = inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   trev = inputs.trev.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in

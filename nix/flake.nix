@@ -15,16 +15,27 @@
       url = "github:nabekou29/trev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    herdr = {
+      url = "github:nabekou29/herdr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs@{ nixpkgs, nix-darwin, home-manager, ... }:
     let
       user = "kohei_watanabe";
+      overlays = [
+        (final: prev: {
+          # checkPhase が非常に遅く darwin 環境でビルドが進まないためスキップ
+          direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
+        })
+      ];
       mkDarwinSystem = profile: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit user inputs; };
         modules = [
+          { nixpkgs.overlays = overlays; }
           ./configuration.nix
           (let p = ./hosts + "/${profile}.nix";
            in if builtins.pathExists p then p else { })
