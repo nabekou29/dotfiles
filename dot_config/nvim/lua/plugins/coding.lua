@@ -231,7 +231,7 @@ return {
     event = "LspAttach",
     keys = {
       {
-        "<leader>d",
+        "<leader><leader>d",
         function()
           require("tiny-inline-diagnostic").toggle()
         end,
