@@ -14,5 +14,10 @@ enabled = true
 enabled = true
 
 [keys]
+focus_pane_left = "alt+shift+h"
+focus_pane_down = "alt+shift+j"
+focus_pane_up = "alt+shift+k"
+focus_pane_right = "alt+shift+l"
+rename_tab = "shift+c"
 previous_tab = "alt+["
 next_tab = "alt+]"
