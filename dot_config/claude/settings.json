@@ -49,7 +49,7 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "sonnet",
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -183,7 +183,6 @@
   },
   "language": "日本語",
   "alwaysThinkingEnabled": true,
-  "effortLevel": "max",
   "advisorModel": "opus",
   "autoUpdatesChannel": "latest",
   "autoMemoryEnabled": false,
@@ -194,5 +193,6 @@
   "agentPushNotifEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
-  }
+  },
+  "effortLevel": "high"
 }
