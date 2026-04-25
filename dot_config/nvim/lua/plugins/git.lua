@@ -58,7 +58,8 @@ return {
 
   -- diff の表示
   {
-    "sindrets/diffview.nvim",
+    -- "sindrets/diffview.nvim",
+    "dlyongemallo/diffview.nvim",
     cmd = {
       "DiffviewOpen",
       "DiffviewClose",
