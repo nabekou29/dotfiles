@@ -12,6 +12,8 @@ config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
 config.use_dead_keys = false
 config.scrollback_lines = 35000
+config.enable_kitty_keyboard = true
+
 --- UI ---
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
 config.color_scheme = "Iceberg (Gogh)"
