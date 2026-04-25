@@ -15,10 +15,6 @@
       url = "github:nabekou29/trev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    herdr = {
-      url = "github:nabekou29/herdr";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =

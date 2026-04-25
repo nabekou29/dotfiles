@@ -13,8 +13,6 @@ let
     cargoHash = "sha256-CRwwsXyFBSFuVw4Z00VQSSyNqZX8OTGD2nzwHJUO8lI=";
   };
 
-  herdr = inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default;
-
   trev = inputs.trev.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 
@@ -160,7 +158,6 @@ in
     gemini-cli
     github-copilot-cli
     gws
-    herdr
     octorus
     playwright
     trev
