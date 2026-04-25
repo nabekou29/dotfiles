@@ -9,6 +9,16 @@
 
 ファイルはシンボリックリンク方式で管理される。
 
+## コミットメッセージ
+
+Conventional Commits は使わない。`scope: 説明` 形式を使う。
+
+```
+nvim: diffview のキーバインドを追加
+nix: herdr をフォークに切り替え
+wezterm: kitty keyboard protocol を有効化
+```
+
 ## 設定の配置ルール
 
 | 対象                                  | 配置先               | 例                                      |
