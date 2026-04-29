@@ -42,6 +42,7 @@
       # Utility
       "1password"
       "1password-cli"
+      "activitywatch"
       "alfred"
       "alt-tab"
       # "azookey" # beta 版を手動管理中
