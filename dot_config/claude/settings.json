@@ -183,6 +183,7 @@
   },
   "language": "日本語",
   "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
   "advisorModel": "opus",
   "autoUpdatesChannel": "latest",
   "autoMemoryEnabled": false,
@@ -193,6 +194,5 @@
   "agentPushNotifEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
-  },
-  "effortLevel": "high"
+  }
 }
