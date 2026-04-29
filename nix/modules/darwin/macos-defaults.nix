@@ -38,6 +38,12 @@
       location = "~/Downloads/_screenshot";
     };
 
+    menuExtraClock = {
+      Show24Hour = true;
+      ShowSeconds = true;
+      FlashDateSeparators = true;
+    };
+
     CustomUserPreferences = {
       "com.apple.finder" = {
         FXDefaultSearchScope = "SCcf";
