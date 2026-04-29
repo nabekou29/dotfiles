@@ -48,6 +48,7 @@
       # "deskflow" # brew に存在しない
       "deskpad"
       "google-japanese-ime"
+      "jordanbaird-ice@beta"
       "karabiner-elements"
       "keycastr"
       "logi-options+"
@@ -94,7 +95,6 @@
     masApps = {
       "Amphetamine" = 937984704;
       "Display Menu" = 549083868;
-      "Hidden Bar" = 1452453066;
       "Klack" = 6446206067;
       "Xcode" = 497799835;
     };
