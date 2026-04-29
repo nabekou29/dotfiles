@@ -61,19 +61,10 @@ return {
     end,
   },
 
-  -- マークダウンプレビュー
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
-  },
-
   -- Obsidian
   {
     "epwalsh/obsidian.nvim",
+    enabled = false,
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -183,5 +174,4 @@ return {
     },
     opts = {},
   },
-
 }
