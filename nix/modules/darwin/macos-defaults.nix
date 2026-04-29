@@ -90,6 +90,27 @@
           "65" = { enabled = false; };
         };
       };
+      "com.jordanbaird.Ice" = {
+        SUEnableAutomaticChecks = false;
+        SUAutomaticallyUpdate = false;
+        SUSendProfileInfo = false;
+
+        # Ice Bar (ポップアップ式メニューバー) を使用
+        UseIceBar = true;
+        IceBarLocation = 2;
+
+        # 常時非表示セクションを有効化
+        EnableAlwaysHiddenSection = true;
+        ShowAllSectionsOnUserDrag = true;
+
+        # アプリメニューを隠す
+        HideApplicationMenus = true;
+
+        # 自動再非表示
+        AutoRehide = true;
+        RehideStrategy = 0;
+        RehideInterval = 15;
+      };
       NSGlobalDomain = {
         NSUserKeyEquivalents = {
           # いい感じ変換 → F12 (for azooKey)
