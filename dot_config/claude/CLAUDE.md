@@ -10,7 +10,7 @@
 詳細な置き場所の判断は `assistant-bridge` skill を参照。
 
 - プロジェクトに紐づく → `assistant/1-projects/<project>/`
-- プロジェクトに紐づかない → `assistant/items/YYYY-MM-DD/{plan|scratch|research}-HH-mm-ss-<desc>.md`
+- プロジェクトに紐づかない → `assistant/items/YYYY/MM/YYYY-MM-DD/{plan|scratch|research}-HH-mm-ss-<desc>.md`
 - 本当に使い捨ての一時ファイル(デバッグ中のスクリプト等)のみ、
   リポジトリの `.claude/tmp/`(gitignore)に置いてよい
 
