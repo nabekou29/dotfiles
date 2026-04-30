@@ -227,10 +227,14 @@ return {
     keys = function()
       local hop_prefix = "<C-f>"
       return {
-        { hop_prefix .. "f", "<Cmd>HopChar2<CR>", desc = "Hop to 2-char match" },
-        { hop_prefix .. "w", "<Cmd>HopWord<CR>", desc = "Hop to word" },
-        { hop_prefix .. "l", "<Cmd>HopLineStart<CR>", desc = "Hop to line start" },
-        { hop_prefix .. "/", "<Cmd>HopPattern<CR>", desc = "Hop to pattern" },
+        -- stylua: ignore start
+        { hop_prefix .. "f",     "<Cmd>HopChar2<CR>",     desc = "Hop to 2-char match" },
+        { hop_prefix .. "<C-f>", "<Cmd>HopChar2<CR>",     desc = "Hop to 2-char match" },
+        { hop_prefix .. "w",     "<Cmd>HopWord<CR>",      desc = "Hop to word" },
+        { hop_prefix .. "l",     "<Cmd>HopLineStart<CR>", desc = "Hop to line start" },
+        { hop_prefix .. "/",     "<Cmd>HopPattern<CR>",   desc = "Hop to pattern" },
+        { "<C-/>",               "<Cmd>HopPattern<CR>",   desc = "Hop to pattern" },
+        -- stylua: ignore end
       }
     end,
     opts = {},
