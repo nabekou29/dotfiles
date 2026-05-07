@@ -48,7 +48,6 @@ in
     mas
     sheldon
     starship
-    terminal-notifier
     tmux
     zsh-completions
 

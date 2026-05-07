@@ -45,8 +45,8 @@ esac
 [[ -n "$CC_NOTIFICATION_DISABLED" ]] && exit 0
 
 # Desktop notification
-ESCAPED_MSG="${NOTIFY_MSG//\[/\\[}"
-terminal-notifier -message "$ESCAPED_MSG" -title "$TITLE" -sound default -contentImage 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png'
+# alerter はデフォルトでユーザー操作を待つので、フックを止めないよう必ずバックグラウンド実行する
+alerter --message "$NOTIFY_MSG" --title "$TITLE" --sound default --content-image 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png' >/dev/null 2>&1 &
 
 # Pushover notification
 PUSHOVER_ARGS=(

@@ -17,6 +17,7 @@
       "ngrok/ngrok"
       "neurosnap/tap"
       "tonisives/tap"
+      "vjeantet/tap"
     ];
 
     brews = [
@@ -24,6 +25,7 @@
       "media-control"
       "neurosnap/tap/zmx"
       "tfenv"
+      "vjeantet/tap/alerter"
     ];
 
     casks = [
