@@ -26,6 +26,9 @@
       url = "github:nabekou29/trev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # numtide が aarch64-darwin 含めて自前 Cachix (numtide.cachix.org) でビルド済みバイナリを配布しているため
+    # nixpkgs.follows は意図的にしない (follows すると derivation hash が変わりキャッシュが効かなくなる)
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs =
@@ -37,6 +40,7 @@
           # checkPhase が非常に遅く darwin 環境でビルドが進まないためスキップ
           direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
         })
+        inputs.llm-agents.overlays.default
       ];
       mkDarwinSystem = profile: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
