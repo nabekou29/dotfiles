@@ -153,9 +153,9 @@ in
 
     ## ========== CLI Tools ==========
     agent-browser
-    codex
-    gemini-cli
-    github-copilot-cli
+    llm-agents.codex
+    llm-agents.gemini-cli
+    llm-agents.copilot-cli
     gws
     octorus
     playwright
