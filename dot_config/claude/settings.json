@@ -49,7 +49,7 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "sonnet",
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -190,6 +190,8 @@
   "autoDreamEnabled": false,
   "skipDangerousModePermissionPrompt": true,
   "verbose": true,
+  "preferredNotifChannel": "terminal_bell",
+  "showTurnDuration": false,
   "remoteControlAtStartup": true,
   "agentPushNotifEnabled": true,
   "feedbackSurveyState": {
