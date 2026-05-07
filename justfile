@@ -6,9 +6,13 @@ NIX_DIR := env_var('HOME') + "/.local/share/chezmoi/nix"
 darwin-switch:
     HOME=/var/root sudo nix run 'nix-darwin' -- switch --flake "{{NIX_DIR}}#$(cat {{NIX_DIR}}/profile)"
 
-# Update flake inputs and apply nix-darwin configuration
+# Update flake inputs (pinning nixpkgs to the latest Hydra-green commit) and apply nix-darwin configuration
 darwin-update:
-    nix flake update --flake "{{NIX_DIR}}"
+    #!/usr/bin/env bash
+    set -euo pipefail
+    rev=$(curl -fsSL https://channels.nixos.org/nixpkgs-unstable/git-revision)
+    echo "Pinning nixpkgs to $rev"
+    nix flake update --flake "{{NIX_DIR}}" --override-input nixpkgs "github:NixOS/nixpkgs/$rev"
     HOME=/var/root sudo nix run 'nix-darwin' -- switch --flake "{{NIX_DIR}}#$(cat {{NIX_DIR}}/profile)"
 
 # Build Karabiner-Elements configuration
