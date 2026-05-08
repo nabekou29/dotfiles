@@ -45,7 +45,8 @@
       "mcp__plugin_Notion_notion__notion-create-database",
       "mcp__plugin_Notion_notion__notion-duplicate-page",
       "mcp__plugin_Notion_notion__notion-move-pages",
-      "mcp__plugin_Notion_notion__notion-update-data-source"
+      "mcp__plugin_Notion_notion__notion-update-data-source",
+      "mcp__plugin_slack_slack__slack_send_message"
     ],
     "defaultMode": "bypassPermissions"
   },
@@ -171,7 +172,8 @@
     "codex@openai-codex": true,
     "notion@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": true
+    "pyright-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
