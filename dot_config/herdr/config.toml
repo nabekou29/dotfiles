@@ -11,7 +11,7 @@ name = "tokyo-night"
 enabled = true
 
 [ui.toast]
-enabled = true
+delivery = "terminal"
 
 [keys]
 focus_pane_left = "alt+shift+h"
