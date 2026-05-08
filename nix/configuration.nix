@@ -15,5 +15,6 @@
   imports = [
     ./modules/darwin/macos-defaults.nix
     ./modules/darwin/homebrew.nix
+    ./modules/darwin/nix-conf.nix
   ];
 }
