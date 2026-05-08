@@ -50,6 +50,7 @@
       # "azookey" # beta 版を手動管理中
       # "deskflow" # brew に存在しない
       "deskpad"
+      "finetune"
       "google-japanese-ime"
       "jordanbaird-ice@beta"
       "karabiner-elements"
