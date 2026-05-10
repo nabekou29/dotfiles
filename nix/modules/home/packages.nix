@@ -14,6 +14,8 @@ let
   };
 
   trev = inputs.trev.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  # treesitter の hash mismatch を避けるため overlay ではなく flake output を直接参照
+  neovim-nightly = inputs.neovim-nightly.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 
 {
@@ -52,7 +54,7 @@ in
     zsh-completions
 
     ## ========== Editor ==========
-    neovim
+    neovim-nightly
     neovim-remote
 
     ## ========== Git / GitHub ==========

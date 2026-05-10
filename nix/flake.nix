@@ -29,6 +29,9 @@
     # numtide が aarch64-darwin 含めて自前 Cachix (numtide.cachix.org) でビルド済みバイナリを配布しているため
     # nixpkgs.follows は意図的にしない (follows すると derivation hash が変わりキャッシュが効かなくなる)
     llm-agents.url = "github:numtide/llm-agents.nix";
+    # nix-community Cachix (上で trusted-public-keys を設定済み) のキャッシュを利用するため
+    # nixpkgs.follows は意図的にしない
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
 
