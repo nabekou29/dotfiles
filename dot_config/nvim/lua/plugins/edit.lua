@@ -77,44 +77,6 @@ return {
     opts = { use_default_keymaps = false, max_join_length = 256 },
   },
 
-  -- レジスタの編集
-  {
-    "tversteeg/registers.nvim",
-    cmd = "Registers",
-    keys = {
-      { '"', mode = { "n", "v" }, desc = "Show registers" },
-      { "<C-r>", mode = "i", desc = "Insert from register" },
-    },
-    opts = function()
-      local registers = require("registers")
-
-      return {
-        show = '*+"-/_=#%.q0123456789:',
-        window = {
-          border = "rounded",
-        },
-        bind_keys = {
-          -- レジスタの編集
-          ["<C-e>"] = function(reg)
-            reg = registers._register_symbol(reg)
-            local reg_content = vim.fn.getreg(reg)
-            vim.ui.input({
-              prompt = "Edit register " .. reg .. ": ",
-              default = reg_content,
-            }, function(input)
-              if input == nil or input == "" then
-                vim.notify("Edit a register canceled")
-                return
-              end
-              vim.fn.setreg(reg, input)
-              registers._close_window()
-            end)
-          end,
-        },
-      }
-    end,
-  },
-
   -- カラーピッカー
   {
     "uga-rosa/ccc.nvim",

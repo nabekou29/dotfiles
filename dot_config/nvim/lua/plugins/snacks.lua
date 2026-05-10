@@ -146,19 +146,6 @@ return {
             row = -3,
             col = 0,
           },
-          -- terminal = {
-          --   relative = "editor",
-          --   position = "float",
-          --   border = "double",
-          --   backdrop = 60,
-          --   height = 0.9,
-          --   width = 0.9,
-          --   zindex = 50,
-          -- },
-          -- lazygit = {
-          --   relative = "editor",
-          --   border = "double",
-          -- },
           zen = {
             relative = "editor",
             zindex = 100,
@@ -173,23 +160,18 @@ return {
         },
       }
 
-      function confirm_and_pick_win(picker, item)
-        picker:close()
-        if not item then
-          return
-        end
-        require("chowcho").run(function(window)
-          vim.api.nvim_set_current_win(window)
-          if item.file then
-            vim.cmd("edit " .. vim.fn.fnameescape(item.file))
-          end
-          if item.pos then
-            vim.api.nvim_win_set_cursor(window, { item.pos[1], item.pos[2] })
-          end
-        end)
-      end
-
       with_pick_win = { confirm = confirm_and_pick_win }
+
+      local registers_pick_opts = {
+        confirm = "paste",
+        win = {
+          input = {
+            keys = {
+              ["<C-y>"] = { "copy", mode = { "i", "n" } },
+            },
+          },
+        },
+      }
 
       return {
       -- stylua: ignore start
@@ -218,6 +200,9 @@ return {
       { "<C-w>gr",    function() Snacks.picker.lsp_references(with_pick_win) end,      desc = "Go to References (pick window)" },
       { "<C-w>gh",    function() Snacks.picker.lsp_references(with_pick_win) end,      desc = "Go to References (pick window)" },
       { "<C-w>gm",    function() Snacks.picker.lsp_implementations(with_pick_win) end, desc = "Go to Implementation (pick window)" },
+
+      -- Registers
+      { "<C-r>",     function() Snacks.picker.registers(registers_pick_opts) end,      desc = "Insert from register", mode = "i", },
 
       -- Words
       { "]]",         function() Snacks.words.jump(vim.v.count1) end,                  desc = "Next Reference" },
