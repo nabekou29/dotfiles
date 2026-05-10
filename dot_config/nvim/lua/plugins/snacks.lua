@@ -1,4 +1,4 @@
-function confirm_and_pick_win(picker, item)
+local function confirm_and_pick_win(picker, item)
   picker:close()
   if not item then
     return
