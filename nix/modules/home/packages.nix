@@ -55,7 +55,6 @@ in
 
     ## ========== Editor ==========
     neovim-nightly
-    neovim-remote
 
     ## ========== Git / GitHub ==========
     delta

@@ -1,11 +1,12 @@
-# nvim 内では nvr を使用して編集対象のファイルを開けるようにしたいので、専用の設定を用意する
+# nvim 内では nvim --server 経由で親 nvim にファイルを開かせたいので、専用の設定を用意する
 # lazygit を立ち上げるときに追加でこのファイルを読み込むことで一部の設定のみを上書きできる
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#overriding-default-config-file-location
+#
+# <C-\><C-N> で terminal モード抜け → <C-w>p で前ウィンドウへ → :edit でファイルを開く
 
 os:
-  # editPreset: "nvim-remote" # https://github.com/jesseduffield/lazygit/blob/cb1b13e95e09232cced846d167dae6cb21ba696e/pkg/config/editor_presets.go#L54
-  edit: nvr --servername "$NVIM" -l -s --remote {{filename}}
-  editAtLine: nvr --servername "$NAME" -l -s -c {{line}} --remote {{filename}}
+  edit: nvim --server "$NVIM" --remote-send '<C-\><C-N><C-w>p:edit {{filename}}<CR>'
+  editAtLine: nvim --server "$NVIM" --remote-send '<C-\><C-N><C-w>p:edit +{{line}} {{filename}}<CR>'
   editAtLineAndWait: nvim +{{line}} {{filename}}
-  openDirInEditor: 'nvr --servername "$NVIM" -l -s --remote {{dir}}'
+  openDirInEditor: nvim --server "$NVIM" --remote-send '<C-\><C-N><C-w>p:edit {{dir}}<CR>'
   editInTerminal: false # nvim 内だけの使用ならfalse の方が良い
