@@ -2,11 +2,12 @@
 # lazygit を立ち上げるときに追加でこのファイルを読み込むことで一部の設定のみを上書きできる
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#overriding-default-config-file-location
 #
-# <C-\><C-N> で terminal モード抜け → <C-w>p で前ウィンドウへ → :edit でファイルを開く
+# --remote-expr で wincmd p (前ウィンドウへ) → :edit を ex command として送る
+# fnameescape() でスペース等を含むファイル名にも対応
 
 os:
-  edit: nvim --server "$NVIM" --remote-send '<C-\><C-N><C-w>p:edit {{filename}}<CR>'
-  editAtLine: nvim --server "$NVIM" --remote-send '<C-\><C-N><C-w>p:edit +{{line}} {{filename}}<CR>'
+  edit: nvim --server "$NVIM" --remote-expr "execute('wincmd p | edit ' . fnameescape('{{filename}}'))"
+  editAtLine: nvim --server "$NVIM" --remote-expr "execute('wincmd p | edit +{{line}} ' . fnameescape('{{filename}}'))"
   editAtLineAndWait: nvim +{{line}} {{filename}}
-  openDirInEditor: nvim --server "$NVIM" --remote-send '<C-\><C-N><C-w>p:edit {{dir}}<CR>'
+  openDirInEditor: nvim --server "$NVIM" --remote-expr "execute('wincmd p | edit ' . fnameescape('{{dir}}'))"
   editInTerminal: false # nvim 内だけの使用ならfalse の方が良い
