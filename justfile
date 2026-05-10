@@ -2,6 +2,10 @@ set dotenv-load := false
 
 NIX_DIR := env_var('HOME') + "/.local/share/chezmoi/nix"
 
+# List available recipes
+default:
+    @just --list
+
 _check-profile:
     #!/usr/bin/env sh
     if [ ! -s "{{NIX_DIR}}/profile" ]; then
