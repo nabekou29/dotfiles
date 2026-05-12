@@ -45,8 +45,9 @@ esac
 [[ -n "$CC_NOTIFICATION_DISABLED" ]] && exit 0
 
 # Desktop notification
-# alerter はデフォルトでユーザー操作を待つので、フックを止めないよう必ずバックグラウンド実行する
-alerter --message "$NOTIFY_MSG" --title "$TITLE" --sound default --content-image 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png' >/dev/null 2>&1 &
+# alerter はデフォルトでユーザー操作を待つので、--timeout でプロセスが残り続けないようにする
+# 加えて、フックを止めないよう必ずバックグラウンド実行する
+alerter --message "$NOTIFY_MSG" --title "$TITLE" --sound default --timeout 60 --content-image 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/claude-ai-icon.png' >/dev/null 2>&1 &
 
 # Pushover notification
 PUSHOVER_ARGS=(
