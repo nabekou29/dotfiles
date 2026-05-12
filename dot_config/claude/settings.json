@@ -188,6 +188,10 @@
   "effortLevel": "xhigh",
   "advisorModel": "opus",
   "autoUpdatesChannel": "latest",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
   "autoMemoryEnabled": false,
   "autoDreamEnabled": false,
   "skipDangerousModePermissionPrompt": true,
@@ -195,7 +199,9 @@
   "preferredNotifChannel": "terminal_bell",
   "showTurnDuration": false,
   "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
+  "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
   }
