@@ -188,6 +188,7 @@
   "effortLevel": "xhigh",
   "advisorModel": "opus",
   "autoUpdatesChannel": "latest",
+  "tui": "default",
   "voice": {
     "enabled": true,
     "mode": "hold"
