@@ -64,6 +64,7 @@ in
     gibo
     git
     git-cliff
+    git-crypt
     git-lfs
     git-wt
     lazygit
