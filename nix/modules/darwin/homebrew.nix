@@ -47,7 +47,7 @@
       "activitywatch"
       "alfred"
       "alt-tab"
-      # "azookey" # beta 版を手動管理中
+      "azookey"
       # "deskflow" # brew に存在しない
       "deskpad"
       "finetune"
