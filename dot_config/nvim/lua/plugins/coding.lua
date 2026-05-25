@@ -84,6 +84,9 @@ return {
       })
       vim.lsp.inline_completion.enable(true)
 
+      -- ts_ls / tsgo をプロジェクトごとに切替（プロジェクト直下の .nvim.lua で `vim.g.lsp_ts = "tsgo"`）
+      local ts_server = vim.g.lsp_ts == "tsgo" and "tsgo" or "ts_ls"
+
       vim.lsp.enable({
         "biome",
         "copilot",
@@ -107,7 +110,7 @@ return {
         -- "tailwindcss",
         "terraformls",
         "tflint",
-        "ts_ls",
+        ts_server,
         "version_lsp",
         "yamlls",
       })
