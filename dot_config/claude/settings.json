@@ -19,7 +19,6 @@
       "WebSearch"
     ],
     "deny": [
-      "Bash(curl:*)",
       "Bash(mongod:*)",
       "Bash(mysql:*)",
       "Bash(psql:*)",
