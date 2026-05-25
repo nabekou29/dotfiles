@@ -13,6 +13,37 @@ let
     cargoHash = "sha256-CRwwsXyFBSFuVw4Z00VQSSyNqZX8OTGD2nzwHJUO8lI=";
   };
 
+  herdr =
+    let
+      version = "0.6.2";
+      sources = {
+        "aarch64-darwin" = {
+          url = "https://github.com/ogulcancelik/herdr/releases/download/v${version}/herdr-macos-aarch64";
+          hash = "sha256-TPIlIuMe04YxJVHnHUxf+QrYT78GYgegVUxrumv6AQ4=";
+        };
+      };
+      source = sources.${pkgs.stdenv.hostPlatform.system}
+        or (throw "herdr: unsupported system ${pkgs.stdenv.hostPlatform.system}");
+    in
+    pkgs.stdenv.mkDerivation {
+      pname = "herdr";
+      inherit version;
+      src = pkgs.fetchurl source;
+      dontUnpack = true;
+      installPhase = ''
+        runHook preInstall
+        install -Dm755 $src $out/bin/herdr
+        runHook postInstall
+      '';
+      meta = {
+        description = "Agent multiplexer that lives in your terminal";
+        homepage = "https://github.com/ogulcancelik/herdr";
+        license = pkgs.lib.licenses.agpl3Only;
+        platforms = builtins.attrNames sources;
+        mainProgram = "herdr";
+      };
+    };
+
   trev = inputs.trev.packages.${pkgs.stdenv.hostPlatform.system}.default;
   # treesitter の hash mismatch を避けるため overlay ではなく flake output を直接参照
   neovim-nightly = inputs.neovim-nightly.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -159,6 +190,7 @@ in
     llm-agents.gemini-cli
     llm-agents.copilot-cli
     gws
+    herdr
     octorus
     playwright
     trev
