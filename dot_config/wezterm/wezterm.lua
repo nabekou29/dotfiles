@@ -1,6 +1,7 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 local fonts = require("fonts")
+local statusbar = require("statusbar")
 
 local config = wezterm.config_builder()
 
@@ -52,8 +53,9 @@ config.window_frame = {
   active_titlebar_bg = "#121212",
 }
 
--- ペイン/タブ/ワークスペース管理は herdr に委ねるため、タブバーは非表示
-config.enable_tab_bar = false
+-- ペイン/タブ/ワークスペース管理は herdr に委ねる。
+-- タブ整形・workspace 表示は持たず、情報表示用のステータスバーだけを出す。
+statusbar.setup(wezterm, config)
 
 --- Key Binding ---
 
