@@ -29,6 +29,6 @@ type = "pane"
 command = "nvim"
 
 [[keys.command]]
-key = "prefix+g"
+key = "prefix+ctrl+g"
 type = "pane"
 command = "lazygit"
