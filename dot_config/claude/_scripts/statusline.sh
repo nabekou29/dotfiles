@@ -29,6 +29,8 @@ ICON_RATE=$'\uF0E7'       #  nf-fa-bolt
 ICON_EFFORT_SLOW=$'\U000F0F86'    # 󰾆 nf-md-speedometer_slow
 ICON_EFFORT_MEDIUM=$'\U000F0F85'  # 󰾅 nf-md-speedometer_medium
 ICON_EFFORT_FULL=$'\U000F04C5'    # 󰓅 nf-md-speedometer
+ICON_BRANCH=$'\U000F062C'  # 󰘬 nf-md-source_branch
+ICON_WORKTREE=$'\U000F0808'  # 󰠈 nf-md-file_tree
 
 SEP="${DIM} │ ${RESET}"
 
@@ -153,15 +155,43 @@ if [[ -n "$rate_5h" ]] || [[ -n "$rate_7d" ]]; then
     vis_rate=$(( 2 + 1 + rate_vis + ${#rate_parts} - 1 ))  # icon + space + parts + spaces between
 fi
 
+# Git branch / worktree (worktree name shown only inside a linked worktree)
+gitdir=$(jval '.workspace.current_dir')
+[[ -z "$gitdir" ]] && gitdir=$(jval '.cwd')
+sec_git=""
+vis_git=0
+if [[ -n "$gitdir" ]] && git -C "$gitdir" rev-parse --is-inside-work-tree &>/dev/null; then
+    branch=$(git -C "$gitdir" branch --show-current 2>/dev/null)
+    [[ -z "$branch" ]] && branch=$(git -C "$gitdir" rev-parse --short HEAD 2>/dev/null)  # detached HEAD
+    abs_gitdir=$(git -C "$gitdir" rev-parse --absolute-git-dir 2>/dev/null)
+    wt=""
+    if [[ "$abs_gitdir" == */worktrees/* ]]; then
+        wt=$(basename "$(git -C "$gitdir" rev-parse --show-toplevel 2>/dev/null)")
+    fi
+    if [[ -n "$wt" && "$wt" != "$branch" ]]; then
+        # Worktree dir name differs from the branch: show both.
+        sec_git="${CYAN}${ICON_WORKTREE} ${wt}${RESET} ${BLUE}${ICON_BRANCH} ${branch}${RESET}"
+        vis_git=$(( 2 + 1 + ${#wt} + 1 + 2 + 1 + ${#branch} ))  # wt icon + name + space + branch icon + name
+    elif [[ -n "$wt" ]]; then
+        # Inside a linked worktree whose dir name == branch: just mark it as a worktree.
+        sec_git="${CYAN}${ICON_WORKTREE}${RESET} ${BLUE}${ICON_BRANCH} ${branch}${RESET}"
+        vis_git=$(( 2 + 1 + 2 + 1 + ${#branch} ))  # wt icon + space + branch icon + name
+    elif [[ -n "$branch" ]]; then
+        sec_git="${BLUE}${ICON_BRANCH} ${branch}${RESET}"
+        vis_git=$(( 2 + 1 + ${#branch} ))  # branch icon + name
+    fi
+fi
+
 # ===== Estimate visible width =====
 vis_model=$(( 2 + 1 + ${#model} + 1 + 2 + 1 + ${#effort} ))  # model icon + name + space + effort icon + name
 vis_ctx=$(( 2 + 1 + 10 + 1 + ${#pct_int} + 1 ))  # icon(2col) + space + bar(10) + space + pct + "%"
 sep_w=3  # " │ "
 sections=2
 [[ -n "$sec_rate" ]] && (( sections++ ))
+[[ -n "$sec_git" ]] && (( sections++ ))
 # Reserve space for Claude Code's right-side text (e.g. " current: 2.1.81 · latest: 2.1.81")
 right_reserved=40
-total_w=$(( vis_model + vis_ctx + vis_rate + sep_w * (sections - 1) + right_reserved ))
+total_w=$(( vis_model + vis_ctx + vis_rate + vis_git + sep_w * (sections - 1) + right_reserved ))
 
 cols=${COLUMNS:-$(tput cols </dev/tty 2>/dev/null)} 2>/dev/null
 cols=${cols:-80}
@@ -171,9 +201,15 @@ if (( total_w <= cols )); then
     # Single line
     line="${sec_model}${SEP}${sec_ctx}"
     [[ -n "$sec_rate" ]] && line+="${SEP}${sec_rate}"
+    [[ -n "$sec_git" ]] && line+="${SEP}${sec_git}"
     print "$line"
 else
-    # Two lines
-    print "${sec_model}  ${sec_ctx}"
+    # Two lines: model + ctx + git on the first (git is short), rate alone on the
+    # second (it is the widest section, so it gets its own line to avoid overflow).
+    line1="${sec_model}  ${sec_ctx}"
+    [[ -n "$sec_git" ]] && line1+="  ${sec_git}"
+    print "$line1"
     [[ -n "$sec_rate" ]] && print "${sec_rate}"
 fi
+
+exit 0
