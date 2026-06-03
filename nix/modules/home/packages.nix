@@ -15,11 +15,11 @@ let
 
   herdr =
     let
-      version = "0.6.2";
+      version = "0.6.5";
       sources = {
         "aarch64-darwin" = {
           url = "https://github.com/ogulcancelik/herdr/releases/download/v${version}/herdr-macos-aarch64";
-          hash = "sha256-TPIlIuMe04YxJVHnHUxf+QrYT78GYgegVUxrumv6AQ4=";
+          hash = "sha256-CTjGfMHBF2LPIOvJk76W0SwP/3hO3GSccI15roxn6No=";
         };
       };
       source = sources.${pkgs.stdenv.hostPlatform.system}
