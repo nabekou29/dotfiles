@@ -8,6 +8,8 @@
       autoUpdate = true;
       upgrade = true;
       cleanup = "zap";
+      # Homebrew 5.x で `brew bundle install --cleanup` に必須となったフラグ
+      extraFlags = [ "--force-cleanup" ];
     };
 
     taps = [
