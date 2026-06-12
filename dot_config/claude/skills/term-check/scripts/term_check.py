@@ -371,6 +371,7 @@ def lookup_word(word: str, glossary: dict, inventory: dict) -> dict:
     else:
         w = word.lower()
         count = inventory.get("words", {}).get(w, 0)
+        # 4 文字未満の語は語全体を前方一致に使う(4 文字フロアより広めに当たるが頻度上位 8 件で抑える)
         prefix = w[:4]
         related = [
             (p, c)
@@ -388,6 +389,7 @@ def lookup_word(word: str, glossary: dict, inventory: dict) -> dict:
 
 
 def cmd_lookup(args):
+    """語を inventory / glossary と突き合わせて表示する。"""
     d = glossary_dir()
     glossary = _load_json(d / "glossary.json", {"terms": []})
     inventory = _load_json(d / "inventory.json", {"words": {}, "ja": {}})
