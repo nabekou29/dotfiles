@@ -22,6 +22,12 @@ class SplitIdentifierTest(unittest.TestCase):
     def test_digits_dropped(self):
         self.assertEqual(split_identifier("base64Encode"), ["base", "encode"])
 
+    def test_screaming_snake_case(self):
+        self.assertEqual(split_identifier("MAX_RETRY_COUNT"), ["max", "retry", "count"])
+
+    def test_single_letter_fragments_dropped(self):
+        self.assertEqual(split_identifier("getV2User"), ["get", "user"])
+
 
 if __name__ == "__main__":
     unittest.main()
