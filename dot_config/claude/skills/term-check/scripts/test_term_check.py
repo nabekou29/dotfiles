@@ -5,6 +5,7 @@ from term_check import (
     extract_line,
     filename_words,
     inventory_from_texts,
+    ja_terms,
     lookup_word,
     normalize_remote,
     parse_diff,
@@ -12,6 +13,27 @@ from term_check import (
     split_identifier,
     _should_skip,
 )
+
+
+class JaTermsTest(unittest.TestCase):
+    def test_strips_particles(self):
+        self.assertEqual(ja_terms("実長は"), ["実長"])
+
+    def test_extracts_cores_from_mixed_run(self):
+        self.assertEqual(
+            ja_terms("// 生テキストの絶対上限は10,000ルーン"),
+            ["生テキスト", "絶対上限", "ルーン"],
+        )
+
+    def test_katakana_core_in_hiragana_context(self):
+        self.assertEqual(ja_terms("としてカウントする"), ["カウント"])
+
+    def test_pure_hiragana_word_kept(self):
+        self.assertEqual(ja_terms("ふりがな"), ["ふりがな"])
+
+    def test_one_char_core_fragments_dropped(self):
+        # 核が 1 文字しか取れない断片(「超でも」等)は用語にしない
+        self.assertEqual(ja_terms("超でも"), [])
 
 
 class SplitIdentifierTest(unittest.TestCase):
@@ -222,8 +244,10 @@ class InventoryTest(unittest.TestCase):
         # 識別子由来 (FetchUser, FetchTeam) + ファイル名由来 (fetch_user, fetch_team)
         self.assertEqual(inv["words"]["fetch"], 4)
         self.assertEqual(inv["words"]["user"], 2)
-        # 日本語はコメント・テストタイトルからのみ拾う
-        self.assertIn("ユーザーを取得する", inv["ja"])
+        # 日本語はコメント・テストタイトルから核(漢字・カタカナ)単位で拾う
+        self.assertIn("ユーザー", inv["ja"])
+        self.assertIn("取得", inv["ja"])
+        self.assertNotIn("ユーザーを取得する", inv["ja"])
 
     def test_string_literals_not_counted(self):
         inv = inventory_from_texts({"a.ts": 'const x = "retrieveUser ログイン"'})
@@ -324,7 +348,8 @@ class RunCheckTest(unittest.TestCase):
     def test_new_ja_phrases(self):
         ext = self._ext(comments=[{"file": "a.go", "line": 7, "text": "投稿メッセージ長を検証"}])
         got = run_check(ext, GLOSSARY, INVENTORY)
-        self.assertIn("投稿メッセージ長を検証", got["new_ja"])
+        self.assertIn("投稿メッセージ長", got["new_ja"])
+        self.assertNotIn("投稿メッセージ長を検証", got["new_ja"])
 
     def test_single_char_ja_not_reported_as_new(self):
         # 助詞など 1 文字の日本語はフレーズとして報告しない

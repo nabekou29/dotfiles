@@ -63,6 +63,28 @@ IDENT_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 # 日本語フレーズの抽出(inventory 生成と check で使う)
 JA_RE = re.compile(r"[ぁ-んァ-ヶ一-龯々〆ー]+")
 
+# ひらがな(助詞・送り仮名)で分割して漢字・カタカナの核を取り出すための部品
+HIRAGANA_RE = re.compile(r"[ぁ-ん]+")
+KANJI_KATA_RE = re.compile(r"[一-龯々〆ァ-ヶ]")
+
+
+def ja_terms(text: str) -> list:
+    """テキストから日本語の用語候補を抽出する(形態素解析なしの近似)。
+
+    日本語の連続文字列をひらがなで分割し、2 文字以上の漢字・カタカナ核を
+    用語単位とする(「実長は」→「実長」、「としてカウントする」→「カウント」)。
+    核が取れない純ひらがな語(「ふりがな」等)は連続文字列をそのまま使う。
+    既知の制限: 核が 1 文字しか取れない語(「超」「組み合わせ」等)は落ちる。
+    """
+    terms = []
+    for run in JA_RE.findall(text):
+        cores = [c for c in HIRAGANA_RE.split(run) if len(c) >= 2]
+        if cores:
+            terms += cores
+        elif len(run) >= 2 and not KANJI_KATA_RE.search(run):
+            terms.append(run)  # 純ひらがな語はそのまま
+    return terms
+
 TEST_TITLE_RES = [
     re.compile(r"\b(?:it|test|describe|context)(?:\.\w+)?\s*\(\s*[\"'`](.+?)[\"'`]"),
     re.compile(r"\bt\.Run\(\s*\"(.+?)\""),
@@ -227,7 +249,7 @@ def inventory_from_texts(texts) -> dict:
                     words[w] += 1
             sources = got["test_titles"] + ([got["comment"]] if got["comment"] else [])
             for src in sources:
-                for phrase in JA_RE.findall(src):
+                for phrase in ja_terms(src):
                     ja[phrase] += 1
     return {"words": dict(words), "ja": dict(ja)}
 
@@ -314,9 +336,7 @@ def run_check(ext: dict, glossary: dict, inventory: dict) -> dict:
     diff_ja = Counter()
     for sec in ("comments", "test_titles"):
         for it in ext[sec]:
-            for ph in JA_RE.findall(it["text"]):
-                if len(ph) < 2:  # 助詞など 1 文字はフレーズとして意味を持たない
-                    continue
+            for ph in ja_terms(it["text"]):
                 diff_ja[ph] += 1
     new_ja = {p: c for p, c in diff_ja.items() if p not in known_ja}
 
