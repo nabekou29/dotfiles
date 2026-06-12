@@ -252,6 +252,130 @@ def iter_repo_texts():
         yield path, text
 
 
+def run_check(ext: dict, glossary: dict, inventory: dict) -> dict:
+    """抽出結果を glossary / inventory と照合する(純粋関数)。"""
+    avoid_en, avoid_ja = {}, []
+    for t in glossary.get("terms", []):
+        for a in t.get("avoid", []):
+            avoid_en[a.lower()] = t
+        for a in t.get("avoid_ja", []):
+            avoid_ja.append((a, t))
+
+    violations = []
+
+    def hit(words, file, line, src, kind):
+        for w in words:
+            t = avoid_en.get(w)
+            if t:
+                violations.append(
+                    {"file": file, "line": line, "src": src, "kind": kind, "word": w, "term": t}
+                )
+
+    for it in ext["identifiers"]:
+        hit(it["words"], it["file"], it["line"], it["ident"], "identifier")
+    for sec, kind in (("comments", "comment"), ("test_titles", "test_title")):
+        for it in ext[sec]:
+            en = [w for i in IDENT_RE.findall(it["text"]) for w in split_identifier(i)]
+            hit(en, it["file"], it["line"], it["text"], kind)
+            for a, t in avoid_ja:
+                if a in it["text"]:
+                    violations.append(
+                        {"file": it["file"], "line": it["line"], "src": it["text"],
+                         "kind": kind, "word": a, "term": t}
+                    )
+
+    # glossary の term が実際に出現した場合のみ、その構成語を既知扱いにする
+    # (term は snake_case 等の複合語でありうるが、単なるコンポーネント一致ではなく、
+    # glossary term 全体が code に出現した時に限定)
+    glossary_terms_in_code = {it["ident"].lower() for it in ext["identifiers"]}
+    known = set(inventory.get("words", {}))
+    for t in glossary.get("terms", []):
+        if t.get("term") and t["term"].lower() in glossary_terms_in_code:
+            known.update(split_identifier(t["term"]))
+    new_words = {}
+
+    def note_new(w, file, line):
+        if w in known or w in avoid_en or len(w) < 3:
+            return
+        e = new_words.setdefault(w, {"count": 0, "first": f"{file}:{line}"})
+        e["count"] += 1
+
+    for it in ext["identifiers"]:
+        for w in it["words"]:
+            note_new(w, it["file"], it["line"])
+    for path in ext["filenames"]:
+        for w in filename_words(path):
+            note_new(w, path, 0)
+
+    known_ja = set(inventory.get("ja", {}))
+    diff_ja = Counter()
+    for sec in ("comments", "test_titles"):
+        for it in ext[sec]:
+            for ph in JA_RE.findall(it["text"]):
+                diff_ja[ph] += 1
+    new_ja = {p: c for p, c in diff_ja.items() if p not in known_ja}
+
+    return {
+        "violations": violations,
+        "new_words": new_words,
+        "ja_phrases": dict(diff_ja),
+        "new_ja": new_ja,
+    }
+
+
+def render_report(ext: dict, result: dict, meta: str) -> str:
+    """check 結果をマークダウン形式でレポートする。"""
+    lines = ["# term-check レポート", meta, ""]
+    v = result["violations"]
+    lines.append(f"## 1. 決定的違反 ({len(v)} 件)")
+    for x in v:
+        t = x["term"]
+        canon = t.get("term") or t.get("ja", "")
+        note = f" — {t['note']}" if t.get("note") else ""
+        lines.append(
+            f"- {x['file']}:{x['line']} [{x['kind']}] `{x['src']}` の「{x['word']}」 → 正: **{canon}**{note}"
+        )
+    lines.append("")
+    nw = result["new_words"]
+    lines.append(f"## 2. 新出ワード ({len(nw)} 件) — inventory/glossary に無い英単語")
+    for w, e in sorted(nw.items(), key=lambda kv: -kv[1]["count"]):
+        lines.append(f"- {w} ×{e['count']} (初出 {e['first']})")
+    nj = result["new_ja"]
+    lines.append("")
+    lines.append(f"## 2b. 新出日本語フレーズ ({len(nj)} 件)")
+    for p, c in sorted(nj.items(), key=lambda kv: -kv[1]):
+        lines.append(f"- {p} ×{c}")
+    lines.append("")
+    lines.append("## 3. 抽出サマリ(概念一貫性チェック用)")
+    lines.append("### 変更ファイル")
+    lines += [f"- {f}" for f in ext["filenames"]]
+    lines.append("### 識別子(追加行)")
+    lines += [f"- {i['file']}:{i['line']} {i['ident']}" for i in ext["identifiers"]]
+    lines.append("### コメント")
+    lines += [f"- {c['file']}:{c['line']} {c['text']}" for c in ext["comments"]]
+    lines.append("### テストタイトル")
+    lines += [f"- {t['file']}:{t['line']} {t['text']}" for t in ext["test_titles"]]
+    return "\n".join(lines)
+
+
+def cmd_check(args):
+    """stdin の diff をチェックしてレポートを出力する。"""
+    diff = sys.stdin.read()
+    if not diff.strip():
+        sys.exit("error: stdin に diff を渡すこと(例: git diff main...HEAD | term_check.py check)")
+    d = glossary_dir()
+    glossary = _load_json(d / "glossary.json", {"terms": []})
+    inventory = _load_json(d / "inventory.json", {"words": {}, "ja": {}})
+    warn = "" if inventory.get("words") else "\n⚠ inventory が空。先に `term_check.py inventory` を実行すること"
+    ext = extract(parse_diff(diff))
+    result = run_check(ext, glossary, inventory)
+    meta = (
+        f"repo: {repo_id()} / glossary: {len(glossary.get('terms', []))} terms / "
+        f"inventory: {len(inventory.get('words', {}))} words{warn}"
+    )
+    print(render_report(ext, result, meta))
+
+
 def cmd_inventory(args):
     d = glossary_dir()
     d.mkdir(parents=True, exist_ok=True)
@@ -278,8 +402,9 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("paths", help="repo-id とデータファイルの場所を表示")
     sub.add_parser("inventory", help="リポジトリ全体から語彙インベントリを再生成")
+    sub.add_parser("check", help="stdin の diff をチェックしてレポートを出力")
     args = ap.parse_args()
-    {"paths": cmd_paths, "inventory": cmd_inventory}[args.cmd](args)
+    {"paths": cmd_paths, "inventory": cmd_inventory, "check": cmd_check}[args.cmd](args)
 
 
 if __name__ == "__main__":

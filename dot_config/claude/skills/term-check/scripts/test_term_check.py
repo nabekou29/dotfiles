@@ -1,6 +1,6 @@
 import unittest
 
-from term_check import split_identifier, normalize_remote, extract_line, extract, filename_words, parse_diff, inventory_from_texts, _should_skip
+from term_check import split_identifier, normalize_remote, extract_line, extract, filename_words, parse_diff, inventory_from_texts, _should_skip, run_check
 
 
 class SplitIdentifierTest(unittest.TestCase):
@@ -218,6 +218,70 @@ class InventoryTest(unittest.TestCase):
         inv = inventory_from_texts({"a.ts": 'const x = "retrieveUser ログイン"'})
         self.assertNotIn("retrieve", inv["words"])
         self.assertEqual(inv["ja"], {})
+
+
+GLOSSARY = {
+    "terms": [
+        {"term": "fetch", "ja": "取得", "avoid": ["retrieve"], "note": "外部 API からの取得"},
+        {"term": "effective_length", "ja": "実効文字数", "avoid_ja": ["実長", "生テキスト"]},
+    ]
+}
+INVENTORY = {"words": {"fetch": 10, "user": 5, "raw": 2, "length": 8}, "ja": {"取得": 3}}
+
+
+class RunCheckTest(unittest.TestCase):
+    def _ext(self, **over):
+        base = {"filenames": [], "identifiers": [], "comments": [], "test_titles": []}
+        base.update(over)
+        return base
+
+    def test_avoid_word_in_identifier(self):
+        ext = self._ext(
+            identifiers=[{"file": "a.go", "line": 3, "ident": "retrieveUser",
+                          "words": ["retrieve", "user"]}]
+        )
+        got = run_check(ext, GLOSSARY, INVENTORY)
+        self.assertEqual(len(got["violations"]), 1)
+        v = got["violations"][0]
+        self.assertEqual((v["file"], v["line"], v["word"]), ("a.go", 3, "retrieve"))
+        self.assertEqual(v["term"]["term"], "fetch")
+
+    def test_avoid_ja_in_comment(self):
+        ext = self._ext(comments=[{"file": "a.go", "line": 7, "text": "実長を数える"}])
+        got = run_check(ext, GLOSSARY, INVENTORY)
+        self.assertEqual(got["violations"][0]["word"], "実長")
+
+    def test_avoid_word_in_test_title(self):
+        ext = self._ext(
+            test_titles=[{"file": "a_test.go", "line": 1, "text": "test_retrieve_user"}]
+        )
+        got = run_check(ext, GLOSSARY, INVENTORY)
+        self.assertEqual(got["violations"][0]["word"], "retrieve")
+
+    def test_new_words(self):
+        ext = self._ext(
+            identifiers=[{"file": "a.go", "line": 3, "ident": "effectiveLength",
+                          "words": ["effective", "length"]}],
+            filenames=["effective_length.go"],
+        )
+        got = run_check(ext, GLOSSARY, INVENTORY)
+        self.assertIn("effective", got["new_words"])  # inventory に無い
+        self.assertNotIn("length", got["new_words"])  # inventory に有る
+
+    def test_glossary_term_is_not_new_word(self):
+        ext = self._ext(
+            identifiers=[{"file": "a.go", "line": 1, "ident": "effective_length",
+                          "words": ["effective", "length"]}]
+        )
+        inv = {"words": {}, "ja": {}}
+        got = run_check(ext, GLOSSARY, inv)
+        # glossary の term に登録済みの語の構成語は新出扱いしない
+        self.assertNotIn("effective", got["new_words"])
+
+    def test_new_ja_phrases(self):
+        ext = self._ext(comments=[{"file": "a.go", "line": 7, "text": "投稿メッセージ長を検証"}])
+        got = run_check(ext, GLOSSARY, INVENTORY)
+        self.assertIn("投稿メッセージ長を検証", got["new_ja"])
 
 
 if __name__ == "__main__":
