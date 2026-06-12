@@ -24,10 +24,12 @@ def _git(*args):
 
 def normalize_remote(url: str) -> str:
     url = re.sub(r"\.git$", "", url.strip())
-    m = re.match(r"(?:ssh://)?git@([^:/]+)[:/](.+)", url)
+    # ポートは repo-id の一意性に寄与しないので捨てる。scp 形式(git@host:path)の
+    # 「:」区切りと区別するため、ポートとみなすのは「:数字 + /」が続く場合のみ
+    m = re.match(r"(?:ssh://)?git@([^:/]+)(?::\d+(?=/))?[:/](.+)", url)
     if m:
         return f"{m.group(1)}/{m.group(2)}"
-    m = re.match(r"https?://(?:[^/@]+@)?([^/]+)/(.+)", url)
+    m = re.match(r"https?://(?:[^/@]+@)?([^/:]+)(?::\d+)?/(.+)", url)
     if m:
         return f"{m.group(1)}/{m.group(2)}"
     return "local/" + re.sub(r"[^\w.-]+", "_", url)
@@ -44,5 +46,5 @@ def repo_id() -> str:
         return normalize_remote(r.stdout.strip())
     r = _git("rev-parse", "--git-common-dir")
     if r.returncode != 0:
-        sys.exit("error: git リポジトリ内で実行すること")
+        sys.exit(f"error: git リポジトリ内で実行すること({r.stderr.strip()})")
     return "local/" + Path(r.stdout.strip()).resolve().parent.name

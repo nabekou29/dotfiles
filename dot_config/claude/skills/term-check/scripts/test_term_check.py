@@ -51,6 +51,18 @@ class NormalizeRemoteTest(unittest.TestCase):
             "github.com/org/repo",
         )
 
+    def test_https_with_port(self):
+        self.assertEqual(
+            normalize_remote("https://github.example.com:8443/org/repo.git"),
+            "github.example.com/org/repo",
+        )
+
+    def test_ssh_with_port(self):
+        self.assertEqual(
+            normalize_remote("ssh://git@github.com:22/org/repo.git"),
+            "github.com/org/repo",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
