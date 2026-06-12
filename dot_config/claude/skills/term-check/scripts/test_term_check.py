@@ -326,6 +326,14 @@ class RunCheckTest(unittest.TestCase):
         got = run_check(ext, GLOSSARY, INVENTORY)
         self.assertIn("投稿メッセージ長を検証", got["new_ja"])
 
+    def test_single_char_ja_not_reported_as_new(self):
+        # 助詞など 1 文字の日本語はフレーズとして報告しない
+        ext = self._ext(comments=[{"file": "a.go", "line": 1, "text": "値 は 上限"}])
+        got = run_check(ext, GLOSSARY, INVENTORY)
+        self.assertNotIn("は", got["new_ja"])
+        self.assertNotIn("値", got["ja_phrases"])
+        self.assertIn("上限", got["new_ja"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -315,6 +315,8 @@ def run_check(ext: dict, glossary: dict, inventory: dict) -> dict:
     for sec in ("comments", "test_titles"):
         for it in ext[sec]:
             for ph in JA_RE.findall(it["text"]):
+                if len(ph) < 2:  # 助詞など 1 文字はフレーズとして意味を持たない
+                    continue
                 diff_ja[ph] += 1
     new_ja = {p: c for p, c in diff_ja.items() if p not in known_ja}
 
