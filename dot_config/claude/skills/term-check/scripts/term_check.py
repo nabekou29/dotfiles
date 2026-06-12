@@ -4,6 +4,7 @@
 python3 標準ライブラリのみで動くこと(どの開発マシンでも追加インストール不要)。
 """
 import argparse
+import functools
 import json
 import os
 import re
@@ -68,21 +69,100 @@ HIRAGANA_RE = re.compile(r"[ぁ-ん]+")
 KANJI_KATA_RE = re.compile(r"[一-龯々〆ァ-ヶ]")
 
 
-def ja_terms(text: str) -> list:
-    """テキストから日本語の用語候補を抽出する(形態素解析なしの近似)。
+def _ja_terms_heuristic(run: str) -> list:
+    """日本語の連続文字列 run からひらがな分割で漢字・カタカナ核を取り出す(近似)。
 
-    日本語の連続文字列をひらがなで分割し、2 文字以上の漢字・カタカナ核を
-    用語単位とする(「実長は」→「実長」、「としてカウントする」→「カウント」)。
+    「実長は」→「実長」、「としてカウントする」→「カウント」のように動く。
     核が取れない純ひらがな語(「ふりがな」等)は連続文字列をそのまま使う。
     既知の制限: 核が 1 文字しか取れない語(「超」「組み合わせ」等)は落ちる。
     """
+    cores = [c for c in HIRAGANA_RE.split(run) if len(c) >= 2]
+    if cores:
+        return cores
+    if len(run) >= 2 and not KANJI_KATA_RE.search(run):
+        return [run]  # 純ひらがな語はそのまま
+    return []
+
+
+# 遅延シングルトン: False=未初期化 / None=利用不可 / それ以外=Tokenizer
+_JA_TOKENIZER = False
+
+
+def _ja_tokenizer():
+    global _JA_TOKENIZER
+    if _JA_TOKENIZER is False:
+        try:
+            from janome.tokenizer import Tokenizer
+            _JA_TOKENIZER = Tokenizer()
+        except ImportError:
+            _JA_TOKENIZER = None
+    return _JA_TOKENIZER
+
+
+@functools.lru_cache(maxsize=100_000)
+def _ja_terms_morph(run: str) -> tuple:
+    """janome 形態素解析で run から名詞系用語を抽出する。
+
+    連続する名詞系トークンを結合して複合語にする。品詞ルール(IPADIC):
+    - バッファに積む:
+        - 名詞(ただし 非自立・代名詞・数 は除く) — 一般・サ変接続・接尾・固有名詞 等を含む
+        - 接頭詞(「生テキスト」の「生」等)
+    - それ以外でバッファを flush: 結合文字列が 2 文字以上かつ名詞を 1 つ以上含む
+      なら用語として採用する。接頭詞だけのバッファ(「超」単独 等)は落とす。
+    戻り値は tuple(list → hashable にして lru_cache を使えるようにするため)。
+    """
+    tokenizer = _ja_tokenizer()
+    if tokenizer is None:
+        return tuple(_ja_terms_heuristic(run))
+
+    # 積まない名詞の細分類
+    NOUN_SKIP_SUB = {"非自立", "代名詞", "数"}
+
+    terms = []
+    buf = []       # (surface, is_noun) のリスト
+    has_noun = False
+
+    def flush():
+        nonlocal has_noun
+        if buf and has_noun:
+            word = "".join(s for s, _ in buf)
+            if len(word) >= 2:
+                terms.append(word)
+        buf.clear()
+        has_noun = False
+
+    for token in tokenizer.tokenize(run):
+        pos_parts = token.part_of_speech.split(",")
+        pos0 = pos_parts[0]
+        pos1 = pos_parts[1] if len(pos_parts) > 1 else "*"
+
+        if pos0 == "名詞" and pos1 not in NOUN_SKIP_SUB:
+            buf.append((token.surface, True))
+            has_noun = True
+        elif pos0 == "接頭詞":
+            # 接頭詞は次の名詞と結合するためバッファに積むが、名詞としてはカウントしない
+            flush()  # 前のバッファを先に閉じる
+            buf.append((token.surface, False))
+        else:
+            flush()
+
+    flush()
+    return tuple(terms)
+
+
+def ja_terms(text: str) -> list:
+    """テキストから日本語の用語候補を抽出するディスパッチャ。
+
+    janome が利用可能なら形態素解析(_ja_terms_morph)で、
+    そうでなければひらがな分割の近似(_ja_terms_heuristic)で各 run を処理する。
+    """
     terms = []
     for run in JA_RE.findall(text):
-        cores = [c for c in HIRAGANA_RE.split(run) if len(c) >= 2]
-        if cores:
-            terms += cores
-        elif len(run) >= 2 and not KANJI_KATA_RE.search(run):
-            terms.append(run)  # 純ひらがな語はそのまま
+        tokenizer = _ja_tokenizer()
+        if tokenizer is not None:
+            terms += list(_ja_terms_morph(run))
+        else:
+            terms += _ja_terms_heuristic(run)
     return terms
 
 TEST_TITLE_RES = [

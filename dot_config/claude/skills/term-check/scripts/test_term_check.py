@@ -1,6 +1,13 @@
 import unittest
 
+try:
+    import janome  # noqa: F401
+    HAS_JANOME = True
+except ImportError:
+    HAS_JANOME = False
+
 from term_check import (
+    _ja_terms_heuristic,
     extract,
     extract_line,
     filename_words,
@@ -15,25 +22,67 @@ from term_check import (
 )
 
 
-class JaTermsTest(unittest.TestCase):
+class JaTermsHeuristicTest(unittest.TestCase):
+    """_ja_terms_heuristic は run(JA_RE でマッチした連続日本語文字列)単位で動く。"""
+
     def test_strips_particles(self):
-        self.assertEqual(ja_terms("実長は"), ["実長"])
+        self.assertEqual(_ja_terms_heuristic("実長は"), ["実長"])
 
     def test_extracts_cores_from_mixed_run(self):
-        self.assertEqual(
-            ja_terms("// 生テキストの絶対上限は10,000ルーン"),
-            ["生テキスト", "絶対上限", "ルーン"],
-        )
+        # run 単位なので「// 生テキストの絶対上限は10,000ルーン」は複数 run に分かれる
+        self.assertEqual(_ja_terms_heuristic("生テキストの絶対上限は"), ["生テキスト", "絶対上限"])
+        self.assertEqual(_ja_terms_heuristic("ルーン"), ["ルーン"])
 
     def test_katakana_core_in_hiragana_context(self):
-        self.assertEqual(ja_terms("としてカウントする"), ["カウント"])
+        self.assertEqual(_ja_terms_heuristic("としてカウントする"), ["カウント"])
 
     def test_pure_hiragana_word_kept(self):
-        self.assertEqual(ja_terms("ふりがな"), ["ふりがな"])
+        self.assertEqual(_ja_terms_heuristic("ふりがな"), ["ふりがな"])
 
     def test_one_char_core_fragments_dropped(self):
-        # 核が 1 文字しか取れない断片(「超でも」等)は用語にしない
-        self.assertEqual(ja_terms("超でも"), [])
+        # 核が 1 文字しか取れない断片(「超」等)は用語にしない
+        self.assertEqual(_ja_terms_heuristic("超でも"), [])
+
+
+@unittest.skipUnless(HAS_JANOME, "janome がインストールされていない環境ではスキップ")
+class JaTermsMorphTest(unittest.TestCase):
+    def test_okurigana_compounds_survive(self):
+        got = ja_terms("ファイルの読み込みと書き込み")
+        self.assertIn("読み込み", got)
+        self.assertIn("書き込み", got)
+        self.assertIn("ファイル", got)
+
+    def test_compound_with_prefix(self):
+        got = ja_terms("生テキストの絶対上限")
+        self.assertIn("生テキスト", got)
+        self.assertIn("絶対上限", got)
+
+    def test_consecutive_nouns_joined(self):
+        got = ja_terms("実長は 400 超でも投稿メッセージ長 400 以内なら OK")
+        self.assertIn("実長", got)
+        self.assertIn("投稿メッセージ長", got)
+
+    def test_verbs_and_connectives_dropped(self):
+        got = ja_terms("そこで先読みを使う")
+        self.assertIn("先読み", got)
+        self.assertNotIn("そこで", got)
+        self.assertNotIn("使う", got)
+
+    def test_kanji_compound(self):
+        got = ja_terms("権限の組み合わせを検証")
+        self.assertIn("組み合わせ", got)
+        self.assertIn("権限", got)
+        self.assertIn("検証", got)
+
+    def test_cancel_compound(self):
+        got = ja_terms("投稿の取り消し")
+        self.assertIn("投稿", got)
+        self.assertIn("取り消し", got)
+
+    def test_verb_not_extracted(self):
+        got = ja_terms("実効文字数を数える")
+        self.assertIn("実効文字数", got)
+        self.assertNotIn("数える", got)
 
 
 class SplitIdentifierTest(unittest.TestCase):
@@ -244,7 +293,7 @@ class InventoryTest(unittest.TestCase):
         # 識別子由来 (FetchUser, FetchTeam) + ファイル名由来 (fetch_user, fetch_team)
         self.assertEqual(inv["words"]["fetch"], 4)
         self.assertEqual(inv["words"]["user"], 2)
-        # 日本語はコメント・テストタイトルから核(漢字・カタカナ)単位で拾う
+        # 日本語はコメント・テストタイトルから名詞単位で拾う
         self.assertIn("ユーザー", inv["ja"])
         self.assertIn("取得", inv["ja"])
         self.assertNotIn("ユーザーを取得する", inv["ja"])
