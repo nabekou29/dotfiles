@@ -229,6 +229,33 @@ GLOSSARY = {
 INVENTORY = {"words": {"fetch": 10, "user": 5, "raw": 2, "length": 8}, "ja": {"取得": 3}}
 
 
+class LookupWordTest(unittest.TestCase):
+    def test_english_word(self):
+        from term_check import lookup_word
+        got = lookup_word("fetch", GLOSSARY, INVENTORY)
+        self.assertEqual(got["count"], 10)
+        self.assertEqual(got["glossary_hits"][0]["term"], "fetch")
+
+    def test_avoid_word_hits_glossary(self):
+        from term_check import lookup_word
+        got = lookup_word("retrieve", GLOSSARY, INVENTORY)
+        self.assertEqual(got["count"], 0)
+        self.assertEqual(got["glossary_hits"][0]["term"], "fetch")
+
+    def test_japanese_word(self):
+        from term_check import lookup_word
+        got = lookup_word("実効文字数", GLOSSARY, INVENTORY)
+        self.assertEqual(got["glossary_hits"][0]["ja"], "実効文字数")
+
+    def test_related_words_by_prefix(self):
+        from term_check import lookup_word
+        inv = {"words": {"valid": 3, "validate": 9, "validator": 4}, "ja": {}}
+        got = lookup_word("validation", {"terms": []}, inv)
+        self.assertEqual(
+            [w for w, _ in got["related"]], ["validate", "validator", "valid"]
+        )
+
+
 class RunCheckTest(unittest.TestCase):
     def _ext(self, **over):
         base = {"filenames": [], "identifiers": [], "comments": [], "test_titles": []}

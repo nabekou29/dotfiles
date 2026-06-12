@@ -203,7 +203,12 @@ def glossary_dir() -> Path:
 
 
 def _load_json(path: Path, default):
-    return json.loads(path.read_text()) if path.exists() else default
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text())
+    except json.JSONDecodeError as e:
+        sys.exit(f"error: {path} が不正な JSON: {e}")
 
 
 def inventory_from_texts(texts) -> dict:
@@ -338,8 +343,8 @@ def render_report(ext: dict, result: dict, meta: str) -> str:
     lines.append(f"## 2. 新出ワード ({len(nw)} 件) — inventory/glossary に無い英単語")
     for w, e in sorted(nw.items(), key=lambda kv: -kv[1]["count"]):
         lines.append(f"- {w} ×{e['count']} (初出 {e['first']})")
-    nj = result["new_ja"]
     lines.append("")
+    nj = result["new_ja"]
     lines.append(f"## 2b. 新出日本語フレーズ ({len(nj)} 件)")
     for p, c in sorted(nj.items(), key=lambda kv: -kv[1]):
         lines.append(f"- {p} ×{c}")
@@ -354,6 +359,47 @@ def render_report(ext: dict, result: dict, meta: str) -> str:
     lines.append("### テストタイトル")
     lines += [f"- {t['file']}:{t['line']} {t['text']}" for t in ext["test_titles"]]
     return "\n".join(lines)
+
+
+def lookup_word(word: str, glossary: dict, inventory: dict) -> dict:
+    """1 語について inventory での頻度・近い既存語・glossary ヒットを返す(純粋関数)。"""
+    if JA_RE.fullmatch(word):
+        count = inventory.get("ja", {}).get(word, 0)
+        related = [
+            (p, c) for p, c in inventory.get("ja", {}).items() if word in p and p != word
+        ]
+    else:
+        w = word.lower()
+        count = inventory.get("words", {}).get(w, 0)
+        prefix = w[:4]
+        related = [
+            (p, c)
+            for p, c in inventory.get("words", {}).items()
+            if p != w and (p.startswith(prefix) or w.startswith(p[:4]))
+        ]
+    related = sorted(related, key=lambda x: -x[1])[:8]
+    hits = []
+    for t in glossary.get("terms", []):
+        en = [t.get("term", "").lower()] + [a.lower() for a in t.get("avoid", [])]
+        ja = [t.get("ja", "")] + t.get("avoid_ja", [])
+        if word.lower() in en or word in ja:
+            hits.append(t)
+    return {"count": count, "related": related, "glossary_hits": hits}
+
+
+def cmd_lookup(args):
+    d = glossary_dir()
+    glossary = _load_json(d / "glossary.json", {"terms": []})
+    inventory = _load_json(d / "inventory.json", {"words": {}, "ja": {}})
+    for word in args.words:
+        got = lookup_word(word, glossary, inventory)
+        print(f"## {word}")
+        print(f"inventory: {got['count']} 回")
+        if got["related"]:
+            print("近い既存語: " + ", ".join(f"{p}({c})" for p, c in got["related"]))
+        for t in got["glossary_hits"]:
+            print(f"glossary: {json.dumps(t, ensure_ascii=False)}")
+        print()
 
 
 def cmd_check(args):
@@ -401,8 +447,10 @@ def main():
     sub.add_parser("paths", help="repo-id とデータファイルの場所を表示")
     sub.add_parser("inventory", help="リポジトリ全体から語彙インベントリを再生成")
     sub.add_parser("check", help="stdin の diff をチェックしてレポートを出力")
+    lk = sub.add_parser("lookup", help="語を inventory / glossary と突き合わせる(計画時の命名確認)")
+    lk.add_argument("words", nargs="+")
     args = ap.parse_args()
-    {"paths": cmd_paths, "inventory": cmd_inventory, "check": cmd_check}[args.cmd](args)
+    {"paths": cmd_paths, "inventory": cmd_inventory, "check": cmd_check, "lookup": cmd_lookup}[args.cmd](args)
 
 
 if __name__ == "__main__":
