@@ -284,13 +284,11 @@ def run_check(ext: dict, glossary: dict, inventory: dict) -> dict:
                          "kind": kind, "word": a, "term": t}
                     )
 
-    # glossary の term が実際に出現した場合のみ、その構成語を既知扱いにする
-    # (term は snake_case 等の複合語でありうるが、単なるコンポーネント一致ではなく、
-    # glossary term 全体が code に出現した時に限定)
-    glossary_terms_in_code = {it["ident"].lower() for it in ext["identifiers"]}
+    # glossary の term 構成語も既知扱い(term は snake_case 等の複合語でありうる)。
+    # inventory にまだ無くても、glossary に正として登録済みの語を「新出」と騒がないため無条件に加える
     known = set(inventory.get("words", {}))
     for t in glossary.get("terms", []):
-        if t.get("term") and t["term"].lower() in glossary_terms_in_code:
+        if t.get("term"):
             known.update(split_identifier(t["term"]))
     new_words = {}
 

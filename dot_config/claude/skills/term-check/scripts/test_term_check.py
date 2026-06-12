@@ -260,13 +260,13 @@ class RunCheckTest(unittest.TestCase):
 
     def test_new_words(self):
         ext = self._ext(
-            identifiers=[{"file": "a.go", "line": 3, "ident": "effectiveLength",
-                          "words": ["effective", "length"]}],
-            filenames=["effective_length.go"],
+            identifiers=[{"file": "a.go", "line": 3, "ident": "newFetch",
+                          "words": ["new", "fetch"]}],
+            filenames=["new_fetch.go"],
         )
         got = run_check(ext, GLOSSARY, INVENTORY)
-        self.assertIn("effective", got["new_words"])  # inventory に無い
-        self.assertNotIn("length", got["new_words"])  # inventory に有る
+        self.assertIn("new", got["new_words"])  # inventory に無い
+        self.assertNotIn("fetch", got["new_words"])  # inventory に有る
 
     def test_glossary_term_is_not_new_word(self):
         ext = self._ext(
@@ -277,6 +277,15 @@ class RunCheckTest(unittest.TestCase):
         got = run_check(ext, GLOSSARY, inv)
         # glossary の term に登録済みの語の構成語は新出扱いしない
         self.assertNotIn("effective", got["new_words"])
+
+    def test_glossary_term_words_known_even_in_compound(self):
+        # glossary term の構成語は、term と完全一致しない複合識別子の中でも既知扱い
+        ext = self._ext(
+            identifiers=[{"file": "a.go", "line": 1, "ident": "effectiveLengthLimit",
+                          "words": ["effective", "length", "limit"]}]
+        )
+        got = run_check(ext, GLOSSARY, {"words": {"limit": 1}, "ja": {}})
+        self.assertEqual(got["new_words"], {})
 
     def test_new_ja_phrases(self):
         ext = self._ext(comments=[{"file": "a.go", "line": 7, "text": "投稿メッセージ長を検証"}])
