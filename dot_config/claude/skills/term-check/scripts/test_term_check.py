@@ -1,6 +1,6 @@
 import unittest
 
-from term_check import split_identifier, normalize_remote, extract_line, extract, filename_words, parse_diff
+from term_check import split_identifier, normalize_remote, extract_line, extract, filename_words, parse_diff, inventory_from_texts
 
 
 class SplitIdentifierTest(unittest.TestCase):
@@ -163,6 +163,25 @@ class FilenameWordsTest(unittest.TestCase):
 
     def test_no_extension_keeps_short_words(self):
         self.assertEqual(filename_words("docs/user-api"), ["user", "api"])
+
+
+class InventoryTest(unittest.TestCase):
+    def test_counts_words_and_ja(self):
+        texts = {
+            "fetch_user.go": "func FetchUser() {}\n// ユーザーを取得する\n",
+            "fetch_team.go": "func FetchTeam() {}\n",
+        }
+        inv = inventory_from_texts(texts)
+        # 識別子由来 (FetchUser, FetchTeam) + ファイル名由来 (fetch_user, fetch_team)
+        self.assertEqual(inv["words"]["fetch"], 4)
+        self.assertEqual(inv["words"]["user"], 2)
+        # 日本語はコメント・テストタイトルからのみ拾う
+        self.assertIn("ユーザーを取得する", inv["ja"])
+
+    def test_string_literals_not_counted(self):
+        inv = inventory_from_texts({"a.ts": 'const x = "retrieveUser ログイン"'})
+        self.assertNotIn("retrieve", inv["words"])
+        self.assertEqual(inv["ja"], {})
 
 
 if __name__ == "__main__":

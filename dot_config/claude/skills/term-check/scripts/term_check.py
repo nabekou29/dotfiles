@@ -3,9 +3,14 @@
 
 python3 標準ライブラリのみで動くこと(どの開発マシンでも追加インストール不要)。
 """
+import argparse
+import json
+import os
 import re
 import subprocess
 import sys
+from collections import Counter
+from datetime import datetime, timezone
 from pathlib import Path
 
 # camelCase / PascalCase / snake_case / SCREAMING_SNAKE / 連続大文字(HTTPServer)を
@@ -120,6 +125,7 @@ def parse_diff(text: str) -> dict:
             current = None if path == "/dev/null" else re.sub(r"^b/", "", path)
             if current is not None:
                 files.setdefault(current, [])
+            lineno = 0  # 防御: hunk ヘッダなしで + 行が来ても前ファイルの行番号を引き継がない
         elif raw.startswith("@@"):
             m = re.search(r"\+(\d+)", raw)
             lineno = int(m.group(1)) if m else 0
@@ -166,3 +172,94 @@ def extract(files: dict) -> dict:
                     {"file": path, "line": ln, "ident": ident, "words": split_identifier(ident)}
                 )
     return out
+
+
+STATE_ROOT = (
+    Path(os.environ.get("XDG_STATE_HOME", str(Path.home() / ".local/state")))
+    / "claude"
+    / "glossary"
+)
+
+SKIP_PARTS = {"node_modules", "vendor", "dist", "build", ".git", "generated", "__pycache__"}
+SKIP_SUFFIXES = (
+    ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".woff", ".woff2",
+    ".ttf", ".pdf", ".lock", ".sum", ".map", ".min.js", ".snap",
+)
+
+
+def glossary_dir() -> Path:
+    return STATE_ROOT / repo_id()
+
+
+def _load_json(path: Path, default):
+    return json.loads(path.read_text()) if path.exists() else default
+
+
+def inventory_from_texts(texts: dict) -> dict:
+    """{path: 中身} から単語・日本語フレーズの出現カウントを作る(純粋関数)。"""
+    words, ja = Counter(), Counter()
+    for path, text in texts.items():
+        for w in filename_words(path):
+            words[w] += 1
+        for line in text.splitlines():
+            got = extract_line(line)
+            for ident in got["identifiers"]:
+                for w in split_identifier(ident):
+                    words[w] += 1
+            sources = got["test_titles"] + ([got["comment"]] if got["comment"] else [])
+            for src in sources:
+                for phrase in JA_RE.findall(src):
+                    ja[phrase] += 1
+    return {"words": dict(words), "ja": dict(ja)}
+
+
+def iter_repo_texts():
+    """git 管理下のテキストファイルを (path, 中身) で列挙する。"""
+    r = _git("ls-files")
+    if r.returncode != 0:
+        sys.exit(f"error: git リポジトリ内で実行すること({r.stderr.strip()})")
+    for path in r.stdout.splitlines():
+        p = Path(path)
+        if SKIP_PARTS & set(p.parts):
+            continue
+        if path.endswith(SKIP_SUFFIXES):
+            continue
+        try:
+            text = p.read_text(errors="ignore")
+        except OSError:
+            continue
+        if len(text) > 1_000_000 or "\0" in text[:1000]:
+            continue
+        yield path, text
+
+
+def cmd_inventory(args):
+    d = glossary_dir()
+    d.mkdir(parents=True, exist_ok=True)
+    inv = inventory_from_texts(dict(iter_repo_texts()))
+    inv["generated_at"] = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+    out = d / "inventory.json"
+    out.write_text(json.dumps(inv, ensure_ascii=False))
+    print(f"inventory: {len(inv['words'])} words / {len(inv['ja'])} ja phrases → {out}")
+
+
+def cmd_paths(args):
+    d = glossary_dir()
+    g, inv = d / "glossary.json", d / "inventory.json"
+    print(f"repo_id: {repo_id()}")
+    print(f"dir: {d}")
+    print(f"glossary: {g if g.exists() else '(未作成)'}")
+    print(f"inventory: {inv if inv.exists() else '(未作成)'}")
+
+
+def main():
+    ap = argparse.ArgumentParser(prog="term_check")
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("paths", help="repo-id とデータファイルの場所を表示")
+    sub.add_parser("inventory", help="リポジトリ全体から語彙インベントリを再生成")
+    args = ap.parse_args()
+    {"paths": cmd_paths, "inventory": cmd_inventory}[args.cmd](args)
+
+
+if __name__ == "__main__":
+    main()
