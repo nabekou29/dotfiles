@@ -1,6 +1,6 @@
 import unittest
 
-from term_check import split_identifier, normalize_remote, extract_line
+from term_check import split_identifier, normalize_remote, extract_line, extract, filename_words, parse_diff
 
 
 class SplitIdentifierTest(unittest.TestCase):
@@ -104,6 +104,61 @@ class ExtractLineTest(unittest.TestCase):
     def test_stopwords_filtered(self):
         got = extract_line("if err != nil { return err }")
         self.assertEqual(got["identifiers"], ["err", "err"])
+
+
+SAMPLE_DIFF = """\
+diff --git a/internal/validator/validator.go b/internal/validator/validator.go
+index 1234567..89abcde 100644
+--- a/internal/validator/validator.go
++++ b/internal/validator/validator.go
+@@ -10,2 +10,3 @@ func Validate(msg string) error {
+ \tif msg == "" {
++\t\trawLength := countRunes(msg) // 実長を数える
+ \t\treturn nil
+diff --git a/internal/validator/length_test.go b/internal/validator/length_test.go
+new file mode 100644
+--- /dev/null
++++ b/internal/validator/length_test.go
+@@ -0,0 +1,2 @@
++func TestRawLength(t *testing.T) {
++\tt.Run("URL を含む場合", func(t *testing.T) {})
+"""
+
+
+class ParseDiffTest(unittest.TestCase):
+    def test_added_lines_with_numbers(self):
+        files = parse_diff(SAMPLE_DIFF)
+        self.assertEqual(
+            files["internal/validator/validator.go"],
+            [(11, "\t\trawLength := countRunes(msg) // 実長を数える")],
+        )
+
+    def test_new_file(self):
+        files = parse_diff(SAMPLE_DIFF)
+        self.assertEqual(len(files["internal/validator/length_test.go"]), 2)
+
+
+class ExtractTest(unittest.TestCase):
+    def test_aggregates_with_locations(self):
+        got = extract(parse_diff(SAMPLE_DIFF))
+        idents = [(i["file"], i["line"], i["ident"]) for i in got["identifiers"]]
+        self.assertIn(
+            ("internal/validator/validator.go", 11, "rawLength"), idents
+        )
+        comments = [(c["line"], c["text"]) for c in got["comments"]]
+        self.assertIn((11, "実長を数える"), comments)
+        titles = [t["text"] for t in got["test_titles"]]
+        self.assertIn("TestRawLength", titles)
+        self.assertIn("URL を含む場合", titles)
+        self.assertIn("internal/validator/length_test.go", got["filenames"])
+
+
+class FilenameWordsTest(unittest.TestCase):
+    def test_kebab_and_ext(self):
+        self.assertEqual(
+            filename_words("src/effective-message_length.test.ts"),
+            ["effective", "message", "length", "test"],
+        )
 
 
 if __name__ == "__main__":

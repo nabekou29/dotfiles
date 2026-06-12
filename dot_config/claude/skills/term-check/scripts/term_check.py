@@ -55,6 +55,7 @@ STRING_RE = re.compile(r"([\"'`])(?:\\.|(?!\1).)*?\1")
 # 行コメント・ブロックコメント開始(近似。行頭または空白の後のマーカーのみ)
 COMMENT_RE = re.compile(r"(?:^|\s)(?://+|#+|--|/\*+|<!--)\s?(.*?)\s*(?:\*/|-->)?\s*$")
 IDENT_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+# 日本語フレーズの抽出(inventory 生成と check で使う)
 JA_RE = re.compile(r"[ぁ-んァ-ヶ一-龯々〆ー]+")
 
 TEST_TITLE_RES = [
@@ -87,7 +88,11 @@ def _mask_strings(line: str) -> str:
 
 
 def extract_line(content: str) -> dict:
-    """1 行からテストタイトル・コメント・識別子を抽出する(正規表現による近似)。"""
+    """1 行からテストタイトル・コメント・識別子を抽出する(正規表現による近似)。
+
+    既知の制限: 行中間の `/* ... */ コード` はコメント開始以降が全てコメント扱いに
+    なる(後続コードの識別子を取りこぼす)。床除算 `a // b` もコメント扱いになる。
+    """
     titles = [t for pat in TEST_TITLE_RES for t in pat.findall(content)]
     masked = _mask_strings(content)
     comment = None
@@ -104,3 +109,61 @@ def extract_line(content: str) -> dict:
         if len(i) > 1 and i.strip("_") and i.lower() not in STOPWORDS
     ]
     return {"test_titles": titles, "comment": comment, "identifiers": idents}
+
+
+def parse_diff(text: str) -> dict:
+    """unified diff → {path: [(新ファイルでの行番号, 追加行の内容), ...]}。追加行のみ。"""
+    files, current, lineno = {}, None, 0
+    for raw in text.splitlines():
+        if raw.startswith("+++ "):
+            path = raw[4:].split("\t")[0].strip()
+            current = None if path == "/dev/null" else re.sub(r"^b/", "", path)
+            if current is not None:
+                files.setdefault(current, [])
+        elif raw.startswith("@@"):
+            m = re.search(r"\+(\d+)", raw)
+            lineno = int(m.group(1)) if m else 0
+        elif current is None:
+            continue
+        elif raw.startswith("+"):
+            files[current].append((lineno, raw[1:]))
+            lineno += 1
+        elif raw.startswith(" "):
+            lineno += 1
+    return files
+
+
+def filename_words(path: str) -> list:
+    """ファイルパスの basename からトークナイズ。.test.ts 等も拆いて単語化。"""
+    basename = Path(path).name
+    # .test.ts → ["test", "ts"] を含めて単語に分解するが、
+    # 最後の拡張子(ts, py, go 等)は言語マーカーなので除外
+    parts = re.split(r"[-._ ]+", basename)
+    if parts and re.match(r"^[a-z]{1,3}$", parts[-1]):
+        parts = parts[:-1]
+    words = []
+    for part in parts:
+        words += split_identifier(part)
+    return words
+
+
+def extract(files: dict) -> dict:
+    """parse_diff の結果からチェック対象要素を位置つきで集約する。"""
+    out = {
+        "filenames": sorted(files),
+        "identifiers": [],
+        "comments": [],
+        "test_titles": [],
+    }
+    for path, lines in files.items():
+        for ln, content in lines:
+            got = extract_line(content)
+            for t in got["test_titles"]:
+                out["test_titles"].append({"file": path, "line": ln, "text": t})
+            if got["comment"]:
+                out["comments"].append({"file": path, "line": ln, "text": got["comment"]})
+            for ident in got["identifiers"]:
+                out["identifiers"].append(
+                    {"file": path, "line": ln, "ident": ident, "words": split_identifier(ident)}
+                )
+    return out
