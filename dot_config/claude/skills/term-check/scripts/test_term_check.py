@@ -1,6 +1,6 @@
 import unittest
 
-from term_check import split_identifier
+from term_check import split_identifier, normalize_remote
 
 
 class SplitIdentifierTest(unittest.TestCase):
@@ -27,6 +27,29 @@ class SplitIdentifierTest(unittest.TestCase):
 
     def test_single_letter_fragments_dropped(self):
         self.assertEqual(split_identifier("getV2User"), ["get", "user"])
+
+
+class NormalizeRemoteTest(unittest.TestCase):
+    def test_scp_style_ssh(self):
+        self.assertEqual(
+            normalize_remote("git@github.com:org/repo.git"), "github.com/org/repo"
+        )
+
+    def test_https(self):
+        self.assertEqual(
+            normalize_remote("https://github.com/org/repo.git"), "github.com/org/repo"
+        )
+
+    def test_https_without_dot_git(self):
+        self.assertEqual(
+            normalize_remote("https://github.com/org/repo"), "github.com/org/repo"
+        )
+
+    def test_ssh_protocol(self):
+        self.assertEqual(
+            normalize_remote("ssh://git@github.com/org/repo.git"),
+            "github.com/org/repo",
+        )
 
 
 if __name__ == "__main__":
