@@ -1,6 +1,6 @@
 import unittest
 
-from term_check import split_identifier, normalize_remote, extract_line, extract, filename_words, parse_diff, inventory_from_texts
+from term_check import split_identifier, normalize_remote, extract_line, extract, filename_words, parse_diff, inventory_from_texts, _should_skip
 
 
 class SplitIdentifierTest(unittest.TestCase):
@@ -163,6 +163,42 @@ class FilenameWordsTest(unittest.TestCase):
 
     def test_no_extension_keeps_short_words(self):
         self.assertEqual(filename_words("docs/user-api"), ["user", "api"])
+
+
+class ShouldSkipTest(unittest.TestCase):
+    def test_skip_dirs_and_suffixes(self):
+        self.assertTrue(_should_skip("node_modules/foo/index.js"))
+        self.assertTrue(_should_skip("vendor/github.com/lib.go"))
+        self.assertTrue(_should_skip("assets/logo.png"))
+        self.assertTrue(_should_skip("data/records.csv"))
+        self.assertTrue(_should_skip("logs/events.jsonl"))
+
+    def test_keep_normal_sources(self):
+        self.assertFalse(_should_skip("internal/validator/validator.go"))
+        self.assertFalse(_should_skip("src/main.py"))
+        self.assertFalse(_should_skip("README.md"))
+
+
+class InventoryStreamingTest(unittest.TestCase):
+    def test_accepts_dict_of_texts(self):
+        """inventory_from_texts は dict を受け付ける"""
+        texts = {
+            "fetch_user.go": "func FetchUser() {}\n// ユーザーを取得する\n",
+            "fetch_team.go": "func FetchTeam() {}\n",
+        }
+        inv = inventory_from_texts(texts)
+        self.assertEqual(inv["words"]["fetch"], 4)
+        self.assertEqual(inv["words"]["user"], 2)
+
+    def test_accepts_iterable_of_pairs(self):
+        """inventory_from_texts は (path, 中身) の iterable も受け付ける"""
+        pairs = iter([
+            ("fetch_user.go", "func FetchUser() {}\n// ユーザーを取得する\n"),
+            ("fetch_team.go", "func FetchTeam() {}\n"),
+        ])
+        inv = inventory_from_texts(pairs)
+        self.assertEqual(inv["words"]["fetch"], 4)
+        self.assertEqual(inv["words"]["user"], 2)
 
 
 class InventoryTest(unittest.TestCase):

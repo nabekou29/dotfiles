@@ -183,8 +183,19 @@ STATE_ROOT = (
 SKIP_PARTS = {"node_modules", "vendor", "dist", "build", ".git", "generated", "__pycache__"}
 SKIP_SUFFIXES = (
     ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".woff", ".woff2",
-    ".ttf", ".pdf", ".lock", ".sum", ".map", ".min.js", ".snap",
+    ".ttf", ".pdf", ".lock", ".sum", ".map", ".min.js", ".snap", ".csv", ".jsonl",
 )
+
+
+def _should_skip(path: str) -> bool:
+    """ファイルパスをスキップすべきか判定する(純粋関数)。
+
+    node_modules, vendor, dist などの特定ディレクトリ、
+    およびバイナリ・メディア・ロック・ビルド生成物を対象外にする。
+    """
+    if SKIP_PARTS & set(Path(path).parts):
+        return True
+    return path.endswith(SKIP_SUFFIXES)
 
 
 def glossary_dir() -> Path:
@@ -195,10 +206,13 @@ def _load_json(path: Path, default):
     return json.loads(path.read_text()) if path.exists() else default
 
 
-def inventory_from_texts(texts: dict) -> dict:
-    """{path: 中身} から単語・日本語フレーズの出現カウントを作る(純粋関数)。"""
+def inventory_from_texts(texts) -> dict:
+    """{path: 中身} の dict または (path, 中身) ペアの iterable から
+    単語・日本語フレーズの出現カウントを作る(純粋関数)。
+    """
+    pairs = texts.items() if isinstance(texts, dict) else texts
     words, ja = Counter(), Counter()
-    for path, text in texts.items():
+    for path, text in pairs:
         for w in filename_words(path):
             words[w] += 1
         for line in text.splitlines():
@@ -214,18 +228,23 @@ def inventory_from_texts(texts: dict) -> dict:
 
 
 def iter_repo_texts():
-    """git 管理下のテキストファイルを (path, 中身) で列挙する。"""
-    r = _git("ls-files")
+    """git 管理下のテキストファイルを (相対path, 中身) で列挙する。
+
+    cwd がリポジトリのサブディレクトリでも全体を対象にするため、
+    ルートを解決してルート基準で読む。
+    """
+    r = _git("rev-parse", "--show-toplevel")
     if r.returncode != 0:
         sys.exit(f"error: git リポジトリ内で実行すること({r.stderr.strip()})")
+    top = Path(r.stdout.strip())
+    r = _git("-C", str(top), "ls-files")
+    if r.returncode != 0:
+        sys.exit(f"error: git ls-files 失敗({r.stderr.strip()})")
     for path in r.stdout.splitlines():
-        p = Path(path)
-        if SKIP_PARTS & set(p.parts):
-            continue
-        if path.endswith(SKIP_SUFFIXES):
+        if _should_skip(path):
             continue
         try:
-            text = p.read_text(errors="ignore")
+            text = (top / path).read_text(errors="ignore")
         except OSError:
             continue
         if len(text) > 1_000_000 or "\0" in text[:1000]:
@@ -236,10 +255,12 @@ def iter_repo_texts():
 def cmd_inventory(args):
     d = glossary_dir()
     d.mkdir(parents=True, exist_ok=True)
-    inv = inventory_from_texts(dict(iter_repo_texts()))
+    inv = inventory_from_texts(iter_repo_texts())
     inv["generated_at"] = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
     out = d / "inventory.json"
-    out.write_text(json.dumps(inv, ensure_ascii=False))
+    tmp = out.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(inv, ensure_ascii=False))
+    os.replace(tmp, out)
     print(f"inventory: {len(inv['words'])} words / {len(inv['ja'])} ja phrases → {out}")
 
 
