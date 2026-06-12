@@ -134,15 +134,14 @@ def parse_diff(text: str) -> dict:
 
 
 def filename_words(path: str) -> list:
-    """ファイルパスの basename からトークナイズ。.test.ts 等も拆いて単語化。"""
-    basename = Path(path).name
-    # .test.ts → ["test", "ts"] を含めて単語に分解するが、
-    # 最後の拡張子(ts, py, go 等)は言語マーカーなので除外
-    parts = re.split(r"[-._ ]+", basename)
-    if parts and re.match(r"^[a-z]{1,3}$", parts[-1]):
-        parts = parts[:-1]
+    """ファイルパスの basename を単語化する。
+
+    ドット区切りの末尾連続部分(.go / .test.ts / .min.js 等)は拡張子・
+    種別マーカーとみなして丸ごと落とす。
+    """
+    stem = re.sub(r"(\.[A-Za-z0-9]+)+$", "", Path(path).name)
     words = []
-    for part in parts:
+    for part in re.split(r"[-._ ]+", stem):
         words += split_identifier(part)
     return words
 

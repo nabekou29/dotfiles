@@ -154,11 +154,15 @@ class ExtractTest(unittest.TestCase):
 
 
 class FilenameWordsTest(unittest.TestCase):
-    def test_kebab_and_ext(self):
+    def test_kebab_and_multi_extension(self):
+        # .test.ts のような多段拡張子は丸ごと落とす(test はファイル種別マーカーで用語でない)
         self.assertEqual(
             filename_words("src/effective-message_length.test.ts"),
-            ["effective", "message", "length", "test"],
+            ["effective", "message", "length"],
         )
+
+    def test_no_extension_keeps_short_words(self):
+        self.assertEqual(filename_words("docs/user-api"), ["user", "api"])
 
 
 if __name__ == "__main__":
