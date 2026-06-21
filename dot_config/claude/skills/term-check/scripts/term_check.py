@@ -334,8 +334,13 @@ def inventory_from_texts(texts) -> dict:
     return {"words": dict(words), "ja": dict(ja)}
 
 
-def iter_repo_texts():
+def iter_repo_texts(ref=None):
     """git 管理下のテキストファイルを (相対path, 中身) で列挙する。
+
+    ref=None: 作業ツリー(ls-files)から読む。
+    ref が指定された場合は ref(ブランチ・コミット等)のファイル群を対象にする。
+    diff チェックで自分の追加分を inventory に取り込んでしまい新出ワード判定から
+    漏れる事故を防ぐため、base ブランチを指定する用途を想定している。
 
     cwd がリポジトリのサブディレクトリでも全体を対象にするため、
     ルートを解決してルート基準で読む。
@@ -344,19 +349,45 @@ def iter_repo_texts():
     if r.returncode != 0:
         sys.exit(f"error: git リポジトリ内で実行すること({r.stderr.strip()})")
     top = Path(r.stdout.strip())
-    r = _git("-C", str(top), "ls-files")
-    if r.returncode != 0:
-        sys.exit(f"error: git ls-files 失敗({r.stderr.strip()})")
-    for path in r.stdout.splitlines():
-        if _should_skip(path):
-            continue
-        try:
-            text = (top / path).read_text(errors="ignore")
-        except OSError:
-            continue
-        if len(text) > 1_000_000 or "\0" in text[:1000]:
-            continue
-        yield path, text
+    if ref is None:
+        r = _git("-C", str(top), "ls-files")
+        if r.returncode != 0:
+            sys.exit(f"error: git ls-files 失敗({r.stderr.strip()})")
+        for path in r.stdout.splitlines():
+            if _should_skip(path):
+                continue
+            try:
+                text = (top / path).read_text(errors="ignore")
+            except OSError:
+                continue
+            if len(text) > 1_000_000 or "\0" in text[:1000]:
+                continue
+            yield path, text
+    else:
+        # ref のファイル群を 1 プロセスで取り出す。ファイルごとに git show を呼ぶと
+        # 数万ファイル規模で著しく遅くなるため、git archive で tar に固めて stream 解凍する。
+        import io
+        import tarfile
+        r = subprocess.run(
+            ["git", "-C", str(top), "archive", "--format=tar", ref],
+            capture_output=True,
+        )
+        if r.returncode != 0:
+            sys.exit(f"error: git archive {ref} 失敗({r.stderr.decode(errors='ignore').strip()})")
+        with tarfile.open(fileobj=io.BytesIO(r.stdout), mode="r|") as tar:
+            for member in tar:
+                if not member.isfile() or _should_skip(member.name):
+                    continue
+                f = tar.extractfile(member)
+                if f is None:
+                    continue
+                try:
+                    text = f.read().decode("utf-8", errors="ignore")
+                except Exception:
+                    continue
+                if len(text) > 1_000_000 or "\0" in text[:1000]:
+                    continue
+                yield member.name, text
 
 
 def run_check(ext: dict, glossary: dict, inventory: dict) -> dict:
@@ -527,13 +558,16 @@ def cmd_check(args):
 def cmd_inventory(args):
     d = glossary_dir()
     d.mkdir(parents=True, exist_ok=True)
-    inv = inventory_from_texts(iter_repo_texts())
+    inv = inventory_from_texts(iter_repo_texts(ref=args.ref))
     inv["generated_at"] = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+    if args.ref:
+        inv["source_ref"] = args.ref
     out = d / "inventory.json"
     tmp = out.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(inv, ensure_ascii=False))
     os.replace(tmp, out)
-    print(f"inventory: {len(inv['words'])} words / {len(inv['ja'])} ja phrases → {out}")
+    src = f" (ref: {args.ref})" if args.ref else ""
+    print(f"inventory: {len(inv['words'])} words / {len(inv['ja'])} ja phrases → {out}{src}")
 
 
 def cmd_paths(args):
@@ -549,7 +583,13 @@ def main():
     ap = argparse.ArgumentParser(prog="term_check")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("paths", help="repo-id とデータファイルの場所を表示")
-    sub.add_parser("inventory", help="リポジトリ全体から語彙インベントリを再生成")
+    inv_p = sub.add_parser("inventory", help="リポジトリ全体から語彙インベントリを再生成")
+    inv_p.add_argument(
+        "--ref",
+        default=None,
+        help="作業ツリーではなく指定 ref のファイル群から抽出する (例: origin/main)。"
+        "diff チェック時に現在ブランチの追加分が既存扱いされて新出ワード判定から漏れる事故を防ぐ。",
+    )
     sub.add_parser("check", help="stdin の diff をチェックしてレポートを出力")
     lk = sub.add_parser("lookup", help="語を inventory / glossary と突き合わせる(計画時の命名確認)")
     lk.add_argument("words", nargs="+")
