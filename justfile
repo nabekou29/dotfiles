@@ -21,6 +21,7 @@ darwin-switch: _check-profile
     HOME=/var/root sudo nix run 'nix-darwin' -- switch --flake "{{NIX_DIR}}#$(cat {{NIX_DIR}}/profile)"
 
 # Update flake inputs and apply nix-darwin configuration
+# キャッシュミス回避付きの更新は Claude Code の /darwin-update skill を使う
 darwin-update: _check-profile
     nix flake update --flake "{{NIX_DIR}}"
     HOME=/var/root sudo nix run 'nix-darwin' -- switch --flake "{{NIX_DIR}}#$(cat {{NIX_DIR}}/profile)"
