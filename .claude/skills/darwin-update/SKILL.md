@@ -19,25 +19,33 @@ chezmoi dotfiles リポジトリの nix-darwin 環境を更新する skill。
 
 以下のステップを順番に実行する。各ステップで何をしているかユーザーに報告する。
 
-### Step 1: 既存 pin の解除チェック
+### Step 1: 状態記録 + 既存 pin の一括解除
 
 `nix/flake.nix` を読み、`nixpkgs-<pkg>` パターンの input を探す。
-見つかったら、最新 nixpkgs でそのパッケージがキャッシュ済みか確認する:
+
+#### 1a. 既存 pin の rev を記録
+
+各 pin の rev を控える（Step 4 で再 pin が必要な場合に使う）。
+
+#### 1b. root nixpkgs の rev を記録
+
+flake update 前の nixpkgs rev を取得する（新規 pin 時に使う）:
 
 ```bash
-# 最新 nixpkgs-unstable での derivation がキャッシュにあるか確認
-nix build --dry-run 'nixpkgs#<pkg>' --accept-flake-config 2>&1
+python3 -c "
+import json
+lock = json.load(open('nix/flake.lock'))
+key = lock['nodes']['root']['inputs']['nixpkgs']
+print(lock['nodes'][key]['locked']['rev'])
+"
 ```
 
-`will be built` に当該パッケージの derivation が**含まれなければ**キャッシュ済み。
-キャッシュ済みなら以下を自動実行:
+#### 1c. 既存 pin をすべて解除
 
 1. `nix/flake.nix` の inputs から `nixpkgs-<pkg>` を削除
 2. `nix/flake.nix` の overlay から該当パッケージの差し替えを削除
 3. pin に付随するコメントも削除
 4. `nix flake lock nix/` を実行（flake.nix から消えた input は自動的に lock からも除去される）
-
-解除したことをユーザーに報告する。
 
 ### Step 2: flake update
 
@@ -58,6 +66,7 @@ nix build "./nix#darwinConfigurations.${PROFILE}.system" --dry-run --accept-flak
 - `home-manager-*`, `activation-*`, `etc.drv`, `user-environment`
 - `darwin-system-*`, `home-manager-path`, `home-manager-files`
 - `home-manager-generation`, `*-fonts*`, `*hm_*`
+- `system-applications`, `system-path`, `Brewfile`
 
 **重いソースビルド（pin 対象）:**
 - C++/Rust/Go 等の大規模ソースビルドが必要なパッケージ
@@ -66,13 +75,15 @@ nix build "./nix#darwinConfigurations.${PROFILE}.system" --dry-run --accept-flak
 - derivation 名からパッケージ名とビルド言語を推定して判断
 
 重いソースビルドがなければ Step 5 に進む。
+（以前 pin されていたパッケージがここに現れなければ、キャッシュが追いついたので unpin 成功。）
 
 ### Step 4: 重いパッケージを pin
 
 pin 対象のパッケージごとに mise パターンで pin する。
 
-pin に使う revision は、**flake update 前の flake.lock に記録されていた nixpkgs の rev**。
-flake update 実行前に `python3 -c "import json; print(json.load(open('nix/flake.lock'))['nodes']['nixpkgs']['locked']['rev'])"` で取得しておく。
+**pin に使う revision の選択:**
+- Step 1a で記録した既存 pin rev があればそれを使う（キャッシュ済みと実証済み）
+- 新規パッケージは Step 1b で記録した pre-update nixpkgs rev を使う
 
 #### 4a. flake.nix の inputs に追加
 
@@ -98,7 +109,9 @@ nix flake lock nix/
 #### 4d. 再確認
 
 pin 後に再度 `nix build --dry-run` を実行して、重いソースビルドが解消されたか確認する。
-まだ残っていれば 4a に戻る。
+
+まだ残っていれば、pre-update rev でキャッシュが効かない可能性がある。
+その場合は既存 pin rev や、さらに古い revision を試す。
 
 pin したことをユーザーに報告する。
 

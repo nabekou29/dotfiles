@@ -36,7 +36,7 @@
     # watchman はキャッシュ済み revision に pin してソースビルドを回避
     nixpkgs-watchman.url = "github:nixos/nixpkgs/0590cd39f728e129122770c029970378a79d076a";
     # mise はキャッシュ済み revision に pin してソースビルドを回避
-    nixpkgs-mise.url = "github:nixos/nixpkgs/0590cd39f728e129122770c029970378a79d076a";
+    nixpkgs-mise.url = "github:nixos/nixpkgs/9eac87a12312b8f60dd52e1c6e1a265f6fc7f5fc";
   };
 
   outputs =
