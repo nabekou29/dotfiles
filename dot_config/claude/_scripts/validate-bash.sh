@@ -46,10 +46,11 @@ if echo "$command" | grep -qE '\bgit(\s+\S+)*\s+worktree\b'; then
   deny "Use 'git wt' (git-wt) instead of 'git worktree'. Example: git wt <branch>"
 fi
 
-if echo "$command" | grep -qE '\bgit(\s+\S+)*\s+wt\s+(prune|delete|remove|rm|list|ls)\b'; then
-  deny "Unknown 'git wt' subcommand. 'git wt list' would CREATE a worktree named 'list'. Correct usage:
+if echo "$command" | grep -qE '\bgit(\s+\S+)*\s+wt\s+(prune|delete|remove|rm|list|ls|help)\b'; then
+  deny "Unknown 'git wt' subcommand. 'git wt <name>' would CREATE a worktree named '<name>'. Correct usage:
   - Delete a worktree: git wt -d <branch>  (safe) / git wt -D <branch> (force)
-  - List worktrees:    git wt"
+  - List worktrees:    git wt
+  - Help:              git wt --help"
 fi
 
 if echo "$command" | grep -qE '\bgit(\s+\S+)*\s+wt\b.*\s[^ ]*/[^ ]*'; then
