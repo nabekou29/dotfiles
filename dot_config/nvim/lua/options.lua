@@ -97,7 +97,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Yank した場所をハイライト
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    vim.hl.hl_op({ higroup = "IncSearch", timeout = 200 })
+    -- hl_op は 0.13+。それ以前は on_yank にフォールバック
+    local fn = vim.hl.hl_op or vim.hl.on_yank
+    fn({ higroup = "IncSearch", timeout = 200 })
   end,
 })
 
