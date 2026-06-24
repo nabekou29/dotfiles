@@ -5,11 +5,22 @@ if vim.g.vscode then
   return
 end
 
--- ペイン分割/移動は herdr に任せるため、nvim 内のウィンドウ移動のみ
-set("n", "<C-S-h>", "<cmd>wincmd h<CR>", { desc = "Move to left window" })
-set("n", "<C-S-l>", "<cmd>wincmd l<CR>", { desc = "Move to right window" })
-set("n", "<C-S-j>", "<cmd>wincmd j<CR>", { desc = "Move to below window" })
-set("n", "<C-S-k>", "<cmd>wincmd k<CR>", { desc = "Move to above window" })
+-- nvim 内ウィンドウ移動。herdr 配下では画面端で隣ペインへ抜ける。
+do
+  local directions = { h = "left", j = "down", k = "up", l = "right" }
+  local in_herdr = vim.env.HERDR_ENV == "1"
+  local function move(hjkl)
+    local oldwin = vim.api.nvim_get_current_win()
+    vim.cmd.wincmd(hjkl)
+    if in_herdr and oldwin == vim.api.nvim_get_current_win() then
+      vim.fn.system({ "herdr", "pane", "focus", "--direction", directions[hjkl], "--current" })
+    end
+  end
+  for k, dir in pairs(directions) do
+    set({ "n", "x", "t" }, "<C-S-" .. k .. ">", function() move(k) end,
+      { desc = "Move to " .. dir .. " window/pane" })
+  end
+end
 
 -- Emacs
 set({ "i", "v" }, "<C-a>", "<HOME>", { desc = "Move to beginning of line" })

@@ -14,10 +14,6 @@ enabled = true
 delivery = "terminal"
 
 [keys]
-focus_pane_left = "alt+shift+h"
-focus_pane_down = "alt+shift+j"
-focus_pane_up = "alt+shift+k"
-focus_pane_right = "alt+shift+l"
 rename_tab = "prefix+shift+c"
 previous_tab = ["alt+[", "alt+shift+["]
 next_tab = ["alt+]", "alt+shift+]"]
@@ -32,3 +28,26 @@ command = "nvim"
 key = "prefix+ctrl+g"
 type = "pane"
 command = "lazygit"
+
+# vim-tmux-navigator 風の seamless ペイン移動。
+# nvim の場合は ctrl+shift+<hjkl> を当該 pane に戻して nvim 側に処理させ、
+# それ以外は herdr のペイン focus を動かす。
+[[keys.command]]
+key = "ctrl+shift+h"
+type = "shell"
+command = "$HOME/.config/herdr/nav.sh left h"
+
+[[keys.command]]
+key = "ctrl+shift+j"
+type = "shell"
+command = "$HOME/.config/herdr/nav.sh down j"
+
+[[keys.command]]
+key = "ctrl+shift+k"
+type = "shell"
+command = "$HOME/.config/herdr/nav.sh up k"
+
+[[keys.command]]
+key = "ctrl+shift+l"
+type = "shell"
+command = "$HOME/.config/herdr/nav.sh right l"
