@@ -15,8 +15,12 @@ delivery = "terminal"
 
 [keys]
 rename_tab = "prefix+shift+c"
-previous_tab = ["alt+[", "alt+shift+["]
-next_tab = ["alt+]", "alt+shift+]"]
+previous_tab = "alt+shift+h"
+next_tab = "alt+shift+l"
+previous_workspace = "alt+shift+k"
+next_workspace = "alt+shift+j"
+previous_agent = ["alt+[", "alt+shift+["]
+next_agent = ["alt+]", "alt+shift+]"]
 zoom = ["ctrl+shift+enter", "prefix+f"]
 
 [[keys.command]]
