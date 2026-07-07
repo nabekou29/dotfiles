@@ -5,6 +5,11 @@
   nix.enable = false;
 
   nixpkgs.config.allowUnfree = true;
+  # stylelint-lsp の nativeBuildInputs で使われる pnpm がビルド時のみ必要
+  # nixpkgs が pnpm 新版に追従したら削除する
+  nixpkgs.config.permittedInsecurePackages = [
+    "pnpm-9.15.9"
+  ];
 
   system.primaryUser = user;
   system.stateVersion = 6;
