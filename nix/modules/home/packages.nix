@@ -124,6 +124,7 @@ in
     mold
     ninja
     pandoc
+    poppler-utils
     sbt
     uv
 
