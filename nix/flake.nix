@@ -14,6 +14,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    # mise はキャッシュ済み revision に pin してソースビルドを回避
+    nixpkgs-mise.url = "github:nixos/nixpkgs/7a1a64774a5fd0b0cd39ac95d0e170ace8b266a0";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,10 +35,6 @@
     # nixpkgs.follows は意図的にしない
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
-    # watchman はキャッシュ済み revision に pin してソースビルドを回避
-    nixpkgs-watchman.url = "github:nixos/nixpkgs/0590cd39f728e129122770c029970378a79d076a";
-    # mise はキャッシュ済み revision に pin してソースビルドを回避
-    nixpkgs-mise.url = "github:nixos/nixpkgs/9eac87a12312b8f60dd52e1c6e1a265f6fc7f5fc";
   };
 
   outputs =
@@ -47,7 +45,6 @@
         (final: prev: {
           # checkPhase が非常に遅く darwin 環境でビルドが進まないためスキップ
           direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
-          watchman = inputs.nixpkgs-watchman.legacyPackages.${prev.stdenv.hostPlatform.system}.watchman;
           mise = inputs.nixpkgs-mise.legacyPackages.${prev.stdenv.hostPlatform.system}.mise;
         })
         inputs.llm-agents.overlays.default
