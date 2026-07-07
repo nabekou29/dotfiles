@@ -15,13 +15,16 @@ delivery = "terminal"
 
 [keys]
 rename_tab = "prefix+shift+c"
+settings = "prefix+p"
+split_vertical = "prefix+v"
+split_horizontal = "prefix+s"
 previous_tab = "alt+shift+h"
 next_tab = "alt+shift+l"
 previous_workspace = "alt+shift+k"
 next_workspace = "alt+shift+j"
 previous_agent = ["alt+[", "alt+shift+["]
 next_agent = ["alt+]", "alt+shift+]"]
-zoom = ["ctrl+shift+enter", "prefix+f"]
+zoom = "ctrl+shift+enter"
 
 [[keys.command]]
 key = "prefix+n"
@@ -55,3 +58,10 @@ command = "$HOME/.config/herdr/nav.sh up k"
 key = "ctrl+shift+l"
 type = "shell"
 command = "$HOME/.config/herdr/nav.sh right l"
+
+[ui]
+show_agent_labels_on_pane_borders = true
+
+[experimental]
+pane_history = true
+switch_ascii_input_source_in_prefix = true
