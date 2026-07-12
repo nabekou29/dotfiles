@@ -120,6 +120,9 @@
         # メニューバー間隔
         NSStatusItemSpacing = 8;
         NSStatusItemSelectionPadding = 6;
+        # マウス/トラックパッドの軌跡の速さ (0〜3, 最速=3)
+        "com.apple.mouse.scaling" = 3.0;
+        "com.apple.trackpad.scaling" = 3.0;
       };
     };
 
