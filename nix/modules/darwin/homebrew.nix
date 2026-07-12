@@ -62,10 +62,10 @@
       "jordanbaird-ice@beta"
       "karabiner-elements"
       "keycastr"
-      "logi-options+"
       "mac-mouse-fix"
       "monitorcontrol"
       "obsidian"
+      "openlogi"
       "raycast"
       "setapp"
 
