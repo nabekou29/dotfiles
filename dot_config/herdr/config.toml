@@ -33,8 +33,10 @@ command = "nvim"
 
 [[keys.command]]
 key = "prefix+ctrl+g"
-type = "pane"
+type = "popup"
 command = "lazygit"
+width = "80%"
+height = "80%"
 
 # vim-tmux-navigator 風の seamless ペイン移動。
 # nvim の場合は ctrl+shift+<hjkl> を当該 pane に戻して nvim 側に処理させ、
@@ -59,9 +61,16 @@ key = "ctrl+shift+l"
 type = "shell"
 command = "$HOME/.config/herdr/nav.sh right l"
 
+[[keys.command]]
+key = "prefix+f"
+type = "plugin_action"
+command = "hotchpotch.herdr-tiny-fingers.open"
+description = "fingers mode"
+
 [ui]
 show_agent_labels_on_pane_borders = true
 
+agent_panel_sort = "spaces"
 [experimental]
 pane_history = true
 switch_ascii_input_source_in_prefix = true
