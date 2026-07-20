@@ -47,7 +47,7 @@
           direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
           mise = inputs.nixpkgs-mise.legacyPackages.${prev.stdenv.hostPlatform.system}.mise;
         })
-        inputs.llm-agents.overlays.default
+        inputs.llm-agents.overlays.shared-nixpkgs
       ];
       mkDarwinSystem = profile: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
