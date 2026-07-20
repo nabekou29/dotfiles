@@ -27,8 +27,8 @@
       "Read(.env,*)",
       "Read(id_ed25519)",
       "Read(id_rsa)",
-      "Write(**/secrets/**)",
-      "Write(.env*)"
+      "Edit(**/secrets/**)",
+      "Edit(.env*)"
     ],
     "ask": [
       "mcp__claude_ai_Notion__notion-update-page",
