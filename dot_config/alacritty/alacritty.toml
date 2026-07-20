@@ -6,7 +6,7 @@ live_config_reload = true
 
 [window]
 decorations = "Buttonless"
-opacity = 0.70
+opacity = 0.96
 blur = false
 option_as_alt = "Both"
 
