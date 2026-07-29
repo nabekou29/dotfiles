@@ -1,6 +1,6 @@
 ---
 name: darwin-update
-description: "nix-darwin の flake update + switch を実行。キャッシュミスで重いソースビルドが発生するパッケージは自動で pin し、過去の pin はキャッシュが追いつけば自動解除する。"
+description: "nix-darwin の flake update + switch を実行。キャッシュミスで重いソースビルドが発生するパッケージは自動で pin し、過去の pin はキャッシュが追いつけば自動解除する。外部 flake のバイナリキャッシュ設定のずれも検出する。"
 ---
 
 # darwin-update
@@ -74,8 +74,56 @@ nix build "./nix#darwinConfigurations.${PROFILE}.system" --dry-run --accept-flak
 - 大規模 Rust クレート（mise 等）
 - derivation 名からパッケージ名とビルド言語を推定して判断
 
+**外部 flake 由来（pin では解決しない）:**
+- nixpkgs 以外の flake が提供するパッケージ（llm-agents の codex 等）
+- `nixpkgs-<pkg>` pin の対象外。Step 3b で扱う
+
+**自前パッケージ（対処不可、報告のみ）:**
+- 自分の flake や `packages.nix` 内で定義したもの
+- `nixpkgs.follows` している以上、nixpkgs 更新のたびリビルドされる
+
 重いソースビルドがなければ Step 5 に進む。
 （以前 pin されていたパッケージがここに現れなければ、キャッシュが追いついたので unpin 成功。）
+
+判断に迷う derivation は、どのパッケージに属するか実際に辿って確認する:
+
+```bash
+nix-store -q --referrers <drv>
+```
+
+### Step 3b: 外部 flake のバイナリキャッシュ設定を確認
+
+外部 flake 由来のパッケージがソースビルドになっている場合、
+**まず「キャッシュ設定が古い」を疑う。構成（overlay の選択など）を変える前に確認すること。**
+
+外部 flake は自前のバイナリキャッシュを持つことがあり、その移行に追従できていないと
+すべてキャッシュミスになる。まず対象 flake の `nixConfig` を読む:
+
+```bash
+SRC=$(nix flake prefetch <flake-url> --json --accept-flake-config \
+  | python3 -c "import json,sys;print(json.load(sys.stdin)['storePath'])")
+grep -A8 -i nixconfig "$SRC/flake.nix"
+```
+
+手元の設定と突き合わせ、URL や公開鍵が変わっていたら更新する。
+**substituter の設定は2箇所にあるので両方直す:**
+
+| 場所 | 効く範囲 |
+| --- | --- |
+| `nix/flake.nix` の `nixConfig` | `--accept-flake-config` 付きの `nix` CLI |
+| `nix/modules/darwin/nix-conf.nix` の `determinateNix.customSettings` | システム全体（`/etc/nix/nix.custom.conf`） |
+
+修正後に dry-run し直して解消を確認する。
+
+それでも残る場合、パッケージの取得経路（overlay 経由 / flake output 経由）を
+変えれば直るように見えることがあるが、**先に derivation が同一か確認する**:
+
+```bash
+nix path-info --derivation "<flake-url>#<pkg>"
+```
+
+dry-run に出ている `.drv` と同じパスなら取得経路は無関係で、上流のビルドがまだ
+キャッシュに無いだけ。この場合は構成を変えず、ビルドが走ることをユーザーに報告する。
 
 ### Step 4: 重いパッケージを pin
 
@@ -115,15 +163,26 @@ pin 後に再度 `nix build --dry-run` を実行して、重いソースビル�
 
 pin したことをユーザーに報告する。
 
-### Step 5: darwin-switch
+### Step 5: 事前ビルド + darwin-switch
 
-sudo が必要なため、ユーザーにターミナルで実行してもらう:
+sudo が必要なのは activation だけで、**ビルド自体は一般ユーザーで実行できる**。
+重いビルドが残っている場合は先に済ませておくと、switch は activation のみになり数十秒で終わる。
+ユーザーが sudo のターミナルを長時間占有せずに済む。
+
+```bash
+nix build "./nix#darwinConfigurations.${PROFILE}.system" --accept-flake-config --no-link
+```
+
+`--no-link` を付けてリポジトリに `result` シンボリックリンクを作らないこと。
+
+ビルド完了後、ユーザーにターミナルで実行してもらう:
 
 ```
 ! just darwin-switch
 ```
 
-switch が成功したらユーザーに報告する。
+switch が成功したら、`/nix/var/nix/profiles/system` の generation が
+新しくなっているか確認してからユーザーに報告する。
 
 ### Step 6: 変更をコミット
 
@@ -140,9 +199,48 @@ pin も unpin もなければ:
 nix: flake update
 ```
 
+Step 3b でキャッシュ設定も直した場合はそれも件名に入れ、
+本文に「何が変わって何がキャッシュミスしていたか」を書く:
+
+```
+nix: flake update (numtide のキャッシュ URL を更新、nh を pin)
+```
+
+flake update と無関係な未コミット変更が残っていることがある。
+巻き込まずに、扱いをユーザーに確認する。
+
 ## 注意事項
 
 - `nix/flake.nix` を編集する際は既存のコードスタイル・コメントスタイルに合わせる
-- overlay の順序を崩さない（llm-agents.overlays.default は最後に来る）
+- overlay の順序を崩さない（外部 flake の overlay は最後に来る）
 - pin の input には `nixpkgs.follows` を付けない（キャッシュヒットのため意図的に独立させる）
 - darwin-switch は `just darwin-switch` 経由で実行する（sudo / HOME の設定が justfile に集約されているため）
+
+### `nix build` と `just darwin-switch` を同時に走らせない
+
+同じ derivation のロックを取り合って**両方とも停止する**ことがある。
+先に `nix build` を投げたなら、完了を待ってから switch を実行してもらう。
+
+停止しているかの見分け方（すべて該当すれば止まっている）:
+
+```bash
+ps -ax -o user,command | grep '^_nixbld'   # ビルドプロセスが1つも無い
+find /nix/store -maxdepth 1 -newermt '-3 minutes' | wc -l   # 新しい store path が増えない
+uptime                                      # load average が下がりきっている
+```
+
+片方を kill するとロックが解けて再開する。
+
+### 原因は推測で断定せず、実測してから報告する
+
+このフローは「ビルドされる/されない」の判断が中心で、思い込みで構成を変えると
+無駄な変更と誤った報告につながる。以下は必ず実測する:
+
+- ソースビルドの原因 → derivation path を突き合わせて同一性を確認する
+- ビルドが進んでいない → `_nixbld*` プロセスと store path の増加を確認する
+- ビルド失敗かどうか → `/nix/var/log/nix/drvs/` のログを読む
+  （非致命的な `ERROR:` 出力もあるので、後続フェーズが動いているかまで見る）
+
+derivation の出力がビルド済みか確認するとき、`nix derivation show` が返す
+`outputs.out.path` には `/nix/store/` 接頭辞が付かないことがある。
+そのまま存在確認すると全部「未ビルド」に見えるので、接頭辞を補ってから判定する。
