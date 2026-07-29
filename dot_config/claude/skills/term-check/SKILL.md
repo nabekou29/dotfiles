@@ -1,7 +1,12 @@
 ---
 name: term-check
-description: プロジェクトの用語一貫性チェック。diff・PR・実装計画に登場する用語(識別子・コメント・テストタイトル)を、リポジトリ別の用語集(glossary)と既存コードの語彙(inventory)に照らしてチェックし、新出概念の命名を確定して glossary を育てる。用語チェック・命名の相談・表記揺れの確認で発動。
+description: リポジトリの用語・命名の一貫性を確認するときに使う。diff・PR・実装計画のレビューで識別子・コメント・テストタイトルの表記揺れ・同義語の混在が気になるとき、新出概念の命名を決めるとき、glossary(用語集)の参照・登録を頼まれたとき、用語チェック・命名の相談で発動。
 argument-hint: '[<PR番号> | plan <計画の説明・ファイル>]'
+license: MIT
+compatibility: git リポジトリ内で使用。python3 必須。janome(任意)があると日本語抽出の精度が上がる
+metadata:
+  author: nabekou29
+  version: "1.0"
 ---
 
 # term-check
@@ -72,6 +77,18 @@ glossary.json のスキーマ(term / ja は片方だけでもよい。note は�
 ```
 
 ## diff チェック
+
+以下のチェックリストをコピーして進捗を追いながら進める:
+
+```
+用語チェック進捗:
+- [ ] 準備: paths → inventory 再生成(--ref <base>)→ glossary を読む
+- [ ] 1. diff をスクリプトに渡しレポートを得る
+- [ ] 2-3. 概念一貫性チェック(クラスタリング)
+- [ ] 4. 新出語の一般性チェック(全件)
+- [ ] 5. 報告フォーマットで報告
+- [ ] 6. 承認されたエントリのみ glossary に追記
+```
 
 1. diff をスクリプトに渡す:
    - 現在ブランチ: `git diff <デフォルトブランチ>...HEAD | python3 .../term_check.py check`
