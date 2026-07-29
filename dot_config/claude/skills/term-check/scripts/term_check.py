@@ -276,11 +276,10 @@ def extract(files: dict) -> dict:
     return out
 
 
-STATE_ROOT = (
-    Path(os.environ.get("XDG_STATE_HOME", str(Path.home() / ".local/state")))
-    / "claude"
-    / "glossary"
-)
+_STATE_HOME = Path(os.environ.get("XDG_STATE_HOME", str(Path.home() / ".local/state")))
+STATE_ROOT = _STATE_HOME / "term-check"
+# 旧配置(claude 名前空間だった頃)。残っていれば初回アクセス時に自動移行する
+LEGACY_STATE_ROOT = _STATE_HOME / "claude" / "glossary"
 
 SKIP_PARTS = {"node_modules", "vendor", "dist", "build", ".git", "generated", "__pycache__"}
 SKIP_SUFFIXES = (
@@ -300,8 +299,22 @@ def _should_skip(path: str) -> bool:
     return path.endswith(SKIP_SUFFIXES)
 
 
+def _resolve_state_dir(root: Path, legacy_root: Path, rid: str) -> Path:
+    """repo の state ディレクトリを解決する(移行以外は純粋)。
+
+    旧配置にだけデータがある場合は新配置へ移動してから返す(自動移行)。
+    新配置が既にあれば旧配置には触れない。どちらも無ければ作成せずパスだけ返す。
+    """
+    d = root / rid
+    legacy = legacy_root / rid
+    if not d.exists() and legacy.exists():
+        d.parent.mkdir(parents=True, exist_ok=True)
+        legacy.rename(d)
+    return d
+
+
 def glossary_dir() -> Path:
-    return STATE_ROOT / repo_id()
+    return _resolve_state_dir(STATE_ROOT, LEGACY_STATE_ROOT, repo_id())
 
 
 def _load_json(path: Path, default):

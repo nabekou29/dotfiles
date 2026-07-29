@@ -1,4 +1,6 @@
+import tempfile
 import unittest
+from pathlib import Path
 
 try:
     import janome  # noqa: F401
@@ -8,6 +10,7 @@ except ImportError:
 
 from term_check import (
     _ja_terms_heuristic,
+    _resolve_state_dir,
     extract,
     extract_line,
     filename_words,
@@ -245,6 +248,38 @@ class FilenameWordsTest(unittest.TestCase):
 
     def test_no_extension_keeps_short_words(self):
         self.assertEqual(filename_words("docs/user-api"), ["user", "api"])
+
+
+class ResolveStateDirTest(unittest.TestCase):
+    RID = "github.com/org/repo"
+
+    def test_migrates_legacy_dir(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, legacy_root = Path(tmp) / "term-check", Path(tmp) / "claude" / "glossary"
+            (legacy_root / self.RID).mkdir(parents=True)
+            (legacy_root / self.RID / "glossary.json").write_text("{}")
+            got = _resolve_state_dir(root, legacy_root, self.RID)
+            self.assertEqual(got, root / self.RID)
+            self.assertTrue((got / "glossary.json").exists())
+            self.assertFalse((legacy_root / self.RID).exists())
+
+    def test_new_location_wins_when_both_exist(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, legacy_root = Path(tmp) / "term-check", Path(tmp) / "claude" / "glossary"
+            (root / self.RID).mkdir(parents=True)
+            (root / self.RID / "glossary.json").write_text('{"terms": []}')
+            (legacy_root / self.RID).mkdir(parents=True)
+            (legacy_root / self.RID / "glossary.json").write_text("{}")
+            got = _resolve_state_dir(root, legacy_root, self.RID)
+            self.assertEqual((got / "glossary.json").read_text(), '{"terms": []}')
+            self.assertTrue((legacy_root / self.RID / "glossary.json").exists())
+
+    def test_no_legacy_returns_path_without_creating(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, legacy_root = Path(tmp) / "term-check", Path(tmp) / "claude" / "glossary"
+            got = _resolve_state_dir(root, legacy_root, self.RID)
+            self.assertEqual(got, root / self.RID)
+            self.assertFalse(got.exists())
 
 
 class ShouldSkipTest(unittest.TestCase):
