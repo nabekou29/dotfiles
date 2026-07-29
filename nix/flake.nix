@@ -3,11 +3,11 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://numtide.cachix.org"
+      "https://cache.numtide.com"
       "https://nix-community.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
@@ -16,6 +16,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     # mise はキャッシュ済み revision に pin してソースビルドを回避
     nixpkgs-mise.url = "github:nixos/nixpkgs/7a1a64774a5fd0b0cd39ac95d0e170ace8b266a0";
+    # nh はキャッシュ済み revision に pin してソースビルドを回避
+    nixpkgs-nh.url = "github:nixos/nixpkgs/b471514bed69eff5255c8e63c1f80e5fe56c616f";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +30,7 @@
       url = "github:nabekou29/trev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # numtide が aarch64-darwin 含めて自前 Cachix (numtide.cachix.org) でビルド済みバイナリを配布しているため
+    # numtide が aarch64-darwin 含めて自前バイナリキャッシュ (cache.numtide.com) で配布しているため
     # nixpkgs.follows は意図的にしない (follows すると derivation hash が変わりキャッシュが効かなくなる)
     llm-agents.url = "github:numtide/llm-agents.nix";
     # nix-community Cachix (上で trusted-public-keys を設定済み) のキャッシュを利用するため
@@ -46,6 +48,7 @@
           # checkPhase が非常に遅く darwin 環境でビルドが進まないためスキップ
           direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
           mise = inputs.nixpkgs-mise.legacyPackages.${prev.stdenv.hostPlatform.system}.mise;
+          nh = inputs.nixpkgs-nh.legacyPackages.${prev.stdenv.hostPlatform.system}.nh;
         })
         inputs.llm-agents.overlays.shared-nixpkgs
       ];
