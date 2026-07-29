@@ -123,6 +123,8 @@
         # マウス/トラックパッドの軌跡の速さ (0〜3, 最速=3)
         "com.apple.mouse.scaling" = 3.0;
         "com.apple.trackpad.scaling" = 3.0;
+        # スクロールの速さ (システム設定のスライダー相当: 0.125〜7, デフォルト=0.75)
+        "com.apple.scrollwheel.scaling" = 0.3125;
       };
     };
 
