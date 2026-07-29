@@ -26,12 +26,12 @@ class JaTermsHeuristicTest(unittest.TestCase):
     """_ja_terms_heuristic は run(JA_RE でマッチした連続日本語文字列)単位で動く。"""
 
     def test_strips_particles(self):
-        self.assertEqual(_ja_terms_heuristic("実長は"), ["実長"])
+        self.assertEqual(_ja_terms_heuristic("送料は"), ["送料"])
 
     def test_extracts_cores_from_mixed_run(self):
-        # run 単位なので「// 生テキストの絶対上限は10,000ルーン」は複数 run に分かれる
-        self.assertEqual(_ja_terms_heuristic("生テキストの絶対上限は"), ["生テキスト", "絶対上限"])
-        self.assertEqual(_ja_terms_heuristic("ルーン"), ["ルーン"])
+        # run 単位なので「// 生データの最大件数は10,000レコード」は複数 run に分かれる
+        self.assertEqual(_ja_terms_heuristic("生データの最大件数は"), ["生データ", "最大件数"])
+        self.assertEqual(_ja_terms_heuristic("レコード"), ["レコード"])
 
     def test_katakana_core_in_hiragana_context(self):
         self.assertEqual(_ja_terms_heuristic("としてカウントする"), ["カウント"])
@@ -53,14 +53,14 @@ class JaTermsMorphTest(unittest.TestCase):
         self.assertIn("ファイル", got)
 
     def test_compound_with_prefix(self):
-        got = ja_terms("生テキストの絶対上限")
-        self.assertIn("生テキスト", got)
-        self.assertIn("絶対上限", got)
+        got = ja_terms("生データの最大件数")
+        self.assertIn("生データ", got)
+        self.assertIn("最大件数", got)
 
     def test_consecutive_nouns_joined(self):
-        got = ja_terms("実長は 400 超でも投稿メッセージ長 400 以内なら OK")
-        self.assertIn("実長", got)
-        self.assertIn("投稿メッセージ長", got)
+        got = ja_terms("送料は 500 超でも注文合計金額 5000 以内なら OK")
+        self.assertIn("送料", got)
+        self.assertIn("注文合計金額", got)
 
     def test_verbs_and_connectives_dropped(self):
         got = ja_terms("そこで先読みを使う")
@@ -75,13 +75,13 @@ class JaTermsMorphTest(unittest.TestCase):
         self.assertIn("検証", got)
 
     def test_cancel_compound(self):
-        got = ja_terms("投稿の取り消し")
-        self.assertIn("投稿", got)
+        got = ja_terms("予約の取り消し")
+        self.assertIn("予約", got)
         self.assertIn("取り消し", got)
 
     def test_verb_not_extracted(self):
-        got = ja_terms("実効文字数を数える")
-        self.assertIn("実効文字数", got)
+        got = ja_terms("在庫数を数える")
+        self.assertIn("在庫数", got)
         self.assertNotIn("数える", got)
 
 
@@ -148,40 +148,40 @@ class NormalizeRemoteTest(unittest.TestCase):
 
 class ExtractLineTest(unittest.TestCase):
     def test_identifiers_from_code(self):
-        got = extract_line("const rawLength = countRunes(message)")
-        self.assertEqual(got["identifiers"], ["rawLength", "countRunes", "message"])
+        got = extract_line("const itemCount = countItems(order)")
+        self.assertEqual(got["identifiers"], ["itemCount", "countItems", "order"])
 
     def test_string_contents_excluded(self):
         got = extract_line('setMessage("ようこそ retrieveUser さん")')
         self.assertEqual(got["identifiers"], ["setMessage"])
 
     def test_comment_extracted(self):
-        got = extract_line("x = 1  # 実効文字数を数える")
-        self.assertEqual(got["comment"], "実効文字数を数える")
+        got = extract_line("x = 1  # 在庫数を数える")
+        self.assertEqual(got["comment"], "在庫数を数える")
 
     def test_slash_comment(self):
-        got = extract_line("return n // 実長を返す")
-        self.assertEqual(got["comment"], "実長を返す")
+        got = extract_line("return n // 送料を返す")
+        self.assertEqual(got["comment"], "送料を返す")
         self.assertEqual(got["identifiers"], [])
 
     def test_no_comment(self):
         self.assertIsNone(extract_line("const a = b")["comment"])
 
     def test_test_title_js(self):
-        got = extract_line('it("URL を固定長としてカウントする", () => {')
-        self.assertEqual(got["test_titles"], ["URL を固定長としてカウントする"])
+        got = extract_line('it("送料を合計金額に加算する", () => {')
+        self.assertEqual(got["test_titles"], ["送料を合計金額に加算する"])
 
     def test_test_title_go(self):
-        got = extract_line('func TestEffectiveMessageLength(t *testing.T) {')
-        self.assertEqual(got["test_titles"], ["TestEffectiveMessageLength"])
+        got = extract_line('func TestOrderTotal(t *testing.T) {')
+        self.assertEqual(got["test_titles"], ["TestOrderTotal"])
 
     def test_test_title_go_subtest(self):
-        got = extract_line('t.Run("URL を含む場合", func(t *testing.T) {')
-        self.assertEqual(got["test_titles"], ["URL を含む場合"])
+        got = extract_line('t.Run("クーポンを含む場合", func(t *testing.T) {')
+        self.assertEqual(got["test_titles"], ["クーポンを含む場合"])
 
     def test_test_title_pytest(self):
-        got = extract_line("def test_effective_length_with_url():")
-        self.assertEqual(got["test_titles"], ["test_effective_length_with_url"])
+        got = extract_line("def test_order_total_with_coupon():")
+        self.assertEqual(got["test_titles"], ["test_order_total_with_coupon"])
 
     def test_stopwords_filtered(self):
         got = extract_line("if err != nil { return err }")
@@ -189,21 +189,21 @@ class ExtractLineTest(unittest.TestCase):
 
 
 SAMPLE_DIFF = """\
-diff --git a/internal/validator/validator.go b/internal/validator/validator.go
+diff --git a/internal/order/validator.go b/internal/order/validator.go
 index 1234567..89abcde 100644
---- a/internal/validator/validator.go
-+++ b/internal/validator/validator.go
-@@ -10,2 +10,3 @@ func Validate(msg string) error {
- \tif msg == "" {
-+\t\trawLength := countRunes(msg) // 実長を数える
+--- a/internal/order/validator.go
++++ b/internal/order/validator.go
+@@ -10,2 +10,3 @@ func Validate(order string) error {
+ \tif order == "" {
++\t\titemCount := countItems(order) // 商品数を数える
  \t\treturn nil
-diff --git a/internal/validator/length_test.go b/internal/validator/length_test.go
+diff --git a/internal/order/total_test.go b/internal/order/total_test.go
 new file mode 100644
 --- /dev/null
-+++ b/internal/validator/length_test.go
++++ b/internal/order/total_test.go
 @@ -0,0 +1,2 @@
-+func TestRawLength(t *testing.T) {
-+\tt.Run("URL を含む場合", func(t *testing.T) {})
++func TestItemCount(t *testing.T) {
++\tt.Run("クーポンを含む場合", func(t *testing.T) {})
 """
 
 
@@ -211,13 +211,13 @@ class ParseDiffTest(unittest.TestCase):
     def test_added_lines_with_numbers(self):
         files = parse_diff(SAMPLE_DIFF)
         self.assertEqual(
-            files["internal/validator/validator.go"],
-            [(11, "\t\trawLength := countRunes(msg) // 実長を数える")],
+            files["internal/order/validator.go"],
+            [(11, "\t\titemCount := countItems(order) // 商品数を数える")],
         )
 
     def test_new_file(self):
         files = parse_diff(SAMPLE_DIFF)
-        self.assertEqual(len(files["internal/validator/length_test.go"]), 2)
+        self.assertEqual(len(files["internal/order/total_test.go"]), 2)
 
 
 class ExtractTest(unittest.TestCase):
@@ -225,22 +225,22 @@ class ExtractTest(unittest.TestCase):
         got = extract(parse_diff(SAMPLE_DIFF))
         idents = [(i["file"], i["line"], i["ident"]) for i in got["identifiers"]]
         self.assertIn(
-            ("internal/validator/validator.go", 11, "rawLength"), idents
+            ("internal/order/validator.go", 11, "itemCount"), idents
         )
         comments = [(c["line"], c["text"]) for c in got["comments"]]
-        self.assertIn((11, "実長を数える"), comments)
+        self.assertIn((11, "商品数を数える"), comments)
         titles = [t["text"] for t in got["test_titles"]]
-        self.assertIn("TestRawLength", titles)
-        self.assertIn("URL を含む場合", titles)
-        self.assertIn("internal/validator/length_test.go", got["filenames"])
+        self.assertIn("TestItemCount", titles)
+        self.assertIn("クーポンを含む場合", titles)
+        self.assertIn("internal/order/total_test.go", got["filenames"])
 
 
 class FilenameWordsTest(unittest.TestCase):
     def test_kebab_and_multi_extension(self):
         # .test.ts のような多段拡張子は丸ごと落とす(test はファイル種別マーカーで用語でない)
         self.assertEqual(
-            filename_words("src/effective-message_length.test.ts"),
-            ["effective", "message", "length"],
+            filename_words("src/shipping-fee_calculator.test.ts"),
+            ["shipping", "fee", "calculator"],
         )
 
     def test_no_extension_keeps_short_words(self):
@@ -307,10 +307,10 @@ class InventoryTest(unittest.TestCase):
 GLOSSARY = {
     "terms": [
         {"term": "fetch", "ja": "取得", "avoid": ["retrieve"], "note": "外部 API からの取得"},
-        {"term": "effective_length", "ja": "実効文字数", "avoid_ja": ["実長", "生テキスト"]},
+        {"term": "shipping_fee", "ja": "送料", "avoid_ja": ["配送料", "配送費"]},
     ]
 }
-INVENTORY = {"words": {"fetch": 10, "user": 5, "raw": 2, "length": 8}, "ja": {"取得": 3}}
+INVENTORY = {"words": {"fetch": 10, "user": 5, "shipping": 2, "fee": 8}, "ja": {"取得": 3}}
 
 
 class LookupWordTest(unittest.TestCase):
@@ -325,8 +325,8 @@ class LookupWordTest(unittest.TestCase):
         self.assertEqual(got["glossary_hits"][0]["term"], "fetch")
 
     def test_japanese_word(self):
-        got = lookup_word("実効文字数", GLOSSARY, INVENTORY)
-        self.assertEqual(got["glossary_hits"][0]["ja"], "実効文字数")
+        got = lookup_word("送料", GLOSSARY, INVENTORY)
+        self.assertEqual(got["glossary_hits"][0]["ja"], "送料")
 
     def test_related_words_by_prefix(self):
         inv = {"words": {"valid": 3, "validate": 9, "validator": 4}, "ja": {}}
@@ -354,9 +354,9 @@ class RunCheckTest(unittest.TestCase):
         self.assertEqual(v["term"]["term"], "fetch")
 
     def test_avoid_ja_in_comment(self):
-        ext = self._ext(comments=[{"file": "a.go", "line": 7, "text": "実長を数える"}])
+        ext = self._ext(comments=[{"file": "a.go", "line": 7, "text": "配送料を計算する"}])
         got = run_check(ext, GLOSSARY, INVENTORY)
-        self.assertEqual(got["violations"][0]["word"], "実長")
+        self.assertEqual(got["violations"][0]["word"], "配送料")
 
     def test_avoid_word_in_test_title(self):
         ext = self._ext(
@@ -377,28 +377,28 @@ class RunCheckTest(unittest.TestCase):
 
     def test_glossary_term_is_not_new_word(self):
         ext = self._ext(
-            identifiers=[{"file": "a.go", "line": 1, "ident": "effective_length",
-                          "words": ["effective", "length"]}]
+            identifiers=[{"file": "a.go", "line": 1, "ident": "shipping_fee",
+                          "words": ["shipping", "fee"]}]
         )
         inv = {"words": {}, "ja": {}}
         got = run_check(ext, GLOSSARY, inv)
         # glossary の term に登録済みの語の構成語は新出扱いしない
-        self.assertNotIn("effective", got["new_words"])
+        self.assertNotIn("shipping", got["new_words"])
 
     def test_glossary_term_words_known_even_in_compound(self):
         # glossary term の構成語は、term と完全一致しない複合識別子の中でも既知扱い
         ext = self._ext(
-            identifiers=[{"file": "a.go", "line": 1, "ident": "effectiveLengthLimit",
-                          "words": ["effective", "length", "limit"]}]
+            identifiers=[{"file": "a.go", "line": 1, "ident": "shippingFeeLimit",
+                          "words": ["shipping", "fee", "limit"]}]
         )
         got = run_check(ext, GLOSSARY, {"words": {"limit": 1}, "ja": {}})
         self.assertEqual(got["new_words"], {})
 
     def test_new_ja_phrases(self):
-        ext = self._ext(comments=[{"file": "a.go", "line": 7, "text": "投稿メッセージ長を検証"}])
+        ext = self._ext(comments=[{"file": "a.go", "line": 7, "text": "注文合計金額を検証"}])
         got = run_check(ext, GLOSSARY, INVENTORY)
-        self.assertIn("投稿メッセージ長", got["new_ja"])
-        self.assertNotIn("投稿メッセージ長を検証", got["new_ja"])
+        self.assertIn("注文合計金額", got["new_ja"])
+        self.assertNotIn("注文合計金額を検証", got["new_ja"])
 
     def test_single_char_ja_not_reported_as_new(self):
         # 助詞など 1 文字の日本語はフレーズとして報告しない

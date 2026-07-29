@@ -126,8 +126,8 @@ glossary.json のスキーマ(term / ja は片方だけでもよい。note は�
 - `path:line` `retrieveUser` の retrieve → **fetch**(外部 API からの取得)
 
 ### 2. 概念揺れ (M件)
-- 同一概念に「実長」「生テキスト」と `rawLength` が混在
-  → **実効文字数 / EffectiveMessageLength** への統一を提案
+- 同一概念に「送料」「配送料」と `deliveryFee` が混在
+  → **送料 / ShippingFee** への統一を提案
   - 該当: path:line, path:line
 
 ### 3. 一般的でない新出語 (K件)
@@ -139,7 +139,7 @@ glossary.json のスキーマ(term / ja は片方だけでもよい。note は�
 ### 4. 新出概念の登録提案
 | term | ja | avoid | note |
 | --- | --- | --- | --- |
-| effective_message_length | 実効文字数 | raw_length | URL を固定長換算した文字数 |
+| shipping_fee | 送料 | delivery_fee | 注文の配送にかかる料金。手数料 (handling_fee) とは別概念 |
 ```
 
 問題がなければ「揺れなし」と簡潔に報告する。コードの修正は提案止まりとし、
