@@ -131,7 +131,6 @@ in
     ## ========== Language Server ==========
     biome
     codebook
-    copilot-language-server
     golangci-lint-langserver
     gopls
     lua-language-server
@@ -189,7 +188,6 @@ in
     agent-browser
     llm-agents.codex
     llm-agents.gemini-cli
-    llm-agents.copilot-cli
     gws
     herdr
     octorus
