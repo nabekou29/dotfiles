@@ -15,11 +15,11 @@ let
 
   herdr =
     let
-      version = "0.7.5";
+      version = "0.8.0";
       sources = {
         "aarch64-darwin" = {
-          url = "https://github.com/ogulcancelik/herdr/releases/download/v${version}/herdr-macos-aarch64";
-          hash = "sha256-NzUFRrABJVWUO5Lq+WJmXeTiZDlbrrRCJ7gBXo/1sNY=";
+          url = "https://github.com/herdrdev/herdr/releases/download/v${version}/herdr-macos-aarch64";
+          hash = "sha256-1Tqfk/zP38xVYyknv1EAL1rdCqeZC831CP+9hKxlgXg=";
         };
       };
       source = sources.${pkgs.stdenv.hostPlatform.system}
@@ -37,7 +37,7 @@ let
       '';
       meta = {
         description = "Agent multiplexer that lives in your terminal";
-        homepage = "https://github.com/ogulcancelik/herdr";
+        homepage = "https://github.com/herdrdev/herdr";
         license = pkgs.lib.licenses.agpl3Only;
         platforms = builtins.attrNames sources;
         mainProgram = "herdr";
