@@ -49,7 +49,6 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "claude-fable-5[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -182,7 +181,8 @@
   },
   "language": "日本語",
   "alwaysThinkingEnabled": true,
-  "autoUpdatesChannel": "latest",
+  "effortLevel": "xhigh",
+  "advisorModel": "fable",
   "tui": "default",
   "voice": {
     "enabled": true,
@@ -201,5 +201,6 @@
   "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
-  }
+  },
+  "model": "opus[1m]"
 }
