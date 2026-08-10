@@ -20,6 +20,7 @@
     taps = [
       "homebrew/bundle"
       "1password/tap"
+      "hiro-o918/tap"
       "k1LoW/tap"
       "karinushka/paneru"
       "ngrok/ngrok"
@@ -29,6 +30,7 @@
     ];
 
     brews = [
+      "hiro-o918/tap/rinkaku"
       "k1LoW/tap/mo"
       "karinushka/paneru/paneru"
       "media-control"
