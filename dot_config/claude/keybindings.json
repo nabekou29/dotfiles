@@ -9,7 +9,6 @@
         "ctrl+t": "app:toggleTodos",
         "ctrl+o": "app:toggleTranscript",
         "ctrl+shift+b": "app:toggleBrief",
-        "ctrl+shift+o": "app:toggleTeammatePreview",
         "ctrl+r": "history:search"
       }
     },
@@ -55,7 +54,6 @@
         "ctrl+p": "select:previous",
         "ctrl+n": "select:next",
         "space": "select:accept",
-        "enter": "settings:close",
         "/": "settings:search",
         "r": "settings:retry"
       }
@@ -89,7 +87,9 @@
       "bindings": {
         "ctrl+e": "transcript:toggleShowAll",
         "escape": "transcript:exit",
-        "q": "transcript:exit"
+        "q": "transcript:exit",
+        "alt+j": "scroll:lineDown",
+        "alt+k": "scroll:lineUp"
       }
     },
     {
@@ -197,6 +197,13 @@
       "bindings": {
         "space": "plugin:toggle",
         "i": "plugin:install"
+      }
+    },
+    {
+      "context": "Scroll",
+      "bindings": {
+        "alt+j": "scroll:lineDown",
+        "alt+k": "scroll:lineUp"
       }
     }
   ]
