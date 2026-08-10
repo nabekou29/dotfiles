@@ -16,8 +16,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     # mise はキャッシュ済み revision に pin してソースビルドを回避
     nixpkgs-mise.url = "github:nixos/nixpkgs/7a1a64774a5fd0b0cd39ac95d0e170ace8b266a0";
-    # nh はキャッシュ済み revision に pin してソースビルドを回避
-    nixpkgs-nh.url = "github:nixos/nixpkgs/b471514bed69eff5255c8e63c1f80e5fe56c616f";
+    # oxlint はキャッシュ済み revision に pin してソースビルドを回避
+    nixpkgs-oxlint.url = "github:nixos/nixpkgs/104240a772428cc2e20d8fd86c9ddbb886bbaff2";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,7 +48,7 @@
           # checkPhase が非常に遅く darwin 環境でビルドが進まないためスキップ
           direnv = prev.direnv.overrideAttrs (_: { doCheck = false; });
           mise = inputs.nixpkgs-mise.legacyPackages.${prev.stdenv.hostPlatform.system}.mise;
-          nh = inputs.nixpkgs-nh.legacyPackages.${prev.stdenv.hostPlatform.system}.nh;
+          oxlint = inputs.nixpkgs-oxlint.legacyPackages.${prev.stdenv.hostPlatform.system}.oxlint;
         })
         inputs.llm-agents.overlays.shared-nixpkgs
       ];
