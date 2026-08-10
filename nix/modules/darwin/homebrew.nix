@@ -21,6 +21,7 @@
       "homebrew/bundle"
       "1password/tap"
       "k1LoW/tap"
+      "karinushka/paneru"
       "ngrok/ngrok"
       "neurosnap/tap"
       "tonisives/tap"
@@ -29,6 +30,7 @@
 
     brews = [
       "k1LoW/tap/mo"
+      "karinushka/paneru/paneru"
       "media-control"
       "neurosnap/tap/zmx"
       "tfenv"
