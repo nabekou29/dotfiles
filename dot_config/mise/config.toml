@@ -1,10 +1,108 @@
-[tools]
-# nixpkgs にないため mise で管理
+# dev ツール (バージョンを意識するもの) は mise、シェル・システムユーティリティは Brewfile で管理する。
+# shims 方式で運用する (zprofile で PATH 追加)。`mise activate` は per-prompt コストがあるため使わない。
+# シェル起動・プロンプトのホットパス (starship, zoxide, sheldon 等) は shim を避けて brew 側に置く。
 
-## LSP
+[env]
+# brew bundle / タスクがどのシェル環境からでも同じ Brewfile を見るように固定
+HOMEBREW_BUNDLE_FILE = "{{env.HOME}}/.config/homebrew/Brewfile"
+
+[tools]
+## ========== Runtime ==========
+bun = "latest"
+deno = "latest"
+go = "latest"
+java = "temurin-21"
+node = "lts"
+python = "latest"
+ruby = "latest"
+rust = "latest"
+
+## ========== Editor ==========
+neovim = "nightly"
+
+## ========== LSP ==========
 "npm:css-variables-language-server" = "2.8.4"
 "npm:cssmodules-language-server" = "1.5.2"
-
-## CLI
+"npm:pyright" = "latest"
+"npm:stylelint-lsp" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"npm:yaml-language-server" = "latest"
+"npm:@tailwindcss/language-server" = "latest"
+golangci-lint-langserver = "latest"
+lua-language-server = "latest"
+terraform-ls = "latest"
+# codebook はバイナリ名が codebook-lsp
+"ubi:blopker/codebook" = { version = "latest", exe = "codebook-lsp" }
 "cargo:https://github.com/skanehira/version-lsp.git" = "latest"
+
+## ========== Linter / Formatter ==========
+actionlint = "latest"
+biome = "latest"
+golangci-lint = "latest"
+oxfmt = "latest"
+oxlint = "latest"
+prettier = "latest"
+"npm:@fsouza/prettierd" = "latest"
+"npm:eslint_d" = "latest"
+ruff = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+stylua = "latest"
+swiftlint = "latest"
+taplo = "latest"
+"aqua:reviewdog/reviewdog" = "latest"
+
+## ========== Development ==========
+ast-grep = "latest"
+"npm:typescript" = "latest"
+"npm:playwright" = "latest"
+uv = "latest"
+
+## ========== Infrastructure ==========
+infracost = "latest"
+terraform-docs = "latest"
+tflint = "latest"
+trivy = "latest"
+
+## ========== CLI Tools ==========
+codex = "latest"
 "github:Warashi/cage" = "0.1.13"
+"ubi:laishulu/macism" = "latest"
+"ubi:nabekou29/trev" = "latest"
+"ubi:rhysd/vim-startuptime" = "latest"
+"ubi:ushironoko/abbrs" = "latest"
+"ubi:ushironoko/octorus" = "latest"
+"npm:zenn-cli" = "latest"
+
+[tasks.bootstrap]
+description = "新マシンの初期セットアップ (brew bundle + mise install + macOS 設定)"
+run = [
+  "brew bundle install",
+  "mise install",
+  "mise run touchid-sudo",
+]
+
+[tasks.apply]
+description = "Brewfile と mise tools を適用 (旧 darwin-switch 相当)"
+run = [
+  "brew bundle install --cleanup",
+  "mise install",
+]
+
+[tasks.update]
+description = "brew と mise tools を更新 (旧 darwin-update 相当)"
+run = [
+  "brew update",
+  "brew upgrade",
+  "brew bundle install --cleanup",
+  "mise upgrade",
+]
+
+[tasks.touchid-sudo]
+description = "Touch ID で sudo 認証を有効化 (/etc/pam.d/sudo_local)"
+run = '''
+if [ ! -f /etc/pam.d/sudo_local ] || ! grep -q pam_tid /etc/pam.d/sudo_local; then
+  echo "auth       sufficient     pam_tid.so" | sudo tee /etc/pam.d/sudo_local
+fi
+'''

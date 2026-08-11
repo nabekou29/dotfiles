@@ -1,5 +1,10 @@
-# brew (nix-darwin が homebrew を管理するが、shellenv は必要)
+# brew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# mise
+# mise (shims 方式。activate は per-prompt コストがあるため使わない)
 export PATH="$HOME/.local/share/mise/shims:$PATH"
+
+# JAVA_HOME (mise の java から解決。未インストールなら何もしない)
+if command -v mise >/dev/null 2>&1; then
+  JAVA_HOME="$(mise where java 2>/dev/null)" && export JAVA_HOME || unset JAVA_HOME
+fi
