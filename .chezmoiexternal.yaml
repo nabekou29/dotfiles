@@ -1,9 +1,12 @@
-# unison-fsmonitor: brew の unison formula に同梱されないため公式リリースから取得
-# (バージョンは brew の unison と揃える。brew upgrade で unison が上がったら URL も更新する)
+# unison-fsmonitor: 公式 (bcpierce00) の fsmonitor は Linux 専用のため、
+# macOS は autozimu 版 (FSEvents)。nixpkgs の unison-fsmonitor と同じ実体。
+# brew の unison formula には同梱されない。
+# asset は .tar.gz 名だが実体は無圧縮 tar なので format を明示する
 ".local/bin/unison-fsmonitor":
     type: archive-file
-    url: https://github.com/bcpierce00/unison/releases/download/v2.54.0/unison-2.54.0-macos-arm64.tar.gz
-    path: bin/unison-fsmonitor
+    url: https://github.com/autozimu/unison-fsmonitor/releases/download/v0.3.9/unison-fsmonitor-macos-aarch64.tar.gz
+    format: tar
+    path: unison-fsmonitor
     executable: true
 
 # nix-direnv: `use flake` の dev shell をキャッシュして cd のたびの再評価を防ぐ
