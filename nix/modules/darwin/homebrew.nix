@@ -7,9 +7,9 @@
     onActivation = {
       autoUpdate = true;
       upgrade = true;
-      cleanup = "zap";
-      # Homebrew 5.x で `brew bundle install --cleanup` に必須となったフラグ
-      extraFlags = [ "--force-cleanup" ];
+      # mise + Brewfile への移行併存期間中は cleanup しない
+      # (Brewfile で導入した formula がこのリストにないため zap だと全部消される)
+      cleanup = "none";
       # Homebrew 6.0 で tap trust がデフォルト強制になったが nix-darwin は未対応。
       # activation は sudo 下で走り user の trust.json が見えないため一時的に無効化。
       extraEnv = {
