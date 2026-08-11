@@ -1,15 +1,12 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["janome>=0.5"]
+# ///
 import tempfile
 import unittest
 from pathlib import Path
 
-try:
-    import janome  # noqa: F401
-    HAS_JANOME = True
-except ImportError:
-    HAS_JANOME = False
-
 from term_check import (
-    _ja_terms_heuristic,
     _resolve_state_dir,
     extract,
     extract_line,
@@ -25,30 +22,13 @@ from term_check import (
 )
 
 
-class JaTermsHeuristicTest(unittest.TestCase):
-    """_ja_terms_heuristic は run(JA_RE でマッチした連続日本語文字列)単位で動く。"""
-
+class JaTermsMorphTest(unittest.TestCase):
     def test_strips_particles(self):
-        self.assertEqual(_ja_terms_heuristic("送料は"), ["送料"])
-
-    def test_extracts_cores_from_mixed_run(self):
-        # run 単位なので「// 生データの最大件数は10,000レコード」は複数 run に分かれる
-        self.assertEqual(_ja_terms_heuristic("生データの最大件数は"), ["生データ", "最大件数"])
-        self.assertEqual(_ja_terms_heuristic("レコード"), ["レコード"])
-
-    def test_katakana_core_in_hiragana_context(self):
-        self.assertEqual(_ja_terms_heuristic("としてカウントする"), ["カウント"])
+        self.assertEqual(ja_terms("送料は"), ["送料"])
 
     def test_pure_hiragana_word_kept(self):
-        self.assertEqual(_ja_terms_heuristic("ふりがな"), ["ふりがな"])
+        self.assertIn("ふりがな", ja_terms("ふりがなを表示"))
 
-    def test_one_char_core_fragments_dropped(self):
-        # 核が 1 文字しか取れない断片(「超」等)は用語にしない
-        self.assertEqual(_ja_terms_heuristic("超でも"), [])
-
-
-@unittest.skipUnless(HAS_JANOME, "janome がインストールされていない環境ではスキップ")
-class JaTermsMorphTest(unittest.TestCase):
     def test_okurigana_compounds_survive(self):
         got = ja_terms("ファイルの読み込みと書き込み")
         self.assertIn("読み込み", got)

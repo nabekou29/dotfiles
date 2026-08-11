@@ -3,7 +3,7 @@ name: term-check
 description: リポジトリの用語・命名の一貫性を確認するときに使う。diff・PR・実装計画のレビューで識別子・コメント・テストタイトルの表記揺れ・同義語の混在が気になるとき、新出概念の命名を決めるとき、glossary(用語集)の参照・登録を頼まれたとき、用語チェック・命名の相談で発動。
 argument-hint: '[<PR番号> | plan <計画の説明・ファイル>]'
 license: MIT
-compatibility: git リポジトリ内で使用。python3 必須。janome(任意)があると日本語抽出の精度が上がる
+compatibility: git リポジトリ内で使用。uv 必須(依存の janome は PEP 723 メタデータから実行時に自動導入される)
 metadata:
   author: nabekou29
   version: "1.0"
@@ -16,16 +16,13 @@ metadata:
 リポジトリの用語(ドメイン用語・同義語・表記)の揺れを防ぐ。単一の
 「term check」操作を、計画(実装前)と diff(実装後)のどちらにも適用する。
 
-スクリプト: `python3 <このスキルの base directory>/scripts/term_check.py <subcommand>`
-(以下 `term_check.py` と表記)
+スクリプト: `uv run --script <このスキルの base directory>/scripts/term_check.py <subcommand>`
+(以下 `term_check.py` と表記。依存は uv が自動導入するため事前セットアップ不要)
 
 データ(リポジトリごと。worktree 間で共有される):
 
 - `glossary.json` — キュレーションされた用語集。**全件 Read してよい**
 - `inventory.json` — 機械生成の全語彙。**Read しない**(大きい。スクリプト専用)
-
-日本語の用語抽出は janome(形態素解析)がインストールされていれば自動で使い、
-無ければ正規表現の近似にフォールバックする(`python3 -m pip install janome` で精度向上)。
 
 チェック対象: 識別子(変数・関数・ファイル名)、コメント、テストタイトル。
 チェック対象外: UI 文言、テストデータ内の文字列(スクリプトが文字列リテラルを
@@ -91,8 +88,8 @@ glossary.json のスキーマ(term / ja は片方だけでもよい。note は�
 ```
 
 1. diff をスクリプトに渡す:
-   - 現在ブランチ: `git diff <デフォルトブランチ>...HEAD | python3 .../term_check.py check`
-   - PR: `gh pr diff <番号> | python3 .../term_check.py check`
+   - 現在ブランチ: `git diff <デフォルトブランチ>...HEAD | uv run --script .../term_check.py check`
+   - PR: `gh pr diff <番号> | uv run --script .../term_check.py check`
 2. スクリプトのレポート(1 決定的違反 / 2 新出ワード / 2b 新出日本語フレーズ /
    3 抽出サマリ)を読む。これは分析の**入力**であり、そのままユーザーに貼らない
 3. **概念一貫性チェック**(ここがあなたの仕事): 抽出サマリの識別子・コメント・

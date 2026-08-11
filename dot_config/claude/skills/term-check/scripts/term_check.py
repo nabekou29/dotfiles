@@ -1,7 +1,12 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["janome>=0.5"]
+# ///
 """term-check 機械層: 用語の抽出・照合・インベントリ生成。
 
-python3 標準ライブラリのみで動くこと(どの開発マシンでも追加インストール不要)。
+`uv run --script` で実行する。依存(janome)は上の PEP 723 メタデータから
+uv が実行時に自動導入するため、事前セットアップは不要。
 """
 import argparse
 import functools
@@ -64,39 +69,11 @@ IDENT_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 # 日本語フレーズの抽出(inventory 生成と check で使う)
 JA_RE = re.compile(r"[ぁ-んァ-ヶ一-龯々〆ー]+")
 
-# ひらがな(助詞・送り仮名)で分割して漢字・カタカナの核を取り出すための部品
-HIRAGANA_RE = re.compile(r"[ぁ-ん]+")
-KANJI_KATA_RE = re.compile(r"[一-龯々〆ァ-ヶ]")
-
-
-def _ja_terms_heuristic(run: str) -> list:
-    """日本語の連続文字列 run からひらがな分割で漢字・カタカナ核を取り出す(近似)。
-
-    「送料は」→「送料」、「としてカウントする」→「カウント」のように動く。
-    核が取れない純ひらがな語(「ふりがな」等)は連続文字列をそのまま使う。
-    既知の制限: 核が 1 文字しか取れない語(「超」「組み合わせ」等)は落ちる。
-    """
-    cores = [c for c in HIRAGANA_RE.split(run) if len(c) >= 2]
-    if cores:
-        return cores
-    if len(run) >= 2 and not KANJI_KATA_RE.search(run):
-        return [run]  # 純ひらがな語はそのまま
-    return []
-
-
-# 遅延シングルトン: False=未初期化 / None=利用不可 / それ以外=Tokenizer
-_JA_TOKENIZER = False
-
-
+# Tokenizer は辞書ロードが重いため、日本語を含む入力を処理するときだけ遅延初期化する
+@functools.lru_cache(maxsize=1)
 def _ja_tokenizer():
-    global _JA_TOKENIZER
-    if _JA_TOKENIZER is False:
-        try:
-            from janome.tokenizer import Tokenizer
-            _JA_TOKENIZER = Tokenizer()
-        except ImportError:
-            _JA_TOKENIZER = None
-    return _JA_TOKENIZER
+    from janome.tokenizer import Tokenizer
+    return Tokenizer()
 
 
 @functools.lru_cache(maxsize=100_000)
@@ -111,10 +88,6 @@ def _ja_terms_morph(run: str) -> tuple:
       なら用語として採用する。接頭詞だけのバッファ(「超」単独 等)は落とす。
     戻り値は tuple(list → hashable にして lru_cache を使えるようにするため)。
     """
-    tokenizer = _ja_tokenizer()
-    if tokenizer is None:
-        return tuple(_ja_terms_heuristic(run))
-
     # 積まない名詞の細分類
     NOUN_SKIP_SUB = {"非自立", "代名詞", "数"}
 
@@ -131,7 +104,7 @@ def _ja_terms_morph(run: str) -> tuple:
         buf.clear()
         has_noun = False
 
-    for token in tokenizer.tokenize(run):
+    for token in _ja_tokenizer().tokenize(run):
         pos_parts = token.part_of_speech.split(",")
         pos0 = pos_parts[0]
         pos1 = pos_parts[1] if len(pos_parts) > 1 else "*"
@@ -151,18 +124,10 @@ def _ja_terms_morph(run: str) -> tuple:
 
 
 def ja_terms(text: str) -> list:
-    """テキストから日本語の用語候補を抽出するディスパッチャ。
-
-    janome が利用可能なら形態素解析(_ja_terms_morph)で、
-    そうでなければひらがな分割の近似(_ja_terms_heuristic)で各 run を処理する。
-    """
+    """テキストから日本語の用語候補を形態素解析(_ja_terms_morph)で抽出する。"""
     terms = []
     for run in JA_RE.findall(text):
-        tokenizer = _ja_tokenizer()
-        if tokenizer is not None:
-            terms += list(_ja_terms_morph(run))
-        else:
-            terms += _ja_terms_heuristic(run)
+        terms += list(_ja_terms_morph(run))
     return terms
 
 TEST_TITLE_RES = [
