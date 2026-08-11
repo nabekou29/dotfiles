@@ -4,7 +4,8 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # mise (shims 方式。activate は per-prompt コストがあるため使わない)
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 
-# JAVA_HOME (mise の java から解決。未インストールなら何もしない)
-if command -v mise >/dev/null 2>&1; then
-  JAVA_HOME="$(mise where java 2>/dev/null)" && export JAVA_HOME || unset JAVA_HOME
+# JAVA_HOME (temurin-21 は mise が張るバージョン別名 symlink。
+# `mise where java` の呼び出しは 1 回 20ms 超かかるため静的パスで参照する)
+if [ -d "$HOME/.local/share/mise/installs/java/temurin-21" ]; then
+  export JAVA_HOME="$HOME/.local/share/mise/installs/java/temurin-21"
 fi
