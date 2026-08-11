@@ -33,7 +33,7 @@ golangci-lint-langserver = "latest"
 lua-language-server = "latest"
 terraform-ls = "latest"
 # codebook はバイナリ名が codebook-lsp
-"ubi:blopker/codebook" = { version = "latest", exe = "codebook-lsp" }
+"github:blopker/codebook" = { version = "latest", exe = "codebook-lsp" }
 "cargo:https://github.com/skanehira/version-lsp.git" = "latest"
 
 ## ========== Linter / Formatter ==========
@@ -68,11 +68,11 @@ trivy = "latest"
 ## ========== CLI Tools ==========
 codex = "latest"
 "github:Warashi/cage" = "0.1.13"
-"ubi:laishulu/macism" = "latest"
-"ubi:nabekou29/trev" = "latest"
-"ubi:rhysd/vim-startuptime" = "latest"
-"ubi:ushironoko/abbrs" = "latest"
-"ubi:ushironoko/octorus" = "latest"
+"github:laishulu/macism" = "latest"
+"github:nabekou29/trev" = "latest"
+"github:rhysd/vim-startuptime" = "latest"
+"github:ushironoko/abbrs" = "latest"
+"github:ushironoko/octorus" = "latest"
 "npm:zenn-cli" = "latest"
 
 [tasks.bootstrap]
