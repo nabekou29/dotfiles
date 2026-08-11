@@ -1,6 +1,12 @@
 # brew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# GNU coreutils / sed を接頭辞なし (sed, head, sort, ...) で使う
+# (nix の unprefixed coreutils/gnused の置き換え。BSD 版へのフォールバックを防ぐ)
+export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+# trash-cli は keg-only (macOS の /usr/bin/trash と衝突するため)
+export PATH="$HOMEBREW_PREFIX/opt/trash-cli/bin:$PATH"
+
 # mise (shims 方式。activate は per-prompt コストがあるため使わない)
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 

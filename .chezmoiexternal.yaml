@@ -1,3 +1,11 @@
+# unison-fsmonitor: brew の unison formula に同梱されないため公式リリースから取得
+# (バージョンは brew の unison と揃える。brew upgrade で unison が上がったら URL も更新する)
+".local/bin/unison-fsmonitor":
+    type: archive-file
+    url: https://github.com/bcpierce00/unison/releases/download/v2.54.0/unison-2.54.0-macos-arm64.tar.gz
+    path: bin/unison-fsmonitor
+    executable: true
+
 # nix-direnv: `use flake` の dev shell をキャッシュして cd のたびの再評価を防ぐ
 # (direnv は $XDG_CONFIG_HOME/direnv/lib/*.sh を自動 source する)
 ".config/direnv/lib/nix-direnv.sh":

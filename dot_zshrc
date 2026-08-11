@@ -61,8 +61,15 @@ zsh-defer -c 'eval "$(mise activate zsh)"'
 {
   local fzf_path="$(command -v fzf)"
   if [[ -n "$fzf_path" ]]; then
-    local fzf_share="$(dirname "$(dirname "$(realpath "$fzf_path")")")/share/fzf"
-    [[ -f "$fzf_share/key-bindings.zsh" ]] && source "$fzf_share/key-bindings.zsh"
+    local fzf_base="$(dirname "$(dirname "$(realpath "$fzf_path")")")"
+    # nix は share/fzf/、brew は shell/ にキーバインドを置く
+    local d
+    for d in "$fzf_base/share/fzf" "$fzf_base/shell"; do
+      if [[ -f "$d/key-bindings.zsh" ]]; then
+        source "$d/key-bindings.zsh"
+        break
+      fi
+    done
   fi
 }
 
@@ -71,8 +78,8 @@ if command -v nvim >/dev/null 2>&1; then
     export EDITOR="$VISUAL"
 fi
 
-# JAVA_HOME は nix-darwin (home.sessionVariables) で設定
-# Nix 未導入環境のフォールバック
+# JAVA_HOME は zprofile で mise の temurin-21 symlink から設定
+# mise 未導入環境のフォールバック
 if [ -z "$JAVA_HOME" ] && /usr/libexec/java_home &>/dev/null; then
   export JAVA_HOME=$(/usr/libexec/java_home)
   export PATH="$JAVA_HOME/bin:$PATH"

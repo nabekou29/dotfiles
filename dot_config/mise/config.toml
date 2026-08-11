@@ -15,7 +15,7 @@ java = "temurin-21"
 node = "lts"
 python = "latest"
 ruby = "latest"
-rust = "latest"
+# rust は自己管理の rustup (~/.cargo/bin) に任せる (mise と二重管理しない)
 
 ## ========== Editor ==========
 neovim = "nightly"
@@ -55,8 +55,10 @@ taplo = "latest"
 
 ## ========== Development ==========
 ast-grep = "latest"
-"npm:typescript" = "latest"
+# typescript 7 (Go 版) は tsserver を同梱せず typescript-language-server が動かないため 5 系に固定
+"npm:typescript" = "5"
 "npm:playwright" = "latest"
+tree-sitter = "latest"
 uv = "latest"
 
 ## ========== Infrastructure ==========
@@ -80,6 +82,7 @@ description = "新マシンの初期セットアップ (brew bundle + mise insta
 run = [
   "brew bundle install",
   "mise install",
+  "mise exec -- playwright install",
   "mise run touchid-sudo",
 ]
 
