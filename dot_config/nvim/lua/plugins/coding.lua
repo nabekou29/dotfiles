@@ -84,8 +84,9 @@ return {
       })
       vim.lsp.inline_completion.enable(true)
 
-      -- デフォルトは tsgo。従来サーバーに戻すプロジェクトは直下の .nvim.lua で `vim.g.lsp_ts = "ts_ls"`
-      local ts_server = vim.g.lsp_ts == "ts_ls" and "ts_ls" or "tsgo"
+      -- デフォルトは tsc (typescript 7 の Go 実装、旧称 tsgo)。
+      -- 従来サーバーに戻すプロジェクトは直下の .nvim.lua で `vim.g.lsp_ts = "ts_ls"`
+      local ts_server = vim.g.lsp_ts == "ts_ls" and "ts_ls" or "tsc"
 
       vim.lsp.enable({
         "biome",
