@@ -1,6 +1,8 @@
 # dev ツール (バージョンを意識するもの) は mise、シェル・システムユーティリティは Brewfile で管理する。
-# shims 方式で運用する (zprofile で PATH 追加)。`mise activate` は per-prompt コストがあるため使わない。
-# シェル起動・プロンプトのホットパス (starship, zoxide, sheldon 等) は shim を避けて brew 側に置く。
+# PATH は zprofile の shims で常時確保し、env 系の反映は zshrc の zsh-defer 経由の
+# `mise activate` に任せる (起動をブロックせず、非対話シェルでもツールが引ける)。
+# シェル起動・プロンプトのホットパスで呼ばれるツール (starship, zoxide, sheldon 等) は
+# shim の解決コストを毎回払わないよう brew 側に置く。
 
 [env]
 # brew bundle / タスクがどのシェル環境からでも同じ Brewfile を見るように固定
@@ -32,7 +34,6 @@ neovim = "nightly"
 golangci-lint-langserver = "latest"
 lua-language-server = "latest"
 terraform-ls = "latest"
-# codebook はバイナリ名が codebook-lsp
 "github:blopker/codebook" = { version = "latest", exe = "codebook-lsp" }
 "cargo:https://github.com/skanehira/version-lsp.git" = "latest"
 
@@ -55,7 +56,7 @@ taplo = "latest"
 
 ## ========== Development ==========
 ast-grep = "latest"
-# 7 系 (Go 版) は tsc に LSP を内蔵しており、nvim の tsgo デフォルトの LSP バイナリとして使う。
+# 7 系 (Go 版) は tsc に LSP を内蔵しており、nvim の TS LSP (tsc, 旧称 tsgo) のバイナリとして使う。
 # tsserver は同梱されないため、ts_ls に戻すプロジェクトはワークスペースの typescript を使うこと
 "npm:typescript" = "7"
 "npm:playwright" = "latest"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# macOS defaults (旧 nix/modules/darwin/macos-defaults.nix 相当)
+# macOS defaults を宣言的に適用する
 # 内容を変更すると chezmoi apply 時に再実行される
 set -euo pipefail
 

@@ -2,12 +2,12 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # GNU coreutils / sed を接頭辞なし (sed, head, sort, ...) で使う
-# (nix の unprefixed coreutils/gnused の置き換え。BSD 版へのフォールバックを防ぐ)
+# (これがないと /usr/bin の BSD 版に落ち、GNU 拡張前提のスクリプトの挙動が変わる)
 export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
 # trash-cli は keg-only (macOS の /usr/bin/trash と衝突するため)
 export PATH="$HOMEBREW_PREFIX/opt/trash-cli/bin:$PATH"
 
-# mise (shims 方式。activate は per-prompt コストがあるため使わない)
+# mise: shims で PATH を常時確保 (env 系は zshrc の zsh-defer 経由 activate が反映する)
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 # JAVA_HOME (temurin-21 は mise が張るバージョン別名 symlink。
