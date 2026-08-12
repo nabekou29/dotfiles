@@ -60,7 +60,7 @@ zsh-defer -c 'eval "$(mise activate zsh)"'
   local fzf_path="$(command -v fzf)"
   if [[ -n "$fzf_path" ]]; then
     local fzf_base="$(dirname "$(dirname "$(realpath "$fzf_path")")")"
-    # nix は share/fzf/、brew は shell/ にキーバインドを置く
+    # キーバインドの置き場所はパッケージ由来で異なる (Linux 系は share/fzf/、brew は shell/)
     local d
     for d in "$fzf_base/share/fzf" "$fzf_base/shell"; do
       if [[ -f "$d/key-bindings.zsh" ]]; then
