@@ -67,8 +67,6 @@ infracost = "latest"
 terraform-docs = "latest"
 tflint = "latest"
 trivy = "latest"
-# unison-fsmonitor は .chezmoiexternal.yaml で取得
-# (autozimu 版の asset は .tar.gz 名なのに実体が無圧縮 tar で、mise は拡張子判定で展開に失敗する)
 
 ## ========== CLI Tools ==========
 codex = "latest"
@@ -91,10 +89,7 @@ run = [
 
 [tasks.apply]
 description = "Brewfile と mise tools を適用 (旧 darwin-switch 相当)"
-run = [
-  "brew bundle install --cleanup",
-  "mise install",
-]
+run = ["brew bundle install --cleanup", "mise install"]
 
 [tasks.update]
 description = "brew と mise tools を更新 (旧 darwin-update 相当)"
