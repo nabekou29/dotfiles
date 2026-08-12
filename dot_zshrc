@@ -30,9 +30,7 @@ setopt hist_reduce_blanks
 setopt auto_cd
 
 # ── Completion ────────────────────────────────────────────────────────────────
-# nix-darwin は /etc/zshenv で fpath を自動設定する
-# brew のみの環境向けフォールバック
-if [[ -z "${__ETC_ZSHENV_SOURCED-}" ]] && type brew &>/dev/null; then
+if type brew &>/dev/null; then
     FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:$FPATH
     FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
 fi

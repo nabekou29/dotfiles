@@ -3,9 +3,7 @@ biome.json
 
 README.md
 
-Brewfile
 karabiner/**/*
 
 _archives/**/*
-nix/**/*
 tmp_*
