@@ -1,5 +1,23 @@
-# brew (nix-darwin が homebrew を管理するが、shellenv は必要)
+# Determinate Nix (プロジェクトの dev shell 用)
+# /etc のフックは SSH 接続時しか nix をロードしないため、ローカルシェルはここで載せる
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+
+# brew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# mise
+# GNU coreutils / sed を接頭辞なし (sed, head, sort, ...) で使う
+# (これがないと /usr/bin の BSD 版に落ち、GNU 拡張前提のスクリプトの挙動が変わる)
+export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+# trash-cli は keg-only (macOS の /usr/bin/trash と衝突するため)
+export PATH="$HOMEBREW_PREFIX/opt/trash-cli/bin:$PATH"
+
+# mise: shims で PATH を常時確保 (env 系は zshrc の zsh-defer 経由 activate が反映する)
 export PATH="$HOME/.local/share/mise/shims:$PATH"
+
+# JAVA_HOME (temurin-21 は mise が張るバージョン別名 symlink。
+# `mise where java` の呼び出しは 1 回 20ms 超かかるため静的パスで参照する)
+if [ -d "$HOME/.local/share/mise/installs/java/temurin-21" ]; then
+  export JAVA_HOME="$HOME/.local/share/mise/installs/java/temurin-21"
+fi

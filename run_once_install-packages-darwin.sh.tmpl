@@ -2,23 +2,26 @@
 #!/bin/bash
 set -euo pipefail
 
-# Homebrew (nix-darwin が管理するが、インストール自体は必要)
+# Homebrew
 if ! command -v brew &>/dev/null; then
   echo "Installing Homebrew ..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# mise
+if ! command -v mise &>/dev/null; then
+  echo "Installing mise ..."
+  brew install mise
 fi
 
-# Nix (Determinate Nix を前提)
+# パッケージ一式 + macOS 初期設定 (Brewfile / mise tools / Touch ID sudo)
+mise run bootstrap
+
+# Determinate Nix (プロジェクトの dev shell 用。dotfiles の管理には不要)
 if ! command -v nix &>/dev/null; then
-  echo "Error: Nix is not installed. Install Determinate Nix first:"
+  echo "Note: プロジェクトで nix dev shell (use flake) を使う場合は Determinate Nix を入れる:"
   echo "  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install"
-  exit 1
 fi
-
-# nix-darwin
-echo "Applying nix-darwin configuration ..."
-NIX_DIR="$HOME/.local/share/chezmoi/nix"
-sudo nix run 'nix-darwin' -- switch --flake "$NIX_DIR#$(cat "$NIX_DIR/profile")"
 
 {{ end }}

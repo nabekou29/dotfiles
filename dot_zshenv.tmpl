@@ -16,6 +16,8 @@ export OPENAI_API_KEY={{ (onepasswordDetailsFields "openai-api-key").credential.
 export GEMINI_API_KEY={{ (onepasswordDetailsFields "gemini-api-key").credential.value}}
 export FIGMA_API_KEY={{ (onepasswordDetailsFields "figma-api-key").credential.value}}
 export GITHUB_PERSONAL_ACCESS_TOKEN={{ (onepasswordDetailsFields "GitHub Default Token").credential.value}}
+# mise の GitHub API レート制限回避 (GITHUB_TOKEN はグローバルに置きたくないので mise 専用の変数で)
+export MISE_GITHUB_TOKEN="$GITHUB_PERSONAL_ACCESS_TOKEN"
 
 # Claude Code
 export CLAUDE_CONFIG_DIR="$HOME/.config/claude"

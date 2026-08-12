@@ -3,6 +3,9 @@
 sourceDir: ~/.local/share/chezmoi
 mode: symlink
 
+data:
+  profile: {{ promptStringOnce . "profile" "profile (work/private)" | quote }}
+
 edit:
   command: nvim
   args: [ "--cmd", "cd ~/.local/share/chezmoi" ]

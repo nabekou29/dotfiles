@@ -1,3 +1,10 @@
+# nix-direnv: `use flake` の dev shell をキャッシュして cd のたびの再評価を防ぐ
+# (direnv は $XDG_CONFIG_HOME/direnv/lib/*.sh を自動 source する)
+".config/direnv/lib/nix-direnv.sh":
+    type: file
+    url: https://raw.githubusercontent.com/nix-community/nix-direnv/master/direnvrc
+    refreshPeriod: 720h
+
 ".config/tmux/plugins/tpm":
     type: archive
     url: https://github.com/tmux-plugins/tpm/archive/master.tar.gz
