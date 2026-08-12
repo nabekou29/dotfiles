@@ -84,8 +84,8 @@ return {
       })
       vim.lsp.inline_completion.enable(true)
 
-      -- ts_ls / tsgo をプロジェクトごとに切替（プロジェクト直下の .nvim.lua で `vim.g.lsp_ts = "tsgo"`）
-      local ts_server = vim.g.lsp_ts == "tsgo" and "tsgo" or "ts_ls"
+      -- デフォルトは tsgo。従来サーバーに戻すプロジェクトは直下の .nvim.lua で `vim.g.lsp_ts = "ts_ls"`
+      local ts_server = vim.g.lsp_ts == "ts_ls" and "ts_ls" or "tsgo"
 
       vim.lsp.enable({
         "biome",

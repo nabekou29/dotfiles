@@ -55,8 +55,9 @@ taplo = "latest"
 
 ## ========== Development ==========
 ast-grep = "latest"
-# typescript 7 (Go 版) は tsserver を同梱せず typescript-language-server が動かないため 5 系に固定
-"npm:typescript" = "5"
+# 7 系 (Go 版) は tsc に LSP を内蔵しており、nvim の tsgo デフォルトの LSP バイナリとして使う。
+# tsserver は同梱されないため、ts_ls に戻すプロジェクトはワークスペースの typescript を使うこと
+"npm:typescript" = "7"
 "npm:playwright" = "latest"
 tree-sitter = "latest"
 uv = "latest"
