@@ -53,6 +53,123 @@
 # homebrew: brew 自身が trust.json を書き込むディレクトリなのでファイル単位
 "~/.config/homebrew/Brewfile" = { source = "home/.config/homebrew/Brewfile", mode = "symlink" }
 
+[bootstrap.macos.defaults.NSGlobalDomain]
+KeyRepeat = 2
+InitialKeyRepeat = 25
+ApplePressAndHoldEnabled = false
+AppleShowAllExtensions = true
+# メニューバーの項目間隔
+NSStatusItemSpacing = 8
+NSStatusItemSelectionPadding = 6
+# マウス/トラックパッドの軌跡の速さ (0〜3, 最速=3)
+"com.apple.mouse.scaling" = 3.0
+"com.apple.trackpad.scaling" = 3.0
+# スクロールの速さ (システム設定のスライダー相当: 0.125〜7, デフォルト=0.75)
+"com.apple.scrollwheel.scaling" = 0.3125
+
+[bootstrap.macos.defaults."com.apple.dock"]
+autohide = true
+tilesize = 16
+mru-spaces = false
+autohide-time-modifier = 0.1
+autohide-delay = 0.1
+# ホットコーナー (左下・右下 → Mission Control)
+wvous-bl-corner = 2
+wvous-bl-modifier = 0
+wvous-br-corner = 2
+wvous-br-modifier = 0
+
+[bootstrap.macos.defaults."com.apple.finder"]
+ShowPathbar = true
+AppleShowAllExtensions = true
+FXEnableExtensionChangeWarning = false
+_FXShowPosixPathInTitle = true
+# 検索は「現在のフォルダ」から
+FXDefaultSearchScope = "SCcf"
+NewWindowTarget = "PfDe"
+
+[bootstrap.macos.defaults."com.apple.AppleMultitouchTrackpad"]
+Clicking = false
+TrackpadThreeFingerDrag = false
+# 3本指の縦スワイプ → Mission Control
+TrackpadThreeFingerVertSwipeGesture = 2
+
+[bootstrap.macos.defaults."com.apple.driver.AppleBluetoothMultitouch.trackpad"]
+Clicking = false
+TrackpadThreeFingerDrag = false
+
+[bootstrap.macos.defaults."com.apple.LaunchServices"]
+LSQuarantine = false
+
+[bootstrap.macos.defaults."com.apple.menuextra.clock"]
+Show24Hour = true
+ShowSeconds = true
+FlashDateSeparators = true
+
+[bootstrap.macos.defaults."com.apple.menuextra.battery"]
+ShowPercent = "YES"
+
+[bootstrap.macos.defaults."com.apple.desktopservices"]
+# ネットワークボリュームに .DS_Store を作らない
+DSDontWriteNetworkStores = true
+
+[bootstrap.macos.defaults."com.jordanbaird.Ice"]
+SUEnableAutomaticChecks = false
+SUAutomaticallyUpdate = false
+SUSendProfileInfo = false
+# Ice Bar (ポップアップ式メニューバー) を使う
+UseIceBar = true
+IceBarLocation = 2
+# 常時非表示セクションを有効化
+EnableAlwaysHiddenSection = true
+ShowAllSectionsOnUserDrag = true
+HideApplicationMenus = true
+# 自動再非表示
+AutoRehide = true
+RehideStrategy = 0
+RehideInterval = 15
+
+[bootstrap.files."/etc/pam.d/sudo_local"]
+# Touch ID で sudo 認証。sudo への昇格は mise が行う
+content = "auth       sufficient     pam_tid.so\n"
+
+[bootstrap.hooks]
+pre-defaults = "mkdir -p ~/Downloads/_screenshot"
+# [bootstrap.macos.defaults] で表現できない設定を補い、最後に変更を反映させる。
+# ネストした辞書 (NSUserKeyEquivalents / AppleSymbolicHotKeys) と、
+# 絶対パスが必要な値 (~ はリテラルとして書かれてしまう) はここで直接書く。
+post-defaults = '''
+# azooKey の「いい感じ変換」を F12 (U+F70F は F12 の私用領域コード) に割り当てる
+F12=$(printf '\xef\x9c\x8f')
+defaults write -g NSUserKeyEquivalents -dict-add "いい感じ変換" "$F12"
+defaults write -g NSUserKeyEquivalents -dict-add "いい感じ変換（無効/バックエンドなし）" "$F12"
+
+# 他のキーバインドと衝突するショートカットを無効化する
+# 52: Dock 自動表示/非表示, 60/61: 入力ソース切替, 64: Spotlight, 65: Finder 検索,
+# 28-31/184: スクリーンショット各種
+for key in 52 60 61 64 65 28 29 30 31 184; do
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
+    -dict-add "$key" "<dict><key>enabled</key><false/></dict>"
+done
+
+defaults write com.apple.screencapture location -string "$HOME/Downloads/_screenshot"
+
+/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u || true
+killall Dock Finder SystemUIServer 2>/dev/null || true
+'''
+
 [tasks.secrets]
 description = "1Password から ~/.zshenv を生成"
 run = "op inject -f -i {{config_root}}/templates/zshenv.tpl -o {{env.HOME}}/.zshenv"
+
+[tasks.externals]
+description = "nix-direnv の direnvrc を取得 (30日ごとに更新)"
+run = '''
+dest="$HOME/.config/direnv/lib/nix-direnv.sh"
+if [ ! -e "$dest" ] || [ -z "$(find "$dest" -mtime -30 2>/dev/null)" ]; then
+  mkdir -p "$(dirname "$dest")"
+  curl -fsSL https://raw.githubusercontent.com/nix-community/nix-direnv/master/direnvrc -o "$dest.tmp"
+  mv "$dest.tmp" "$dest"
+  echo "fetched: $dest"
+fi
+'''
