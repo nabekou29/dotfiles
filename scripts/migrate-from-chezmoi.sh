@@ -18,3 +18,9 @@ done < <({ find "$HOME" -maxdepth 1 -type l -print0
            find "$HOME/.config" "$HOME/.local/bin" "$HOME/bin" -type l -print0 2>/dev/null; } || true)
 
 echo "migrate: removed $count links"
+
+# chezmoi はディレクトリを実体で作り、その中のファイルだけを symlink していた。
+# 上でリンクを外した結果空になったディレクトリを消して、mise がディレクトリ単位で
+# symlink を張れるようにする。空でないものは実ファイルが残っているので触らない。
+find "$HOME/.config" "$HOME/bin" -mindepth 1 -depth -type d -empty -delete 2>/dev/null || true
+echo "migrate: pruned empty directories"

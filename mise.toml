@@ -171,14 +171,14 @@ run = [
 
 [tasks.packages]
 description = "Brewfile を適用 (宣言から外れたものは削除する)"
-run = "brew bundle install --cleanup"
+run = "brew bundle install --global --cleanup"
 
 [tasks.update]
 description = "パッケージと dev ツールを更新"
 run = [
   "brew update",
   "brew upgrade",
-  "brew bundle install --cleanup",
+  "brew bundle install --global --cleanup",
   "mise upgrade",
 ]
 
