@@ -1,6 +1,17 @@
 # Homebrew パッケージ定義 (brew bundle)
 # CLI の dev ツールは mise (~/.config/mise/config.toml)、それ以外はここで管理する。
-# 適用: mise run apply / 更新: mise run update
+# 適用: mise run packages / 更新: mise run update
+#
+# profile (work/private) は mise の environments 機構が単一ソース
+# (~/.config/mise/miserc.toml の env 指定)。brew は Brewfile を独自に sanitize した
+# 環境で評価するため MISE_ENV は参照できず、この設定ファイルを直接読む。
+# profile が取れないと --cleanup が profile 分のパッケージを「リストにない」と誤認して
+# 消すため、判定できない場合も差分が出ないよう共通分だけを宣言する。
+profile = begin
+  File.read(File.expand_path("~/.config/mise/miserc.toml"))[/env\s*=\s*\[\s*"([^"]+)"/, 1]
+rescue Errno::ENOENT
+  nil
+end
 
 # ========== Taps ==========
 tap "1password/tap"
@@ -47,9 +58,6 @@ brew "wget"
 brew "yazi"
 brew "yq"
 brew "zsh-completions"
-
-## ---------- Terminal ----------
-brew "tmux"
 
 ## ---------- Git / GitHub ----------
 brew "diff-so-fancy"
@@ -189,18 +197,19 @@ mas "Display Menu", id: 549083868
 mas "Klack", id: 6446206067
 mas "Xcode", id: 497799835
 
-{{ if eq .profile "work" -}}
-# ========== work のみ ==========
-brew "gcalcli"
-brew "gogcli"
-{{ end -}}
-{{ if eq .profile "private" -}}
-# ========== private のみ ==========
-cask "autodesk-fusion"
-cask "bambu-studio"
-cask "blender"
-cask "parsec"
-cask "steam"
+if profile == "work"
+  # ========== work のみ ==========
+  brew "gcalcli"
+  brew "gogcli"
+end
 
-mas "LINE", id: 539883307
-{{ end -}}
+if profile == "private"
+  # ========== private のみ ==========
+  cask "autodesk-fusion"
+  cask "bambu-studio"
+  cask "blender"
+  cask "parsec"
+  cask "steam"
+
+  mas "LINE", id: 539883307
+end
