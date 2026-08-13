@@ -52,3 +52,7 @@
 "~/.config/mise/config.toml" = { source = "home/.config/mise/config.toml", mode = "symlink" }
 # homebrew: brew 自身が trust.json を書き込むディレクトリなのでファイル単位
 "~/.config/homebrew/Brewfile" = { source = "home/.config/homebrew/Brewfile", mode = "symlink" }
+
+[tasks.secrets]
+description = "1Password から ~/.zshenv を生成"
+run = "op inject -f -i {{config_root}}/templates/zshenv.tpl -o {{env.HOME}}/.zshenv"
