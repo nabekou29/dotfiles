@@ -1,0 +1,52 @@
+# dotfiles の宣言。`mise bootstrap --yes` でこのファイルの内容にマシンを収束させる。
+# 純粋な設定ディレクトリは dir 単位で symlink する (中のファイル追加・削除が自動で反映される)。
+# アプリがログや状態を書き込むディレクトリは、それが repo に流れ込まないようファイル単位にする。
+
+[dotfiles]
+## ========== ホームディレクトリ直下 ==========
+"~/.zshrc" = { source = "home/.zshrc", mode = "symlink" }
+"~/.zprofile" = { source = "home/.zprofile", mode = "symlink" }
+"~/.gitconfig" = { source = "home/.gitconfig", mode = "symlink" }
+"~/.editorconfig" = { source = "home/.editorconfig", mode = "symlink" }
+"~/bin" = { source = "home/bin", mode = "symlink" }
+
+## ========== ~/.config (ディレクトリ単位) ==========
+"~/.config/abbrs" = { source = "home/.config/abbrs", mode = "symlink" }
+"~/.config/alacritty" = { source = "home/.config/alacritty", mode = "symlink" }
+"~/.config/cage" = { source = "home/.config/cage", mode = "symlink" }
+"~/.config/codebook" = { source = "home/.config/codebook", mode = "symlink" }
+"~/.config/gh-dash" = { source = "home/.config/gh-dash", mode = "symlink" }
+"~/.config/ghostty" = { source = "home/.config/ghostty", mode = "symlink" }
+"~/.config/git" = { source = "home/.config/git", mode = "symlink" }
+"~/.config/lazygit" = { source = "home/.config/lazygit", mode = "symlink" }
+"~/.config/nvim" = { source = "home/.config/nvim", mode = "symlink" }
+"~/.config/octorus" = { source = "home/.config/octorus", mode = "symlink" }
+"~/.config/p10k" = { source = "home/.config/p10k", mode = "symlink" }
+"~/.config/ripgrep" = { source = "home/.config/ripgrep", mode = "symlink" }
+"~/.config/sheldon" = { source = "home/.config/sheldon", mode = "symlink" }
+"~/.config/wezterm" = { source = "home/.config/wezterm", mode = "symlink" }
+
+## ========== ~/.config (単独ファイル) ==========
+"~/.config/azik-romaji-table.tsv" = { source = "home/.config/azik-romaji-table.tsv", mode = "symlink" }
+"~/.config/azik-romaji-table-for-azookey.tsv" = { source = "home/.config/azik-romaji-table-for-azookey.tsv", mode = "symlink" }
+"~/.config/cornix.vil.json" = { source = "home/.config/cornix.vil.json", mode = "symlink" }
+
+## ========== ~/.config (ファイル単位: ランタイム状態が同居する) ==========
+# claude: .claude.json や各種キャッシュが同じディレクトリに書かれる
+"~/.config/claude/CLAUDE.md" = { source = "home/.config/claude/CLAUDE.md", mode = "symlink" }
+"~/.config/claude/settings.json" = { source = "home/.config/claude/settings.json", mode = "symlink" }
+"~/.config/claude/keybindings.json" = { source = "home/.config/claude/keybindings.json", mode = "symlink" }
+"~/.config/claude/templace.mcp.jsonc" = { source = "home/.config/claude/templace.mcp.jsonc", mode = "symlink" }
+"~/.config/claude/_scripts" = { source = "home/.config/claude/_scripts", mode = "symlink" }
+"~/.config/claude/output-styles" = { source = "home/.config/claude/output-styles", mode = "symlink" }
+"~/.config/claude/rules" = { source = "home/.config/claude/rules", mode = "symlink" }
+"~/.config/claude/skills" = { source = "home/.config/claude/skills", mode = "symlink" }
+# herdr: サーバー・クライアントのログとプラグインの lock が同居する
+"~/.config/herdr/config.toml" = { source = "home/.config/herdr/config.toml", mode = "symlink" }
+"~/.config/herdr/nav.sh" = { source = "home/.config/herdr/nav.sh", mode = "symlink" }
+# trev: config.schema.json が生成される
+"~/.config/trev/config.yml" = { source = "home/.config/trev/config.yml", mode = "symlink" }
+# zsh: 補完定義が生成される
+"~/.config/zsh/widgets" = { source = "home/.config/zsh/widgets", mode = "symlink" }
+# mise: miserc.toml (profile 指定) はマシン固有なので repo では管理しない
+"~/.config/mise/config.toml" = { source = "home/.config/mise/config.toml", mode = "symlink" }
