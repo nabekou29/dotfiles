@@ -158,9 +158,43 @@ defaults write com.apple.screencapture location -string "$HOME/Downloads/_screen
 killall Dock Finder SystemUIServer 2>/dev/null || true
 '''
 
+# mise bootstrap が dotfiles とツールを収束させた後に呼ぶ (bootstrap の最終ステップ)。
+# 宣言では表せない生成物 (シークレット / 外部リソース / ビルド成果物) をここで作る。
+[tasks.bootstrap]
+description = "生成物を収束させる (secrets / externals / karabiner / terminfo)"
+run = [
+  "mise run secrets",
+  "mise run externals",
+  "mise run karabiner-build",
+  "bash {{config_root}}/scripts/install-terminfo.sh",
+]
+
+[tasks.packages]
+description = "Brewfile を適用 (宣言から外れたものは削除する)"
+run = "brew bundle install --cleanup"
+
+[tasks.update]
+description = "パッケージと dev ツールを更新"
+run = [
+  "brew update",
+  "brew upgrade",
+  "brew bundle install --cleanup",
+  "mise upgrade",
+]
+
 [tasks.secrets]
 description = "1Password から ~/.zshenv を生成"
 run = "op inject -f -i {{config_root}}/templates/zshenv.tpl -o {{env.HOME}}/.zshenv"
+
+[tasks.karabiner-build]
+description = "Karabiner 設定をビルド"
+dir = "{{config_root}}"
+run = "deno run --allow-env --allow-read --allow-write karabiner/main.ts"
+
+[tasks.karabiner-watch]
+description = "Karabiner 設定を watch ビルド"
+dir = "{{config_root}}"
+run = "deno run --allow-env --allow-read --allow-write --watch karabiner/main.ts"
 
 [tasks.externals]
 description = "nix-direnv の direnvrc を取得 (30日ごとに更新)"

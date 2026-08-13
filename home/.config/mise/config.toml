@@ -4,10 +4,6 @@
 # シェル起動・プロンプトのホットパスで呼ばれるツール (starship, zoxide, sheldon 等) は
 # shim の解決コストを毎回払わないよう brew 側に置く。
 
-[env]
-# brew bundle / タスクがどのシェル環境からでも同じ Brewfile を見るように固定
-HOMEBREW_BUNDLE_FILE = "{{env.HOME}}/.config/homebrew/Brewfile"
-
 [tools]
 ## ========== Runtime ==========
 bun = "latest"
@@ -78,33 +74,3 @@ codex = "latest"
 "github:ushironoko/abbrs" = "latest"
 "github:ushironoko/octorus" = "latest"
 "npm:zenn-cli" = "latest"
-
-[tasks.bootstrap]
-description = "新マシンの初期セットアップ (brew bundle + mise install + macOS 設定)"
-run = [
-  "brew bundle install",
-  "mise install",
-  "mise exec -- playwright install",
-  "mise run touchid-sudo",
-]
-
-[tasks.apply]
-description = "Brewfile と mise tools を適用 (旧 darwin-switch 相当)"
-run = ["brew bundle install --cleanup", "mise install"]
-
-[tasks.update]
-description = "brew と mise tools を更新 (旧 darwin-update 相当)"
-run = [
-  "brew update",
-  "brew upgrade",
-  "brew bundle install --cleanup",
-  "mise upgrade",
-]
-
-[tasks.touchid-sudo]
-description = "Touch ID で sudo 認証を有効化 (/etc/pam.d/sudo_local)"
-run = '''
-if [ ! -f /etc/pam.d/sudo_local ] || ! grep -q pam_tid /etc/pam.d/sudo_local; then
-  echo "auth       sufficient     pam_tid.so" | sudo tee /etc/pam.d/sudo_local
-fi
-'''
