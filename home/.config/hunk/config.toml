@@ -1,4 +1,5 @@
-theme = "github-dark-default"
+# nvim (kanagawa の既定である wave) と配色を揃える
+theme = "kanagawa-wave"
 
 # 作業ツリーの変更を自動で反映する
 watch = true
