@@ -31,11 +31,6 @@
 "~/.config/trev" = "home/.config/trev"
 "~/.config/wezterm" = "home/.config/wezterm"
 
-## ========== ~/.config (単独ファイル) ==========
-"~/.config/azik-romaji-table.tsv" = "home/.config/azik-romaji-table.tsv"
-"~/.config/azik-romaji-table-for-azookey.tsv" = "home/.config/azik-romaji-table-for-azookey.tsv"
-"~/.config/cornix.vil.json" = "home/.config/cornix.vil.json"
-
 ## ========== ~/.config (ファイル単位: ランタイム状態が同居する) ==========
 # claude: .claude.json や各種キャッシュが同じディレクトリに書かれる
 "~/.config/claude/CLAUDE.md" = "home/.config/claude/CLAUDE.md"
