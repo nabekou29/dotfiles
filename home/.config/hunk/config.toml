@@ -1,0 +1,10 @@
+# nvim (kanagawa) と配色を揃える
+theme = "kanagawa-wave"
+
+# 作業ツリーの変更を自動で反映する
+watch = true
+
+# エージェントが付けたインラインコメントを最初から表示する (既定は非表示)
+agent_notes = true
+
+transparent_background = true
