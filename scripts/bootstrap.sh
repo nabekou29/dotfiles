@@ -3,6 +3,11 @@
 set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+# XDG_CONFIG_HOME の定義元である ~/.zshenv はこのスクリプトの終盤で生成されるため、
+# それまでの brew は Brewfile も trust.json も ~/.homebrew/ 側で解決してしまう。
+# 以降のシェルと同じ場所を見るようここで先に決めておく。
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+
 if ! command -v brew &>/dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
