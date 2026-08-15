@@ -7,7 +7,6 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       "mikavilpas/blink-ripgrep.nvim",
-      "saghen/blink.compat",
     },
     opts = {
       keymap = {
@@ -37,9 +36,6 @@ return {
       },
       sources = {
         default = { "lsp", "path", "snippets", "markdown", "ripgrep" },
-        per_filetype = {
-          markdown = { "obsidian_tags", "obsidian", "obsidian_new" },
-        },
         providers = {
           ripgrep = {
             module = "blink-ripgrep",
@@ -50,9 +46,6 @@ return {
             },
           },
           markdown = { name = "RenderMarkdown", module = "render-markdown.integ.blink", fallbacks = { "lsp" } },
-          obsidian = { name = "obsidian", module = "blink.compat.source" },
-          obsidian_new = { name = "obsidian_new", module = "blink.compat.source" },
-          obsidian_tags = { name = "obsidian_tags", module = "blink.compat.source" },
         },
       },
     },

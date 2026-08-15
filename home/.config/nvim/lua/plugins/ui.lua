@@ -275,9 +275,6 @@ return {
                 name = "󰈙 Docs",
                 highlight = { sp = "#2C682A" },
                 matcher = function(buf)
-                  if buf.path:lower():match("obsidian") then
-                    return false
-                  end
                   return buf.name:match("%.md")
                 end,
                 auto_close = false,
@@ -287,14 +284,6 @@ return {
                 highlight = { sp = "#4c4c4c" },
                 matcher = function(buf)
                   return buf.name:match("%.config") or buf.name:match("^%..*rc$")
-                end,
-                auto_close = false,
-              },
-              {
-                name = " Obsidian",
-                highlight = { sp = "#8658F6" },
-                matcher = function(buf)
-                  return buf.path:lower():match("obsidian")
                 end,
                 auto_close = false,
               },
