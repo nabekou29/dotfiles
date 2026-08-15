@@ -24,6 +24,7 @@
 "~/.config/p10k" = { source = "home/.config/p10k", mode = "symlink" }
 "~/.config/ripgrep" = { source = "home/.config/ripgrep", mode = "symlink" }
 "~/.config/sheldon" = { source = "home/.config/sheldon", mode = "symlink" }
+"~/.config/trev" = { source = "home/.config/trev", mode = "symlink" }
 "~/.config/wezterm" = { source = "home/.config/wezterm", mode = "symlink" }
 
 ## ========== ~/.config (単独ファイル) ==========
@@ -44,8 +45,6 @@
 # herdr: サーバー・クライアントのログとプラグインの lock が同居する
 "~/.config/herdr/config.toml" = { source = "home/.config/herdr/config.toml", mode = "symlink" }
 "~/.config/herdr/nav.sh" = { source = "home/.config/herdr/nav.sh", mode = "symlink" }
-# trev: config.schema.json が生成される
-"~/.config/trev/config.yml" = { source = "home/.config/trev/config.yml", mode = "symlink" }
 # zsh: 補完定義が生成される
 "~/.config/zsh/widgets" = { source = "home/.config/zsh/widgets", mode = "symlink" }
 # mise: miserc.toml (profile 指定) はマシン固有なので repo では管理しない
