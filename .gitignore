@@ -1,3 +1,2 @@
 # ディレクトリ単位で symlink した先にツールが書き込む生成物
 __pycache__/
-home/.config/trev/config.schema.json
