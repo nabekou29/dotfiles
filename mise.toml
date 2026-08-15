@@ -8,7 +8,11 @@
 "~/.zprofile" = { source = "home/.zprofile", mode = "symlink" }
 "~/.gitconfig" = { source = "home/.gitconfig", mode = "symlink" }
 "~/.editorconfig" = { source = "home/.editorconfig", mode = "symlink" }
-"~/bin" = { source = "home/bin", mode = "symlink" }
+
+## ========== ~/.local/bin (他のツールが入れた実体と同居するのでファイル単位) ==========
+"~/.local/bin/claude-prompt-search" = { source = "home/.local/bin/claude-prompt-search", mode = "symlink" }
+"~/.local/bin/git-wt-symlink" = { source = "home/.local/bin/git-wt-symlink", mode = "symlink" }
+"~/.local/bin/pushover" = { source = "home/.local/bin/pushover", mode = "symlink" }
 
 ## ========== ~/.config (ディレクトリ単位) ==========
 "~/.config/abbrs" = { source = "home/.config/abbrs", mode = "symlink" }
