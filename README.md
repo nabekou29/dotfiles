@@ -13,7 +13,7 @@
 ## セットアップ
 
 ```sh
-ghq get nabekou29/dotfiles
+git clone https://github.com/nabekou29/dotfiles.git ~/ghq/github.com/nabekou29/dotfiles
 cd ~/ghq/github.com/nabekou29/dotfiles
 ./scripts/bootstrap.sh
 ```
