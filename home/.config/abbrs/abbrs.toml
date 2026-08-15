@@ -3,10 +3,6 @@ keyword = "g"
 expansion = "git"
 
 [[abbr]]
-keyword = "cm"
-expansion = "chezmoi"
-
-[[abbr]]
 keyword = "lg"
 expansion = "lazygit"
 

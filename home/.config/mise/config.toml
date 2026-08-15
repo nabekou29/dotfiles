@@ -1,7 +1,7 @@
 # dev ツール (バージョンを意識するもの) は mise、シェル・システムユーティリティは Brewfile で管理する。
 # PATH は zprofile の shims で常時確保し、env 系の反映は zshrc の zsh-defer 経由の
 # `mise activate` に任せる (起動をブロックせず、非対話シェルでもツールが引ける)。
-# シェル起動・プロンプトのホットパスで呼ばれるツール (starship, zoxide, sheldon 等) は
+# シェル起動・プロンプトのホットパスで呼ばれるツール (zoxide, sheldon 等) は
 # shim の解決コストを毎回払わないよう brew 側に置く。
 
 [tools]

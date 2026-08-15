@@ -1,5 +1,5 @@
 #!/bin/sh
-# installed by herdr (manually relocated into chezmoi-managed _scripts/)
+# installed by herdr (manually relocated into dotfiles-managed _scripts/)
 # safe to edit. this hook only activates inside herdr-managed panes.
 
 set -eu
