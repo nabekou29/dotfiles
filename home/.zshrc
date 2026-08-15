@@ -10,7 +10,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # ── PATH ──────────────────────────────────────────────────────────────────────
-PATH=$HOME/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 # ── Plugins (sheldon) ─────────────────────────────────────────────────────────
