@@ -2,11 +2,10 @@
 # CLI の dev ツールは mise (~/.config/mise/config.toml)、それ以外はここで管理する。
 # 適用: mise run packages / 更新: mise run update
 #
-# profile (work/private) は mise の environments 機構が単一ソース
-# (~/.config/mise/miserc.toml の env 指定)。brew は Brewfile を独自に sanitize した
-# 環境で評価するため MISE_ENV は参照できず、この設定ファイルを直接読む。
-# profile が取れないと --cleanup が profile 分のパッケージを「リストにない」と誤認して
-# 消すため、判定できない場合も差分が出ないよう共通分だけを宣言する。
+# profile (work/private) は mise の environments 機構が単一ソース (~/.config/mise/miserc.toml の env 指定)。
+# brew は Brewfile を独自に sanitize した環境で評価するため MISE_ENV は参照できず、この設定ファイルを直接読む。
+# profile が取れないと --cleanup が profile 分のパッケージを「リストにない」と誤認して消すため、
+# 判定できない場合も差分が出ないよう共通分だけを宣言する。
 profile = begin
   File.read(File.expand_path("~/.config/mise/miserc.toml"))[/env\s*=\s*\[\s*"([^"]+)"/, 1]
 rescue Errno::ENOENT
@@ -32,12 +31,10 @@ brew "fzf"
 brew "git-delta"
 brew "lsd"
 brew "sheldon"
-brew "starship"
 brew "zoxide"
 
 ## ---------- Utility ----------
 brew "chafa"
-brew "chezmoi"
 brew "cloc"
 brew "coreutils"
 brew "dust"
@@ -60,7 +57,6 @@ brew "yq"
 brew "zsh-completions"
 
 ## ---------- Git / GitHub ----------
-brew "diff-so-fancy"
 brew "gh"
 brew "ghq"
 brew "gibo"
@@ -79,7 +75,6 @@ brew "watchman"
 brew "cmake"
 brew "docker"
 brew "gopls"
-brew "hugo"
 brew "mkcert"
 brew "mold"
 brew "ninja"
@@ -145,7 +140,6 @@ cask "activitywatch"
 cask "alfred"
 cask "alt-tab"
 cask "azookey"
-# cask "deskflow" # brew に存在しない
 cask "deskpad"
 cask "finetune"
 cask "google-japanese-ime"
@@ -154,7 +148,6 @@ cask "karabiner-elements"
 cask "keycastr"
 cask "mac-mouse-fix"
 cask "monitorcontrol"
-cask "obsidian"
 cask "openlogi"
 cask "raycast"
 cask "setapp"
