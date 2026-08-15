@@ -4,7 +4,7 @@
 #
 # profile (work/private) は mise の environments 機構が単一ソース (~/.config/mise/miserc.toml の env 指定)。
 # brew は Brewfile を独自に sanitize した環境で評価するため MISE_ENV は参照できず、この設定ファイルを直接読む。
-# profile が取れないまま進むと --cleanup が profile 分のパッケージを「リストにない」と
+# profile が取れないまま進むと cleanup が profile 分のパッケージを「リストにない」と
 # 誤認して消すため、判定できなければ宣言を続けずに中断する。
 profile = begin
   File.read(File.expand_path("~/.config/mise/miserc.toml"))[/^\s*env\s*=\s*\[\s*"([^"]+)"/, 1]

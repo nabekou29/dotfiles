@@ -180,7 +180,9 @@ run = '''
 # tap が0件でも中断しないよう、抽出は grep ではなく perl で行う
 perl -ne 'print "$1\n" if /^tap "([^"]+)"/' "$HOME/.config/homebrew/Brewfile" \
   | while read -r tap; do brew trust --tap "$tap"; done
-brew bundle install --global --cleanup
+brew bundle install --global
+# install --cleanup は Homebrew 6 で deprecated になった。cleanup は独立したサブコマンド
+brew bundle cleanup --global --force
 '''
 
 [tasks.update]
