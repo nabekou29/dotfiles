@@ -30,13 +30,8 @@ command -v op &>/dev/null || brew install --cask 1password-cli
 cd "$REPO_DIR"
 # repo の設定を信頼しないと mise bootstrap が設定を読めない
 mise trust
-# dotfiles の配置・macOS 設定・ツール導入・[tasks.bootstrap] までを収束させる
+# dotfiles の配置・macOS 設定・ツール導入・生成物・パッケージまでを収束させる
 mise bootstrap --yes
-
-# Homebrew 6 以降はサードパーティ tap を明示的に信頼しないと formula を読み込めない
-grep -oE '^tap "[^"]+"' "$HOME/.config/homebrew/Brewfile" | perl -pe 's/^tap "//; s/"$//' \
-  | while read -r tap; do brew trust "$tap"; done
-mise run packages
 
 mise exec -- playwright install
 
