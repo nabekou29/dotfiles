@@ -1,14 +1,9 @@
 [env]
-# brew の --global は Brewfile と trust.json を $XDG_CONFIG_HOME 配下で解決する。
-# 定義元の ~/.zshenv は bootstrap の終盤で生成されるため、それ以前に走る
-# [tasks.packages] のために宣言側で持っておく。
-# default にしているのは、既に設定されている値を上書きしないため。
+# brew の --global が Brewfile と trust.json をこの配下で解決する。定義元の
+# ~/.zshenv は bootstrap の終盤で生成されるため、それ以前に走るタスクのために持つ。
 XDG_CONFIG_HOME = { default = "{{env.HOME}}/.config" }
 
-# dotfiles の宣言。`mise bootstrap --yes` でこのファイルの内容にマシンを収束させる。
-# 純粋な設定ディレクトリは dir 単位で symlink する (中のファイル追加・削除が自動で反映される)。
-# アプリがログや状態を書き込むディレクトリは、それが repo に流れ込まないようファイル単位にする。
-
+# `mise bootstrap --yes` でこのファイルの内容にマシンを収束させる。
 [dotfiles]
 ## ========== ホームディレクトリ直下 ==========
 "~/.zshrc" = "home/.zshrc"
