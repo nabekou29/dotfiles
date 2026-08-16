@@ -1,24 +1,15 @@
-# nvim (kanagawa の既定である wave) と配色を揃える
 theme = "kanagawa-wave"
-
-# 作業ツリーの変更を自動で反映する
-watch = true
-
-# エージェントが付けたインラインコメントを最初から表示する (既定は非表示)
-agent_notes = true
-
-transparent_background = true
-
-# 終了時に表示設定の保存を尋ねない。
-# TUI 上での一時的な切り替えが設定ファイルに書き戻されると、
-# symlink 経由でリポジトリに差分が出てしまうため。
-prompt_save_view_preferences = false
-
-# ここから下は TUI で保存した表示設定
 mode = "auto"
+watch = true
 line_numbers = true
 wrap_lines = false
-hunk_headers = true
 menu_bar = true
+agent_notes = true
+# TUI 上での一時的な切り替えが書き戻されると、symlink 経由でリポジトリに差分が出るため
+prompt_save_view_preferences = false
+transparent_background = true
+
+# 以下は公式の設定例には無い、TUI が書き出す表示設定
+hunk_headers = true
 copy_decorations = false
 cursor_line = "row"
