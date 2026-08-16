@@ -1,5 +1,5 @@
 # ディレクトリ単位で symlink した先にツールが書き込む生成物
 __pycache__/
 
-# hunk が自身の brew prefix へ張る symlink。絶対パスがマシンごとに違うため追跡しない
+# brew prefix 配下を指す symlink。絶対パスがマシンごとに違うため追跡しない
 /home/.config/claude/skills/hunk-review
