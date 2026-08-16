@@ -183,11 +183,17 @@ description = "Brewfile を適用 (宣言から外れたものは削除する)"
 run = '''
 # Homebrew 6 以降はサードパーティ tap を明示的に信頼しないと formula を読み込めない。
 # tap が0件でも中断しないよう、抽出は grep ではなく perl で行う
-perl -ne 'print "$1\n" if /^tap "([^"]+)"/' "$HOME/.config/homebrew/Brewfile" \
-  | while read -r tap; do brew trust --tap "$tap"; done
+trust_taps() {
+  perl -ne 'print "$1\n" if /^tap "([^"]+)"/' "$HOME/.config/homebrew/Brewfile" \
+    | while read -r tap; do brew trust --tap "$tap"; done
+}
+
+trust_taps
 brew bundle install --global
 # install --cleanup は Homebrew 6 で deprecated になった。cleanup は独立したサブコマンド
 brew bundle cleanup --global --force
+# cleanup は Brewfile が宣言している tap も含めて trust ストアを空にするため張り直す
+trust_taps
 '''
 
 [tasks.update]
