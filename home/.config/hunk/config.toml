@@ -1,0 +1,15 @@
+theme = "kanagawa-wave"
+mode = "auto"
+watch = true
+line_numbers = true
+wrap_lines = false
+menu_bar = true
+agent_notes = true
+# TUI 上での一時的な切り替えが書き戻されると、symlink 経由でリポジトリに差分が出るため
+prompt_save_view_preferences = false
+transparent_background = true
+
+# 以下は公式の設定例には無い、TUI が書き出す表示設定
+hunk_headers = true
+copy_decorations = false
+cursor_line = "row"

@@ -1,0 +1,215 @@
+# check initialize speed: `time zsh -i -c exit`
+# zmodload zsh/zprof
+
+POWERLEVEL9K_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/p10k/p10k.zsh"
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+# ── Instant Prompt (must be at the very top) ─────────────────────────────────
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# ── PATH ──────────────────────────────────────────────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+
+# ── Plugins (sheldon) ─────────────────────────────────────────────────────────
+eval "$(sheldon source)"
+
+# ── Shell Options ─────────────────────────────────────────────────────────────
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt hist_ignore_all_dups
+setopt hist_ignore_dups
+setopt share_history
+setopt append_history
+setopt inc_append_history
+setopt hist_no_store
+setopt hist_reduce_blanks
+setopt auto_cd
+
+# ── Completion ────────────────────────────────────────────────────────────────
+if type brew &>/dev/null; then
+    FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:$FPATH
+    FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
+fi
+
+autoload -Uz compinit
+_zcompdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/.zcompdump-${HOST}-${ZSH_VERSION}"
+mkdir -p "${_zcompdump:h}"
+
+setopt extendedglob
+if [[ -n "${_zcompdump}"(#qN.mh+24) ]]; then
+    compinit -d "${_zcompdump}"
+else
+    compinit -C -d "${_zcompdump}"
+fi
+
+export LSCOLORS=Exfxcxdxbxegedabagacad
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+export ZLS_COLORS=$LS_COLORS
+export CLICOLOR=true
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:default' menu select=1
+
+# ── Tools ─────────────────────────────────────────────────────────────────────
+zsh-defer -c 'eval "$(mise activate zsh)"'
+
+{
+  local fzf_path="$(command -v fzf)"
+  if [[ -n "$fzf_path" ]]; then
+    local fzf_base="$(dirname "$(dirname "$(realpath "$fzf_path")")")"
+    # キーバインドの置き場所はパッケージ由来で異なる (Linux 系は share/fzf/、brew は shell/)
+    local d
+    for d in "$fzf_base/share/fzf" "$fzf_base/shell"; do
+      if [[ -f "$d/key-bindings.zsh" ]]; then
+        source "$d/key-bindings.zsh"
+        break
+      fi
+    done
+  fi
+}
+
+if command -v nvim >/dev/null 2>&1; then
+    export VISUAL=nvim
+    export EDITOR="$VISUAL"
+fi
+
+# JAVA_HOME は zprofile で mise の temurin-21 symlink から設定
+# mise 未導入環境のフォールバック
+if [ -z "$JAVA_HOME" ] && /usr/libexec/java_home &>/dev/null; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
+  export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
+export GOPATH=$HOME/go
+export GO111MODULE=on
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+[[ -s ~/.config/zsh/completion-for-pnpm.zsh ]] || pnpm completion zsh >~/.config/zsh/completion-for-pnpm.zsh 2>/dev/null
+[[ -s ~/.config/zsh/completion-for-pnpm.zsh ]] && source ~/.config/zsh/completion-for-pnpm.zsh
+
+if [[ -d "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk" ]]; then
+  zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+  zsh-defer source "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+fi
+
+zsh-defer _evalcache zoxide init zsh
+zsh-defer _evalcache git-wt --init zsh
+
+if command -v zmx &> /dev/null; then
+  eval "$(zmx completions zsh)"
+fi
+
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+# ── Keybindings ───────────────────────────────────────────────────────────────
+bindkey -e
+bindkey "^[[Z"    reverse-menu-complete   # Shift-Tab
+bindkey "^[[3~"   delete-char             # Delete
+bindkey "^[[1;3C" forward-word            # Option + →
+bindkey "^[[1;3D" backward-word           # Option + ←
+bindkey "^[q"     _push-line-with-display # Option + Q
+bindkey "^[e"     edit-command-line       # Option + E
+bindkey "^[f"     fzf-file-widget-preview # Option + F
+bindkey "^g"      ghq-cd                  # Ctrl + G
+bindkey "^[z"     zmx-session             # Alt + Z
+
+autoload -Uz add-zsh-hook
+zsh-defer -c 'eval "$(abbrs init zsh)"'
+
+# abbrs: 展開後にスペースを自動挿入 + autosuggestions のゴーストテキストをクリア
+_abbrs-expand-space-and-insert() {
+  abbrs-expand-space
+  (( _ABBRS_CYCLING )) && return
+  [[ "${LBUFFER: -1}" == " " ]] || LBUFFER+=" "
+  (( $+widgets[autosuggest-clear] )) && zle autosuggest-clear
+}
+zle -N _abbrs-expand-space-and-insert
+
+_abbrs-expand-accept-and-clear() {
+  (( $+widgets[autosuggest-clear] )) && zle autosuggest-clear
+  zle abbrs-expand-accept
+}
+zle -N _abbrs-expand-accept-and-clear
+
+# zsh-autosuggestions の clear 対象に登録してラップしてもらう
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(_abbrs-expand-accept-and-clear _abbrs-expand-space-and-insert)
+
+# abbrs init が `bindkey "^M" abbrs-expand-accept` で上書きするため、その後で再度上書きする
+zsh-defer -c '
+  bindkey " " _abbrs-expand-space-and-insert
+  bindkey "^M" _abbrs-expand-accept-and-clear
+'
+
+# ── ZLE Widgets ───────────────────────────────────────────────────────────────
+fpath+=("$HOME/.config/zsh/widgets")
+
+autoload -Uz edit-command-line ghq-cd fzf-file-widget-preview zmx-session
+zle -N edit-command-line
+zle -N ghq-cd              # Ctrl + G: ghq リポジトリ選択
+zle -N fzf-file-widget-preview # Option + F: ファイル/ディレクトリ選択
+zle -N zmx-session         # Alt + Z: zmx セッション管理
+
+# push-line: 退避したコマンドをプロンプトに表示する
+_push-line-with-display() {
+  _PUSHED_LINE="$BUFFER"
+  PS1="%F{yellow}⏎ ${BUFFER//\%/%%}%f"$'\n'"$PS1"
+  zle push-line
+  zle reset-prompt
+}
+zle -N _push-line-with-display
+
+_push-line-restore() {
+  if [[ -n "$_PUSHED_LINE" ]]; then
+    unset _PUSHED_LINE
+  fi
+}
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget line-init _push-line-restore
+
+# ── Terminal ──────────────────────────────────────────────────────────────────
+# OSC 133: シェル統合 (コマンド境界のマーキング)
+_prompt_executing=""
+function __prompt_precmd() {
+    local ret="$?"
+    if test "$_prompt_executing" != "0"; then
+        _PROMPT_SAVE_PS1="$PS1"
+        _PROMPT_SAVE_PS2="$PS2"
+        PS1=$'%{\e]133;P;k=i\a%}'$PS1$'%{\e]133;B\a\e]122;> \a%}'
+        PS2=$'%{\e]133;P;k=s\a%}'$PS2$'%{\e]133;B\a%}'
+    fi
+    if test "$_prompt_executing" != ""; then
+        printf "\033]133;D;%s;aid=%s\007" "$ret" "$$"
+    fi
+    printf "\033]133;A;cl=m;aid=%s\007" "$$"
+    _prompt_executing=0
+}
+function __prompt_preexec() {
+    PS1="$_PROMPT_SAVE_PS1"
+    PS2="$_PROMPT_SAVE_PS2"
+    printf "\033]133;C;\007"
+    _prompt_executing=1
+}
+preexec_functions+=(__prompt_preexec)
+precmd_functions+=(__prompt_precmd)
+
+if [ -d ~/.terminfo ]; then
+    export TERM=wezterm
+fi
+
+# ── Prompt (Powerlevel10k) ────────────────────────────────────────────────────
+[[ ! -f "$XDG_CONFIG_HOME/p10k/p10k.zsh" ]] || source "$XDG_CONFIG_HOME/p10k/p10k.zsh"
+
+# ── direnv ────────────────────────────────────────────────────────────────────
+eval "$(direnv hook zsh)"
+
+# ── Local ─────────────────────────────────────────────────────────────────────
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# zprof

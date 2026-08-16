@@ -1,0 +1,418 @@
+return {
+  -- CMP
+  {
+    "saghen/blink.cmp",
+    event = { "InsertEnter" },
+    version = "*",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "mikavilpas/blink-ripgrep.nvim",
+    },
+    opts = {
+      keymap = {
+        preset = "enter",
+        ["<Esc>"] = { "cancel", "fallback" },
+        ["<C-m>"] = { "accept", "fallback" },
+      },
+      completion = {
+        menu = {
+          border = "rounded",
+          winblend = 10,
+          auto_show = false,
+        },
+        documentation = {
+          auto_show = true,
+          window = {
+            border = "rounded",
+          },
+        },
+        ghost_text = {
+          enabled = false,
+        },
+      },
+      signature = { enabled = false },
+      appearance = {
+        nerd_font_variant = "mono",
+      },
+      sources = {
+        default = { "lsp", "path", "snippets", "markdown", "ripgrep" },
+        providers = {
+          ripgrep = {
+            module = "blink-ripgrep",
+            name = "Ripgrep",
+            score_offset = -10,
+            opts = {
+              prefix_min_len = 5,
+            },
+          },
+          markdown = { name = "RenderMarkdown", module = "render-markdown.integ.blink", fallbacks = { "lsp" } },
+        },
+      },
+    },
+    opts_extend = { "sources.default" },
+    config = function(_, opts)
+      require("blink.cmp").setup(opts)
+
+      -- Highlight groups
+      vim.cmd([[
+        highlight BlinkCmpMenu guibg=#03142f
+        highlight BlinkCmpMenuBorder guifg=#1c2e5f guibg=#03142f
+      ]])
+    end,
+  },
+
+  -- LSP
+  {
+    "neovim/nvim-lspconfig",
+    event = "UIEnter",
+    config = function()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.general = {
+        positionEncodings = { "utf-16" },
+      }
+
+      vim.lsp.config("*", {
+        offset_encoding = "utf-16",
+        capabilities = capabilities,
+      })
+      vim.lsp.inline_completion.enable(true)
+
+      -- デフォルトは tsc (typescript 7 の Go 実装、旧称 tsgo)。
+      -- 従来サーバーに戻すプロジェクトは直下の .nvim.lua で `vim.g.lsp_ts = "ts_ls"`
+      local ts_server = vim.g.lsp_ts == "ts_ls" and "ts_ls" or "tsc"
+
+      vim.lsp.enable({
+        "biome",
+        "codebook",
+        "css_variables",
+        "cssls",
+        "cssmodules_ls",
+        "denols",
+        "elmls",
+        "eslint",
+        "golangci_lint_ls",
+        "gopls",
+        "html",
+        "jsonls",
+        "lua_ls",
+        "oxlint",
+        "pyright",
+        "rust_analyzer",
+        "stylelint_lsp",
+        "svelte",
+        -- "tailwindcss",
+        "terraformls",
+        "tflint",
+        ts_server,
+        "version_lsp",
+        "yamlls",
+      })
+
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) then
+          vim.api.nvim_exec_autocmds("FileType", { buffer = buf })
+        end
+      end
+    end,
+  },
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    opts = function()
+      local util = require("conform.util")
+      --- 1度目の保存は import の削除などをしない弱い?フォーマットのみを実行し、2度目の保存でより強力なフォーマットを実行する
+      --- @param weak conform.FormatterConfigOverride
+      --- @param strong conform.FormatterConfigOverride
+      --- @param common conform.FormatterConfigOverride
+      local smart_formatter = function(weak, strong, common)
+        return function(bufnr)
+          -- return vim.tbl_extend("force", common or {}, strong)
+          local ok, modified = pcall(vim.api.nvim_get_option_value, "modified", { buf = bufnr })
+          if ok and not modified then
+            return vim.tbl_extend("force", common or {}, strong)
+          else
+            return vim.tbl_extend("force", common or {}, weak)
+          end
+        end
+      end
+
+      --- @type conform.setupOpts
+      return {
+        formatters_by_ft = {
+          astro = { "oxfmt", "prettier" },
+          lua = { "stylua" },
+          javascript = { "oxfmt", "biome", "prettier", "eslint_d" },
+          javascriptreact = { "oxfmt", "biome", "prettier", "eslint_d" },
+          typescript = { "oxfmt", "biome", "prettier", "eslint_d" },
+          typescriptreact = { "oxfmt", "biome", "prettier", "eslint_d" },
+          json = { "oxfmt", "biome", "prettier", "eslint_d" },
+          jsonc = { "oxfmt", "biome", "prettier", "eslint_d" },
+          css = { "oxfmt", "biome", "prettier", "stylelint" },
+          scss = { "oxfmt", "biome", "prettier", "stylelint" },
+          rust = { "rustfmt" },
+          python = { "ruff_format", "ruff_fix" },
+          terraform = { "terraform_fmt" },
+          markdown = { "oxfmt", "prettier" },
+          mdx = { "oxfmt", "prettier" },
+          yaml = { "oxfmt", "prettier" },
+          toml = { "taplo" },
+        },
+        default_format_opts = {
+          lsp_format = "fallback",
+          timeout_ms = 5000,
+          async = true,
+        },
+        -- format_on_save = function()
+        format_after_save = function()
+          -- :w! で保存したときはフォーマットしない
+          if vim.v.cmdbang == 1 then
+            return nil
+          end
+          return {}
+        end,
+        formatters = {
+          oxfmt = {
+            require_cwd = true,
+          },
+          biome = smart_formatter({
+            args = { "format", "--stdin-file-path", "$FILENAME" },
+          }, {
+            args = { "check", "--write", "--stdin-file-path", "$FILENAME" },
+          }, {
+            require_cwd = true,
+          }),
+          prettier = {
+            -- oxfmt or biome が有効な場合は prettier を無効化する
+            condition = function(_, ctx)
+              local biome_available = require("conform").get_formatter_info("biome").available
+              local oxfmt_available = require("conform").get_formatter_info("oxfmt").available
+              local formatters = require("conform").list_formatters_for_buffer(ctx.buf)
+              return not ((biome_available and vim.tbl_contains(formatters, "biome")) or (oxfmt_available and vim.tbl_contains(formatters, "oxfmt")))
+            end,
+          },
+          eslint_d = smart_formatter({
+            condition = function()
+              return false
+            end,
+          }, {}, {
+            cwd = util.root_file({
+              "eslint.config.js",
+              "eslint.config.cjs",
+              "eslint.config.mjs",
+            }),
+            require_cwd = true,
+          }),
+          stylelint = smart_formatter({
+            condition = function()
+              return false
+            end,
+          }, {}, {
+            require_cwd = true,
+          }),
+          rustfmt = {
+            prepend_args = { "+nightly" },
+          },
+          ruff_fix = smart_formatter({}, {
+            condition = function()
+              return false
+            end,
+          }, {}),
+        },
+      }
+    end,
+  },
+
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "LspAttach",
+    keys = {
+      {
+        "<leader><leader>d",
+        function()
+          require("tiny-inline-diagnostic").toggle()
+        end,
+        desc = "Toggle Inline Diagnostics",
+      },
+    },
+    priority = 1000,
+    opts = {
+      preset = "classic",
+      transparent_bg = true,
+      options = {
+        multilines = {
+          enabled = true,
+          always_show = true,
+        },
+      },
+      signs = {
+        arrow = " ",
+      },
+    },
+    config = function(_, opts)
+      require("tiny-inline-diagnostic").setup(opts)
+      vim.diagnostic.config({ virtual_text = false }) -- Disable default virtual text
+    end,
+  },
+
+  -- コードアクションのプレビューを表示
+  {
+    "aznhe21/actions-preview.nvim",
+    keys = {
+      { "ga", "<Cmd>lua require('actions-preview').code_actions()<CR>" },
+    },
+    opts = {},
+  },
+
+  -- ホバーを綺麗に
+  {
+    "Fildo7525/pretty_hover",
+    event = { "LspAttach" },
+    opts = {},
+  },
+
+  --- フローティングウィンドウで定義をプレビュー
+  {
+    "WilliamHsieh/overlook.nvim",
+    keys = {
+      {
+        "gp",
+        function()
+          require("overlook.api").peek_definition()
+        end,
+      },
+    },
+    init = function()
+      vim.go.signcolumn = "no"
+
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        group = vim.api.nvim_create_augroup("overlook_enter_mapping", { clear = true }),
+        pattern = "*",
+        callback = function()
+          vim.schedule(function()
+            if vim.w.is_overlook_popup then
+              vim.keymap.set("n", "O", function()
+                require("overlook.api").open_in_original_window()
+              end, { buffer = true, desc = "Overlook: Open in original window" })
+            end
+          end)
+        end,
+      })
+    end,
+    opts = {},
+  },
+
+  -- Treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    build = ":TSUpdate",
+    lazy = false,
+    config = function()
+      require("nvim-treesitter").setup()
+
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
+      })
+
+      vim.api.nvim_create_user_command("TSInstallAll", function()
+        require("nvim-treesitter").install("all")
+      end, {})
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = { "VeryLazy" },
+    enabled = false,
+    config = function()
+      require("treesitter-context").setup({
+        max_lines = 12,
+      })
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    event = { "InsertEnter" },
+    opts = {
+      opts = {
+        enable_rename = true,
+        enable_close = false,
+        enable_close_on_slash = true,
+        filetypes = { "html", "xml", "javascriptreact", "typescriptreact", "svelte", "vue" },
+      },
+    },
+  },
+
+  -- `%` の拡張
+  {
+    "andymass/vim-matchup",
+    event = { "VeryLazy" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
+
+  -- 参照の数などを表示
+  {
+    "VidocqH/lsp-lens.nvim",
+    event = { "VeryLazy" },
+    opts = function()
+      local SymbolKind = vim.lsp.protocol.SymbolKind
+      return {
+        enable = false,
+        sections = {
+          definition = false,
+          references = true,
+          implements = false,
+          git_authors = true,
+        },
+        target_symbol_kinds = {
+          SymbolKind.Function,
+          SymbolKind.Method,
+          SymbolKind.Interface,
+          SymbolKind.Constant,
+        },
+        wrapper_symbol_kinds = { SymbolKind.Class, SymbolKind.Struct, SymbolKind.Module },
+      }
+    end,
+  },
+  -- i18n
+  {
+    "nabekou29/js-i18n.nvim",
+    ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "svelte", "vue" },
+    keys = {
+      { "<leader>il", "<Cmd>I18nSetLang<CR>", desc = "Set language" },
+      { "<leader>ie", "<Cmd>I18nEditTranslation<CR>", desc = "Edit translation" },
+    },
+    opts = {
+      virt_text = {
+        max_width = 48,
+      },
+      server = {
+        primary_languages = { "ja" },
+      },
+    },
+  },
+
+  -- Typescript
+  {
+    "dmmulroy/ts-error-translator.nvim",
+    ft = { "typescript", "typescriptreact" },
+    opts = {},
+  },
+  {
+    "marilari88/twoslash-queries.nvim",
+    opts = {},
+  },
+
+  -- コメントアウト
+  {
+    "folke/ts-comments.nvim",
+    event = "BufReadPost",
+    opts = {},
+  },
+}

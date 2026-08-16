@@ -1,0 +1,76 @@
+# dev ツール (バージョンを意識するもの) は mise、シェル・システムユーティリティは Brewfile で管理する。
+# PATH は zprofile の shims で常時確保し、env 系の反映は zshrc の zsh-defer 経由の
+# `mise activate` に任せる (起動をブロックせず、非対話シェルでもツールが引ける)。
+# シェル起動・プロンプトのホットパスで呼ばれるツール (zoxide, sheldon 等) は
+# shim の解決コストを毎回払わないよう brew 側に置く。
+
+[tools]
+## ========== Runtime ==========
+bun = "latest"
+deno = "latest"
+go = "latest"
+java = "temurin-21"
+node = "lts"
+python = "latest"
+ruby = "latest"
+# rust は自己管理の rustup (~/.cargo/bin) に任せる (mise と二重管理しない)
+
+## ========== Editor ==========
+neovim = "nightly"
+
+## ========== LSP ==========
+"npm:css-variables-language-server" = "2.8.4"
+"npm:cssmodules-language-server" = "1.5.2"
+"npm:pyright" = "latest"
+"npm:stylelint-lsp" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"npm:yaml-language-server" = "latest"
+"npm:@tailwindcss/language-server" = "latest"
+golangci-lint-langserver = "latest"
+lua-language-server = "latest"
+terraform-ls = "latest"
+"github:blopker/codebook" = { version = "latest", exe = "codebook-lsp" }
+"cargo:https://github.com/skanehira/version-lsp.git" = "latest"
+
+## ========== Linter / Formatter ==========
+actionlint = "latest"
+biome = "latest"
+golangci-lint = "latest"
+oxfmt = "latest"
+oxlint = "latest"
+prettier = "latest"
+"npm:@fsouza/prettierd" = "latest"
+"npm:eslint_d" = "latest"
+ruff = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+stylua = "latest"
+swiftlint = "latest"
+taplo = "latest"
+"aqua:reviewdog/reviewdog" = "latest"
+
+## ========== Development ==========
+ast-grep = "latest"
+# 7 系 (Go 版) は tsc に LSP を内蔵しており、nvim の TS LSP (tsc, 旧称 tsgo) のバイナリとして使う。
+# tsserver は同梱されないため、ts_ls に戻すプロジェクトはワークスペースの typescript を使うこと
+"npm:typescript" = "7"
+"npm:playwright" = "latest"
+tree-sitter = "latest"
+uv = "latest"
+
+## ========== Infrastructure ==========
+infracost = "latest"
+terraform-docs = "latest"
+tflint = "latest"
+trivy = "latest"
+
+## ========== CLI Tools ==========
+codex = "latest"
+"github:Warashi/cage" = "0.1.13"
+"github:laishulu/macism" = "latest"
+"github:nabekou29/trev" = "latest"
+"github:rhysd/vim-startuptime" = "latest"
+"github:ushironoko/abbrs" = "latest"
+"github:ushironoko/octorus" = "latest"
+"npm:zenn-cli" = "latest"
