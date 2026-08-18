@@ -28,6 +28,7 @@ XDG_CONFIG_HOME = { default = "{{env.HOME}}/.config" }
 "~/.config/nvim" = "home/.config/nvim"
 "~/.config/octorus" = "home/.config/octorus"
 "~/.config/p10k" = "home/.config/p10k"
+"~/.config/paneru" = "home/.config/paneru"
 "~/.config/ripgrep" = "home/.config/ripgrep"
 "~/.config/sheldon" = "home/.config/sheldon"
 "~/.config/trev" = "home/.config/trev"
