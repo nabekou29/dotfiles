@@ -192,12 +192,7 @@ brew bundle cleanup --global --force
 
 [tasks.update]
 description = "パッケージと dev ツールを更新"
-run = [
-  "brew update",
-  "brew upgrade",
-  "mise run packages",
-  "mise upgrade",
-]
+run = ["brew update", "brew upgrade", "mise run packages", "mise upgrade"]
 
 [tasks.secrets]
 description = "1Password から ~/.zshenv を生成"
