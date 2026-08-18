@@ -3,20 +3,21 @@
 # ~/.zshenv は bootstrap の終盤で生成されるため、それ以前に走るタスクのために持つ。
 XDG_CONFIG_HOME = { default = "{{env.HOME}}/.config" }
 
-# `mise bootstrap --yes` でこのファイルの内容にマシンを収束させる。
 [dotfiles]
-## ========== ホームディレクトリ直下 ==========
+# なるべくディレクトリ単位で同期させると新規ファイルの追加や削除時の後処理が楽。
+# ツール自体が作成するファイルやマシンごとのファイルが入るディレクトリは
+# home/.config/hoge/* のような glob 指定で同期させる。
+
+## ========== $HOME 直下 ==========
 "~/.zshrc" = "home/.zshrc"
 "~/.zprofile" = "home/.zprofile"
 "~/.gitconfig" = "home/.gitconfig"
 "~/.editorconfig" = "home/.editorconfig"
 
-## ========== ~/.local/bin (他のツールが入れた実体と同居するのでファイル単位) ==========
-"~/.local/bin/claude-prompt-search" = "home/.local/bin/claude-prompt-search"
-"~/.local/bin/git-wt-symlink" = "home/.local/bin/git-wt-symlink"
-"~/.local/bin/pushover" = "home/.local/bin/pushover"
+## ========== ~/.local/bin ==========
+"~/.local/bin/*" = "home/.local/bin/*"
 
-## ========== ~/.config (ディレクトリ単位) ==========
+## ========== ~/.config ==========
 "~/.config/abbrs" = "home/.config/abbrs"
 "~/.config/alacritty" = "home/.config/alacritty"
 "~/.config/cage" = "home/.config/cage"
@@ -34,8 +35,12 @@ XDG_CONFIG_HOME = { default = "{{env.HOME}}/.config" }
 "~/.config/trev" = "home/.config/trev"
 "~/.config/wezterm" = "home/.config/wezterm"
 
-## ========== ~/.config (ファイル単位: ランタイム状態が同居する) ==========
-# claude: .claude.json や各種キャッシュが同じディレクトリに書かれる
+"~/.config/herdr/*" = "home/.config/herdr/*"       # サーバー・クライアントのログとプラグインの lock が同居する
+"~/.config/zsh/*" = "home/.config/zsh/*"           # 補完定義が生成される
+"~/.config/mise/*" = "home/.config/mise/*"         # miserc.toml (profile 指定) はマシン固有なので repo では管理しない
+"~/.config/homebrew/*" = "home/.config/homebrew/*" # brew 自身が trust.json を書き込む
+"~/.config/hunk/*" = "home/.config/hunk/*"         # 起動時に state.json を書き込む
+
 "~/.config/claude/CLAUDE.md" = "home/.config/claude/CLAUDE.md"
 "~/.config/claude/settings.json" = "home/.config/claude/settings.json"
 "~/.config/claude/keybindings.json" = "home/.config/claude/keybindings.json"
@@ -43,18 +48,8 @@ XDG_CONFIG_HOME = { default = "{{env.HOME}}/.config" }
 "~/.config/claude/_scripts" = "home/.config/claude/_scripts"
 "~/.config/claude/output-styles" = "home/.config/claude/output-styles"
 "~/.config/claude/rules" = "home/.config/claude/rules"
-"~/.config/claude/skills" = "home/.config/claude/skills"
-# herdr: サーバー・クライアントのログとプラグインの lock が同居する
-"~/.config/herdr/config.toml" = "home/.config/herdr/config.toml"
-"~/.config/herdr/nav.sh" = "home/.config/herdr/nav.sh"
-# zsh: 補完定義が生成される
-"~/.config/zsh/widgets" = "home/.config/zsh/widgets"
-# mise: miserc.toml (profile 指定) はマシン固有なので repo では管理しない
-"~/.config/mise/config.toml" = "home/.config/mise/config.toml"
-# homebrew: brew 自身が trust.json を書き込むディレクトリなのでファイル単位
-"~/.config/homebrew/Brewfile" = "home/.config/homebrew/Brewfile"
-# hunk: 起動時に state.json を書き込む
-"~/.config/hunk/config.toml" = "home/.config/hunk/config.toml"
+"~/.config/claude/skills/*" = "home/.config/claude/skills/*"                     # brew やスキル管理 CLI がここに symlink を作る
+
 
 [bootstrap.macos.defaults.NSGlobalDomain]
 KeyRepeat = 2
