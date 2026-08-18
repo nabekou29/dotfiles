@@ -89,7 +89,8 @@ FXEnableExtensionChangeWarning = false
 _FXShowPosixPathInTitle = true
 # 検索は「現在のフォルダ」から
 FXDefaultSearchScope = "SCcf"
-NewWindowTarget = "PfDe"
+# 新規ウィンドウはホーム
+NewWindowTarget = "PfHm"
 
 [bootstrap.macos.defaults."com.apple.AppleMultitouchTrackpad"]
 Clicking = false
@@ -154,9 +155,6 @@ for key in 52 60 61 64 65 28 29 30 31 184; do
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys \
     -dict-add "$key" "<dict><key>enabled</key><false/></dict>"
 done
-
-# NewWindowTarget ([bootstrap.macos.defaults]) と対になる値
-defaults write com.apple.finder NewWindowTargetPath -string "file://$HOME/"
 
 defaults write com.apple.screencapture location -string "$HOME/Downloads/_screenshot"
 
