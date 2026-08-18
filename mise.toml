@@ -160,14 +160,23 @@ killall Dock Finder SystemUIServer 2>/dev/null || true
 # mise bootstrap が dotfiles とツールを収束させた後に呼ぶ (bootstrap の最終ステップ)。
 # 宣言では表せない生成物 (シークレット / 外部リソース / ビルド成果物) をここで作る。
 [tasks.bootstrap]
-description = "生成物とパッケージを収束させる (secrets / externals / karabiner / terminfo / Brewfile)"
+description = "生成物とパッケージを収束させる (secrets / externals / karabiner / terminfo / Brewfile / skills)"
 run = [
   "mise run secrets",
   "mise run externals",
   "mise run karabiner-build",
   "bash {{config_root}}/scripts/install-terminfo.sh",
   "mise run packages",
+  # brew が入れた実体に張るので packages の後
+  "mise run claude-skills",
 ]
+
+[tasks.claude-skills]
+description = "brew 同梱の Claude skill を skills/ にリンク"
+run = '''
+ln -sfn "$(brew --prefix)/opt/hunk/libexec/skills/hunk-review" \
+  "$HOME/.config/claude/skills/hunk-review"
+'''
 
 [tasks.packages]
 description = "Brewfile を適用 (宣言から外れたものは削除する)"
