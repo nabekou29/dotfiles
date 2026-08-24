@@ -14,6 +14,50 @@ local function confirm_and_pick_win(picker, item)
   end)
 end
 
+-- picker の検索中に文字が転置する問題(例: `sn` と打つと `ns` になる)への対処。
+-- 入力欄は prompt バッファで開いている間ずっと insert モードにあり、snacks は結果描画や
+-- preview 更新のたびに nvim_win_call で list / preview ウィンドウへ一時的に切り替える。
+-- insert 中のウィンドウ切替は prompt の挿入位置を1列手前に戻すため、切替が2打鍵の間に
+-- 挟まると次の文字が手前に入り込んで転置する。preview 更新は vim.schedule で遅延実行される
+-- ため、描画側でカーソルを直しても後から壊れる。ここでは nvim_win_call 自体を包み、insert 中は
+-- 切替の前後で入力ウィンドウのカーソルを退避・復元して巻き戻しを打ち消す。
+local function install_picker_cursor_guard()
+  if vim.g._snacks_picker_cursor_guard then
+    return
+  end
+  vim.g._snacks_picker_cursor_guard = true
+
+  local unpack = unpack or table.unpack
+  local orig = vim.api.nvim_win_call
+
+  -- insert 中に表示中のピッカー入力ウィンドウを返す(該当なしは nil)
+  local function input_win()
+    if not vim.startswith(vim.api.nvim_get_mode().mode, "i") then
+      return nil
+    end
+    for _, w in ipairs(vim.api.nvim_list_wins()) do
+      local ok, b = pcall(vim.api.nvim_win_get_buf, w)
+      if ok and vim.bo[b].filetype == "snacks_picker_input" then
+        return w
+      end
+    end
+    return nil
+  end
+
+  vim.api.nvim_win_call = function(win, fn)
+    local iw = input_win()
+    if not iw or win == iw then
+      return orig(win, fn)
+    end
+    local got, pos = pcall(vim.api.nvim_win_get_cursor, iw)
+    local ret = { orig(win, fn) }
+    if got and vim.api.nvim_win_is_valid(iw) then
+      pcall(vim.api.nvim_win_set_cursor, iw, pos)
+    end
+    return unpack(ret)
+  end
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -223,6 +267,8 @@ return {
       vim.defer_fn(function()
         Snacks.indent.enable()
       end, 500)
+
+      install_picker_cursor_guard()
 
       require("snacks").setup(opts)
     end,
