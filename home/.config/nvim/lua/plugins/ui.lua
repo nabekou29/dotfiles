@@ -522,15 +522,35 @@ return {
   {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },
+    event = { "BufReadPost" },
     keys = {
-      { "zc", desc = "Close fold" },
-      { "zo", desc = "Open fold" },
-      { "za", desc = "Toggle fold" },
-      { "zC", desc = "Close all folds under cursor" },
-      { "zO", desc = "Open all folds under cursor" },
-      { "zA", desc = "Toggle all folds under cursor" },
-      { "zM", desc = "Close all folds" },
-      { "zR", desc = "Open all folds" },
+      { "zh", "zc", desc = "Close fold" },
+      { "zl", "zo", desc = "Open fold" },
+      -- 組み込みの zm は 'foldlevel' を1減らすだけなので、99 固定のこの設定では
+      -- 何十回押すまで何も閉じない。zR が 'foldlevel' を最深レベルに設定する挙動を
+      -- 借りて、実在するレベルまで詰めてから1段階閉じる。
+      {
+        "zH",
+        function()
+          -- v:count は normal! の実行でリセットされるので先に退避する
+          local count = vim.v.count1
+          local cur = vim.wo.foldlevel
+          vim.cmd("normal! zR")
+          local deepest = vim.wo.foldlevel
+          if deepest == 0 then
+            -- fold が1つも無い。ufo の provider がまだ応答していないだけの
+            -- 可能性があるので、全て閉じた状態に倒さず元に戻す
+            vim.wo.foldlevel = cur
+            return
+          end
+          vim.wo.foldlevel = math.max(math.min(cur, deepest) - count, 0)
+        end,
+        desc = "Fold one level",
+      },
+      -- zr は最深レベルへの丸めを組み込みで持っているのでそのまま流す
+      { "zL", "zr", desc = "Unfold one level" },
+      { "zM", desc = "Fold all" },
+      { "zR", desc = "Unfold all" },
     },
     opts = {},
   },
