@@ -183,6 +183,7 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
   "advisorModel": "fable",
+  "autoUpdatesChannel": "latest",
   "tui": "default",
   "voice": {
     "enabled": true,
@@ -201,6 +202,5 @@
   "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754280246185
-  },
-  "model": "opus[1m]"
+  }
 }
