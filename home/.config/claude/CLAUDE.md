@@ -1,8 +1,3 @@
-# CORE PRINCIPLES
-
-- Follow Kent Beck's Test-Driven Development methodology (`tdd` skill) as the preferred approach for all development work.
-- Document at the right layer: Code → How, Tests → What, Commits → Why, Comments → Why not
-
 ## プロジェクト横断のメモ・WIP
 
 後で参照する価値がある作業計画・調査メモ・仕様草案は、思考のパートナー
