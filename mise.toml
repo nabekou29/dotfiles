@@ -48,7 +48,7 @@ XDG_CONFIG_HOME = { default = "{{env.HOME}}/.config" }
 "~/.config/claude/_scripts" = "home/.config/claude/_scripts"
 "~/.config/claude/output-styles" = "home/.config/claude/output-styles"
 "~/.config/claude/rules" = "home/.config/claude/rules"
-"~/.config/claude/skills/*" = "home/.config/claude/skills/*"                     # brew やスキル管理 CLI がここに symlink を作る
+"~/.config/claude/skills/*" = "home/.config/claude/skills/*"                     # brew やスキル管理 CLI がここに実体やリンクを作る
 
 
 [bootstrap.macos.defaults.NSGlobalDomain]
@@ -172,10 +172,15 @@ run = [
 ]
 
 [tasks.claude-skills]
-description = "brew 同梱の Claude skill を skills/ にリンク"
+description = "外部が配布する Claude skill を skills/ に配置 (brew 同梱 / gh skill)"
 run = '''
 ln -sfn "$(brew --prefix)/opt/hunk/libexec/skills/hunk-review" \
   "$HOME/.config/claude/skills/hunk-review"
+
+# gh skill install の既定は project スコープ + github-copilot なので --dir で配置先を固定する。
+# リポジトリ内パスを直接渡すと skill 探索のツリー走査を省ける。
+gh skill install github/gh-stack skills/gh-stack \
+  --dir "$HOME/.config/claude/skills" --force
 '''
 
 [tasks.packages]
