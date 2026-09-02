@@ -1,13 +1,12 @@
-## プロジェクト横断のメモ・WIP
+## プロジェクト横断のメモ
 
 後で参照する価値がある作業計画・調査メモ・仕様草案は、思考のパートナー
 リポジトリ `~/ghq/github.com/nabekou29/assistant/` に集約する。
 詳細な置き場所の判断は `assistant-bridge` skill を参照。
 
-- プロジェクトに紐づく → `assistant/1-projects/<project>/`
-- プロジェクトに紐づかない → `assistant/items/YYYY/MM/YYYY-MM-DD/{plan|scratch|research}-HH-mm-ss-<desc>.md`
-- 本当に使い捨ての一時ファイル(デバッグ中のスクリプト等)のみ、
-  リポジトリの `.claude/tmp/`(gitignore)に置いてよい
+- プロジェクトに紐づく → `~/ghq/github.com/nabekou29/assistant/1-projects/<project>/`
+- プロジェクトに紐づかない → `~/ghq/github.com/nabekou29/assistant/items/YYYY/MM/YYYY-MM-DD/{plan|scratch|research}-HH-mm-ss-<desc>.md`
+- 残す価値のない使い捨ての一時ファイル(デバッグ中のスクリプト等)は、`assistant` には置かない。
 
 ### ローカル資料の内部参照を共有成果物に漏らさない
 
@@ -22,7 +21,7 @@
 - 代わりに: 参照IDをそのまま貼らず、**意図や根拠を自分の言葉で
   自己完結するように書く**。背景を残したい場合も内容そのものを記述する。
 
-### コードコメントの心構え
+## コードコメントの心構え
 
 - Why / Why Not を書く。コードから容易に読み取れることは書かない。
 - その Pull Request / Issue / セッション限りでしか役に立たないコメントは書かない。1年後に見ても役に立つコメントを書く。
