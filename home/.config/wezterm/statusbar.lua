@@ -36,11 +36,31 @@ local function battery_icon(state, charge)
   end
 end
 
--- cwd の整形（旧実装と同じ: ~ 短縮 + 末尾2階層）
-local function format_cwd(pane)
+-- herdr は外側ターミナルにウィンドウタイトル (OSC 0/2) を書くが、ペイン内の
+-- OSC 7 (cwd 通知) は外へ流さない。そのため herdr 起動中は wezterm 側の
+-- pane:get_current_working_dir() が herdr を起動したディレクトリのまま固定される。
+-- herdr がフォアグラウンドの間は、herdr にアクティブな pane の cwd を問い合わせる。
+local function resolve_cwd(wezterm, pane)
+  local process = pane:get_foreground_process_name() or ""
+  if process:match("/herdr$") then
+    -- フォアグラウンドのプロセスパスがそのまま実行可能な herdr バイナリ。
+    -- wezterm GUI は shell の PATH を継承しないため、これを使うのが確実。
+    local ok, cwd = pcall(function()
+      local spawned, stdout = wezterm.run_child_process({ process, "pane", "current" })
+      if not spawned then return nil end
+      local data = wezterm.json_parse(stdout)
+      local p = data and data.result and data.result.pane
+      if not p then return nil end
+      return p.foreground_cwd or p.cwd
+    end)
+    if ok and cwd then return cwd end
+  end
   local uri = pane:get_current_working_dir()
-  if not uri then return nil end
-  local path = uri.file_path
+  return uri and uri.file_path or nil
+end
+
+-- cwd の整形（旧実装と同じ: ~ 短縮 + 末尾2階層）
+local function format_cwd(path)
   if not path then return nil end
   local home = os.getenv("HOME")
   if home then path = path:gsub("^" .. home, "~") end
@@ -53,10 +73,8 @@ local function format_cwd(pane)
 end
 
 -- git ブランチ（cwd 単位で 5 秒キャッシュ）
-local function get_git_branch(wezterm, pane)
-  local uri = pane:get_current_working_dir()
-  if not uri or not uri.file_path then return "" end
-  local cwd = uri.file_path
+local function get_git_branch(wezterm, cwd)
+  if not cwd then return "" end
   local now = os.time()
   local cache = wezterm.GLOBAL.git_cache or {}
   local entry = cache[cwd]
@@ -126,8 +144,9 @@ function M.setup(wezterm, config)
   end)
 
   wezterm.on("update-status", function(window, pane)
-    local cwd    = format_cwd(pane)
-    local branch = get_git_branch(wezterm, pane)
+    local cwd_path = resolve_cwd(wezterm, pane)
+    local cwd    = format_cwd(cwd_path)
+    local branch = get_git_branch(wezterm, cwd_path)
     local music  = get_music(wezterm)
     local time   = wezterm.strftime("%H:%M")
 
