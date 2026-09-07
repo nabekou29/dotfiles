@@ -177,6 +177,13 @@ run = '''
 ln -sfn "$(brew --prefix)/opt/hunk/libexec/skills/hunk-review" \
   "$HOME/.config/claude/skills/hunk-review"
 
+# 同梱の SKILL.md は `agent-browser skills get core` を読ませるだけのスタブで、
+# 実体は CLI が出力する。CLI と skill のバージョンがずれない。
+# パスは `agent-browser skills path` でも取れるが、そちらは Cellar の
+# バージョン入りパスを返すのでアップグレードでリンクが切れる。
+ln -sfn "$(brew --prefix)/opt/agent-browser/libexec/lib/node_modules/agent-browser/skills/agent-browser" \
+  "$HOME/.config/claude/skills/agent-browser"
+
 # gh skill install の既定は project スコープ + github-copilot なので --dir で配置先を固定する。
 # リポジトリ内パスを直接渡すと skill 探索のツリー走査を省ける。
 gh skill install github/gh-stack skills/gh-stack \
