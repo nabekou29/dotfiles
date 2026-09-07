@@ -181,6 +181,18 @@ ln -sfn "$(brew --prefix)/opt/hunk/libexec/skills/hunk-review" \
 # リポジトリ内パスを直接渡すと skill 探索のツリー走査を省ける。
 gh skill install github/gh-stack skills/gh-stack \
   --dir "$HOME/.config/claude/skills" --force
+
+gh skill install humanlayer/skills plugins/show-me/skills/show-me \
+  --dir "$HOME/.config/claude/skills" --force
+
+gh skill install mattpocock/skills skills/productivity/grilling \
+  --dir "$HOME/.config/claude/skills" --force
+
+gh skill install mattpocock/skills skills/engineering/domain-modeling \
+  --dir "$HOME/.config/claude/skills" --force
+
+gh skill install mattpocock/skills skills/engineering/tdd \
+  --dir "$HOME/.config/claude/skills" --force
 '''
 
 [tasks.packages]
