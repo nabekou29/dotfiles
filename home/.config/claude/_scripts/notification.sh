@@ -41,7 +41,7 @@ case "$NOTIFICATION_TYPE" in
     if [[ "$MESSAGE" == 'Claude needs your permission to use '* ]]; then
       NOTIFY_MSG="${MESSAGE#Claude needs your permission to use }の許可が必要です"
     else
-      NOTIFY_MSG="${MESSAGE:-許可が必要です}"
+      NOTIFY_MSG="許可が必要です"
     fi
     ;;
   *)
