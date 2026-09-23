@@ -3,7 +3,8 @@
 # Read JSON input from stdin
 input=$(cat)
 
-MESSAGE=$(echo "$input" | jq -r '.message')
+MESSAGE=$(echo "$input" | jq -r '.message // ""')
+NOTIFICATION_TYPE=$(echo "$input" | jq -r '.notification_type // ""')
 CWD=$(echo "$input" | jq -r '.cwd // ""')
 TRANSCRIPT_PATH=$(echo "$input" | jq -r '.transcript_path // ""')
 
@@ -20,24 +21,31 @@ else
   TITLE="Claude Code: $(basename "$CWD")"
 fi
 
-# Extract remote control URL from the latest bridge_status entry in transcript
-# (resume/continue creates a new entry, so we need the last one)
+# Build remote control URL from the latest bridge-session entry in transcript
+# (resume/continue creates a new entry, so we need the last one).
+# The entry has no URL; bridgeSessionId "cse_XXX" maps to https://claude.ai/code/session_XXX
 REMOTE_URL=""
 if [[ -n "$TRANSCRIPT_PATH" && -f "$TRANSCRIPT_PATH" ]]; then
-  REMOTE_URL=$(jq -sr '[.[] | select(.subtype == "bridge_status") | .url] | last' "$TRANSCRIPT_PATH")
+  REMOTE_URL=$(jq -r 'select(.type == "bridge-session") | .bridgeSessionId // empty' "$TRANSCRIPT_PATH" \
+    | tail -n 1 | perl -ne 'print "https://claude.ai/code/session_$1" if /^cse_(\w+)$/')
 fi
 
-case "$MESSAGE" in
-  'Claude is waiting for your input')
+case "$NOTIFICATION_TYPE" in
+  idle_prompt)
     NOTIFY_MSG="入力を待っています"
     ;;
-  'Claude Code login successful'|'')
+  auth_success)
     exit 0
     ;;
-  'Claude needs your permission to use '*)
-    NOTIFY_MSG="${MESSAGE#Claude needs your permission to use }の許可が必要です"
+  permission_prompt)
+    if [[ "$MESSAGE" == 'Claude needs your permission to use '* ]]; then
+      NOTIFY_MSG="${MESSAGE#Claude needs your permission to use }の許可が必要です"
+    else
+      NOTIFY_MSG="${MESSAGE:-許可が必要です}"
+    fi
     ;;
   *)
+    [[ -z "$MESSAGE" ]] && exit 0
     NOTIFY_MSG="${MESSAGE}"
     ;;
 esac
