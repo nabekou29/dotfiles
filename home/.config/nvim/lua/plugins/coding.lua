@@ -394,6 +394,11 @@ return {
       },
       server = {
         primary_languages = { "ja" },
+        frameworks = {
+          i18next = {
+            prefer_selector = true,
+          },
+        },
       },
     },
   },
