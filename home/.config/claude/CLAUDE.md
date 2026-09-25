@@ -2,7 +2,7 @@
 
 後で参照する価値がある作業計画・調査メモ・仕様草案は、思考のパートナー
 リポジトリ `~/ghq/github.com/nabekou29/assistant/` に集約する。
-詳細な置き場所の判断は `assistant-bridge` skill を参照。
+詳細な置き場所の判断は `~/ghq/github.com/nabekou29/assistant/skills/assistant-bridge/SKILL.md` を参照。
 
 - プロジェクトに紐づく → `~/ghq/github.com/nabekou29/assistant/1-projects/<project>/`
 - プロジェクトに紐づかない → `~/ghq/github.com/nabekou29/assistant/items/YYYY/MM/YYYY-MM-DD/{plan|scratch|research}-HH-mm-ss-<desc>.md`

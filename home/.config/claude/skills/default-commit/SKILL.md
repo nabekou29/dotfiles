@@ -45,7 +45,7 @@ Run `git diff` and check for unintended changes unrelated to the task:
 - Unrelated import additions/removals
 - Auto-generated file modifications not relevant to the task
 
-**Revert any such changes before proceeding** using `git checkout -- <file>` or `git restore -p`.
+Leave such changes out of the commits (don't stage them). Reverting discards work that may be the user's own, so list them and revert only if the user confirms.
 
 ### 4. Check for documentation gaps
 

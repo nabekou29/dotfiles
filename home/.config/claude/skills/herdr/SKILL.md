@@ -19,8 +19,6 @@ this means you can:
 
 the `herdr` binary is available in your PATH. its workspace, tab, pane, and wait commands talk to the running herdr instance over a local unix socket.
 
-if you need the raw protocol or full api reference, read [`SOCKET_API.md`](./SOCKET_API.md).
-
 ## concepts
 
 **workspaces** are project contexts. each workspace has one or more tabs. unless manually renamed, a workspace's label follows the first tab's root pane — usually the repo name, otherwise the root pane's current folder name.
@@ -238,10 +236,10 @@ herdr pane read "$NEW_PANE" --source recent --lines 20
 ### run tests in a separate pane and inspect the result
 
 ```bash
-herdr pane split 1-2 --direction down --no-focus
-herdr pane run 1-3 "cargo test"
-herdr wait output 1-3 --match "test result" --timeout 60000
-herdr pane read 1-3 --source recent --lines 30
+NEW_PANE=$(herdr pane split 1-2 --direction down --no-focus | python3 -c 'import sys,json; print(json.load(sys.stdin)["result"]["pane"]["pane_id"])')
+herdr pane run "$NEW_PANE" "cargo test"
+herdr wait output "$NEW_PANE" --match "test result" --timeout 60000
+herdr pane read "$NEW_PANE" --source recent --lines 30
 ```
 
 ### check what another agent is working on
@@ -270,10 +268,10 @@ herdr pane read 1-3 --source recent-unwrapped --lines 40
 ### spawn a new agent and give it a task
 
 ```bash
-herdr pane split 1-2 --direction right --no-focus
-herdr pane run 1-3 "claude"
-herdr wait output 1-3 --match ">" --timeout 15000
-herdr pane run 1-3 "review the test coverage in src/api/"
+NEW_PANE=$(herdr pane split 1-2 --direction right --no-focus | python3 -c 'import sys,json; print(json.load(sys.stdin)["result"]["pane"]["pane_id"])')
+herdr pane run "$NEW_PANE" "claude"
+herdr wait output "$NEW_PANE" --match ">" --timeout 15000
+herdr pane run "$NEW_PANE" "review the test coverage in src/api/"
 ```
 
 ### coordinate with another agent

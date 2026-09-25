@@ -35,7 +35,7 @@ fi
 
 ### PreToolUse: Advise (additionalContext)
 
-Provides context without blocking. Useful for non-Bash tools (e.g., Edit, Write) where Claude can act on the advice. **Not effective for Bash commands** — Claude tends to ignore additionalContext and run the command anyway. For Bash, prefer `deny` with a clear alternative.
+Provides context without blocking; whether to act on it is left to Claude's judgment. Useful for non-Bash tools (e.g., Edit, Write) where Claude can act on the advice. For Bash, prefer `deny` with a clear alternative — the command still runs, so only a block guarantees the alternative is used.
 
 ```bash
 if echo "$command" | grep -qE '<REGEX>'; then

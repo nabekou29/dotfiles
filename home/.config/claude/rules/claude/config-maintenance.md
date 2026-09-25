@@ -1,5 +1,5 @@
 ---
-paths: "**/{.,dot_}claude/**"
+paths: "**/.claude/**, **/.config/claude/**"
 ---
 
 # Claude Code Configuration Maintenance Guide
@@ -14,24 +14,22 @@ Choose configuration type based on **when context should load** and **how contex
 | ----------- | ------------ | ----------------- | ------------------------------ |
 | `CLAUDE.md` | Startup      | Shared            | Full content                   |
 | `rules/`    | Startup/Path | Shared            | Full (lazy if paths specified) |
-| `commands/` | User         | Shared            | None                           |
-| `skills/`   | Auto         | Shared            | Description only               |
+| `skills/`   | Auto/User    | Shared            | Description only               |
 | `agents/`   | Auto/User    | Isolated          | Description only               |
 
 ## Anti-Patterns to Avoid
 
-1. **Context bloat in CLAUDE.md**: Move task-specific procedures to slash commands
-2. **Duplicated content**: If skill and command overlap, have skill invoke the command
-3. **Shared rules in multiple agents**: Extract to CLAUDE.md (always-needed) or skill (conditional)
-4. **Heavyweight tasks in main context**: Use subagent when trial-and-error would pollute context
-5. **User-level path rules leaking**: Path-filtered rules at user level may apply unintentionally (e.g., `*.ts` frontend rules activating in CLI projects). Prefer skills/commands for user-level task-specific guidance
+1. **Context bloat in CLAUDE.md**: Move task-specific procedures to skills
+2. **Shared rules in multiple agents**: Extract to CLAUDE.md (always-needed) or skill (conditional)
+3. **Heavyweight tasks in main context**: Use subagent when trial-and-error would pollute context
+4. **User-level path rules leaking**: Path-filtered rules at user level may apply unintentionally (e.g., `*.ts` frontend rules activating in CLI projects). Prefer skills for user-level task-specific guidance
 
 ## Best Practices Examples
 
 ### Optimizing Startup Context
 
 **CLAUDE.md/rules** should include only always-needed context (e.g., role, expertise, core principles).
-Move conditional content and detailed procedures, and deep knowledge to commands, skills, subagents, or path-specific rules.
+Move conditional content and detailed procedures, and deep knowledge to skills, subagents, or path-specific rules.
 
 Note that **Path-specific rules** defer loading until touching files that match the specified glob patterns in `paths:` frontmatter
 
@@ -49,27 +47,7 @@ When extracting skills and subagents, mention their names for discoverability.
 Use `commit` skill to git commit the change
 ```
 
-Avoid mentioning user-invoked commands in CLAUDE.md and non-path-specific rules as they need no discovery.
-If discoverability is desired, have the skill invoke the command instead.
-
-### Skills + Commands Integration Pattern
-
-For tasks needing both auto-detection AND manual invocation:
-
-```yaml
----
-# skills/git-commit/SKILL.md
-name: git-commit
-description: Stage meaningful diffs and create commits with WHY-focused messages. Use when agent needs to commit code changes.
----
-Use `/git:commit` slash command to stage meaningful diffs and create commits with WHY-focused messages.
-```
-
-Benefits:
-
-- Auto-triggers when Claude detects commit intent
-- Allows explicit `/git:commit` for manual control
-- Eliminates duplication between skill and command
+Skills that only make sense when the user invokes them (e.g. PR creation) set `disable-model-invocation: true` in frontmatter; don't mention those in CLAUDE.md or non-path-specific rules, as they need no discovery.
 
 ### Agents vs Skills: Choosing Context Isolation
 
@@ -129,9 +107,8 @@ This "Applies to:" pattern in markdown body does NOT work as a path filter. Alwa
 When reviewing configurations:
 
 - [ ] Is CLAUDE.md content truly always-needed? Move conditional content and detailed procedures elsewhere
-- [ ] Are there duplications between skills and commands? Consolidate
 - [ ] Would a subagent's isolated context benefit this task?
 - [ ] Are agent definitions focused? Factor reusable workflows into skills
 - [ ] Is the skill description specific enough for auto-discovery?
-- [ ] Are commands self-contained without requiring other context?
+- [ ] Are user-invoked skills self-contained without requiring other context?
 - [ ] Are user-level path rules leaking into unintended project types?
