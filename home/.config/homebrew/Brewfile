@@ -17,13 +17,13 @@ unless %w[work private].include?(profile)
 end
 
 # ========== Taps ==========
-tap "1password/tap"
-tap "hiro-o918/tap"
-tap "k1LoW/tap"
-tap "ngrok/ngrok"
-tap "neurosnap/tap"
-tap "tonisives/tap"
-tap "vjeantet/tap"
+tap "1password/tap", trusted: true
+tap "hiro-o918/tap", trusted: true
+tap "k1LoW/tap", trusted: true
+tap "ngrok/ngrok", trusted: true
+tap "neurosnap/tap", trusted: true
+tap "tonisives/tap", trusted: true
+tap "vjeantet/tap", trusted: true
 
 # ========== Formulae ==========
 
