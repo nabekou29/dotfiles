@@ -206,11 +206,7 @@ gh skill install mattpocock/skills skills/engineering/tdd \
 [tasks.packages]
 description = "Brewfile を適用 (宣言から外れたものは削除する)"
 run = '''
-# サードパーティ tap の trust は Brewfile の `trusted: true` で宣言する。
-# cleanup --force は trust ストアを Brewfile の宣言で置き換えてから `brew cleanup` を
-# 走らせるため、`brew trust` で後付けした trust は消え、untrusted tap の読み込みで失敗する
 brew bundle install --global
-# install --cleanup は Homebrew 6 で deprecated になった。cleanup は独立したサブコマンド
 brew bundle cleanup --global --force
 '''
 
