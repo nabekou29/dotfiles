@@ -7,6 +7,14 @@ mise.local.toml
 .lua-version
 
 .envrc
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+credentials.json
+service-account*.json
 
 .snippets
 cspell.json
