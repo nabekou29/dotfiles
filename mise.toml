@@ -20,7 +20,6 @@ XDG_CONFIG_HOME = { default = "{{env.HOME}}/.config" }
 ## ========== ~/.config ==========
 "~/.config/abbrs" = "home/.config/abbrs"
 "~/.config/alacritty" = "home/.config/alacritty"
-"~/.config/cage" = "home/.config/cage"
 "~/.config/codebook" = "home/.config/codebook"
 "~/.config/gh-dash" = "home/.config/gh-dash"
 "~/.config/ghostty" = "home/.config/ghostty"

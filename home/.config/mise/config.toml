@@ -67,7 +67,6 @@ trivy = "latest"
 
 ## ========== CLI Tools ==========
 codex = "latest"
-"github:Warashi/cage" = "0.1.13"
 "github:laishulu/macism" = "latest"
 "github:nabekou29/trev" = "latest"
 "github:rhysd/vim-startuptime" = "latest"
