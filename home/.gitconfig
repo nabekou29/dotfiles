@@ -7,7 +7,7 @@
 	pager = delta
 	autocrlf = false
 	quotepath = false
-	excludessfile = ~/.config/git/ignore
+	excludesFile = ~/.config/git/ignore
 	symlinks = true
 	fsmonitor = true
 	untrackedcache = true
