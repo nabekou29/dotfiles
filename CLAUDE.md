@@ -19,7 +19,7 @@ symlink の粒度は2種類ある。
 - **ディレクトリ単位** — 純粋な設定ディレクトリ。中のファイルを追加・削除しても
   エントリを触らずに反映される
 - **glob (`dir/*`)** — アプリがログ・状態・生成物を書いたり、マシン固有のファイルが
-  同居する場合（claude / herdr / zsh / mise / homebrew / hunk / `.local/bin`）。
+  同居する場合（claude / herdr / zsh / mise / homebrew / hunk / nono / `.local/bin`）。
   ディレクトリ単位にすると それらがリポジトリに流れ込むため。何が張られるかは
   `home/` 以下の中身がそのまま宣言になる
 

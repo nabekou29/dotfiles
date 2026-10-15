@@ -15,6 +15,10 @@ keyword = "cl"
 expansion = "claude"
 
 [[abbr]]
+keyword = "cn"
+expansion = "nono run --profile claude-local -- claude"
+
+[[abbr]]
 keyword = "pn"
 expansion = "pnpm"
 

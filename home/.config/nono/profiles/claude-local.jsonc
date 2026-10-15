@@ -1,0 +1,56 @@
+// Claude Code 用。ベースの claude-code は ~/.claude 前提なので、この環境の置き場を足す
+{
+  "meta": {
+    "name": "claude-local",
+    "description": "Claude Code (CLAUDE_CONFIG_DIR=~/.config/claude)"
+  },
+  "extends": "claude-code",
+  "groups": {
+    "include": ["mise_manager", "go_runtime", "go_runtime_macos", "java_runtime", "bun_runtime"]
+  },
+  "filesystem": {
+    "allow": [
+      "$XDG_CONFIG_HOME/claude",
+      "$XDG_CONFIG_HOME/claude.lock",
+      // worktree・assistant・dotfiles などリポジトリをまたいで書き込むため
+      "$HOME/ghq",
+
+      "$XDG_STATE_HOME/claude",
+      "$XDG_STATE_HOME/term-check",
+
+      "$XDG_DATA_HOME/mise",
+      "$XDG_STATE_HOME/mise",
+      "$XDG_DATA_HOME/nvim",
+      "$XDG_STATE_HOME/nvim",
+      "$HOME/go",
+      "$HOME/.npm",
+      "$HOME/.bun",
+      "$HOME/Library/pnpm",
+      "$XDG_STATE_HOME/pnpm",
+      "$HOME/.gradle",
+      "$HOME/.android",
+      "$HOME/.cocoapods",
+      "$HOME/Library/Developer",
+
+      "$XDG_CONFIG_HOME/gh",
+      "$XDG_STATE_HOME/gh",
+      "$HOME/.agent-browser",
+      "$HOME/Library/Application Support/gcalcli"
+    ],
+    "read": [
+      "$XDG_CONFIG_HOME/nvim",
+      "$XDG_CONFIG_HOME/herdr",
+      "$XDG_CONFIG_HOME/hunk",
+      "$XDG_CONFIG_HOME/ripgrep",
+      "$XDG_CONFIG_HOME/octorus",
+      "$XDG_CONFIG_HOME/trev",
+      "$XDG_CONFIG_HOME/direnv",
+      "$HOME/Library/Android/sdk",
+      "$HOME/Downloads",
+      "$HOME/Library/Application Support/CleanShot/media"
+    ],
+
+    "unix_socket_dir": ["$XDG_STATE_HOME/watchman/kohei_watanabe-state"],
+    "unix_socket": ["$XDG_CONFIG_HOME/herdr/herdr.sock"]
+  }
+}
