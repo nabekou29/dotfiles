@@ -20,6 +20,7 @@
     ],
     "deny": [
       "Bash(mongod:*)",
+      "Bash(npx agent-browser:*)",
       "Bash(mysql:*)",
       "Bash(psql:*)",
       "Bash(sudo:*)",
