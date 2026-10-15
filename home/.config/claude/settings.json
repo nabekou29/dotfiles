@@ -47,7 +47,7 @@
       "mcp__plugin_Notion_notion__notion-update-data-source",
       "mcp__plugin_slack_slack__slack_send_message"
     ],
-    "defaultMode": "bypassPermissions"
+    "defaultMode": "auto"
   },
   "hooks": {
     "PreToolUse": [
@@ -182,7 +182,6 @@
   "language": "日本語",
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
-  "advisorModel": "fable",
   "autoUpdatesChannel": "latest",
   "tui": "default",
   "voice": {
