@@ -55,5 +55,26 @@
 
     "unix_socket_dir": ["$XDG_STATE_HOME/watchman/kohei_watanabe-state"],
     "unix_socket": ["$XDG_CONFIG_HOME/herdr/herdr.sock"]
+  },
+
+  "command_policies": {
+    "commands": {
+      "wget": {
+        "from": {
+          "session": {
+            "sandbox": {},
+            "invocation_policy": {
+              "default": "deny",
+              "deny": [
+                {
+                  "argv": { "prefix": [] },
+                  "reason": "wget is prohibited. Use WebFetch instead."
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
   }
 }
