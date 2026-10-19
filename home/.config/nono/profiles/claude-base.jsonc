@@ -81,6 +81,9 @@
   "unsafe_macos_seatbelt_rules": [
     // .env / .env.* をどこにあっても拒否する。filesystem.deny の glob は起動時に
     // 起点ディレクトリを走査するため、$HOME/ghq 起点でも起動に数分かかった
-    "(deny file-read* file-write* (regex #\"/\\.env(\\.[^/]*)?$\"))"
+    "(deny file-read* file-write* (regex #\"/\\.env(\\.[^/]*)?$\"))",
+    // サンドボックス内から自身のポリシーを書き換えられないようにする。
+    // $HOME/ghq に書き込みを許可しているので、明示的に塞がないと編集できてしまう
+    "(deny file-write* (regex #\"^/Users/[^/]+/ghq/github\\.com/nabekou29/dotfiles/home/\\.config/nono/\"))"
   ]
 }
