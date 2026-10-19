@@ -1,7 +1,10 @@
-// Claude Code 用。ベースの claude-code は ~/.claude 前提なので、この環境の置き場を足す
+// Claude Code 用。ベースの claude-code は ~/.claude 前提なので、この環境の置き場を足す。
+// 起動するのはマシンごとに置く claude-local で、これを extends する。nono の
+// save-profile プロンプトで保存するとプロファイル全体が書き直されるため、
+// その書き込み先を repo 外のファイルにしている。
 {
   "meta": {
-    "name": "claude-local",
+    "name": "claude-base",
     "description": "Claude Code (CLAUDE_CONFIG_DIR=~/.config/claude)"
   },
   "extends": "claude-code",
