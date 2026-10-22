@@ -38,7 +38,9 @@
       "$XDG_CONFIG_HOME/gh",
       "$XDG_STATE_HOME/gh",
       "$HOME/.agent-browser",
-      "$HOME/Library/Application Support/gcalcli"
+      "$HOME/Library/Application Support/gcalcli",
+      // trash コマンドの移動先
+      "$HOME/.Trash"
     ],
     "read": [
       "$XDG_CONFIG_HOME/nvim",
