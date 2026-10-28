@@ -79,18 +79,8 @@ pct_int=${pct_int:-0}
 ctx_color=$(threshold_color "$pct_int")
 ctx_bar=$(build_progress_bar "$pct_int" 10)
 
-# Effort level: settings.json is shared across sessions, so the latest in-session
-# /effort wins; fall back to settings.json only when no /effort was run this session.
-transcript=$(jval '.transcript_path')
-effort=""
-if [[ -n "$transcript" ]] && [[ -f "$transcript" ]]; then
-    # Anchor on "content":"<command-name>/effort… to avoid matching quoted text in assistant replies.
-    effort=$(perl -ne 'print "$1\n" if /"content":"<command-name>\/effort<\/command-name>.*?<command-args>([^<]*)<\/command-args>/' "$transcript" 2>/dev/null | tail -1)
-fi
-if [[ -z "$effort" ]]; then
-    settings_file="${CLAUDE_CONFIG_DIR:-$HOME/.config/claude}/settings.json"
-    [[ -f "$settings_file" ]] && effort=$(jq -r '.effortLevel // empty' "$settings_file" 2>/dev/null)
-fi
+# Effective effort for the current turn (absent when the model has no effort support).
+effort=$(jval '.effort.level')
 effort=${effort:-auto}
 
 case "$effort" in
