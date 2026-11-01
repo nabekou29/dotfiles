@@ -30,6 +30,7 @@ XDG_CONFIG_HOME = { default = "{{env.HOME}}/.config" }
 "~/.config/p10k" = "home/.config/p10k"
 "~/.config/ripgrep" = "home/.config/ripgrep"
 "~/.config/sheldon" = "home/.config/sheldon"
+"~/.config/snapzy" = "home/.config/snapzy" # config.toml を新しいファイルで置き換えて書き戻すため、ファイル単位の symlink だと実ファイルに置き換わる
 "~/.config/trev" = "home/.config/trev"
 "~/.config/wezterm" = "home/.config/wezterm"
 
