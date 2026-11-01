@@ -90,8 +90,7 @@
       "$XDG_CONFIG_HOME/trev",
       "$XDG_CONFIG_HOME/direnv",
       "$HOME/Library/Android/sdk",
-      "$HOME/Downloads",
-      "$HOME/Library/Application Support/CleanShot/media"
+      "$HOME/Downloads"
     ],
     // ここから nolabs-ai/claude 由来。pack にある $HOME/.claude.json と .claude.json.lock は、
     // CLAUDE_CONFIG_DIR を設定していると $CLAUDE_CONFIG_DIR/.claude.json が使われるので外した

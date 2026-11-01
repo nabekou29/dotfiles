@@ -149,7 +149,6 @@ cask "mac-mouse-fix"
 cask "monitorcontrol"
 cask "openlogi"
 cask "raycast"
-cask "setapp"
 cask "thaw"
 
 ## ---------- Browser ----------
