@@ -23,7 +23,7 @@ keyword = "pn"
 expansion = "pnpm"
 
 [[abbr]]
-keyword = "fm"
+keyword = "ma"
 expansion = "fzf-make"
 
 [[abbr]]
