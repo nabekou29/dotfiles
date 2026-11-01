@@ -1,20 +1,56 @@
-// Claude Code 用。ベースの claude-code は ~/.claude 前提なので、この環境の置き場を足す。
-// 起動するのはマシンごとに置く claude-local で、これを extends する。nono の
-// save-profile プロンプトで保存するとプロファイル全体が書き直されるため、
+// Claude Code 用。起動するのはマシンごとに置く claude-local で、これを extends する。
+// nono の save-profile プロンプトで保存するとプロファイル全体が書き直されるため、
 // その書き込み先を repo 外のファイルにしている。
+//
+// Claude Code 本体を動かすための部分は nono 公式の pack nolabs-ai/claude
+// (https://github.com/nolabs-ai/nono-packs の claude, v0.1.5 時点) の profiles/claude.json を
+// macOS 分だけ写したもの。pack は pull のたびに ~/.claude へプラグインを登録し、
+// 名前も変わることがあるため継承せずに持っている。Claude Code の更新で動かなくなったら
+// pack の最新版と見比べて追従する。
 {
   "meta": {
     "name": "claude-base",
     "description": "Claude Code (CLAUDE_CONFIG_DIR=~/.config/claude)"
   },
-  "extends": "claude-code",
+  "extends": "default",
   "groups": {
-    "include": ["mise_manager", "go_runtime", "go_runtime_macos", "java_runtime", "bun_runtime"]
+    "include": [
+      // ここから nolabs-ai/claude 由来
+      "claude_code_macos",
+      "user_caches_macos",
+      "node_runtime",
+      "rust_runtime",
+      "python_runtime",
+      "vscode_macos",
+      "nix_runtime",
+      "git_config",
+      "unlink_protection",
+      // ここまで
+
+      "mise_manager",
+      "go_runtime",
+      "go_runtime_macos",
+      "java_runtime",
+      "bun_runtime"
+    ]
+  },
+  // nolabs-ai/claude 由来
+  "security": {
+    "signal_mode": "isolated",
+    "capability_elevation": false
   },
   "filesystem": {
     "allow": [
+      // ここから nolabs-ai/claude 由来
+      // CLAUDE_CONFIG_DIR を設定していても ~/.claude/ide は探しに行く。TMPDIR もこの下に置く
+      "$HOME/.claude",
+      "$HOME/.local/state/claude/locks",
+      "$HOME/.cache/claude",
+      "$NONO_CONFIG/profile-drafts",
+      "$HOME/Library/Keychains",
+      // ここまで
+
       "$XDG_CONFIG_HOME/claude",
-      "$XDG_CONFIG_HOME/claude.lock",
       // worktree・assistant・dotfiles などリポジトリをまたいで書き込むため
       "$HOME/ghq",
 
@@ -43,6 +79,9 @@
       "$HOME/.Trash"
     ],
     "read": [
+      // nolabs-ai/claude 由来
+      "$NONO_CONFIG/profiles",
+
       "$XDG_CONFIG_HOME/nvim",
       "$XDG_CONFIG_HOME/herdr",
       "$XDG_CONFIG_HOME/hunk",
@@ -54,10 +93,50 @@
       "$HOME/Downloads",
       "$HOME/Library/Application Support/CleanShot/media"
     ],
+    // ここから nolabs-ai/claude 由来。pack にある $HOME/.claude.json と .claude.json.lock は、
+    // CLAUDE_CONFIG_DIR を設定していると $CLAUDE_CONFIG_DIR/.claude.json が使われるので外した
+    "allow_file": ["$HOME/.claude.lock"],
+    "bypass_protection": ["$HOME/Library/Keychains"],
+    // ここまで
 
     "unix_socket_dir": ["$XDG_STATE_HOME/watchman/kohei_watanabe-state"],
     "unix_socket": ["$XDG_CONFIG_HOME/herdr/herdr.sock"]
   },
+
+  // ここから nolabs-ai/claude 由来
+  "network": { "block": false },
+  "workdir": { "access": "readwrite" },
+  "session_hooks": {
+    "before": {
+      "script": "$XDG_CONFIG_HOME/nono/hooks/claude-ensure-dirs.sh",
+      "timeout_secs": 10
+    }
+  },
+  "open_urls": {
+    "allow_origins": [
+      "https://claude.ai",
+      "https://claude.com",
+      "https://api.anthropic.com",
+      "https://platform.claude.com"
+    ],
+    "allow_localhost": true
+  },
+  "environment": {
+    "set_vars": {
+      "CLAUDE_CODE_TMPDIR": "$HOME/.claude/tmp",
+      "LC_MESSAGES": "C",
+      "TMPDIR": "$HOME/.claude/tmp/claude-$UID"
+    }
+  },
+  "diagnostics": {
+    "suppress_system_services": ["forbidden-exec-sugid"]
+  },
+  "allow_launch_services": true,
+  "rollback": {
+    "exclude_patterns": ["node_modules", ".next", "__pycache__", "target"],
+    "exclude_globs": ["*.tmp.[0-9]*.[0-9a-f]*"]
+  },
+  // ここまで
 
   "command_policies": {
     "commands": {
