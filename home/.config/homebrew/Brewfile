@@ -22,7 +22,6 @@ tap "hiro-o918/tap", trusted: true
 tap "k1LoW/tap", trusted: true
 tap "ngrok/ngrok", trusted: true
 tap "neurosnap/tap", trusted: true
-tap "tonisives/tap", trusted: true
 tap "vjeantet/tap", trusted: true
 
 # ========== Formulae ==========
@@ -166,14 +165,9 @@ cask "docker-desktop"
 cask "figma"
 cask "gcloud-cli"
 
-## ---------- IDE / Editor ----------
-cask "visual-studio-code"
-
 ## ---------- Other Apps ----------
 cask "chatgpt"
 cask "ngrok"
-cask "ovim"
-cask "zoom"
 
 ## ---------- Quick Look ----------
 cask "apparency"
@@ -200,11 +194,9 @@ end
 
 if profile == "private"
   # ========== private のみ ==========
-  cask "autodesk-fusion"
   cask "bambu-studio"
   cask "blender"
   cask "parsec"
-  cask "steam"
 
   mas "LINE", id: 539883307
 end
