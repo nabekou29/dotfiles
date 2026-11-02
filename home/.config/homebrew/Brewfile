@@ -22,6 +22,7 @@ tap "hiro-o918/tap", trusted: true
 tap "k1LoW/tap", trusted: true
 tap "ngrok/ngrok", trusted: true
 tap "neurosnap/tap", trusted: true
+tap "shobhit99/tap", trusted: true
 tap "vjeantet/tap", trusted: true
 
 # ========== Formulae ==========
@@ -148,6 +149,7 @@ cask "monitorcontrol"
 cask "openlogi"
 cask "raycast"
 cask "snapzy"
+cask "shobhit99/tap/supercmd"
 cask "thaw"
 
 ## ---------- Browser ----------
@@ -166,6 +168,7 @@ cask "gcloud-cli"
 ## ---------- Other Apps ----------
 cask "chatgpt"
 cask "ngrok"
+cask "zoom"
 
 ## ---------- Quick Look ----------
 cask "apparency"
