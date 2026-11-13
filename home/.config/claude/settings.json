@@ -183,6 +183,12 @@
   "language": "日本語",
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "xhigh",
+      "autoCompactWindow": 400000
+    }
+  },
   "autoUpdatesChannel": "latest",
   "tui": "default",
   "voice": {
