@@ -10,7 +10,7 @@ bun = "latest"
 deno = "latest"
 go = "latest"
 java = "temurin-21"
-node = "lts"
+node = "26.13.1"
 python = "latest"
 ruby = "latest"
 # rust は自己管理の rustup (~/.cargo/bin) に任せる (mise と二重管理しない)
