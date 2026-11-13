@@ -36,9 +36,9 @@ recording_template = "Snapzy_Recording_{datetime}"
 [capture.screenshot]
 format = "png"
 include_snapzy = false
-show_cursor = false
-freeze_area = false
-delayed_capture_seconds = 3
+show_cursor = true
+freeze_area = true
+delayed_capture_seconds = 5
 show_selection_area_overlay = true
 reverse_magnifier_zoom_direction = false
 show_magnifier_by_default = false
@@ -235,22 +235,22 @@ key = ""
 modifiers = []
 
 [shortcuts.global.annotate]
-enabled = true
+enabled = false
 key = "A"
 modifiers = ["command", "shift"]
 
 [shortcuts.global.video_editor]
-enabled = true
+enabled = false
 key = "E"
 modifiers = ["command", "shift"]
 
 [shortcuts.global.cloud_uploads]
-enabled = true
+enabled = false
 key = "L"
 modifiers = ["command", "shift"]
 
 [shortcuts.global.shortcut_list]
-enabled = true
+enabled = false
 key = "K"
 modifiers = ["command", "shift"]
 
