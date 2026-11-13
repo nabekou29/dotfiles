@@ -75,6 +75,10 @@
       "$XDG_STATE_HOME/gh",
       "$HOME/.agent-browser",
       "$HOME/Library/Application Support/gcalcli",
+      // ログとトークンキャッシュを書き込むので read では足りない
+      "$XDG_CONFIG_HOME/gcloud",
+      // gsutil はここにトークンキャッシュと metrics.log を置く
+      "$HOME/.gsutil",
       // trash コマンドの移動先
       "$HOME/.Trash"
     ],
@@ -95,8 +99,14 @@
     // ここから nolabs-ai/claude 由来。pack にある $HOME/.claude.json と .claude.json.lock は、
     // CLAUDE_CONFIG_DIR を設定していると $CLAUDE_CONFIG_DIR/.claude.json が使われるので外した
     "allow_file": ["$HOME/.claude.lock"],
-    "bypass_protection": ["$HOME/Library/Keychains"],
-    // ここまで
+    "bypass_protection": [
+      "$HOME/Library/Keychains",
+      // ここまで
+
+      // nono の deny_credentials が拒否するパス。gcloud / bq / gsutil は起動時に
+      // この下の virtenv/bin/activate を読むので、解除しないと起動すらできない
+      "$XDG_CONFIG_HOME/gcloud"
+    ],
 
     "unix_socket_dir": ["$XDG_STATE_HOME/watchman/kohei_watanabe-state"],
     "unix_socket": ["$XDG_CONFIG_HOME/herdr/herdr.sock"]
