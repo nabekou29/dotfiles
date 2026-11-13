@@ -93,15 +93,28 @@
       "$XDG_CONFIG_HOME/octorus",
       "$XDG_CONFIG_HOME/trev",
       "$XDG_CONFIG_HOME/direnv",
+      // assistant リポジトリの work-tracking が状態を置く
+      "$XDG_STATE_HOME/assistant",
       "$HOME/Library/Android/sdk",
       "$HOME/Downloads"
     ],
-    // ここから nolabs-ai/claude 由来。pack にある $HOME/.claude.json と .claude.json.lock は、
-    // CLAUDE_CONFIG_DIR を設定していると $CLAUDE_CONFIG_DIR/.claude.json が使われるので外した
-    "allow_file": ["$HOME/.claude.lock"],
+    // Claude Code ネイティブ版の自動更新先。claude_code_macos グループは
+    // $HOME/.local/share/claude を read でしか許可しない
+    "write": ["$HOME/.local/share/claude/versions"],
+    "write_file": ["$HOME/.local/bin/claude"],
+    "allow_file": [
+      // nolabs-ai/claude 由来。pack にある $HOME/.claude.json と .claude.json.lock は、
+      // CLAUDE_CONFIG_DIR を設定していると $CLAUDE_CONFIG_DIR/.claude.json が使われるので外した
+      "$HOME/.claude.lock",
+
+      "$XDG_CONFIG_HOME/claude.lock"
+    ],
+    // 上で外した $HOME/.claude.json も、CLAUDE_CONFIG_DIR を設定した状態で読み込みが発生するので
+    // read だけ許可する
+    "read_file": ["$HOME/.claude.json"],
     "bypass_protection": [
+      // nolabs-ai/claude 由来
       "$HOME/Library/Keychains",
-      // ここまで
 
       // nono の deny_credentials が拒否するパス。gcloud / bq / gsutil は起動時に
       // この下の virtenv/bin/activate を読むので、解除しないと起動すらできない
