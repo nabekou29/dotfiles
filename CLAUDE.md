@@ -31,6 +31,10 @@ glob の代償として、`home/` 側に足したものは `mise dotfiles apply`
 
 `~/.zshenv` だけは symlink ではなく `op inject` で生成する実ファイル。
 
+## コミット
+
+ブランチは切らず `main` に直接コミットする。
+
 ## コミットメッセージ
 
 Conventional Commits は使わない。`scope: 説明` 形式を使う。
