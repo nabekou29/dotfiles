@@ -132,8 +132,14 @@ RehideStrategy = 0
 RehideInterval = 15
 
 [bootstrap.files."/etc/pam.d/sudo_local"]
-# Touch ID で sudo 認証。sudo への昇格は mise が行う
-content = "auth       sufficient     pam_tid.so\n"
+# Touch ID で sudo 認証し、蓋を閉じていて使えない時は Apple Watch で認証する。
+# sudo への昇格は mise が行う。
+# 無いモジュールを書くと sudo 自体が使えなくなるので、pam_watchid は入っている時だけ書く
+template = true
+content = '''
+auth       sufficient     pam_tid.so
+{% if "/usr/local/lib/pam/pam_watchid.so.2" is file %}auth       sufficient     pam_watchid.so
+{% endif %}'''
 
 [bootstrap.hooks]
 pre-defaults = "mkdir -p ~/Downloads/_screenshot"
@@ -163,7 +169,7 @@ killall Dock Finder SystemUIServer 2>/dev/null || true
 # mise bootstrap が dotfiles とツールを収束させた後に呼ぶ (bootstrap の最終ステップ)。
 # 宣言では表せない生成物 (シークレット / 外部リソース / ビルド成果物) をここで作る。
 [tasks.bootstrap]
-description = "生成物とパッケージを収束させる (secrets / externals / karabiner / terminfo / Brewfile / skills / nono profile)"
+description = "生成物とパッケージを収束させる (secrets / externals / karabiner / terminfo / Brewfile / skills / nono profile / pam-watchid)"
 run = [
   "mise run secrets",
   "mise run externals",
@@ -173,7 +179,45 @@ run = [
   # brew が入れた実体に張るので packages の後
   "mise run claude-skills",
   "mise run nono-profile",
+  "mise run pam-watchid",
 ]
+
+[tasks.pam-watchid]
+description = "Apple Watch で sudo を承認する PAM モジュール pam-watchid を、固定したコミットからビルドして入れる"
+# sudo の認証のため端末に直接つなぐ
+raw = true
+run = '''
+set -eu
+# root で読み込まれるので、コードを確認したコミットに固定する
+commit=ce04b062ccb70ac781a68c832f9d84bb42816718
+module=/usr/local/lib/pam/pam_watchid.so.2
+stamp="${XDG_STATE_HOME:-$HOME/.local/state}/pam-watchid/commit"
+if [ -f "$module" ] && [ "$(cat "$stamp" 2>/dev/null)" = "$commit" ]; then
+  exit 0
+fi
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+git -C "$tmp" init -q
+git -C "$tmp" fetch -q --depth 1 https://github.com/mostpinkest/pam-watchid.git "$commit"
+git -C "$tmp" checkout -q FETCH_HEAD
+make -C "$tmp"
+
+# 読み込めないモジュールを置くと sudo が使えなくなるので、置く前に確かめる
+/usr/bin/perl -MDynaLoader -e '
+  my $h = DynaLoader::dl_load_file($ARGV[0], 0) or die DynaLoader::dl_error(), "\n";
+  DynaLoader::dl_find_symbol($h, "pam_sm_authenticate") or die "pam_sm_authenticate not found\n";
+' "$tmp/pam_watchid.so"
+
+sudo install -d -o root -g wheel -m 755 "$(dirname "$module")"
+sudo install -o root -g wheel -m 444 "$tmp/pam_watchid.so" "$module"
+
+mkdir -p "$(dirname "$stamp")"
+printf '%s\n' "$commit" > "$stamp"
+
+# sudo_local はモジュールの有無で中身が変わるので書き直す
+mise -C {{config_root}} bootstrap files apply --yes
+'''
 
 [tasks.nono-profile]
 description = "nono の起動用プロファイル claude-local を、無ければ claude-base を継承する形で作る"
