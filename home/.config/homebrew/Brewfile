@@ -103,7 +103,6 @@ brew "watchexec"
 
 ## ---------- CLI Tools ----------
 brew "agent-browser"
-brew "gemini-cli"
 brew "gws"
 brew "herdr"
 brew "hunk"

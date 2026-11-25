@@ -66,16 +66,6 @@
             "command": "npx",
             "args": ["@browsermcp/mcp@latest"]
         },
-        /// Gemini CLI
-        "gemini-cli-search": {
-            "command": "deno",
-            "args": [
-                "run",
-                "--reload",
-                "--allow-run=gemini",
-                "https://raw.githubusercontent.com/nabekou29/gemini-cli-mcp-server/main/mod.ts"
-            ]
-        },
         // Asana
         "asana": {
             "command": "bunx",
